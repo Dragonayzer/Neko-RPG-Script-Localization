@@ -2247,9 +2247,19 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
     // for training, search for gathering. A collapsed category comes through as
     // its format_list_bulleted button, which is the only thing on screen for
     // that category, so leaving it out would hide the category entirely.
+    // .start_trade is here as well as being a static slot. The slot takes one
+    // trader and the loop below skips whatever it claimed, so this only ever
+    // catches the EXTRAS - which would otherwise be dropped entirely.
+    // 飞云阁 (Feiyun Pavilion) is the single location where that happens: it
+    // stocks both 物品存储箱 (Item Storage Chest) and 百宝楼 (Treasure
+    // Pavilion), so the chest fills the slot and the shop had no icon at all.
+    // The other three static slots cannot repeat - one sleeping block and one
+    // crafting station per location - and a second safe-zone route already
+    // falls through to navigation.
     function isBarAction(r) {
         if (r.classList.contains('start_dialogue')) return true;
         if (r.classList.contains('start_activity')) return true;
+        if (r.classList.contains('start_trade')) return true;
         const cat = barChoiceCategory(r);
         return cat === 'talk' || cat === 'work' || cat === 'train' ||
                cat === 'gather';

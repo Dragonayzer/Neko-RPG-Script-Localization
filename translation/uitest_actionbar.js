@@ -213,6 +213,25 @@ expect('nav arrows keep their own rows', clicks, ['gather', 'shop', 'exit']);
 // actions group, actions and the static four form one right-hand block; on the
 // static group instead, the actions would strand themselves next to the nav
 // arrows at the far left.
+// 飞云阁 (Feiyun Pavilion), the only location stocking two traders: the storage
+// chest and an actual shop. The slot takes the first and the second falls
+// through to the actions group rather than being dropped - which is what the
+// static slot cost before v16.7.
+console.log('\nsecond trader');
+r = run([
+  { name: 'chest', cls: ['start_trade'], icon: 'storefront' },
+  { name: 'shop2', cls: ['start_trade'], icon: 'storefront' },
+]);
+expect('first trader fills the slot', readBar(r.bar)[2][SLOT.trade], 'storefront');
+expect('  second becomes an action', readBar(r.bar)[1], ['storefront']);
+r.bar._kids[2]._kids[SLOT.trade]._click();
+expect('  slot opens the first', clicks, ['chest']);
+r.bar._kids[1]._kids[0]._click();
+expect('  action opens the second', clicks, ['chest', 'shop2']);
+// A lone trader must NOT be listed twice.
+r = run([{ name: 'only', cls: ['start_trade'], icon: 'storefront' }]);
+expect('a single trader is not duplicated', readBar(r.bar)[1], []);
+
 console.log('\nlayout');
 const CSS = (function () {
   const i = src.indexOf('styleOverrides.textContent = `');
