@@ -169,6 +169,26 @@ const obs = src.slice(src.indexOf('    new MutationObserver((records) => {'));
 const obsBody = obs.slice(0, obs.indexOf('    }).observe('));
 assert('stampMessages runs off the observer',
        /stampMessages\(records\);/.test(obsBody));
+
+// v16.1: the location panel is rebuilt wholesale by change_location(), so on
+// the throttled pass the player saw a frame of Chinese options and the bar
+// appearing under the cursor a tick later - on the one panel they are about to
+// click. It runs off-throttle behind a node-identity gate, and the WHOLE
+// pipeline has to run together: the bar clones the rows' icons, so a split
+// would freeze a bar built from un-mirrored, un-tinted ones, since
+// addActionBar early-returns once the bar exists and never revisits it.
+assert('location panel handled off-throttle',
+       hotBody.indexOf('location_actions_div') !== -1);
+assert('  gated on a rebuild, not re-run every batch',
+       /firstElementChild !== actionBarAnchor/.test(hotBody));
+['applyProse', 'mirrorReturnIcons', 'colorRestTravel', 'addActionBar'].forEach((fn) => {
+  assert('  pipeline runs together: ' + fn, hotBody.indexOf(fn + '(') !== -1);
+});
+// Re-read AFTER the passes, because addActionBar inserts the bar as the new
+// first child - capturing before would re-run the pipeline on every batch.
+assert('  anchor re-read after the passes',
+       hotBody.indexOf('addActionBar();') <
+       hotBody.indexOf('actionBarAnchor = actHost.firstElementChild'));
 const scanFn = src.slice(src.indexOf('    function scan() {'));
 assert('  and not on the throttled scan',
        scanFn.slice(0, scanFn.indexOf('\n    }\n')).indexOf('stampMessages') === -1);

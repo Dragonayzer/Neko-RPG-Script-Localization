@@ -1527,6 +1527,33 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
                 if (rebuilt) restoreFamilyScroll(famDiv);
             }
         }
+        // The location actions, but ONLY when they have just been rebuilt.
+        //
+        // change_location() replaces this whole panel, so on the throttled
+        // pass the player saw a frame of Chinese options and then the bar
+        // appearing under their cursor a tick later - on the one panel where
+        // they are about to click something.
+        //
+        // The gate is node identity of the first child, not a timer and not a
+        // measurement: clear_action_div() removes every element child, so a
+        // rebuild leaves a different node there. Between rebuilds this costs
+        // one property read per batch. The anchor is re-read AFTER the passes
+        // because addActionBar() inserts the bar as the new first child.
+        //
+        // The whole pipeline runs here, not just applyProse: the bar CLONES
+        // the rows' icons, so the mirrored return arrow and the rest tint have
+        // to be on them already. Splitting it would freeze a bar built from
+        // un-mirrored, un-tinted icons, since addActionBar early-returns once
+        // the bar exists and would never revisit it.
+        const actHost = document.getElementById('location_actions_div');
+        if (actHost && actHost.firstElementChild !== actionBarAnchor) {
+            applyProse(actHost);
+            mirrorReturnIcons();
+            nbspLocationNames();
+            colorRestTravel();
+            addActionBar();
+            actionBarAnchor = actHost.firstElementChild;
+        }
         // Re-compact in the SAME batch that translated the name. Restoring only
         // the name here left the bar flickering between two renderings rather
         // than between two languages: the game rewrites
@@ -2164,6 +2191,12 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
     // starting a fight, and an icon-only control is exactly where a misclick
     // happens.
     const ACTION_BAR_ID = 'tl_action_bar';
+    const BAR_TARGET_CLASS = 'tl_bar_target';
+    // The first row we last saw in the container, for spotting a rebuild by
+    // node identity. clear_action_div() removes every element child, so after
+    // one the first child is a DIFFERENT node - the same trick the family
+    // roster uses, and for the same reason: no measurement, no layout.
+    let actionBarAnchor = null;
     // A travel row whose destination is somewhere you can sleep - the game's
     // own quick-return-to-bed link, or an ordinary exit that happens to lead
     // to one. REST_LOCATIONS is generated from locations.js and keyed by the
@@ -2192,8 +2225,21 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         ['sleep', (r) => r.id === 'start_sleeping_div', 'bed'],
         ['craft', (r) => r.classList.contains('location_choices') &&
                          !r.hasAttribute('data-location'), 'construction'],
-        ['safezone', isSafeZoneRow, 'directions'],
+        // 4th element: a glyph to PREFER when several rows match, instead of
+        // taking the first. Several exits can lead to a bed, but only the
+        // game's own Quick Return link still carries 'directions' by the time
+        // this runs - mirrorReturnIcons swaps every other travel signpost for
+        // TRAVEL_ICON and leaves jumps (Fast Travel, Quick Return) alone,
+        // since a signpost is what "pick a remembered destination" looks like.
+        // So this reads as: the retreat slot means Quick Return where one
+        // exists, and only falls back to walking somewhere restful.
+        ['safezone', isSafeZoneRow, 'directions', 'directions'],
     ];
+
+    function barGlyph(row) {
+        const icon = row.querySelector('.material-icons');
+        return icon ? (icon.textContent || '').trim() : '';
+    }
 
     // The row's own icon, cloned - so the mirrored return arrow (an inline
     // transform) and the rest-location tint come across without being
@@ -2222,6 +2268,17 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         // tooltip), so a synthetic click runs the game's own code exactly
         // once. Nothing here needs to know what any action does.
         cell.addEventListener('click', () => row.click());
+        // Hovering an icon lights up the row it will act on. This is the
+        // answer to "which of these two arrows is which" - the location rows
+        // carry no tooltip of their own to inherit, and a title= attribute is
+        // a second-long wait on a control whose whole point is speed. The
+        // list is directly below the bar, so the answer is already on screen.
+        if (ACTION_BAR_HOVER_HINT) {
+            cell.addEventListener('mouseenter',
+                () => row.classList.add(BAR_TARGET_CLASS));
+            cell.addEventListener('mouseleave',
+                () => row.classList.remove(BAR_TARGET_CLASS));
+        }
         return cell;
     }
 
@@ -2261,10 +2318,17 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         let found = 0;
         for (let s = 0; s < ACTION_BAR_SLOTS.length; s++) {
             const match = ACTION_BAR_SLOTS[s][1];
-            let cell = null;
-            for (let i = 0; i < rows.length && !cell; i++) {
-                if (match(rows[i])) cell = barIconFor(rows[i]);   // first occurrence
+            const prefer = ACTION_BAR_SLOTS[s][3];
+            let chosen = null;
+            for (let i = 0; i < rows.length; i++) {
+                if (!match(rows[i])) continue;
+                if (!chosen) chosen = rows[i];          // first occurrence wins
+                if (prefer && barGlyph(rows[i]) === prefer) {
+                    chosen = rows[i];                   // …unless one is preferred
+                    break;
+                }
             }
+            let cell = chosen ? barIconFor(chosen) : null;
             if (cell) {
                 found++;
             } else {

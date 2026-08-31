@@ -19,10 +19,12 @@ const REST_SRC = src.slice(src.indexOf('    const REST_LOCATIONS = new Set(['),
                            src.indexOf(']);', src.indexOf('const REST_LOCATIONS')) + 3);
 const barSrc = [
   src.match(/const ACTION_BAR_ID = [^\n]+/)[0],
+  src.match(/const BAR_TARGET_CLASS = [^\n]+/)[0],
   REST_SRC,
   slice('isSafeZoneRow'),
   src.slice(src.indexOf('    const ACTION_BAR_SLOTS = ['),
             src.indexOf('    ];', src.indexOf('const ACTION_BAR_SLOTS')) + 6),
+  slice('barGlyph'),
   slice('barIconFor'),
   slice('addActionBar'),
 ].join('\n');
@@ -44,14 +46,20 @@ function mkRow(spec) {
   const attrs = spec.attrs || {};
   const icon = spec.icon === null ? null : {
     _glyph: spec.icon || 'work_outline',
+    // barGlyph reads textContent, the same property mirrorReturnIcons writes
+    // when it swaps a signpost for an arrow.
+    textContent: spec.icon || 'work_outline',
     style: {},
     parentNode: null,
     cloneNode() { return { _glyph: this._glyph, style: {} }; },
   };
+  const marks = new Set();
   const row = {
     id: spec.id || '',
     style: spec.color ? { color: spec.color } : {},
-    classList: { contains: (c) => set.has(c) },
+    classList: { contains: (c) => set.has(c),
+                 add: (c) => marks.add(c), remove: (c) => marks.delete(c) },
+    _marks: marks,
     hasAttribute: (a) => a in attrs,
     getAttribute: (a) => (a in attrs ? attrs[a] : null),
     querySelector: (s) => (s === '.material-icons' ? icon : null),
@@ -78,19 +86,23 @@ function run(rowSpecs, env) {
                           : (host._bar && i === 'tl_action_bar' ? host._bar : null)),
     createElement: () => {
       const e = { id: '', className: '', innerHTML: '', style: {}, children: [],
-                  _kids: [],
+                  _kids: [], _on: {},
                   appendChild(c) { this._kids.push(c); return c; },
-                  addEventListener(t, fn) { this._click = fn; } };
+                  addEventListener(t, fn) {
+                    this._on[t] = fn;
+                    if (t === 'click') this._click = fn;
+                  } };
       made.push(e);
       return e;
     },
   };
   const ENABLE_VISUAL_OVERRIDES = env.master;
   const LOCATION_ACTION_BAR = env.on;
+  const ACTION_BAR_HOVER_HINT = env.hover !== false;
   eval(barSrc);
   addActionBar();
   addActionBar();               // idempotency: must not build twice
-  return { bar: host._bar, host: host };
+  return { bar: host._bar, host: host, rows: rows };
 }
 
 // Read a built bar back as [leftGlyphs, rightGlyphs]. An inactive slot reads
@@ -182,6 +194,43 @@ expect('  keeps its rest tint',
 r = run([{ name: 'danger', cls: ['travel_combat', 'action_travel'],
            attrs: { 'data-travel': A_BED }, icon: 'warning_amber' }]);
 expect('combat row never counts as safe zone', r.bar, null);
+
+// When several exits lead to a bed, the game's own Quick Return wins. Only a
+// jump still carries 'directions' by the time the bar is built -
+// mirrorReturnIcons swaps every other travel signpost for TRAVEL_ICON - so the
+// glyph IS the marker for "remembered destination".
+r = run([
+  { name: 'walk', cls: ['travel_normal', 'action_travel'],
+    attrs: { 'data-travel': A_BED }, icon: 'forward' },
+  { name: 'quickreturn', cls: ['travel_normal', 'action_travel'],
+    attrs: { 'data-travel': A_BED }, icon: 'directions' },
+]);
+r.bar._kids[1]._kids[5]._click();
+expect('Quick Return beats an earlier walkable exit', clicks, ['quickreturn']);
+expect('  and the loser stays a nav arrow', readBar(r.bar)[0], []);
+// Without a preferred glyph present, first occurrence still wins.
+r = run([
+  { name: 'walkA', cls: ['travel_normal', 'action_travel'],
+    attrs: { 'data-travel': A_BED }, icon: 'forward' },
+  { name: 'walkB', cls: ['travel_normal', 'action_travel'],
+    attrs: { 'data-travel': A_BED }, icon: 'forward' },
+]);
+r.bar._kids[1]._kids[5]._click();
+expect('no Quick Return: first occurrence wins', clicks, ['walkA']);
+
+console.log('\nhover hint');
+r = run(VILLAGE);
+const activityCell = r.bar._kids[1]._kids[2];
+activityCell._on.mouseenter();
+expect('hovering lights the row it will act on',
+       r.rows[0]._marks.has('tl_bar_target'), true);
+expect('  and only that row',
+       r.rows.filter((x) => x._marks.has('tl_bar_target')).length, 1);
+activityCell._on.mouseleave();
+expect('  cleared on leave', r.rows[0]._marks.has('tl_bar_target'), false);
+r = run(VILLAGE, { master: true, on: true, hover: false });
+expect('hover toggle off: no listeners',
+       typeof r.bar._kids[1]._kids[2]._on.mouseenter, 'undefined');
 
 console.log('\nexclusions');
 // An unavailable job never gets .start_activity, so it is excluded by
