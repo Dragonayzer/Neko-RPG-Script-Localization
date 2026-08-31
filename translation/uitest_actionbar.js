@@ -28,6 +28,15 @@ const barSrc = [
   slice('barIconFor'),
   slice('addActionBar'),
 ].join('\n');
+// Slot positions read from the shipped order, so reordering the bar moves
+// these tests with it instead of silently checking the wrong slot.
+const SLOT_NAMES = (src.slice(src.indexOf('    const ACTION_BAR_SLOTS = ['),
+                              src.indexOf('    ];', src.indexOf('const ACTION_BAR_SLOTS')))
+                       .match(/^\s+\['(\w+)'/gm) || [])
+                   .map((m) => /'(\w+)'/.exec(m)[1]);
+const SLOT = {};
+SLOT_NAMES.forEach((n, i) => { SLOT[n] = i; });
+
 const REST_SET = eval(REST_SRC.replace('const REST_LOCATIONS =', ''));
 // A real one, so this cannot pass on a name the game no longer uses.
 const A_BED = Array.from(REST_SET).filter((n) => /[一-鿿]/.test(n))[0];
@@ -113,7 +122,12 @@ function readBar(bar) {
     if (cell.className.indexOf('tl_bar_empty') !== -1) {
       return '(' + /material-icons">([^<]+)</.exec(cell.innerHTML)[1] + ')';
     }
-    return cell._kids[0] ? cell._kids[0]._glyph : '?';
+    // A cloned nav icon carries _glyph; a fixed slot's is BUILT, so it has
+    // textContent instead. Both are read, so a slot silently falling back to
+    // cloning would show up here as the row's glyph rather than the slot's.
+    const k = cell._kids[0];
+    if (!k) return '?';
+    return k._glyph !== undefined ? k._glyph : k.textContent;
   });
   return [grp(bar._kids[0]), grp(bar._kids[1])];
 }
@@ -142,9 +156,9 @@ expect('one icon per category, fixed order', readBar(r.bar)[1],
        ['question_answer', 'work_outline', 'work_outline', '(bed)',
         'construction', '(directions)']);
 // Clicking runs the game's own onclick on the FIRST row of that category.
-r.bar._kids[1]._kids[2]._click();
+r.bar._kids[1]._kids[SLOT.activity]._click();
 expect('activity slot starts the first job', clicks, ['job1']);
-r.bar._kids[1]._kids[0]._click();
+r.bar._kids[1]._kids[SLOT.dialogue]._click();
 expect('dialogue slot starts the first dialogue', clicks, ['job1', 'dlg1']);
 r.bar._kids[0]._kids[1]._click();
 expect('nav arrows keep their own rows', clicks, ['job1', 'dlg1', 'exit2']);
@@ -154,7 +168,7 @@ expect('nav arrows keep their own rows', clicks, ['job1', 'dlg1', 'exit2']);
 console.log('\nfixed slots');
 r = run([{ name: 'bed', id: 'start_sleeping_div', icon: 'bed' }]);
 expect('sleep alone keeps its position', readBar(r.bar)[1],
-       ['(question_answer)', '(work_outline)', '(work_outline)', 'bed',
+       ['(question_answer)', '(search)', '(shop)', 'bed',
         '(construction)', '(directions)']);
 expect('  and no nav group', readBar(r.bar)[0], []);
 // Inactive slots must be dead, not merely faint - a live-looking icon that
@@ -169,7 +183,7 @@ r = run([
   { name: 'expand', cls: ['location_choices'], attrs: { 'data-location': 'x' },
     icon: 'format_list_bulleted' },
 ]);
-expect('crafting fills its slot', readBar(r.bar)[1][4], 'construction');
+expect('crafting fills its slot', readBar(r.bar)[1][SLOT.craft], 'construction');
 expect('  and the expander gets no slot at all',
        readBar(r.bar)[1].indexOf('format_list_bulleted'), -1);
 
@@ -182,14 +196,14 @@ r = run([
   { name: 'home', cls: ['travel_normal', 'action_travel'],
     attrs: { 'data-travel': A_BED }, icon: 'directions', color: '#c0c0ff' },
 ]);
-expect('safe zone fills the last slot', readBar(r.bar)[1][5], 'directions');
+expect('safe zone fills the last slot', readBar(r.bar)[1][SLOT.safezone], 'directions');
 // Lifted OUT of the navigation group, or it would be offered twice - and its
 // whole reason for having a slot is to stop being the nth arrow.
 expect('  and is not also a nav arrow', readBar(r.bar)[0], ['forward']);
-r.bar._kids[1]._kids[5]._click();
+r.bar._kids[1]._kids[SLOT.safezone]._click();
 expect('  clicking travels there', clicks, ['home']);
 expect('  keeps its rest tint',
-       r.bar._kids[1]._kids[5]._kids[0].style.color, '#c0c0ff');
+       r.bar._kids[1]._kids[SLOT.safezone]._kids[0].style.color, '#c0c0ff');
 // A combat quick-return is an encounter even if it points at a rest location.
 r = run([{ name: 'danger', cls: ['travel_combat', 'action_travel'],
            attrs: { 'data-travel': A_BED }, icon: 'warning_amber' }]);
@@ -205,7 +219,7 @@ r = run([
   { name: 'quickreturn', cls: ['travel_normal', 'action_travel'],
     attrs: { 'data-travel': A_BED }, icon: 'directions' },
 ]);
-r.bar._kids[1]._kids[5]._click();
+r.bar._kids[1]._kids[SLOT.safezone]._click();
 expect('Quick Return beats an earlier walkable exit', clicks, ['quickreturn']);
 expect('  and the loser stays a nav arrow', readBar(r.bar)[0], []);
 // Without a preferred glyph present, first occurrence still wins.
@@ -215,12 +229,12 @@ r = run([
   { name: 'walkB', cls: ['travel_normal', 'action_travel'],
     attrs: { 'data-travel': A_BED }, icon: 'forward' },
 ]);
-r.bar._kids[1]._kids[5]._click();
+r.bar._kids[1]._kids[SLOT.safezone]._click();
 expect('no Quick Return: first occurrence wins', clicks, ['walkA']);
 
 console.log('\nhover hint');
 r = run(VILLAGE);
-const activityCell = r.bar._kids[1]._kids[2];
+const activityCell = r.bar._kids[1]._kids[SLOT.activity];
 activityCell._on.mouseenter();
 expect('hovering lights the row it will act on',
        r.rows[0]._marks.has('tl_bar_target'), true);
@@ -230,7 +244,7 @@ activityCell._on.mouseleave();
 expect('  cleared on leave', r.rows[0]._marks.has('tl_bar_target'), false);
 r = run(VILLAGE, { master: true, on: true, hover: false });
 expect('hover toggle off: no listeners',
-       typeof r.bar._kids[1]._kids[2]._on.mouseenter, 'undefined');
+       typeof r.bar._kids[1]._kids[SLOT.activity]._on.mouseenter, 'undefined');
 
 console.log('\nexclusions');
 // An unavailable job never gets .start_activity, so it is excluded by

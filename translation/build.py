@@ -2208,9 +2208,17 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
                REST_LOCATIONS.has(r.getAttribute('data-travel'));
     }
 
-    // In fixed left-to-right order: [name, match, glyph]. The glyph is what an
-    // EMPTY slot shows - a present one clones the row's own icon instead, so
-    // the two always agree.
+    // In fixed left-to-right order: [name, match, basicGlyph, prefer].
+    //
+    // basicGlyph is the BASIC form - what the slot shows when the location has
+    // nothing to put in it. A lit slot clones the row's own icon instead, so
+    // it always matches the symbol sitting in the list below.
+    //
+    // That means the basic glyph does not have to be the game's: it only has
+    // to say which action is missing. search reads as "no work here" better
+    // than the work_outline the game puts on a job row, and shop covers the
+    // slot's real span - the game files both traders and the storage chest as
+    // .start_trade.
     //
     // .activity_unavailable is NOT .start_activity, so unavailable jobs are
     // excluded by construction rather than by a test that could be forgotten.
@@ -2220,8 +2228,12 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
     // fixed slot for it would sit empty nearly everywhere.
     const ACTION_BAR_SLOTS = [
         ['dialogue', (r) => r.classList.contains('start_dialogue'), 'question_answer'],
-        ['trade', (r) => r.classList.contains('start_trade'), 'work_outline'],
-        ['activity', (r) => r.classList.contains('start_activity'), 'work_outline'],
+        // search, not the game's work_outline: an activity is something you go
+        // and look for work at, and it has to differ from the trader slot.
+        ['activity', (r) => r.classList.contains('start_activity'), 'search'],
+        // Covers both a real trader and the storage chest - the game files
+        // both as .start_trade - so a shopfront reads better than a briefcase.
+        ['trade', (r) => r.classList.contains('start_trade'), 'shop'],
         ['sleep', (r) => r.id === 'start_sleeping_div', 'bed'],
         ['craft', (r) => r.classList.contains('location_choices') &&
                          !r.hasAttribute('data-location'), 'construction'],
@@ -2248,6 +2260,10 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
     function barIconFor(row) {
         const src = row.querySelector('.material-icons');
         if (!src) return null;
+        // The ROW's icon wins whenever there is a row. The slot's own glyph is
+        // only the basic form, for when the location has nothing to put here -
+        // so a lit slot always shows exactly the symbol sitting in the list
+        // below it, including the mirrored return arrow and the rest tint.
         const icon = src.cloneNode(true);
         if (!icon.style.color) {
             let el = src;
@@ -2334,9 +2350,9 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
             } else {
                 // Shown greyed and unclickable rather than blank: the slot
                 // still holds its position, and an inactive icon says WHICH
-                // action is missing here, which a gap cannot. Its glyph is the
-                // slot's own, so the icon in a given position never changes -
-                // only whether it is lit.
+                // action is missing here, which a gap cannot. Same glyph as
+                // the lit form above, so the symbol in a given position never
+                // changes - only whether it is lit.
                 cell = document.createElement('span');
                 cell.className = 'tl_bar_icon tl_bar_empty';
                 cell.innerHTML = '<i class="material-icons">' +
