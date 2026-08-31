@@ -2233,7 +2233,7 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         ['activity', (r) => r.classList.contains('start_activity'), 'search'],
         // Covers both a real trader and the storage chest - the game files
         // both as .start_trade - so a shopfront reads better than a briefcase.
-        ['trade', (r) => r.classList.contains('start_trade'), 'shop'],
+        ['trade', (r) => r.classList.contains('start_trade'), 'storefront'],
         ['sleep', (r) => r.id === 'start_sleeping_div', 'bed'],
         ['craft', (r) => r.classList.contains('location_choices') &&
                          !r.hasAttribute('data-location'), 'construction'],
@@ -2315,21 +2315,11 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
             if (r.id !== ACTION_BAR_ID) rows.push(r);
         }
 
-        const nav = [];
-        for (let i = 0; i < rows.length; i++) {
-            // travel_normal only. travel_combat is an encounter.
-            if (!rows[i].classList.contains('travel_normal')) continue;
-            if (rows[i].classList.contains('travel_combat')) continue;
-            // A safe-zone destination is promoted out of this variable group
-            // into its own fixed slot on the right, so it is not offered
-            // twice. That is the point of giving it a slot: somewhere to
-            // retreat to should be in the same place every time, not the
-            // third arrow at one location and the first at the next.
-            if (isSafeZoneRow(rows[i])) continue;
-            const cell = barIconFor(rows[i]);
-            if (cell) nav.push(cell);
-        }
-
+        // The fixed slots are resolved FIRST, so the navigation group can skip
+        // the exact row one of them took rather than a whole category. Only
+        // the safe-zone slot ever claims a travel row, but claiming by node
+        // keeps that a fact about this loop instead of a rule to remember.
+        const claimed = [];
         const fixed = [];
         let found = 0;
         for (let s = 0; s < ACTION_BAR_SLOTS.length; s++) {
@@ -2344,6 +2334,7 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
                     break;
                 }
             }
+            if (chosen) claimed.push(chosen);
             let cell = chosen ? barIconFor(chosen) : null;
             if (cell) {
                 found++;
@@ -2359,6 +2350,22 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
                                  ACTION_BAR_SLOTS[s][2] + '</i>';
             }
             fixed.push(cell);
+        }
+
+        // Every way out of here, in the order the game lists them - including
+        // exits that happen to lead somewhere restful, which are ordinary
+        // walking routes and belong with the rest. The single exception is the
+        // row the safe-zone slot took: that one has a fixed home on the right,
+        // and showing it twice would defeat the point of giving it one.
+        // travel_combat is still absent - an encounter is not movement you
+        // want one click away.
+        const nav = [];
+        for (let i = 0; i < rows.length; i++) {
+            if (!rows[i].classList.contains('travel_normal')) continue;
+            if (rows[i].classList.contains('travel_combat')) continue;
+            if (claimed.indexOf(rows[i]) !== -1) continue;
+            const cell = barIconFor(rows[i]);
+            if (cell) nav.push(cell);
         }
 
         // Nothing to show. During an activity start_activity_display() refills

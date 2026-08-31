@@ -28,14 +28,15 @@ const barSrc = [
   slice('barIconFor'),
   slice('addActionBar'),
 ].join('\n');
-// Slot positions read from the shipped order, so reordering the bar moves
-// these tests with it instead of silently checking the wrong slot.
-const SLOT_NAMES = (src.slice(src.indexOf('    const ACTION_BAR_SLOTS = ['),
-                              src.indexOf('    ];', src.indexOf('const ACTION_BAR_SLOTS')))
-                       .match(/^\s+\['(\w+)'/gm) || [])
-                   .map((m) => /'(\w+)'/.exec(m)[1]);
-const SLOT = {};
-SLOT_NAMES.forEach((n, i) => { SLOT[n] = i; });
+// Slot positions and basic glyphs come from the shipped table itself - see
+// SLOTS below, which is derived by EVALUATING it inside run(). Reordering the
+// bar or renaming a glyph therefore moves these tests with it, instead of
+// leaving them checking the wrong slot against a string the assertion chose.
+//
+// Read rather than text-matched: a predicate can hold string literals of its
+// own (r.id === 'start_sleeping_div'), which makes a 3-element slot textually
+// indistinguishable from a 4-element one. Two different regexes got that
+// wrong before this was given up as a parsing problem.
 
 const REST_SET = eval(REST_SRC.replace('const REST_LOCATIONS =', ''));
 // A real one, so this cannot pass on a name the game no longer uses.
@@ -108,11 +109,23 @@ function run(rowSpecs, env) {
   const ENABLE_VISUAL_OVERRIDES = env.master;
   const LOCATION_ACTION_BAR = env.on;
   const ACTION_BAR_HOVER_HINT = env.hover !== false;
-  eval(barSrc);
+  // A const declared inside eval does NOT leak to the enclosing scope, so the
+  // table has to be handed out by ASSIGNMENT to a variable that already exists
+  // here. (Only function declarations leak; this bit me on ADD_ALL_BTN_ID too.)
+  let captured = null;
+  eval(barSrc + '\ncaptured = ACTION_BAR_SLOTS;');
   addActionBar();
   addActionBar();               // idempotency: must not build twice
-  return { bar: host._bar, host: host, rows: rows };
+  return { bar: host._bar, host: host, rows: rows, slots: captured };
 }
+
+// The shipped slot table, evaluated rather than parsed. run([]) builds no bar
+// - there are no rows - but it does expose the table.
+const SLOTS = run([]).slots;
+const SLOT = {};
+SLOTS.forEach((s, i) => { SLOT[s[0]] = i; });
+// An inactive slot renders its basic glyph, dimmed.
+const dim = (name) => '(' + SLOTS[SLOT[name]][2] + ')';
 
 // Read a built bar back as [leftGlyphs, rightGlyphs]. An inactive slot reads
 // as "(glyph)" - it still renders its own icon, just dimmed and dead.
@@ -153,8 +166,8 @@ expect('two nav arrows left, combat excluded', readBar(r.bar)[0],
 // which is what makes the slots fixed. Order is the shipped slot order, and
 // absent slots still render their own glyph, dimmed.
 expect('one icon per category, fixed order', readBar(r.bar)[1],
-       ['question_answer', 'work_outline', 'work_outline', '(bed)',
-        'construction', '(directions)']);
+       ['question_answer', 'work_outline', 'work_outline', dim('sleep'),
+        'construction', dim('safezone')]);
 // Clicking runs the game's own onclick on the FIRST row of that category.
 r.bar._kids[1]._kids[SLOT.activity]._click();
 expect('activity slot starts the first job', clicks, ['job1']);
@@ -168,8 +181,8 @@ expect('nav arrows keep their own rows', clicks, ['job1', 'dlg1', 'exit2']);
 console.log('\nfixed slots');
 r = run([{ name: 'bed', id: 'start_sleeping_div', icon: 'bed' }]);
 expect('sleep alone keeps its position', readBar(r.bar)[1],
-       ['(question_answer)', '(search)', '(shop)', 'bed',
-        '(construction)', '(directions)']);
+       [dim('dialogue'), dim('activity'), dim('trade'), 'bed',
+        dim('craft'), dim('safezone')]);
 expect('  and no nav group', readBar(r.bar)[0], []);
 // Inactive slots must be dead, not merely faint - a live-looking icon that
 // does nothing is worse than an obviously absent one.
@@ -197,8 +210,9 @@ r = run([
     attrs: { 'data-travel': A_BED }, icon: 'directions', color: '#c0c0ff' },
 ]);
 expect('safe zone fills the last slot', readBar(r.bar)[1][SLOT.safezone], 'directions');
-// Lifted OUT of the navigation group, or it would be offered twice - and its
-// whole reason for having a slot is to stop being the nth arrow.
+// The claimed row is lifted OUT of the navigation group - it has a fixed home
+// on the right, and offering it twice would defeat the point of giving it one.
+// The unrelated exit is untouched.
 expect('  and is not also a nav arrow', readBar(r.bar)[0], ['forward']);
 r.bar._kids[1]._kids[SLOT.safezone]._click();
 expect('  clicking travels there', clicks, ['home']);
@@ -221,7 +235,12 @@ r = run([
 ]);
 r.bar._kids[1]._kids[SLOT.safezone]._click();
 expect('Quick Return beats an earlier walkable exit', clicks, ['quickreturn']);
-expect('  and the loser stays a nav arrow', readBar(r.bar)[0], []);
+// Only the row the slot actually TOOK leaves the nav group. The other exit is
+// an ordinary walking route that happens to end somewhere restful, so it stays
+// with the other ways out - excluding it would lose a real destination.
+expect('  the losing rest exit stays a nav arrow', readBar(r.bar)[0], ['forward']);
+r.bar._kids[0]._kids[0]._click();
+expect('  and still walks there', clicks, ['quickreturn', 'walk']);
 // Without a preferred glyph present, first occurrence still wins.
 r = run([
   { name: 'walkA', cls: ['travel_normal', 'action_travel'],
