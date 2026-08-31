@@ -2164,20 +2164,35 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
     // starting a fight, and an icon-only control is exactly where a misclick
     // happens.
     const ACTION_BAR_ID = 'tl_action_bar';
-    // In fixed left-to-right order. .activity_unavailable is NOT .start_activity,
-    // so unavailable jobs are excluded by construction rather than by a test.
-    // .location_choices covers both the crafting button and the travel-list
-    // expander; only the expander carries data-location, which separates them
-    // structurally instead of by reading their onclick.
+    // A travel row whose destination is somewhere you can sleep - the game's
+    // own quick-return-to-bed link, or an ordinary exit that happens to lead
+    // to one. REST_LOCATIONS is generated from locations.js and keyed by the
+    // Chinese name, which is what data-travel holds, so this needs no
+    // translation and is unaffected by ENABLE_PROSE.
+    function isSafeZoneRow(r) {
+        return r.classList.contains('travel_normal') &&
+               !r.classList.contains('travel_combat') &&
+               REST_LOCATIONS.has(r.getAttribute('data-travel'));
+    }
+
+    // In fixed left-to-right order: [name, match, glyph]. The glyph is what an
+    // EMPTY slot shows - a present one clones the row's own icon instead, so
+    // the two always agree.
+    //
+    // .activity_unavailable is NOT .start_activity, so unavailable jobs are
+    // excluded by construction rather than by a test that could be forgotten.
+    // The crafting button is .location_choices without data-location; the
+    // travel-list expander is the one WITH it, and is deliberately not a slot
+    // here - it only appears on locations with more than three exits, so a
+    // fixed slot for it would sit empty nearly everywhere.
     const ACTION_BAR_SLOTS = [
-        ['dialogue', (r) => r.classList.contains('start_dialogue')],
-        ['trade', (r) => r.classList.contains('start_trade')],
-        ['activity', (r) => r.classList.contains('start_activity')],
-        ['sleep', (r) => r.id === 'start_sleeping_div'],
+        ['dialogue', (r) => r.classList.contains('start_dialogue'), 'question_answer'],
+        ['trade', (r) => r.classList.contains('start_trade'), 'work_outline'],
+        ['activity', (r) => r.classList.contains('start_activity'), 'work_outline'],
+        ['sleep', (r) => r.id === 'start_sleeping_div', 'bed'],
         ['craft', (r) => r.classList.contains('location_choices') &&
-                         !r.hasAttribute('data-location')],
-        ['expand', (r) => r.classList.contains('location_choices') &&
-                          r.hasAttribute('data-location')],
+                         !r.hasAttribute('data-location'), 'construction'],
+        ['safezone', isSafeZoneRow, 'directions'],
     ];
 
     // The row's own icon, cloned - so the mirrored return arrow (an inline
@@ -2232,6 +2247,12 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
             // travel_normal only. travel_combat is an encounter.
             if (!rows[i].classList.contains('travel_normal')) continue;
             if (rows[i].classList.contains('travel_combat')) continue;
+            // A safe-zone destination is promoted out of this variable group
+            // into its own fixed slot on the right, so it is not offered
+            // twice. That is the point of giving it a slot: somewhere to
+            // retreat to should be in the same place every time, not the
+            // third arrow at one location and the first at the next.
+            if (isSafeZoneRow(rows[i])) continue;
             const cell = barIconFor(rows[i]);
             if (cell) nav.push(cell);
         }
@@ -2247,11 +2268,15 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
             if (cell) {
                 found++;
             } else {
-                // Placeholder: holds the slot open so the icons that ARE
-                // present keep the same position from location to location.
+                // Shown greyed and unclickable rather than blank: the slot
+                // still holds its position, and an inactive icon says WHICH
+                // action is missing here, which a gap cannot. Its glyph is the
+                // slot's own, so the icon in a given position never changes -
+                // only whether it is lit.
                 cell = document.createElement('span');
                 cell.className = 'tl_bar_icon tl_bar_empty';
-                cell.innerHTML = '<i class="material-icons">remove</i>';
+                cell.innerHTML = '<i class="material-icons">' +
+                                 ACTION_BAR_SLOTS[s][2] + '</i>';
             }
             fixed.push(cell);
         }

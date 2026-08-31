@@ -13,13 +13,22 @@ function slice(name) {
   if (end === -1) throw new Error('could not slice ' + name);
   return s.slice(0, end + 7);
 }
+// The safe-zone slot is keyed on REST_LOCATIONS, generated from locations.js
+// and holding the CHINESE names that data-travel carries.
+const REST_SRC = src.slice(src.indexOf('    const REST_LOCATIONS = new Set(['),
+                           src.indexOf(']);', src.indexOf('const REST_LOCATIONS')) + 3);
 const barSrc = [
   src.match(/const ACTION_BAR_ID = [^\n]+/)[0],
+  REST_SRC,
+  slice('isSafeZoneRow'),
   src.slice(src.indexOf('    const ACTION_BAR_SLOTS = ['),
             src.indexOf('    ];', src.indexOf('const ACTION_BAR_SLOTS')) + 6),
   slice('barIconFor'),
   slice('addActionBar'),
 ].join('\n');
+const REST_SET = eval(REST_SRC.replace('const REST_LOCATIONS =', ''));
+// A real one, so this cannot pass on a name the game no longer uses.
+const A_BED = Array.from(REST_SET).filter((n) => /[一-鿿]/.test(n))[0];
 
 let bad = 0;
 function expect(what, got, want) {
@@ -44,6 +53,7 @@ function mkRow(spec) {
     style: spec.color ? { color: spec.color } : {},
     classList: { contains: (c) => set.has(c) },
     hasAttribute: (a) => a in attrs,
+    getAttribute: (a) => (a in attrs ? attrs[a] : null),
     querySelector: (s) => (s === '.material-icons' ? icon : null),
     click: () => clicks.push(spec.name),
     _name: spec.name,
@@ -83,12 +93,16 @@ function run(rowSpecs, env) {
   return { bar: host._bar, host: host };
 }
 
-// Read a built bar back as [leftGlyphs, rightGlyphs] with '-' for placeholders.
+// Read a built bar back as [leftGlyphs, rightGlyphs]. An inactive slot reads
+// as "(glyph)" - it still renders its own icon, just dimmed and dead.
 function readBar(bar) {
   if (!bar) return null;
-  const grp = (g) => g._kids.map((cell) =>
-      (cell.className.indexOf('tl_bar_empty') !== -1
-        ? '-' : (cell._kids[0] ? cell._kids[0]._glyph : '?')));
+  const grp = (g) => g._kids.map((cell) => {
+    if (cell.className.indexOf('tl_bar_empty') !== -1) {
+      return '(' + /material-icons">([^<]+)</.exec(cell.innerHTML)[1] + ')';
+    }
+    return cell._kids[0] ? cell._kids[0]._glyph : '?';
+  });
   return [grp(bar._kids[0]), grp(bar._kids[1])];
 }
 
@@ -110,9 +124,11 @@ let r = run(VILLAGE);
 expect('two nav arrows left, combat excluded', readBar(r.bar)[0],
        ['forward', 'forward']);
 // One icon per CATEGORY: six jobs and three dialogues collapse to one each,
-// which is what makes the slots fixed. Order is the shipped slot order.
+// which is what makes the slots fixed. Order is the shipped slot order, and
+// absent slots still render their own glyph, dimmed.
 expect('one icon per category, fixed order', readBar(r.bar)[1],
-       ['question_answer', 'work_outline', 'work_outline', '-', 'construction', '-']);
+       ['question_answer', 'work_outline', 'work_outline', '(bed)',
+        'construction', '(directions)']);
 // Clicking runs the game's own onclick on the FIRST row of that category.
 r.bar._kids[1]._kids[2]._click();
 expect('activity slot starts the first job', clicks, ['job1']);
@@ -126,17 +142,46 @@ expect('nav arrows keep their own rows', clicks, ['job1', 'dlg1', 'exit2']);
 console.log('\nfixed slots');
 r = run([{ name: 'bed', id: 'start_sleeping_div', icon: 'bed' }]);
 expect('sleep alone keeps its position', readBar(r.bar)[1],
-       ['-', '-', '-', 'bed', '-', '-']);
+       ['(question_answer)', '(work_outline)', '(work_outline)', 'bed',
+        '(construction)', '(directions)']);
 expect('  and no nav group', readBar(r.bar)[0], []);
-// The expander and the crafting button share .location_choices; only the
-// expander carries data-location, which separates them structurally.
+// Inactive slots must be dead, not merely faint - a live-looking icon that
+// does nothing is worse than an obviously absent one.
+expect('  inactive slots have no click handler',
+       r.bar._kids[1]._kids.map((c) => typeof c._click).join(','),
+       'undefined,undefined,undefined,function,undefined,undefined');
+// The expander is deliberately NOT a slot: it only appears where a location
+// has more than three exits, so its slot would sit dead nearly everywhere.
 r = run([
   { name: 'craft', cls: ['location_choices'], icon: 'construction' },
   { name: 'expand', cls: ['location_choices'], attrs: { 'data-location': 'x' },
     icon: 'format_list_bulleted' },
 ]);
-expect('craft and expand are different slots', readBar(r.bar)[1],
-       ['-', '-', '-', '-', 'construction', 'format_list_bulleted']);
+expect('crafting fills its slot', readBar(r.bar)[1][4], 'construction');
+expect('  and the expander gets no slot at all',
+       readBar(r.bar)[1].indexOf('format_list_bulleted'), -1);
+
+console.log('\nsafe zone');
+// A travel row whose destination is a rest location: the game's own
+// quick-return-to-bed, or an ordinary exit that happens to lead to one.
+r = run([
+  { name: 'exit', cls: ['travel_normal', 'action_travel'],
+    attrs: { 'data-travel': '不存在的地方' }, icon: 'forward' },
+  { name: 'home', cls: ['travel_normal', 'action_travel'],
+    attrs: { 'data-travel': A_BED }, icon: 'directions', color: '#c0c0ff' },
+]);
+expect('safe zone fills the last slot', readBar(r.bar)[1][5], 'directions');
+// Lifted OUT of the navigation group, or it would be offered twice - and its
+// whole reason for having a slot is to stop being the nth arrow.
+expect('  and is not also a nav arrow', readBar(r.bar)[0], ['forward']);
+r.bar._kids[1]._kids[5]._click();
+expect('  clicking travels there', clicks, ['home']);
+expect('  keeps its rest tint',
+       r.bar._kids[1]._kids[5]._kids[0].style.color, '#c0c0ff');
+// A combat quick-return is an encounter even if it points at a rest location.
+r = run([{ name: 'danger', cls: ['travel_combat', 'action_travel'],
+           attrs: { 'data-travel': A_BED }, icon: 'warning_amber' }]);
+expect('combat row never counts as safe zone', r.bar, null);
 
 console.log('\nexclusions');
 // An unavailable job never gets .start_activity, so it is excluded by
