@@ -1,0 +1,112 @@
+# Static UI text from index.html (family panel, reactor/phase-engine minigames,
+# options panel), plus stragglers from the panel report. Forced substrings,
+# ␣ = literal space.
+#
+# NOT INCLUDED: the vertical "少 / 女 / 钓 / 鱼 / 中" fishing caption. Those are
+# single characters stacked one per line with &emsp; indents; English letters
+# can't stack the same way, and single-char substrings would fire everywhere.
+# Left in Chinese deliberately.
+#
+# --- money / slots / skills ---
+你的钱包:	Your␣wallet:
+价值:	Value:␣	tooltip cost line; the amount lives in sibling <span>s so no regex can reach it
+效果:	Effect:␣	recipe tooltip, above the embedded active-effect block
+·改良	␣·␣Improved	must outrank ·改 (both 2 chars) or 活性织料·改良 becomes "…· Modified良"
+镰刀	Scythe
+战斗␣:	Combat␣:	skill bar; colon-scoped so the Combat tab button is untouched
+#
+# --- stance name suffixes (combat tab shows the bare name) ---
+·雨水	␣·␣Rain
+·流水	␣·␣Flowing␣Water
+·洪水	␣·␣Flood
+·疾	␣·␣Swift
+·锐	␣·␣Keen
+·巨星	␣·␣Superstar
+·繁星	␣·␣Myriad␣Stars
+·花海	␣·␣Flower␣Sea
+·纯色	␣·␣Pure␣Color
+·虹彩	␣·␣Iridescent
+·双虹	␣·␣Double␣Rainbow
+#
+# --- combat ---
+剩余波数:	Remaining␣waves:
+个敌人	␣enemies
+同时攻击	Hits␣	"同时攻击 3 个敌人"; the longer 同时攻击最多 in 08 still wins
+#
+# --- family panel ---
+家族系统~纳可现在还不是家主！	Family␣System~␣Neko␣isn't␣head␣of␣the␣house␣yet!
+通过	Clear␣
+后击败	␣then␣defeat␣
+解锁！	␣to␣unlock!
+⌚️下一血洛日:	⌚️Next␣Bloodfall␣day:
+(␣现实	(␣real␣
+次日	Next␣day␣
+新生儿数␣:	newborn␣count:
+每日养育耗费␣:	Daily␣upbringing␣cost:
+每日家族赚取:	Daily␣family␣earnings:
+纳家影响力:	Na␣Family␣Influence:
+#
+# --- core reactor ---
+警告：反应堆温度达到9999°C时会熔毁,摧毁其中的一切.	Warning:␣at␣9999°C␣the␣reactor␣melts␣down,␣destroying␣everything␣inside.
+反应堆温度	Reactor␣temperature
+总吸收原能	Total␣primal␣energy␣absorbed
+[提取凝胶剑柄]	[Extract␣Gel␣Sword␣Hilt]
+[凝聚进化结晶(100万原能)]	[Condense␣Evolution␣Crystal␣(1e6␣primal␣energy)]
+超高品质凝胶剑柄的最佳选择！	The␣best␣route␣to␣an␣ultra-high-quality␣Gel␣Sword␣Hilt!
+#
+# --- harvest / grapple minigames ---
+Tier␣16内甲与轮芯的必需品！	Essential␣for␣Tier␣16␣inner␣armour␣and␣Wheel␣Hubs!
+小概率获取噬芒兰！概率与收割技能相关.	Small␣chance␣to␣obtain␣Radiance-Devouring␣Orchid!␣Odds␣scale␣with␣the␣Harvest␣skill.
+已收割:	Harvested:
+瞄准有用的物品，点击纳可驱动钩爪，抓上来！	Aim␣at␣a␣useful␣item,␣click␣Neko␣to␣fire␣the␣grapple,␣and␣haul␣it␣up!
+#
+# --- deepfrost phase-change engine ---
+温度␣:	Temperature:
+冰元素␣:	Ice␣element:
+预计时间␣:	Estimated␣time:
+提取␣[	Extract␣[
+[放入]	[Insert]
+[取出]	[Remove]
+[冰原]	[Ice␣Field]
+[焰海]	[Flame␣Sea]
+[霜天]	[Frost␣Sky]
+[将飞船之心转化为材料版]	[Convert␣Heart␣of␣the␣Spaceship␣to␣material␣version]
+活塞工作状态␣:	Piston␣state:
+内部气体温度␣:	Internal␣gas␣temperature:
+内部气体压强␣:	Internal␣gas␣pressure:
+冰原空气体积␣:	Ice␣Field␣air␣volume:
+喵可做功功率␣:	Neko's␣work␣output:
+移动活塞	Move␣piston
+压缩	Compress
+膨胀	Expand
+充气	Inflate
+放气	Deflate
+#
+# --- options panel ---
+←帮助菜单！常见问题可以找到解答！	←Help␣menu!␣Answers␣to␣common␣questions!
+静音	Mute
+在战败时回到床上	Return␣to␣bed␣on␣defeat
+保持日志过滤器	Keep␣log␣filters
+开始战斗时不自动切出物品栏	Don't␣auto-switch␣away␣from␣the␣inventory␣when␣combat␣starts
+战斗日志过滤器[闪避/0伤/击杀]	Combat␣log␣filter␣[Dodge␣/␣0␣dmg␣/␣Kill]
+科学计数法[刷新以全部生效]	Scientific␣notation␣[refresh␣to␣fully␣apply]
+加载备份自动存档	Load␣backup␣autosave
+硬重置游戏	Hard␣reset␣game
+(品质:	(Quality:	reactor readout "(品质:<span>160</span>%)" — concatenated with spans, so a substring
+
+# --- v8.7: stranded CJK punctuation ---
+# The game leaves punctuation in its own text node after a tag:
+#   ...角色的攻防效果减弱<span style='color:#87CEFA'>10%</span>。
+# 45 such sites in src/. Single characters, which we normally forbid as
+# substrings - but the rule exists because an IDEOGRAPH is ambiguous (峰 =
+# Peak/Feng). Punctuation is not: in English output 。 is always a period.
+# They are also the shortest possible keys, so longest-first ordering puts
+# them last in the alternation - they can only ever touch what is left over.
+。	.
+：	:
+；	;
+！	!
+？	?
+、	,
+（	(
+）	)

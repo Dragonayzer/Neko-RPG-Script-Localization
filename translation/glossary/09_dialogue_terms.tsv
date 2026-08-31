@@ -1,0 +1,192 @@
+# Fourth sweep: dialogue NPC names / option titles and main.js combat labels.
+# Forced substrings, ␣ = literal space.
+#
+# NOTE ON SINGLE CHARACTERS: main.js also holds realm abbreviations (微 潮 大 天
+# 云 领 世 初 中 高 巅 三 四 五 六 七 八) and bare counters (个 一 二 年). Those are
+# deliberately NOT listed. As one-character substrings they would fire inside
+# unrelated words and shred the text - the exact failure mode that turned
+# 峰大哥 into "Peak大哥". They render inside composed labels that are already
+# covered, so leaving them alone is correct.
+#
+# --- NPC / character names ---
+猫妖	Cat␣Demon
+路人甲	Passerby␣A
+地宫老人	Crypt␣Old␣Man
+纳布	Nabu
+纳可	Neko	the player character's DEFAULT name. Interpolated into log lines as ${character.name}, so it needs to be a fragment the way 纳布/枫杏红 are - without it every "${character.name} 结束了 …" line rendered half-Chinese. A renamed character simply stops matching, which is correct.
+纳鹰	Na␣Ying
+御兰	Yulan
+溪月	Xiyue
+冰溪月	Bing␣Xiyue
+竺虎	Zhuhu
+莫尔	Moore
+秋兴	Qiuxing
+蓝柒	Lanqi
+枫杏红	Feng␣Xinghong
+石风雄	Shi␣Fengxiong
+末世天骄	Apocalypse␣Prodigy
+心魔之主	Lord␣of␣Inner␣Demons
+百兰	Bailan
+#
+# --- location qualifiers on NPC names: "纳布(江畔)" -> "Nabu (Riverbank)" ---
+Neko是谁	Who␣is␣Neko?
+(江畔)	␣(Riverbank)
+(废墟)	␣(Ruins)
+(战场)	␣(Battlefield)
+(沼泽)	␣(Swamp)
+(飞云)	␣(Feiyun)
+(核心)	␣(Core)
+(决战)	␣(Final␣Battle)
+(宝库)	␣(Treasury)
+#
+# --- interactables ---
+秘法石碑	Arcane␣Stele
+清野瀑布	Qingye␣Waterfall
+皎月神像	Bright␣Moon␣Statue
+烈日神像	Blazing␣Sun␣Statue
+核心反应堆	Core␣Reactor
+结界湖转化器	Barrier␣Lake␣Converter
+冰霜门户	Frost␣Portal
+传承水晶	Legacy␣Crystal
+十连扭蛋机	Ten-Pull␣Gacha␣Machine
+扭蛋机介绍	Gacha␣machine␣info
+决战木牌	Final␣Battle␣Sign
+玄铁方尖碑	Black-Iron␣Obelisk
+心之石像	Heart␣Stone␣Statue
+仪表盘显示	Dashboard␣display
+草场	Grassland
+水牢	Water␣Prison
+#
+# --- dialogue options ---
+你是谁	Who␣are␣you?
+背景故事	Background␣Story
+打开大门	Open␣the␣gate
+往东再走一里半即可到达	Half␣a␣li␣further␣east␣and␣you'll␣arrive
+注视着清野瀑布	Gaze␣at␣the␣Qingye␣Waterfall
+提高一层灵阵功率	Raise␣spirit-array␣power␣by␣one␣layer
+降低一层灵阵功率	Lower␣spirit-array␣power␣by␣one␣layer
+观赏御兰与昊荒的强者之战	Watch␣the␣clash␣between␣Yulan␣and␣Haohuang
+参拜战场中的皎月之神像	Pay␣respects␣to␣the␣Bright␣Moon␣statue␣on␣the␣battlefield
+查看boss战规则	View␣boss␣fight␣rules
+感悟方尖碑上的痕迹	Comprehend␣the␣marks␣on␣the␣obelisk
+凝聚战斗中积累的感悟	Condense␣the␣insight␣gathered␣in␣battle
+触摸散发着光亮的水晶	Touch␣the␣glowing␣crystal
+升华	Sublimate␣
+地层钻探	Strata␣Drilling
+进行	Perform␣
+#
+# --- inline reactions / asides ---
+(恭敬地拜三拜)	(bow␣respectfully␣three␣times)
+(不算恭敬地稍微拜一拜)	(a␣small,␣not␣especially␣respectful␣bow)
+(上供刀币获取赐福)	(offer␣Knife␣Coins␣for␣a␣blessing)
+(继续向前)	(continue␣forward)
+(接受情报	(receive␣intel␣
+(来到面前)	(step␣forward)
+(愣住)	(freeze)
+(睁眼)	(open␣eyes)
+(闭眼)	(close␣eyes)
+(摸)	(touch)
+（眼前一亮）	(eyes␣light␣up)
+(他真的值得信任吗……)	(Can␣he␣really␣be␣trusted……)
+*不自觉地挥剑*	*swings␣the␣sword␣without␣thinking*
+……(检查过往的经历)	……(review␣past␣experiences)
+想打架就直说嘛……	Just␣say␣so␣if␣you␣want␣a␣fight……
+这都什么乱七八糟的...	What␣a␣mess␣this␣is...
+是那些魂灵吗……	Is␣it␣those␣souls……
+我怎么回不去了	Why␣can't␣I␣get␣back?
+我回来了~	I'm␣back~
+原来如此……	I␣see……
+……明白	……Understood
+饶恕	Spare
+啪——	Smack——
+啊...	Ah...
+呼……	Phew……
+#
+# --- main.js combat / system labels ---
+挖矿	Mining
+如今也算是历经了	By␣now,␣having␣been␣through␣
+抽奖结果：	Draw␣result:␣
+手里的那把剑	the␣sword␣in␣hand
+手里的那把三叉戟	the␣trident␣in␣hand
+效力	␣potency
+占比	␣share
+倍率	␣multiplier
+吸收线	␣absorption␣line
+回风-弱	Wind␣Return␣-␣Weak
+回风-强	Wind␣Return␣-␣Strong
+在剩余	␣self-destructs␣at␣	concatenated: {name}+"在剩余 "+N+" 血量时自爆。"; per-literal so word order survives
+造成了	dealt␣
+被炸晕了	␣was␣knocked␣out␣by␣the␣blast
+被激光击败	␣was␣defeated␣by␣the␣laser
+恢复了	␣recovered␣
+点血量	␣HP
+失血过多而昏迷	␣fainted␣from␣blood␣loss
+失败了	␣failed
+点反弹伤害	␣reflected␣damage
+瓶颈	Bottleneck
+解锁了	Unlocked␣
+消耗:	Cost:
+临界度:	Criticality:
+提取了	Extracted␣
+反应堆内部的凝胶不足	Not␣enough␣Gel␣inside␣the␣reactor
+反应堆内部的原能不足	Not␣enough␣primal␣energy␣inside␣the␣reactor
+未放入	Not␣inserted
+压缩内部气体	Compress␣internal␣gas
+内部气体自由膨胀	Let␣internal␣gas␣expand␣freely
+向内部充入气体	Pump␣gas␣inside
+释放内部气体	Release␣internal␣gas
+分钟	␣min
+小时	␣h
+融血	Merge␣Blood	so "参悟融血·疾" composes via the 参悟 regex + ·疾 suffix
+左阿	Zuo'a
+·二代	␣·␣Gen␣2
+
+# --- v8.5: gaps found by sweeping _uncovered.tsv ---
+钻探地层，发掘出了	Drilled␣through␣the␣strata␣and␣unearthed␣	concatenated: "...发掘出了"+N+" 个 "+name+"！" — trailing space matters
+␣个␣	␣	measure word drops in English: "3 个 铁锭" -> "3 Iron Ingot"
+异界	Otherworld	matches 异界之门 = Otherworld Gate; fixes 进阶炼金药剂-异界
+】和【	】␣and␣【	dialogue name 【心之灵】和【灵魂之力】; bracket-scoped so bare 和 stays untouched
+# moonwheel gift dialogue (main.js lf-1). Never extracted: nested ternaries
+# inside the template defeated the pairer. Composed in SOURCE ORDER as
+# fragments, not exact keys - the line holds 【秘银月轮】, and applyItemNames
+# rewrites that before our per-panel pass, which would break an exact key.
+你的精神念力不错，	Your␣psychokinesis␣is␣impressive,␣	
+又拥有␣一重领域，	and␣you␣hold␣a␣one-fold␣Domain,	RM==2 branch
+又拥有␣二重领域，	and␣you␣hold␣a␣two-fold␣Domain,	
+你赤手空拳,不适合你。	Empty-handed␣as␣you␣are,␣that␣won't␣do.	halfwidth comma is the source's
+你手里的那把剑,不适合你。	That␣sword␣in␣your␣hand␣doesn't␣suit␣you.	
+你手里的那把三叉戟,不适合你。	That␣trident␣in␣your␣hand␣doesn't␣suit␣you.	
+如果换成念力兵器，会更强。	Switch␣to␣a␣psychokinetic␣weapon␣and␣you'll␣be␣stronger.	念力兵器 matches 03_skills
+这把我刚才手搓的	This␣hand-made␣	item name follows -> order preserved
+还有这类月轮的制作方法，	and␣how␣to␣make␣Moonwheels␣like␣it,	longest-first beats bare 月轮
+就送给你了。	They're␣yours␣now.	
+】，	】,	fullwidth comma after an item name in dialogue; bracket-scoped so it cannot touch prose handled as whole strings
+
+# --- v10.4: XP-gain lines concatenated into ONE node ---
+# A dialogue can award several skills at once, and the lines are appended
+# WITHOUT a <br>:  【A】获取了N经验！【B】获取了M经验！
+# so the whole-node exact entry written for the first line can never match,
+# and only fragments reach it.
+#
+# 】获取了 is bracket-scoped on purpose: a bare 获取了 fragment would reach
+# the message log before the v4.0 #message_box_div pair and lowercase its
+# Gained, since our pass runs first there.
+】获取了	】␣gained␣
+经验！	␣XP!
+
+# --- v11.1: dialogue tails that get reward text appended ---
+# A textline with a spec unlock whose text does NOT end in <br> has
+# main.js's `displayed_text += ...` glued straight onto its LAST chunk, so
+# the whole-node exact entry for that chunk can never match at runtime -
+# the sentence stayed Chinese with perfect English beside it.
+# 12 textlines are exposed; these are the ones that actually broke.
+# Safe as fragments: each is a complete, very specific sentence.
+【峰】离开了队伍！	【Feng】␣left␣the␣party!
+【第三幕BOSS战已开始！】	【The␣Act␣3␣BOSS␣battle␣has␣begun!】
+【银霜月轮】获取2.99垓经验！	resplendent␣radiance␣in␣the␣girl's␣hand…␣【Silver␣Frost␣Moonwheel】␣gained␣2.99e20␣XP!
+也知道了父亲大人的话是什么意思。	and␣I␣understand␣what␣Father␣meant.
+对纳可的好感大幅降低了！	's␣favor␣toward␣Neko␣dropped␣sharply!
+我找你们找了	I've␣been␣searching␣for␣you␣for␣	leads straight into the appended ${age}年了呐！！, so no full stop and no repeated "It's been"
+是时候蜕变了，领域力量。	transform␣—␣power␣of␣the␣Domain.
+秋兴对纳可产生了特殊的情感！	the␣grotto.␣Qiuxing␣developed␣special␣feelings␣for␣Neko!
+蓝柒对纳可产生了特殊的情感！	Neko's␣"attack."␣Lanqi␣developed␣special␣feelings␣for␣Neko!

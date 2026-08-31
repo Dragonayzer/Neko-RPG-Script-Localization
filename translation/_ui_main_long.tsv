@@ -1,0 +1,145 @@
+你获得了收集材料的能力！	
+你获得了合成物品和装备的能力！	
+领悟【微火】的进化之路已经被打通！	
+你掌握了【初等进化结晶】的凝聚方法！	
+你掌握了【银霜月轮】的合成方法！	
+【家族系统】已激活！(右下角第三栏)	
+百方[荒兽森林 ver.][BOSS]	
+灵阵功率已达绝对上限【9999】。	
+如果想要少于五层的灵阵，直接去前面的区域就好了...	
+原有的状态效果全部被皎月净化了！	
+原有的状态效果全部被烈日净化了！	
+请将【结界湖之心】佩戴后再次尝试！	
+请将【冰原之心】佩戴后再次尝试！	
+“饵料”已经布下……(古墓战 - II 已解锁)	
+提示:轮锋+轮芯的组装 现已解锁	
+t really any other kind for now),
+ * called when attack cooldown finishes
+ * 
+ * @param {String} attacker id of enemy
+*/ 
+function faint(c_log)
+{
+    total_deaths++;
+    log_message(character.name + c_log, "hero_defeat");
+    end_activity_animation(); //clears the "animation"
+    current_activity = null;
+     update_displayed_health();
+    if(inf_combat.S3?.live){
+        if(current_location.parent_location != undefined) change_location(current_location.parent_location.name);
+        log_message("心之灵的虚影摇曳着。现在还不能倒下！","combat_loot")
+        return;
+    }//BOSS战正在进行
+    
+    if(options.auto_return_to_bed && last_location_with_bed) {
+        change_location(last_location_with_bed);
+        start_sleeping();
+    } else {
+        if(current_location.parent_location != undefined) change_location(current_location.parent_location.name);
+        else{
+            change_location(last_location_with_bed);
+            start_sleeping();
+            log_message("在战斗区外流血而昏迷 - 已自动回到床上！","gathering_loot")
+        }
+    }
+    return;
+}
+function do_enemy_combat_action(enemy_id,spec_hint,E_atk_mul = 1,E_dmg_mul = 1) {
+    
+    /*
+    tiny workaround, as character being defeated while facing multiple enemies,
+    sometimes results in enemy attack animation still finishing before character retreats,
+    launching this function and causing an error
+    */
+    if(!current_enemies) { 
+        return;
+    }
+    
+    const attacker = current_enemies[enemy_id];
+
+    let evasion_agi_modifier = current_enemies.filter(enemy => enemy.is_alive).length**(-1/3); //more enemies will restrict neko resulted in harder evasion
+
+    //it will be changed with environment or spec stat.
+
+    const enemy_base_damage = attacker.stats.attack;
+
+    let damage_dealt;
+
+    let critted = false;
+
+    let partially_blocked = false; //only used for combat info in message log
+
+    damage_dealt = enemy_base_damage
+    let vibra_d = 1;
+    vibra_d =  (1.2 - Math.random() * 0.4); //basic 20% deviation for damage
+    
+    
+    if(spec_hint == undefined) spec_hint = "";
+    let spec_mul = 1;
+    
+    if(attacker.spec.includes(5))//牵制
+    {
+        spec_mul *= attacker.stats.defense/character.stats.full.defense;
+        if(spec_mul == Infinity) spec_mul = 9999.99;//防止除以0
+    }
+    if(attacker.spec.includes(51))//压制
+    {
+        spec_mul *= (attacker.stats.defense+attacker.stats.attack)/(character.stats.full.defense+character.stats.full.attack_power);
+        if(spec_mul == Infinity) spec_mul = 9999.99;//防止除以0
+    }
+    if(attacker.spec.includes(52))//压制·伪
+    {
+        let QZ_P = global_flags[	
+;
+        }
+    }
+    if(active_effects["散华 B9"]!=undefined){
+        E_atk_mul_f *= Math.max(( 1 - ((character.stats.full.health/attacker.stats.health) ** 0.5) * 0.1),0);
+        spec_hint += 	
+场上增加了3只【心之灵·暴走】！	
+【心之灵·暴走】的攻击与血量提高了5%！	
+获取了1点【灵魂之力】！	
+装备槽里的姐姐回家了！	
+{\"id\":\"纳娜米\",\"quality\":100}	
+物品栏里的姐姐回家了！	
+[纱雪]诶诶，怎么哪里都找不到姐姐啊。	
+[纱雪]真的打掉了那只100倍属性的地宫耶！好厉害！	
+[纱雪]那么，作为给胜利者的小奖励，	
+[纱雪]这-9999极的经验就送你啦。	
+{\"id\":\"纳娜米(飞船)\",\"quality\":130}	
+[纱雪]真的打掉了那只4200亿血的中枢耶！好厉害！	
+[纱雪]这只姐姐就留给你保管啦。	
+[纱雪]为性能考虑，【地宫养殖者】前的商人将不再进货。	
+击败左阿！自动切换地图【幻境核心·出口】！	
+【幻境核心·决战】已封锁且无法进入！	
+所有状态效果已清除！	
+[纱雪]为性能考虑，【舰船中枢B6】前的商人将不再进货。	
+在古墓里发现了一颗中等进化结晶碎片！	
+峰大哥演示了月轮的使用方法，【银霜月轮】获取了9999兆 经验！	
+[纱雪]宝石的力量超越了极限……触发了【大坍缩】！	
+你已获取1无限点，请移步AntiNeko Dimensions 领取。	
+宝石提供的所有属性已经清空！	
+新的一天开始了！原能辐射浓度略有下降。	
+ 上钩了！	
+ 逃跑了！	
+钻探地层，发掘出了	
+反应堆因温度过高熔毁了！！！	
+获取了 初等进化结晶(反应堆内辐射已清除)	
+玄冰果实 已开始吸取冰元素 !	
+你的【飞船之心】已经被转化为【飞船之心·材】，	
+可以继续升级为【冰原之心】。	
+请将【飞船之心】佩戴后再次尝试！`	
+纳可老祖，被族人簇拥的滋味好受吗？	
+现在关于你的消息可是不胫而走哦？	
+要不是在荒兽森林我抢来了牵制药水的配方，	
+或许我也和炎塔他们一样，	
+成为十三斧下的亡魂了吧。	
+多说无益！来战！！	
+等会，有话好好说，先别拔月轮，我不是来找事的！	
+如此如此，这般这般……总之纳家先祖于我有救命之恩，无以为报。	
+小友这些日子也闯出了些名气，不如和我切磋一场？	
+我只用六成力量，如果让我满意，就教你一种全新的突破思路~	
+或许你可以考虑把玉简卖了。	
+所有[1]常规工作 已经改为 [2]秘境试炼！	
+计划每日新生儿数目已经自动归零！	
+计划每日新生儿数目已经归零！	

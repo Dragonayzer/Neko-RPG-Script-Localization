@@ -1,0 +1,288 @@
+# done_main (_todo rows 1-277). KEY = _todo ROW NUMBER (srclines collide). ${...}/<span>/<img> preserved verbatim.
+# Dynamic ${} strings need regex/substring wiring at rebuild (rendered value replaces the interpolation).
+1	You've gained the ability to gather materials!
+2	You've gained the ability to craft items and gear!
+3	The evolution path to comprehending 【Ember】 has been opened!
+4	You've mastered the method to condense the 【Basic Evolution Crystal】!
+5	You've mastered the method to craft the 【Silver Frost Moonwheel】!
+6	The 【Family System】 is now active! (third tab, bottom-right)
+7	[ Enter ${location.name} ]
+8	${character.name} finished ${ActivityEndMap[current_activity.activity_name]}
+9	This activity has been performed ${current_activity.done_actions} times
+10	Unlocked activity "${activity_data.activity.activity_name}" - "${activity_data.location}"
+11	a brush with death,<br>and now I understand what Father meant.
+12	Already mid Earth-Tier and still not going?<br>Keep this up and don't call yourself my daughter!<br>
+13	Your self-created swordplay<br>is enough to let you display strength beyond Earth-Tier Rank 5.<br>
+14	…wait, you've already beaten Baifang to tears???<br>
+15	Once your training bears fruit, a mere Baifang is naturally nothing to fear!<br>
+16	The Family Secret Realm opens once every six months.<br>For now, stay with the family<br>and consolidate your current realm and strength.
+17	<br><br>Skipped ${Math.floor(T/10800)} Bloodfall days, ${Math.floor((T%10800)/60)} hours, ${T%60} minutes of in-game time.
+18	<br><br>During this time, ${character.name} cultivated and gained ${format_number(Math.sqrt(T*1e10))} XP!
+19	The current spirit-array strength is ${inf_combat.A6.cur} layers,<br>and the cap is ${inf_combat.A6.cap} layers!
+20	<br>Current effects:<br>Enemy stats +${inf_combat.A6.cur*8}%<br>Loot +${(Math.pow(1+inf_combat.A6.cur*0.08,1)*100-100).toFixed(2)}%<br>XP +${(Math.pow(1+inf_combat.A6.cur*0.08,1.5)*100-100).toFixed(2)}%
+21	Power increased! Current strength: ${inf_combat.A6.cur-1} -> ${inf_combat.A6.cur}
+22	The spirit-array power has reached the absolute cap 【9999】.
+23	The spirit-array power has reached its current cap…<br>To raise it further, clear the enemies again first.
+24	Power maxed! Current strength: ${d_cur} -> ${inf_combat.A6.cur}
+25	Power lowered! Current strength: ${inf_combat.A6.cur+1} -> ${inf_combat.A6.cur}
+26	If you want a spirit-array of fewer than five layers, just go to the earlier zones…
+27	To reach the Barrier Lake at the realm of <span class="realm_terra">${window.REALMS[character.xp.current_level][1]}</span>,<br>at the age of ${age},<br>you are already a most excellent descendant of the Na Family.
+28	<br>  If a genius were born to my Na Family,<br>perhaps it could flourish anew and avenge the grudge I left unfinished.<br>
+29	Has the barrier loosened to this degree already…<br>Before, this place could only admit cultivators below mid Earth-Tier.<br>
+30	Wow!!! So young — my Na Family's revival is at hand!<br>
+31	I'm thinking… I've slumbered here less than one epoch,<br>and the universe's rules outside have changed?<br>Earth-Tier should only have a 0.1-epoch lifespan…<br>
+32	Hey now, isn't this a Secret Realm for the Na Family's young ones…<br>
+33	Eh, how old… never mind. With insight, it's never too late to begin!<br>
+34	<br><br> Gained 9.999e11 【Technique Mastery】 XP.
+35	So far, ${character.name}<br>has dealt ${killcount} kills.<br><br>
+36	To go without needless slaughter in a world like this,<br>${character.name}, even in all the Yangang Fief,<br>is one of the most unblemished late-Earth-Tier powerhouses.
+37	On the cruel Bloodfall Continent,<br>the weak being prey to the strong is only natural.<br>So long as your conscience is clear,<br>enemies are but stepping-stones on the road ahead.
+38	Each time a cold enemy turns into warm<br><b>gems, Knife Coins, and value points,</b><br>${character.name} feels a warm current rise from her heart.<br>Much slaughter may, in the distant future, aid the absorption of Bloodfall Crystal,<br>but more important still is not to lose your reason to bloodlust.
+39	Pure ${character.name}<br>Kind ${character.name}<br>Good child ${character.name}<br>This is a game<br>Let me see just how filthily<br>you can fall
+40	This statue isn't enough to bless a powerhouse like ${character.name}…
+41	Based on ${format_number(C_HP)} life force,<br>one blessing costs ${format_money(Math.round(C_HP ** 1.35))}<br>
+42	<br>The current moon phase is ${MM1[C_moon]},<br>the blessing content is ${MM2[C_moon]}. (1800s)
+43	<br>⚠️Accepting the Bright Moon blessing clears existing status effects⚠️
+44	This statue can only clear effects for a powerhouse like ${character.name}…
+45	Based on ${format_number(C_HP)} life force,<br>one blessing costs ${format_money(Math.round(C_HP ** 1.4))}<br>
+46	<br>The current period is ${MM1[C_time]},<br>the blessing content is ${MM2[C_time]}. (1800s)
+47	<br>⚠️Accepting the Blazing Sun blessing clears existing status effects⚠️
+48	Ding~ insufficient balance!<br> ${format_money(character.money)} / ${format_money(C_money)}
+49	Wallet: ${format_money(character.money)} ->
+50	All existing status effects have been purified by the Bright Moon!
+51	All existing status effects have been purified by the Blazing Sun!
+52	On seeing this ice-blue six-pointed star array, I confirmed many things…<br>
+53	The water-element Technique I once comprehended,<br>
+54	has completely fused with the fire-element Domain.<br>
+55	To think… such a marvelous phenomenon could arise.<br>
+56	Two mutually exclusive elements should be extremely hard to reconcile.<br>
+57	But once the perfect critical point is reached,<br>
+58	one can step into the profound realm of 【Ice-and-Fire Duality】,<br>
+59	bursting forth with unbelievable power!<br>
+60	, 【Flame Spirit Sea】 gained 5.12e21 XP!<br>
+61	【Flame Sea, Frost Sky】 gained 5.12e21 XP…?<br>
+62	How has the insight broken through again?! Way too grindable!!<br>
+63	Your 【Heart of the Barrier Lake】 has been converted into 【Heart of the Barrier Lake · Material】,<br>which can be further upgraded into the 【Heart of the Spaceship】.
+64	Please equip the 【Heart of the Barrier Lake】 and try again!
+65	Your 【Heart of the Ice Field】 has been converted into 【Heart of the Ice Field · Material】,<br>which can be further upgraded into the 【Heart of the Illusory Realm】.
+66	Please equip the 【Heart of the Ice Field】 and try again!
+67	(pat) Koko, Sky-Tiers generally don't run fevers, you know.<br>Hasn't she been kept by your side all along, unwilling to let go?<br>
+68	Yes, she left in a hurry.<br>Nana, that child, has the heart of a powerhouse too.<br>
+69	The Neko sisters cultivated for only ${current_game_time.day_count} days, yet both broke through to Sky-Tier,<br>truly a rare thing in the Yangang Fief. Countless people came to congratulate them.<br>They brought gifts totaling ${format_money(hx_money)}.<br>Nabu added another 20% on top,<br>and split it evenly between Neko and Nanami.<br>Neko received ${format_money(Math.round(hx_money * 0.6))}
+70	[Nabu] Don't worry too much about your sister.<br>Just cultivate well until you're fully grown,<br>and then go assist her.<br>
+71	I said, the "bait" has been laid!!<br>Even if you have spare fragments, you must finish off this one first!
+72	The "bait" has been laid… (Ancient Tomb Battle - II unlocked)
+73	<img src='image/item/evolve_1e16_shard.png'>Intermediate Evolution Crystal Fragments — not enough…
+74	Consumed ${C_pz * T_cnt} Wildbeast Tokens,<br>
+75	exchanged for ${T_cnt} ${pz_map[T_S]}.<br>
+76	No 【<img src='image/item/B3_ear.png'>Wildbeast Token】 found!<br>The exchange point needs it to trade for items…
+77	【<img src='image/item/inherit_pink.png'>Legacy Crystal · Pink】 insufficient! ${cur_cnt} / ${cur_cost}
+78	No 【<img src='image/item/inherit_pink.png'>Legacy Crystal · Pink】 found!<br>It's required for the gacha…
+79	Tip: assembling Wheel Blade + Wheel Hub is now unlocked
+80	【Flame Sea, Frost Sky [Domain Tier 2]】 gained 1.68e24 XP!<br>
+81	【Flame Sea, Frost Sky [Domain Tier 3]】 gained 1.68e24 XP!<br>
+82	This time… breaking through early isn't surprising at all (lol!<br>
+83	【Flame Sea, Frost Sky [Domain Tier 3]】 gained 6.4e25 XP!<br>(By now,<br>after facing a Domain-Tier powerhouse<br>and feeling the pressure of their Domain,<br>the Tier-4 Domain, already near breakthrough,<br>has finally taken its last step.)
+84	【Cloudrise, Moonfall [Domain Tier 4]】 gained 6.4e25 XP!<br>
+85	Sorry, Shaxue went off to take the gaokao… forget breakthroughs, some people are already level 48! Meowww!<br>
+86	[Lord of Inner Demons] Hmph, Self-Destruct!<br>Even a Skyhigh-Tier powerhouse probably couldn't withstand 1.6e13 damage!<br>
+87	…Hah? Suppression ${100 - qz_perc}%, Restraint ${qz_perc}%?<br>
+88	Hahaha—— so what if I fear Restraint?<br>A skill you don't have, how could I ever imitate?<br>Forced erasure! Gathering all the Inner Demon's power,<br>I swear to make you… slumber forever!
+89	You even peeked at the Restraint book, one of the Yangang Fief's five forbidden tomes!<br>Never used it yourself, don't even want to…<br>just to screw me over?!<br>…Forced erasure… gathering power…<br>making you slumber forever!
+90	The Restraint book truly deserves its place among the Yangang Fief's five forbidden tomes…<br>Damn, less than a tenth of my power remains.<br>Where on earth did you get this?<br>Those grubby merchants outside,<br>or some long-sealed old tomb?<br><br>Sigh, can we make peace?
+91	The ranking's original number two wasn't Lanqi either, but <span style='color:aqua'>Binglan</span>.<br>However, she fell in the darkness before dawn…
+92	See, the one beside me isn't Lanqi either, but <span style='color:aqua'>Binglan</span><br><br>[Binglan] …mm-hm…
+93	Qiuxing, for instance, is one such case…<br>but there's no need to worry the Ice Clan will issue a kill order.<br>As a deathsworn, perishing in the danger-fraught Water Prison<br>is only to be expected.
+94	<br>[Qiuxing] Aw, come now, miss.<br>Isn't that a bit too cruel a way to put it?<br>The Head treated us well;<br>we were only following orders.
+95	[Neko] So, the reason the ranking was drawn up was to…<br><br>[Bing Xiyue] Oh my, you'll have to ask Binglan about that…<br>the latest edition of the ranking was arranged entirely by her.
+96	[Neko] So, Lanqi… Miss Binglan,<br>the reason the ranking was drawn up was?<br><br>[Binglan] …Zuo'a is a deeply wary man.<br>I kept my strength held at Sky-Tier Rank 6;<br>over time, he would surely have grown suspicious.<br>The 【ranking】 was a disguise,<br>letting Zuo'a mistake me for the sort who enjoys lording it over others.<br><br>[Moore] Yes, and in that old thief's eyes,<br>such a ranking even seemed to benefit his rules of slaughter.<br>Heh, he thought he could easily control the whole board too.
+97	[Binglan] You two — a great kindness needs no thanks.<br>From now on, wherever my clan's bloodline reaches,<br>we will honor you both as guests of honor,<br>and even at the cost of our lives, we will keep you safe.<br><br>[Bing Xiyue] Ooh, quite the presence.<br>Say, Little Lan, you've said this much all at once today? How rare.<br>It's time — let's go home.<br>Miss Neko… thank you.<br>Take this; until we meet again.<br><br>Bing Xiyue waved a jade hand,<br>and a jade tablet inscribed with the character <span style='color:aqua'>Ice</span> fell into Neko's hands.
+98	[Bing Xiyue] You two — though there was some friction,<br>grudges are better resolved than deepened;<br>after all, miss, you're the only one to successfully break the deadlock.<br>Miss Neko… thank you.<br>Take this; until we meet again.<br><br>Bing Xiyue waved a jade hand,<br>and a stack of 369 <span class='coin coin_moneyQa' >Cosmic Coins</span> fell into Neko's hands.
+99	[Bing Xiyue] You two…<br>though you were the ones who broke the deadlock,<br>your killing intent really is too heavy.<br>Before you kill me,<br>I'd best slip away first.<br><br>Bing Xiyue pinched her fingers,<br>crushing a jade tablet inscribed with the character <span style='color:aqua'>Ice</span>,<br>and her figure too dispersed into the air.
+100	${age} years!!<br>
+101	Everyone in the family said you'd be back soon.<br>Looks like I worried for nothing.
+102	Although Brother Feng suggested that training spot…<br>still, don't stay away so long in the future, all right?<br>
+103	Good thing you still remembered to come back…<br>any later and the family wouldn't know who'd inherit it.
+104	All Yangang City was abuzz that the once-dazzlingly-talented Neko sisters<br>had both fallen in that inescapable Ice Palace!<br>A few years later and you'd probably not have found the Na Family at all.
+105	${character.name} obtained "${item_id}"
+106	Unlocked new merchant: ${trader.name}
+107	Undefined dialogue: NPC[${dialogue_name}] - dialogue[${textline.unlocks.textlines[i].lines[j]}]
+108	Unlocked a Technique: "${stances[stance_id].name}"
+109	[Ice Seal${bfs_mul==0?"· Immunity":""}]
+110	The Heart Spirit's phantom flickers. You can't fall yet!
+111	Bled out and fainted outside the combat zone - automatically returned to bed!
+112	 health.
+113	 damage.
+114	In barely a tenth of a second, the weapon in Nanami's hand burst with dazzling silver-white light. With a thunderous boom, the entire spaceship seemed to tremble!
+115	Struck by the recoil, Nanami didn't budge. Compared to the Crypt trip, she'd risen a full seven ranks in cultivation, and would no longer be made to spit blood by mere kickback.
+116	[Nanami] Pfft… do I look like anything's wrong! Hurry and finish off the Spaceship Nexus!
+117	The Warship Nexus B6, struck head-on by the weapon, took no light wound, its parts flying everywhere.
+118	Its health has been reduced to 1.
+119	In barely a tenth of a second, …who was it again? Is she here?
+120	[Shaxue] The Laser Gun attack is gone, and attack and health are at an absolute disadvantage…
+121	[Shaxue] Then, relying on high Agility and speed,
+122	[Shaxue] let's shatter this big, dumb Nexus bit by bit!
+123	If the enemy's attack is less than 2x yours, damage you take is reduced by half of (your Defense / enemy Defense). Otherwise, it's increased by twice (your Defense / enemy Defense). This effect won't lower damage below 0.
+124	${attacker.name} delayed ${character.name}'s attack by 0.5 turns! [Fire-Blowing Palm].
+125	Gained a new insight [Scorch]!
+126	A fiery-red six-pointed star slowly rose,
+127	the temperature of this area rose sharply,
+128	even the spaceship's floor seemed to warp under the searing heat.
+129	Gained a new insight [Flame Spirit Sea]!
+130	Water, nourishing all things, gentle and graceful…
+131	Fire, cruel and violent, yet illuminating all, kindling hope.
+132	Gained a new insight [Flame Sea, Frost Sky]!
+133	[Deepfrost Phase-Change Engine] - [Flame Sea] / [Frost Sky] environments are now unlocked!
+134	The Domain 【Flame Sea, Frost Sky】 has advanced to Tier 3! Check the equipment slot for details!
+135	Comprehended the Tier-4 Domain 【Cloudrise, Moonfall】! Check the equipment slot for details!
+136	The Domain 【Cloudrise, Moonfall】 has advanced to Tier 5! Check the equipment slot for details!
+137	The Domain 【Cloudrise, Moonfall】 has advanced to Tier 6! Check the equipment slot for details!
+138	${character.name}'s Health Cap increased by 20%!
+139	${character.name}'s Attack/Defense/Agility increased by 1e8!
+140	【Zuo'a】's seal complete — all stats reduced 10081-fold!
+141	${character.name} poured all her soul-power into the illusion! Attack/Defense/Agility increased by 5e8!
+142	${character.name} gained a 60s 【Sluggish】 effect!
+143	3 【Heart Spirit · Rampage】 added to the field!
+144	【Heart Spirit · Rampage】's attack and health increased by 5%!
+145	Gained 1 point of 【Soul Power】!
+146	${character.name} gained a 20s 【Deadline】 effect!
+147	${character.name} gained a 60s 【Deadline】 effect!
+148	Swamp radiation spread: ${format_number(inf_combat.B3)} % -> ${format_number(inf_combat.B3 + 0.004)} %
+149	The Sister in the equipment slot has gone home!
+150	{"id":"纳娜米","quality":100}
+151	The Sister in the inventory has gone home!
+152	[Shaxue] Huh? Why can't I find Sister anywhere?
+153	[Shaxue] You actually beat that 100x-stat Crypt one! Amazing!
+154	[Shaxue] So, as a little reward for the victor,
+155	[Shaxue] here's -9999 Ji of XP for you.
+156	{"id":"纳娜米(飞船)","quality":130}
+157	[Shaxue] You actually beat that 4.2e11-health Nexus! Amazing!
+158	[Shaxue] This Sister I'll leave in your care.
+159	[Shaxue] For performance reasons, the merchant before the 【Crypt Breeder】 will no longer restock.
+160	Zuo'a defeated! Auto-switching to map 【Illusory Realm Core · Exit】!
+161	【Illusory Realm Core · Final Battle】 is sealed and cannot be entered!
+162	All status effects cleared!
+163	[Shaxue] For performance reasons, the merchant before the 【Warship Nexus B6】 will no longer restock.
+164	${character.name} recovered ${format_number(character.stats.full.health - pre_health)} health [Lifesteal ${(1+skills["ReflectStarSkyRainbow"].current_level*0.1).toFixed(1)}%]
+165	Unlocked new skill: ${skill.name()}
+166	Unlocked new skill: ${unlocked_skill.name()}
+167	Skill ${prev_name} upgraded to ${new_name}
+168	Found an Intermediate Evolution Crystal Fragment in the ancient tomb!
+169	Brother Feng demonstrated how to use the Moonwheel; 【Silver Frost Moonwheel】 gained 9.999e15 XP!
+170	Scavenged the ruins and obtained ${format_money(Math.floor(RNG_M * money))}.
+171	${character.name} senses the air of wealth and trade nearby…
+172	First time clearing ${location.name}, gained ${format_number(location.first_reward.xp)} XP
+173	In battle, ${character.name} gained the insight to break through to Earth-Tier.
+174	Cleared ${location.name}, gained an extra ${format_number(location.repeatable_reward.xp)} XP
+175	In battle, ${character.name} again randomly gained the insight to break through to Earth-Tier.
+176	You should talk to ${location.repeatable_reward.textlines[i].dialogue}
+177	Spirit-array strength cap released: ${inf_combat.A6.cur} -> ${inf_combat.A6.cap}!
+178	Unlocked location ${location.name}
+179	Crafted ${item_templates[result_id].getName()} x${count}
+180	Failed to craft ${item_templates[result_id].getName()}!
+181	Crafted ${result.getName()} [Quality ${result.quality}%]
+182	Auto-switched material: ${component_1_key}
+183	Auto-switched material: ${component_2_key}
+184	Batch-crafted ${item_templates[result_id].getName()}, of which ${cnt_s}/${cnt} succeeded
+185	Truly-batch-crafted ${item_templates[result_id].getName()} x${count} (${max_todo} rounds)
+186	Batch-crafted ${latest_comp} * ${cnt - 1}, of which the highest quality was ${cnt_b} %
+187	Truly-batch-crafted ${result.id} * ${c_ttl}, of which the highest quality was ${q_range[1]} %
+188	Truly-batch-crafted ${cnt - 1} pieces of gear, of which the highest quality was ${cnt_b - 1e12} %
+189	Batch-crafted ${cnt - 1} pieces of gear, of which the highest quality was ${cnt_b} %
+190	As the Rune Workbench Kit was set down, a small house rose from the ground. In these ruins, ${character.name} gained a warm haven.
+191	Melody Alloy as the piston, Porous Ice Crystal as insulation, Ice Field Superfluid as heat capacity… the Ice Field's environment is harsh, yet ${character.name} mastered a clever way to use it.
+192	Freed the ${inf_combat.B6}th Ice Palace Merchant!
+193	Restock multiplier ${(inf_combat.B6 ** 0.8).toFixed(2)}x, quality bonus: ${(Math.log(inf_combat.B6) * 9).toFixed(1)}%
+194	The previous 9999 merchants have already monopolized the Yangang Fief's trade! Catching more is useless!
+195	Obtained ${Rnd} from the B9 · Mystery Potion! (${cnt} / 5)
+196	Restraint insight raised to ${global_flags["qz_percent"]}%!
+197	Your realm is <span class=realm_${window.REALMS[character.xp.current_level][5]}>${window.REALMS[character.xp.current_level][1]}</span>, which exceeds <span class=realm_${window.REALMS[item_templates[id].realmcap][5]}>${window.REALMS[item_templates[id].realmcap][1]}</span>, so ${item_templates[id].name} cannot be used
+198	Used ${item_templates[id].name},
+199	Truly-batch-used ${gem_cnt} ${item_templates[id].name}
+200	Attack + ${format_number(G_value*SCGV*(FSCM[0] - CSCM[0]))} (soft cap ${format_number(CSCM[0])}x -> ${format_number(FSCM[0])}x)
+201	Defense + ${format_number(G_value*SCGV*(FSCM[1] - CSCM[1]))} (soft cap ${format_number(CSCM[1])}x -> ${format_number(FSCM[1])}x)
+202	Agility + ${format_number(G_value*SCGV*(FSCM[2] - CSCM[2]))} (soft cap ${format_number(CSCM[2])}x -> ${format_number(FSCM[2])}x)
+203	Health + ${format_number(G_value*SCGV*HPMV*(FSCM[3] - CSCM[3]))} (soft cap ${format_number(CSCM[3])}x -> ${format_number(FSCM[3])}x)
+204	${format_number(R_value)}[soft cap]
+205	Used ${item_templates[id].name}, gained ${format_number(E_value*E_modi)} XP${E_modi==1?"":
+206	Due to incomplete energy absorption, some genetic primal-energy overflowed!
+207	Swamp radiation spread: ${format_number(inf_combat.B3 )} % -> ${format_number(inf_combat.B3 + 10 * (1 -  E_modi))} %
+208	{"id":"B9·??药剂"}
+209	Batch-used ${Math.round(B9_all/5)} B9 · Mystery Potions.
+210	Due to excessive quantity (>100), split evenly across the 4 potion types.
+211	Batch-used ${cnt} ${id}.
+212	Gained ${format_number((A1-A0)||0)} Attack, ${format_number((D1-D0)||0)} Defense, ${format_number((G1-G0)||0)} Agility, ${format_number((H1-H0)||0)} Health.
+213	[Shaxue] The gems' power exceeded the limit… triggered 【The Great Collapse】!
+214	You've gained 1 Infinity Point; please head to AntiNeko Dimensions to claim it.
+215	All stats provided by gems have been cleared!
+216	A new day begins! The primal-energy radiation concentration has dropped slightly.
+217	Swamp radiation spread: ${format_number(inf_combat.B3)} % -> ${format_number(B3_after)} %
+218	 took the bait!
+219	 got away!
+220	Harvest check: 1d1000000 = ${light_rnd}/${light_chance}
+221	Success! Obtained 【Radiance-Devouring Orchid】 *1.
+222	Drilled through the strata and unearthed
+223	The reactor melted down due to excessive temperature!!!
+224	Obtained Gel Sword Hilt (Quality
+225	Obtained Basic Evolution Crystal (radiation inside the reactor cleared)
+226	Awakening ${(inf_combat.FE.fruit / 1e4).toFixed(4)}%
+227	Extracted ${r_id} x ${count} !
+228	The Mystic Ice Fruit has begun absorbing ice element!
+229	Extracted ${q_id} !
+230	Your 【Heart of the Spaceship】 has been converted into 【Heart of the Spaceship · Material】,
+231	which can be further upgraded into the 【Heart of the Ice Field】.
+232	Please equip the 【Heart of the Spaceship】 and try again!`
+233	<span class='realm_sky'>[Baifang]</span>: After bitterly searching all these years, I've finally found you…
+234	Ancestor Neko, how does it feel to be surrounded and adored by your kin?
+235	News about you has spread far and wide now, you know?
+236	If I hadn't snatched the Restraint Potion recipe in the Wildbeast Forest,
+237	perhaps I too, like Yanta and the others,
+238	would've become a wraith under the Thirteen Axes.
+239	No use talking! Let's fight!!
+240	<span class='realm_cloudy'>[Feng Xinghong]</span>: After bitterly searching all these years, I've finally found you…
+241	Wait, let's talk it out — don't draw your Moonwheel, I'm not here to pick a fight!
+242	So-and-so, thus-and-thus… in short, the Na Family ancestor once saved my life, a debt I can't repay.
+243	You've made a bit of a name these days, my friend — how about a spar with me?
+244	I see you've been stuck at <span class='realm_sky'>Sky-Tier Limit-Break</span> for some time now.
+245	<img src='image/item/evolve_1e16_shard.png'>Intermediate Evolution Crystal Fragments alone aren't enough to break the realm barrier,
+246	and it's hard to smelt them into a complete <img src='image/item/evolve_1e17.png'>Intermediate Evolution Crystal — troublesome, isn't it?
+247	I'll use only sixty percent of my strength; if you satisfy me, I'll teach you a whole new approach to breaking through~
+248	${family_data.mem[0].break * -1} days after seizing the seat, the first Na Family prodigy returned to <span class='${realm_rate[r][4]}'>${realm_rate[r][3]}!
+249	{"id":"冰家玉简"}
+250	<span class='realm_sky'>Qiuxing 【Sky-Tier Rank 8】</span> joined the new Na Family!
+251	<span class='realm_sky'>Binglan 【Sky-Tier Peak】</span> joined the new Na Family!
+252	Perhaps you might consider selling the jade tablet.
+253	<span class='realm_sky'>Nanami 【Sky-Tier Rank 4】</span> joined the new Na Family!
+# 254/255/261 name the family strategies, so they are worded to match the
+# <select> labels in glossary/12_ui_exact.tsv verbatim - a message telling you
+# to look for "[2] Secret Realm Trials" in a menu that says "[2] Family Trial"
+# is worse than useless. 255's source says [2]秘境试炼, which is not one of the
+# five options; option 2 is 家族试炼. Translated as the option that exists.
+# 261 keeps its two ${} slots in the SOURCE order on purpose: format_money()
+# returns markup, so the node splits there, and add_html_slot_frags() can only
+# pair the literals either side when both languages agree on slot order. The
+# earlier wording put the money first and the whole line stayed Chinese.
+254	Too many were set to [1] Regular Work, so the family's net profit was only ${format_money(family_data.re_gain)}, and Neko went bankrupt!
+255	All [1] Regular Work has been changed to [2] Family Trial!
+256	Which genius came up with wanting ${family_data.baby} children!
+257	The planned daily number of newborns has been auto-reset to zero!
+258	What's the thinking behind wanting ${family_data.baby} children!
+259	Is the fractional part ${((family_data.baby-Math.floor(family_data.baby))*5)} bits of insight?!
+260	The planned daily number of newborns has been auto-rounded to ${Math.round(family_data.baby)}!
+261	Couldn't cover the ${format_number(family_data.baby )} newborns' ${format_money(get_baby_cost(family_data.baby))} cost, so Neko went bankrupt!
+262	The planned daily number of newborns has been reset to zero!
+263	<span class='realm_terra'>Earth-Tier Rank 1</span> unlocks Heart Realm - Tier 1!
+264	<b>${s_color}Gem Devourer</span> </b> - Devours gems, providing a global skill-XP bonus<br>
+265	<div id = 'gem_consumer' class = 'gem_consume_button' onclick='gem_consume()'>Devour all gems in inventory</div>
+266	Current Devoured Value Points: ${s_color}${format_number(inf_combat.VP.num)}</span> <br>(Bonus: ${s_color}${format_number(Math.pow(inf_combat.VP.num+1,0.07)*100-100)}%</span>)<br><br><br><br>
+267	<span class='realm_sky'>Sky-Tier Rank 1</span> unlocks Heart Realm - Tier 2!
+268	<b><span style="color:cyan">God of Greed</span> </b> - Sacrifices money, providing a global luck bonus<br>
+269	<div id = 'coin_consumer' class = 'coin_consume_button' onclick='coin_consume()'>Sacrifice currency of Treasure-tier or higher from inventory</div>
+270	Current Sacrificed Amount: <span style="color:cyan">${format_money(inf_combat.MP*1e12)}</span> <br>(Bonus: <span style="color:cyan">${(format_number((Math.pow(inf_combat.MP+1,0.10)-1)*100))}%</span>)<br><br><br><br>
+271	<span class='realm_cloudy'>Skyhigh-Tier Rank 1</span> unlocks Heart Realm - Tier 3!
+272	<b><span style="color:#ff11dd">Altar of Faith</span> </b> - Refines Influence <img src='image/item/B9_soul.png'>, delaying the gem soft cap<br>
+273	<div id = 'influ_consumer' class = 'influ_consume_button' onclick='influ_consume()'>Refine 1% of the Na Family's Influence</div>
+274	<span style="color:lightskyblue">Influence Refined: ${format_number(inf_combat.InP)}<img src='image/item/B9_soul.png'></span> <br>(Bonus: <span style="color:#ff11dd">+${(format_number(0.5*(Math.log10(inf_combat.InP+1) ** 1.5)))}</span>)<br><br><br><br>
+275	Insufficient balance! (${format_money(character.money)} / ${format_money(value)})
+276	Wallet: ${format_money(character.money)} -> ${format_money(character.money - value)}
+277	Obtained ${coin} x ${coin_num} !

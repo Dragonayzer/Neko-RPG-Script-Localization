@@ -1,0 +1,1320 @@
+// ==UserScript==
+// @name         NekoRPG Game Text Localizer
+// @namespace    dragonayzer.userscripts
+// @version      4.0
+// @description  Translate game UI text via CSS selectors, plus item names in recipe tooltips, recipe names, and material option previews (ENABLE_ITEM_NAMES to toggle)
+// @match        https://btly0711-github-io.translate.goog/NekoRPG/*
+// @run-at       document-start
+// @grant        none
+// ==/UserScript==
+
+// 3.9: added locations
+// 4.0: added crafting preview slot translation
+
+(function () {
+    'use strict';
+
+    // ---- General TODO ---------------------------------------------------
+    // - 万-suffixed numbers (e.g. "276.47万" = 2,764,700) are currently
+    //   left as-is everywhere. Converting these to scientific notation
+    //   (or plain comma-grouped numbers) for English readability is a
+    //   separate task from text translation and hasn't been started.
+    // -----------------------------------------------------------------
+
+    // ---- Style overrides (not text translation) ----------------------
+    // Plain CSS fixes for spacing/layout issues, injected once. Unlike
+    // everything else in this script, these don't need rescanning —
+    // a CSS rule applies automatically to every matching element,
+    // including ones added later. !important is used since it's not
+    // known whether the original value comes from an inline style or
+    // the game's own stylesheet, and this guarantees the override wins
+    // either way.
+    const styleOverrides = document.createElement('style');
+    styleOverrides.textContent = `
+        #trader_cost_mult_value { padding-top: 0px !important; }
+    `;
+    (document.head || document.documentElement).appendChild(styleOverrides);
+    // -------------------------------------------------------------------
+
+    // ---- Item name translation (separate subsystem) -----------------
+    // Flip to false to instantly disable item-name translation if it
+    // turns out to cost too much FPS, without touching anything else
+    // in this script.
+    const ENABLE_ITEM_NAMES = true;
+
+    // Full Chinese item name -> English name. Exact match only (not
+    // substring search) — with 400+ entries, a shorter name being
+    // contained inside a longer, unrelated one becomes likely (this is
+    // the 剑/巨剑徽章 bug), so this list intentionally does not use the
+    // same matching approach as the rest of the script.
+    const itemNames = {
+        '精钢镐': 'Steel Pickaxe',
+        '紫铜镐': 'Copper Pickaxe',
+        '晶化钻头': 'Crystallized Drill',
+        '死神之镰': 'Reaper\'s Scythe',
+        '暗影斧': 'Shadow Axe',
+        '充能斧': 'Charged Axe',
+        '宝石吊坠': 'Gem Pendant',
+        '生命之眼': 'Eye of Life',
+        '人造茸茸': 'Synthetic Fluff',
+        '巨剑徽章': 'Giant Sword Emblem',
+        '玻璃小炮': 'Small Glass Cannon',
+        '水火徽章': 'Water-Fire Emblem',
+        '三相徽章': 'Tri-Phase Emblem',
+        '摩羽巨币': 'Giant Moyu Coin',
+        '玻璃大炮': 'Large Glass Cannon',
+        '长明灯': 'Eternal Lamp',
+        '荒兽傀儡': 'Wildbeast Puppet',
+        '光环法杖': 'Aura Staff',
+        '冰刺装甲': 'Ice Spike Armor',
+        '虹彩灯球': 'Iridescent Orb',
+        '传承水晶·彩': 'Legacy Crystal · Prism',
+        '幻符灵阵': 'Phantom Rune Array',
+        '伊芙': 'Eve',
+        '凝滞力场': 'Stasis Field',
+        'C1镭射枪·残': 'C1 Laser Gun · Damaged',
+        '血灵骨网': 'Bloodspirit Bone Net',
+        '伪·焚血花王': 'Pseudo-Bloodflame Flower King',
+        '三月断宵': 'Severed Night of the Third Moon',
+        '星解之术': 'Art of Star Release',
+        '映星紫华': 'Starmirror Violet',
+        '微火': 'Ember',
+        '燃灼术': 'Scorch',
+        '火灵幻海[领域一重]': 'Flame Spirit Sea [Domain Tier 1]',
+        '焰海霜天[领域二重]': 'Flame Sea, Frost Sky [Domain Tier 2]',
+        '焰海霜天[领域三重]': 'Flame Sea, Frost Sky [Domain Tier 3]',
+        '出云落月[领域四重]': 'Cloudrise, Moonfall [Domain Tier 4]',
+        '出云落月[领域五重]': 'Cloudrise, Moonfall [Domain Tier 5]',
+        '出云落月[领域六重]': 'Cloudrise, Moonfall [Domain Tier 6]',
+        '纳娜米': 'Nanami',
+        '纳娜米(飞船)': 'Nanami (Spaceship)',
+        '纳娜米(冰原)': 'Nanami (Ice Field)',
+        '结界湖之心': 'Heart of the Barrier Lake',
+        '飞船之心': 'Heart of the Spaceship',
+        '冰原之心': 'Heart of the Ice Field',
+        '幻境之心': 'Heart of the Illusory Realm',
+        '铁剑刃': 'Iron Sword Blade',
+        '精钢剑刃': 'Steel Sword Blade',
+        '紫铜剑刃': 'Copper Sword Blade',
+        '宝石剑刃': 'Gem Sword Blade',
+        '地宫剑刃': 'Crypt Sword Blade',
+        '暗影剑刃': 'Shadow Sword Blade',
+        '充能剑刃': 'Charged Sword Blade',
+        '充能戟头': 'Charged Trident Head',
+        '脉冲剑刃': 'Pulse Sword Blade',
+        '脉冲戟头': 'Pulse Trident Head',
+        '蓝金剑刃': 'Blue Gold Sword Blade',
+        '蓝金戟头': 'Blue Gold Trident Head',
+        '海绿剑刃': 'Seagreen Sword Blade',
+        '海绿戟头': 'Seagreen Trident Head',
+        '红钢剑刃': 'Red Steel Sword Blade',
+        '红钢戟头': 'Red Steel Trident Head',
+        '秘银剑刃': 'Mithril Sword Blade',
+        '秘银戟头': 'Mithril Trident Head',
+        '旋律剑刃': 'Melody Sword Blade',
+        '旋律戟头': 'Melody Trident Head',
+        '冰髓剑刃': 'Frostmarrow Sword Blade',
+        '冰髓戟头': 'Frostmarrow Trident Head',
+        '晶化剑刃': 'Crystallized Sword Blade',
+        '晶化戟头': 'Crystallized Trident Head',
+        '骨剑柄': 'Bone Sword Hilt',
+        '铜骨剑柄': 'Copper Bone Sword Hilt',
+        '改良剑柄': 'Improved Sword Hilt',
+        '柳木剑柄': 'Willow Sword Hilt',
+        '水晶剑柄': 'Crystal Sword Hilt',
+        '凝胶剑柄': 'Gel Sword Hilt',
+        '光暗剑柄': 'Light-Dark Sword Hilt',
+        '凝胶轮芯': 'Gel Wheel Hub',
+        '秘银轮锋': 'Mithril Wheel Blade',
+        '光暗轮芯': 'Light-Dark Wheel Hub',
+        '旋律轮锋': 'Melody Wheel Blade',
+        '冰髓轮锋': 'Frostmarrow Wheel Blade',
+        '晶化轮锋': 'Crystallized Wheel Blade',
+        '水素轮锋': 'Hydrogen Wheel Blade',
+        '虹彩轮芯': 'Iridescent Wheel Hub',
+        '破空轮芯': 'Skybreaker Wheel Hub',
+        '血灵轮芯': 'Bloodspirit Wheel Hub',
+        '宝石轮锋': 'Gem Wheel Blade',
+        '魂晶轮锋': 'Soul Crystal Wheel Blade',
+        '盖亚轮锋': 'Gaia Wheel Blade',
+        '远古轮锋': 'Ancient Wheel Blade',
+        '源金轮锋': 'Primal Gold Wheel Blade',
+        '红钨轮锋': 'Red Tungsten Wheel Blade',
+        '粘合帽子': 'Adhesive Hat',
+        '粘合背心': 'Adhesive Vest',
+        '粘合裤子': 'Adhesive Pants',
+        '粘合袜子': 'Adhesive Socks',
+        '异兽帽子': 'Aberrant Beast Hat',
+        '异兽背心': 'Aberrant Beast Vest',
+        '异兽裤子': 'Aberrant Beast Pants',
+        '异兽袜子': 'Aberrant Beast Socks',
+        '活性帽子': 'Reactive Hat',
+        '活性背心': 'Reactive Vest',
+        '活性裤子': 'Reactive Pants',
+        '活性袜子': 'Reactive Socks',
+        '苇编帽子': 'Woven Reed Hat',
+        '苇编背心': 'Woven Reed Vest',
+        '苇编裤子': 'Woven Reed Pants',
+        '苇编袜子': 'Woven Reed Socks',
+        '高能帽子': 'High-Energy Hat',
+        '高能背心': 'High-Energy Vest',
+        '高能裤子': 'High-Energy Pants',
+        '高能袜子': 'High-Energy Socks',
+        '黑森帽子': 'Blackwood Hat',
+        '黑森背心': 'Blackwood Vest',
+        '黑森裤子': 'Blackwood Pants',
+        '黑森袜子': 'Blackwood Socks',
+        '极寒帽子': 'Deepfrost Hat',
+        '极寒背心': 'Deepfrost Vest',
+        '极寒裤子': 'Deepfrost Pants',
+        '极寒袜子': 'Deepfrost Socks',
+        '幻符帽子': 'Phantom Rune Hat',
+        '幻符背心': 'Phantom Rune Vest',
+        '幻符裤子': 'Phantom Rune Pants',
+        '幻符袜子': 'Phantom Rune Socks',
+        '密林帽子': 'Deepwood Hat',
+        '密林背心': 'Deepwood Vest',
+        '密林裤子': 'Deepwood Pants',
+        '密林袜子': 'Deepwood Socks',
+        '冰棉帽子': 'Frost Cotton Hat',
+        '冰棉背心': 'Frost Cotton Vest',
+        '冰棉裤子': 'Frost Cotton Pants',
+        '冰棉袜子': 'Frost Cotton Socks',
+        '铁制头盔': 'Iron Helmet',
+        '铁制胸甲': 'Iron Chestplate',
+        '铁制腿甲': 'Iron Greaves',
+        '铁制战靴': 'Iron Boots',
+        '紫铜头盔': 'Copper Helmet',
+        '紫铜胸甲': 'Copper Chestplate',
+        '紫铜腿甲': 'Copper Greaves',
+        '紫铜战靴': 'Copper Boots',
+        '地宫头盔': 'Crypt Helmet',
+        '地宫胸甲': 'Crypt Chestplate',
+        '地宫腿甲': 'Crypt Greaves',
+        '地宫战靴': 'Crypt Boots',
+        '充能头盔': 'Charged Helmet',
+        '充能胸甲': 'Charged Chestplate',
+        '充能腿甲': 'Charged Greaves',
+        '充能战靴': 'Charged Boots',
+        '脉冲头盔': 'Pulse Helmet',
+        '脉冲胸甲': 'Pulse Chestplate',
+        '脉冲腿甲': 'Pulse Greaves',
+        '脉冲战靴': 'Pulse Boots',
+        '海绿头盔': 'Seagreen Helmet',
+        '海绿胸甲': 'Seagreen Chestplate',
+        '海绿腿甲': 'Seagreen Greaves',
+        '海绿战靴': 'Seagreen Boots',
+        '秘银头盔': 'Mithril Helmet',
+        '秘银胸甲': 'Mithril Chestplate',
+        '秘银腿甲': 'Mithril Greaves',
+        '秘银战靴': 'Mithril Boots',
+        '冰髓头盔': 'Frostmarrow Helmet',
+        '冰髓胸甲': 'Frostmarrow Chestplate',
+        '冰髓腿甲': 'Frostmarrow Greaves',
+        '冰髓战靴': 'Frostmarrow Boots',
+        '水素头盔': 'Hydrogen Helmet',
+        '水素胸甲': 'Hydrogen Chestplate',
+        '水素腿甲': 'Hydrogen Greaves',
+        '水素战靴': 'Hydrogen Boots',
+        '魂晶头盔': 'Soul Crystal Helmet',
+        '魂晶胸甲': 'Soul Crystal Chestplate',
+        '魂晶腿甲': 'Soul Crystal Greaves',
+        '魂晶战靴': 'Soul Crystal Boots',
+        '远古头盔': 'Ancient Helmet',
+        '远古胸甲': 'Ancient Chestplate',
+        '远古腿甲': 'Ancient Greaves',
+        '远古战靴': 'Ancient Boots',
+        '红钨头盔': 'Red Tungsten Helmet',
+        '红钨胸甲': 'Red Tungsten Chestplate',
+        '红钨腿甲': 'Red Tungsten Greaves',
+        '红钨战靴': 'Red Tungsten Boots',
+        '铁锭': 'Iron Ingot',
+        '精钢锭': 'Steel Ingot',
+        '紫铜锭': 'Copper Ingot',
+        '宝石锭': 'Gem Ingot',
+        '地宫金属锭': 'Crypt Metal Ingot',
+        '暗影钢锭': 'Shadowsteel Ingot',
+        '活化柳木': 'Activated Willow',
+        '充能合金锭': 'Charged Alloy Ingot',
+        '脉冲合金锭': 'Pulse Alloy Ingot',
+        '缠绕水晶': 'Coiled Crystal',
+        '蓝金锭': 'Blue Gold Ingot',
+        '海绿锭': 'Seagreen Ingot',
+        '固态凝胶': 'Solid Gel',
+        '红钢锭': 'Red Steel Ingot',
+        '秘银锭': 'Mithril Ingot',
+        '旋律合金锭': 'Melody Alloy Ingot',
+        '万载冰髓锭': 'Age-Old Frostmarrow Ingot',
+        '光暗枝丫': 'Light-Dark Branch',
+        '黑森织料': 'Blackwood Cloth',
+        '峰': 'Peak',
+        '结界湖之心·材': 'Heart of the Barrier Lake · Material',
+        '飞船之心·材': 'Heart of the Spaceship · Material',
+        '冰原之心·材': 'Heart of the Ice Field · Material',
+        '晶化合金锭': 'Crystallized Alloy Ingot',
+        '极寒织料': 'Deepfrost Cloth',
+        '冰块': 'Ice Block',
+        '水素合金锭': 'Hydrogen Alloy Ingot',
+        '虹彩杖芯': 'Iridescent Staff Core',
+        '破空紫蕨': 'Skybreaker Violet Fern',
+        '宝石母锭': 'Raw Gem Ingot',
+        '魂晶锭': 'Soul Crystal Ingot',
+        '冰家玉简': 'Ice Clan Jade Tablet',
+        '盖亚合金锭': 'Gaia Alloy Ingot',
+        '远古合金锭': 'Ancient Alloy Ingot',
+        '密林织料': 'Deepwood Cloth',
+        '古源金锭': 'Ancient Primal Gold Ingot',
+        '血灵骨棉': 'Bloodspirit Bone Cotton',
+        '红钨锭': 'Red Tungsten Ingot',
+        '青冰棉': 'Blue Frost Cotton',
+        '紫铜矿': 'Copper Ore',
+        '煤炭': 'Coal',
+        '百年柳木': 'Century Willow',
+        '湖鲤鱼': 'Lake Carp',
+        '青花鱼': 'Mackerel',
+        '冰柱鱼': 'Icicle Fish',
+        '血莲鱼': 'Blood Lotus Fish',
+        '冰柱鱼王': 'Icicle Fish King',
+        '地图-藏宝地': 'Map - Treasure Site',
+        '牵制-从入门到入土': 'Restraint - Beginner\'s Guide to the Grave',
+        '微花残片': 'Tiny Flower Fragment',
+        '符文工作台套件': 'Rune Workbench Kit',
+        '极寒相变引擎': 'Deepfrost Phase-Change Engine',
+        '冰宫商人': 'Ice Palace Merchant',
+        '牵制-从入门到精通': 'Restraint - From Beginner to Mastery',
+        '微尘·凶兽肉排': 'Dust · Ferocious Beast Steak',
+        '万物·凶兽肉排': 'All-Things · Ferocious Beast Steak',
+        '潮汐·凶兽肉排': 'Tide · Ferocious Beast Steak',
+        '地宫恢复药水': 'Crypt Recovery Potion',
+        '地宫狂暴药水': 'Crypt Berserk Potion',
+        '地宫·荒兽肉排': 'Crypt · Wildbeast Steak',
+        '森林·荒兽肉排': 'Forest · Wildbeast Steak',
+        'A9·魔攻药剂': 'A9 · Magic Attack Potion',
+        'A9·牵制药剂': 'A9 · Restraint Potion',
+        'A9·回风药剂': 'A9 · Wind Return Potion',
+        'A9·坚固药剂': 'A9 · Fortify Potion',
+        '废墟恢复药水': 'Ruins Recovery Potion',
+        '废墟狂暴药水': 'Ruins Berserk Potion',
+        '战场·荒兽肉排': 'Battlefield · Wildbeast Steak',
+        '超浓缩·坚固药剂': 'Ultra-Concentrated · Fortify Potion',
+        '血气升腾药剂': 'Vigor Surge Potion',
+        '能量冰沙': 'Energy Smoothie',
+        '沼泽·荒兽肉排': 'Swamp · Wildbeast Steak',
+        'B9·反戈药剂': 'B9 · Backlash Potion',
+        'B9·灵闪药剂': 'B9 · Spirit Flash Potion',
+        'B9·散华药剂': 'B9 · Scattered Bloom Potion',
+        'B9·异界药剂': 'B9 · Otherworld Potion',
+        'B9·??药剂': 'B9 · Mystery Potion',
+        '幻境·恢复精华': 'Illusory Realm · Recovery Essence',
+        '幻境·狂暴精华': 'Illusory Realm · Berserk Essence',
+        '草木之芯': 'Heart of Flora',
+        '蘸酱烤肉': 'Grilled Meat with Sauce',
+        '灵红补给品': 'Spirit Red Supplies',
+        '灵蓝补给品': 'Spirit Blue Supplies',
+        '燃血鲜花': 'Bloodflame Blossom',
+        '焚血花王': 'Bloodflame Flower King',
+        '粘合织料': 'Adhesive Cloth',
+        '润灵铜骨': 'Spirit-Infused Copper Bone',
+        '活性织料': 'Reactive Cloth',
+        '湛蓝芦苇': 'Deep Blue Reed',
+        '高能织料': 'High-Energy Cloth',
+        '幻符织料': 'Phantom Rune Cloth',
+        '绝音蕨': 'Silent Fern',
+        '噬芒兰': 'Radiance-Devouring Orchid',
+        '初始黄宝石': 'Basic Yellow Gem',
+        '初始蓝宝石': 'Basic Blue Gem',
+        '初始红宝石': 'Basic Red Gem',
+        '初始绿宝石': 'Basic Green Gem',
+        '高级黄宝石': 'Advanced Yellow Gem',
+        '高级蓝宝石': 'Advanced Blue Gem',
+        '高级红宝石': 'Advanced Red Gem',
+        '高级绿宝石': 'Advanced Green Gem',
+        '极品黄宝石': 'Superior Yellow Gem',
+        '极品蓝宝石': 'Superior Blue Gem',
+        '极品红宝石': 'Superior Red Gem',
+        '极品绿宝石': 'Superior Green Gem',
+        '殿堂黄宝石': 'Hall of Fame Yellow Gem',
+        '殿堂蓝宝石': 'Hall of Fame Blue Gem',
+        '殿堂红宝石': 'Hall of Fame Red Gem',
+        '殿堂绿宝石': 'Hall of Fame Green Gem',
+        '史诗黄宝石': 'Epic Yellow Gem',
+        '史诗蓝宝石': 'Epic Blue Gem',
+        '史诗红宝石': 'Epic Red Gem',
+        '史诗绿宝石': 'Epic Green Gem',
+        '传说黄宝石': 'Legendary Yellow Gem',
+        '传说蓝宝石': 'Legendary Blue Gem',
+        '传说红宝石': 'Legendary Red Gem',
+        '传说绿宝石': 'Legendary Green Gem',
+        '血杀剑': 'Bloodkill Sword',
+        '神话黄宝石': 'Mythic Yellow Gem',
+        '神话蓝宝石': 'Mythic Blue Gem',
+        '神话红宝石': 'Mythic Red Gem',
+        '神话绿宝石': 'Mythic Green Gem',
+        '凝胶': 'Gel',
+        '金属残片': 'Metal Fragment',
+        '魔力碎晶': 'Mana Crystal Shard',
+        '飞蛾翅膀': 'Moth Wing',
+        '坚硬石块': 'Hard Stone',
+        '微尘·凶兽肉块': 'Dust · Ferocious Beast Meat',
+        '骨头': 'Bone',
+        '铜骨': 'Copper Bone',
+        '万物·凶兽肉块': 'All-Things · Ferocious Beast Meat',
+        '合金残片': 'Alloy Fragment',
+        '异兽皮': 'Aberrant Beast Hide',
+        '毒液': 'Venom',
+        '灵液': 'Spirit Fluid',
+        '天蚕丝': 'Wild Silk',
+        '潮汐·凶兽肉块': 'Tide · Ferocious Beast Meat',
+        '大地级魂魄': 'Earth-Tier Soul',
+        '巨型眼球': 'Giant Eyeball',
+        'A1·能量核心': 'A1 · Energy Core',
+        '断剑': 'Broken Sword',
+        '地宫·荒兽肉块': 'Crypt · Wildbeast Meat',
+        '霜炙皮草': 'Frost-Seared Fur',
+        '流动凝胶': 'Flowing Gel',
+        '一丝荒兽森林感悟': 'A Trace of Wildbeast Forest Insight',
+        '凝实荒兽森林感悟': 'Condensed Wildbeast Forest Insight',
+        'A4·能量核心': 'A4 · Energy Core',
+        '森林·荒兽肉块': 'Forest · Wildbeast Meat',
+        '甲壳碎片': 'Carapace Fragment',
+        '荒兽精华': 'Wildbeast Essence',
+        '水溶精华': 'Water-Soluble Essence',
+        '秘境芦苇': 'Secret Realm Reed',
+        '浅蓝晶粉': 'Light Blue Crystal Powder',
+        'A7·能量核心': 'A7 · Energy Core',
+        '蓝金碎片': 'Blue Gold Fragment',
+        '透明水晶': 'Transparent Crystal',
+        '结界湖血肉': 'Barrier Lake Flesh',
+        '废墟符文': 'Ruins Rune',
+        '废墟精华': 'Ruins Essence',
+        '高能凝胶': 'High-Energy Gel',
+        '战场·荒兽肉块': 'Battlefield · Wildbeast Meat',
+        'B1·能量核心': 'B1 · Energy Core',
+        '红黑印记': 'Red-Black Mark',
+        '雷电加护': 'Lightning Blessing',
+        '重甲残骸': 'Heavy Armor Wreckage',
+        '摩羽币': 'Moyu Coin',
+        '进化结晶凝聚-一学就会': 'Evolution Crystal Fusion - Quick Guide',
+        '初等进化结晶': 'Basic Evolution Crystal',
+        '中等进化结晶': 'Intermediate Evolution Crystal',
+        '中等进化结晶碎片': 'Intermediate Evolution Crystal Fragment',
+        '一捆高能凝胶': 'Bundle of High-Energy Gel',
+        '一捆B1·能量核心': 'Bundle of B1 · Energy Core',
+        'B6·飞船核心': 'B6 · Spaceship Core',
+        '荒兽凭证': 'Wildbeast Token',
+        '沼泽·荒兽肉块': 'Swamp · Wildbeast Meat',
+        '荧光精华': 'Fluorescent Essence',
+        '沼泽兽油': 'Swamp Beast Oil',
+        '天空兽角': 'Sky Beast Horn',
+        'B4·能量核心': 'B4 · Energy Core',
+        '黑白枝丫': 'Black-White Branch',
+        '黑森叶片': 'Blackwood Leaf',
+        '多孔冰晶': 'Porous Ice Crystal',
+        '冰原超流体': 'Ice Field Superfluid',
+        '玄冰果实': 'Mystic Ice Fruit',
+        '镶晶盾牌': 'Crystal-Inlaid Shield',
+        '冰宫鳞片': 'Ice Palace Scale',
+        '光环杖芯': 'Aura Staff Core',
+        'B7·能量核心': 'B7 · Energy Core',
+        '虹彩凝胶': 'Iridescent Gel',
+        '水素晶体': 'Hydrogen Crystal',
+        '传承水晶·橙': 'Legacy Crystal · Orange',
+        '传承水晶·白': 'Legacy Crystal · White',
+        '传承水晶·绿': 'Legacy Crystal · Green',
+        '传承水晶·蓝': 'Legacy Crystal · Blue',
+        '传承水晶·粉': 'Legacy Crystal · Pink',
+        '天空级魂魄': 'Sky-Tier Soul',
+        '紫晶碎片': 'Amethyst Fragment',
+        '幻境符文': 'Illusory Realm Rune',
+        '引力反常': 'Gravity Anomaly',
+        '城门之星': 'Star of the City Gate',
+        'C1·能量核心': 'C1 · Energy Core',
+        '力场发生器': 'Force Field Generator',
+        '远古碎片': 'Ancient Fragment',
+        '血灵液': 'Bloodspirit Fluid',
+        '云霄宝肉': 'Skyhigh Prized Meat',
+        '云霄级魂魄': 'Skyhigh-Tier Soul',
+        '琥珀金骨': 'Amber Gold Bone',
+        '爆燃粉末': 'Combustion Powder',
+        '残破兽铠': 'Broken Beast Armor',
+        '魔力布匹': 'Mana Cloth',
+        '极冰骨髓': 'Extreme Ice Marrow',
+        '玄冰果实·觉醒': 'Mystic Ice Fruit · Awakened',
+        '铜板': 'Copper Coin',
+        '大铜板': 'Large Copper Coin',
+        '五彩凝胶': 'Rainbow Gel',
+        '银钱': 'Silver Coin',
+        '红色刀币': 'Red Knife Coin',
+        '黑色刀币': 'Black Knife Coin',
+        '一捆黑币': 'Bundle of Black Coins',
+        '绿色刀币': 'Green Knife Coin',
+        '紫色刀币': 'Purple Knife Coin',
+        '宇宙币': 'Cosmic Coin',
+        '宇宙币堆': 'Pile of Cosmic Coins',
+        '宇宙币山': 'Mountain of Cosmic Coins',
+        // Skill names also used elsewhere as buttons-mechanism entries
+        // (gathering UI, crafting tabs) — added here too since #skill_list
+        // needs the exact-match "SkillName : level" pattern, which only
+        // checks itemNames, not those other selectors' pair lists.
+        '挖掘': 'Mining',
+        '砍伐': 'Logging',
+        '炼金': 'Alchemy',
+        '烹饪': 'Cooking',
+        '熔炼': 'Smelting',
+        '锻造': 'Forging',
+        '赤手空拳': 'Bare-Handed',
+        '拳法': 'Fist Technique',
+        '武术': 'Martial Arts',
+        '秘法入门': 'Technique Novice',
+        '秘法精通': 'Technique Mastery',
+        '融血术': 'Merge Blood Technique',
+        '三月断宵·小成': 'Severed Night of the Third Moon · Minor Completion',
+        '三月断宵·大成': 'Severed Night of the Third Moon · Great Completion',
+        '三月断宵·圆满': 'Severed Night of the Third Moon · Perfection',
+        '星解之术·小成': 'Art of Star Release · Minor Completion',
+        '星解之术·精通': 'Art of Star Release · Mastery',
+        '星解之术·大成': 'Art of Star Release · Great Completion',
+        '星解之术·圆满': 'Art of Star Release · Perfection',
+        '映星紫华·小成': 'Starmirror Violet · Minor Completion',
+        '映星紫华·精通': 'Starmirror Violet · Mastery',
+        '映星紫华·大成': 'Starmirror Violet · Great Completion',
+        '映星紫华·圆满': 'Starmirror Violet · Perfection',
+        '水无心': 'Water Heartless',
+        '水无心·小成': 'Water Heartless · Minor Completion',
+        '水无心·大成': 'Water Heartless · Great Completion',
+        '水无心·圆满': 'Water Heartless · Perfection',
+        '映星花': 'Starmirror Flower',
+        '映星花·精通': 'Starmirror Flower · Mastery',
+        '映星花·小成': 'Starmirror Flower · Minor Completion',
+        '映星花·大成': 'Starmirror Flower · Great Completion',
+        '映星花·圆满': 'Starmirror Flower · Perfection',
+        '映星天彩': 'Starmirror Skyrainbow',
+        '映星天彩·入门': 'Starmirror Skyrainbow · Novice',
+        '映星天彩·精通': 'Starmirror Skyrainbow · Mastery',
+        '映星天彩·小成': 'Starmirror Skyrainbow · Minor Completion',
+        '映星天彩·大成': 'Starmirror Skyrainbow · Great Completion',
+        '映星天彩·圆满': 'Starmirror Skyrainbow · Perfection',
+        '夜视': 'Night Vision',
+        '威压抗性': 'Intimidation Resistance',
+        '存在感应': 'Presence Sensing',
+        '毒液抗性': 'Venom Resistance',
+        '毒液抗性·精通': 'Venom Resistance · Mastery',
+        '毒液抗性·圆满': 'Venom Resistance · Perfection',
+        '武器熟练': 'Weapon Proficiency',
+        '武器精通': 'Weapon Mastery',
+        '剑术': 'Swordsmanship',
+        '戟术': 'Trident Combat',
+        '银霜月轮·未入门': 'Silver Frost Moonwheel · Pre-Novice',
+        '银霜月轮·一重': 'Silver Frost Moonwheel · Tier 1',
+        '银霜月轮·二重': 'Silver Frost Moonwheel · Tier 2',
+        '银霜月轮·三重': 'Silver Frost Moonwheel · Tier 3',
+        '银霜月轮·四重': 'Silver Frost Moonwheel · Tier 4',
+        '银霜月轮·五重': 'Silver Frost Moonwheel · Tier 5',
+        '银霜月轮·圆满': 'Silver Frost Moonwheel · Perfection',
+        '睡眠': 'Sleep',
+        '冥想': 'Meditation',
+        '修炼': 'Cultivation',
+        '时间跳跃': 'Time Skip',
+        '跑步': 'Running',
+        '神行术': 'Divine Stride',
+        '瞬间移动': 'Teleportation',
+        '游泳': 'Swimming',
+        '水中窜': 'Water Dash',
+        '水遁': 'Water Escape',
+        '水元素亲和': 'Water Elemental Affinity',
+        '水元素精通': 'Water Elemental Mastery',
+        '收割': 'Harvest',
+        '收割·精通': 'Harvest · Mastery',
+        '收割·大师': 'Harvest · Master',
+        '钻探': 'Drilling',
+        '钻探·精通': 'Drilling · Mastery',
+        '钻探·大师': 'Drilling · Master',
+        '钓鱼': 'Fishing',
+        '坚韧皮肤': 'Tough Skin',
+        '铁制皮肤': 'Iron Skin',
+        '精钢皮肤': 'Steel Skin',
+        '紫铜皮肤': 'Copper Skin',
+        '地宫皮肤': 'Crypt Skin',
+        '充能皮肤': 'Charged Skin',
+        '脉冲皮肤': 'Pulse Skin',
+        '海绿皮肤': 'Seagreen Skin',
+        '红钢皮肤': 'Red Steel Skin',
+        '秘银皮肤': 'Mithril Skin',
+        '旋律皮肤': 'Melody Skin',
+        '冰髓皮肤': 'Frostmarrow Skin',
+        '晶化皮肤': 'Crystallized Skin',
+        '水素皮肤': 'Hydrogen Skin',
+        '宝石皮肤': 'Gem Skin',
+        '魂晶皮肤': 'Soul Crystal Skin',
+        '盖亚皮肤': 'Gaia Skin',
+        '远古皮肤': 'Ancient Skin',
+        '源金皮肤': 'Primal Gold Skin',
+        '讨价还价': 'Haggling',
+        '精通·讨价还价': 'Mastery · Haggling',
+        '大师·讨价还价': 'Master · Haggling',
+        '传奇·讨价还价': 'Legend · Haggling',
+        '超凡·讨价还价': 'Transcendent · Haggling',
+        '[出云落月[领域五重]': '[Cloudrise, Moonfall [Domain Tier 5]',
+    };
+
+    // directOnly=true checks only el's direct text-node children
+    // (e.g. preview text sitting right before a nested tooltip),
+    // rather than walking the full subtree — avoids redundantly
+    // re-processing a nested .recipe_tooltip that's already handled
+    // by its own call.
+    function textNodesOf(el, directOnly) {
+        if (directOnly) {
+            return Array.from(el.childNodes).filter((n) => n.nodeType === 3);
+        }
+        const out = [];
+        const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+        let n;
+        while ((n = walker.nextNode())) out.push(n);
+        return out;
+    }
+
+    function applyItemNames(selector, directOnly) {
+        if (!ENABLE_ITEM_NAMES) return;
+        for (const el of document.querySelectorAll(selector)) {
+            for (const node of textNodesOf(el, directOnly)) {
+                const original = node.textContent;
+                const trimmed = original.trim();
+
+                // Whole node is exactly an item name.
+                if (itemNames[trimmed]) {
+                    node.textContent = original.replace(trimmed, itemNames[trimmed]);
+                    el.classList.add('translated');
+                    continue;
+                }
+                // "ItemName, 140%, x1" (selection previews) — exact
+                // text before the first comma.
+                const commaIdx = trimmed.indexOf(',');
+                if (commaIdx > -1) {
+                    const candidate = trimmed.slice(0, commaIdx).trim();
+                    if (itemNames[candidate]) {
+                        node.textContent = original.replace(candidate, itemNames[candidate]);
+                        el.classList.add('translated');
+                        continue;
+                    }
+                }
+                // "ItemName x0/4" (materials lists) — exact text before
+                // a space-then-"x"-then-digit boundary.
+                const spaceX = trimmed.match(/^(.+?)\s+x\d/);
+                if (spaceX && itemNames[spaceX[1]]) {
+                    node.textContent = original.replace(spaceX[1], itemNames[spaceX[1]]);
+                    el.classList.add('translated');
+                    continue;
+                }
+                // "[ItemName]+[ItemName]+..." (assembled-equipment
+                // component list) — any number of bracketed segments;
+                // each one is checked independently, so a bracket that
+                // isn't a recognized item name is left as-is rather
+                // than skipping the whole line.
+                if (/\[[^[\]]+\]/.test(trimmed)) {
+                    const swapped = original.replace(/\[([^[\]]+)\]/g, (whole, inner) => {
+                        const t = itemNames[inner.trim()];
+                        return t ? `[${t}]` : whole;
+                    });
+                    if (swapped !== original) {
+                        node.textContent = swapped;
+                        el.classList.add('translated');
+                    }
+                }
+                // '"ItemName" x1, "ItemName" x1' (message/event log
+                // entries) — same idea as the bracket pattern above,
+                // just quote-delimited instead.
+                if (/"[^"]+"/.test(trimmed)) {
+                    const swapped2 = node.textContent.replace(/"([^"]+)"/g, (whole, inner) => {
+                        const t = itemNames[inner.trim()];
+                        return t ? `"${t}"` : whole;
+                    });
+                    if (swapped2 !== node.textContent) {
+                        node.textContent = swapped2;
+                        el.classList.add('translated');
+                    }
+                }
+                // "使用 ItemName , ..." (single gem-use messages) — the
+                // item name sits between spaces before a comma,
+                // unlike the other patterns where the name starts at
+                // the very beginning of the text. \s* (not \s) since
+                // a same-pass buttons-mechanism cleanup pair may have
+                // already tightened " , " to ", " by the time this
+                // runs. Matches any non-whitespace run before the
+                // comma, not just after a known prefix — safe
+                // regardless, since it still has to be an exact
+                // dictionary hit to do anything.
+                const spaceComma = node.textContent.match(/(\S+)\s*,/);
+                if (spaceComma && itemNames[spaceComma[1]]) {
+                    node.textContent = node.textContent.replace(spaceComma[1], itemNames[spaceComma[1]]);
+                    el.classList.add('translated');
+                }
+                // "..., ItemName." (bulk-use messages) — reverse of the
+                // pattern above, item name follows the comma instead
+                // of preceding it, ending at a period. Verified this
+                // doesn't misfire on the single-gem message's longer
+                // ", Stat increased by N[Soft Cap]." tail, since \S+
+                // can't cross the space inside that phrase to reach a
+                // period — same safety net either way (exact
+                // dictionary hit required).
+                const commaThenItem = node.textContent.match(/,\s*(\S+)\./);
+                if (commaThenItem && itemNames[commaThenItem[1]]) {
+                    node.textContent = node.textContent.replace(commaThenItem[1], itemNames[commaThenItem[1]]);
+                    el.classList.add('translated');
+                }
+                // "SkillName : level X/Y" (skill list bar labels) —
+                // skill names reuse itemNames rather than a separate
+                // dictionary, since they're just as discrete/unique as
+                // item names and an exact-match hit is exact-match
+                // regardless of which conceptual bucket the string
+                // came from.
+                const skillLevel = node.textContent.match(/^(.+?)\s*:\s*level/);
+                if (skillLevel && itemNames[skillLevel[1]]) {
+                    node.textContent = node.textContent.replace(skillLevel[1], itemNames[skillLevel[1]]);
+                    el.classList.add('translated');
+                }
+            }
+        }
+    }
+    // Wired up in scan() below: recipe tooltips, recipe_name headers,
+    // and selection-option preview text.
+    // -------------------------------------------------------------------
+
+    // Shared component names, reused by both the recipe headers and the
+    // "select a component" dropdown prompts so they always agree.
+    // Longer/more specific terms are listed first — several longer
+    // terms here contain a shorter term elsewhere in the file
+    // (e.g. 剑刃/剑柄 contain 剑), and matching runs top to bottom
+    // without stopping, so the longer one has to fire first or the
+    // shorter one would partially clobber it.
+    const componentPairs = [
+        ['剑刃', 'Sword Blade'],
+        ['剑柄', 'Sword Hilt'],
+        ['三叉戟头', 'Trident Head'],
+        ['头部内甲', 'Head (Inner)'],
+        ['头部外甲', 'Head (Outer)'],
+        ['胸部内甲', 'Chest (Inner)'],
+        ['胸部外甲', 'Chest (Outer)'],
+        ['腿部内甲', 'Legs (Inner)'],
+        ['腿部外甲', 'Legs (Outer)'],
+        ['脚部内甲', 'Feet (Inner)'],
+        ['脚部外甲', 'Feet (Outer)'],
+    ];
+
+    // CSS selector -> list of [original Chinese, replacement] pairs to
+    // look for within each matched element's subtree. Use "#some_id" for
+    // a single element, or ".some_class" when several elements share a
+    // class but have no id of their own. Every matching pair in a list
+    // gets applied to a given text node (not just the first), so a
+    // template phrase and an embedded term can both translate at once.
+    //
+    // Short/standalone recipe names (single words with no other
+    // qualifying text) are scoped via [data-recipe_id="..."] rather
+    // than matched as free text — the game's crafting item pool is
+    // large enough that a short term like 剑 ("sword") will legitimately
+    // appear inside unrelated item names (巨剑徽章, "Giant Sword Emblem").
+    // data-recipe_id is set to the exact recipe name, so it's an exact
+    // match rather than a "does this text contain X" search.
+    // Stat names — includes both the short forms used on equipped
+    // items/character stats (攻击/防御/攻速) and the longer, more formal
+    // forms used specifically on crafting components (攻击力/攻击速度/
+    // 暴击概率/防御力), which are different strings, not abbreviations
+    // of each other. Long forms listed first since several contain a
+    // short form as a substring (攻击力 contains 攻击, 防御力 contains 防御).
+    const statPairs = [
+        ['生命恢复[%]', 'Health Regeneration [%]'],
+        ['生命恢复', 'Health Regeneration'],
+        ['生命上限', 'Health Cap'],
+        ['生命', 'Health'],
+        ['基础属性:', 'Base Attributes:'],
+        ['预期属性:', 'Expected Attributes:'],
+        ['部件等级:', 'Component Tier:'],
+        ['品质:', 'Quality:'],
+        ['类型: 剑', 'Type: Sword'],
+        ['类型: 三叉戟', 'Type: Trident'],
+        ['防御力', 'Defense Power'],
+        ['攻击力', 'Attack Power'],
+        ['攻击速度', 'Attack Speed'],
+        ['暴击概率', 'Crit Probability'],
+        ['暴击伤害', 'Crit Damage'],
+        ['暴击率', 'Crit Rate'],
+        ['防御', 'Defense'],
+        ['攻击', 'Attack'],
+        ['攻速', 'Attack Speed'],
+        ['敏捷', 'Agility'],
+        ['暴率', 'Crit Rate'],
+        ['普攻倍率', 'Basic Attack Multiplier'],
+        ['爆伤', 'Crit Damage'],
+        ['幸运', 'Luck'],
+        ['宝石耐性', 'Gem Resistance'],
+    ];
+
+    // Character realm tier + rank, used both for the character's own
+    // level display and for level-restriction text on consumables.
+    const realmPairs = [
+        ['微尘级', 'Dust-Tier '],
+        ['万物级', 'All-Things-Tier '],
+        ['潮汐级', 'Tide-Tier '],
+        ['大地级', 'Earth-Tier '],
+        ['天空级', 'Sky-Tier '],
+        ['云霄级', 'Skyhigh-Tier '],
+        ['一阶', 'Rank 1'],
+        ['二阶', 'Rank 2'],
+        ['三阶', 'Rank 3'],
+        ['四阶', 'Rank 4'],
+        ['五阶', 'Rank 5'],
+        ['六阶', 'Rank 6'],
+        ['七阶', 'Rank 7'],
+        ['八阶', 'Rank 8'],
+        ['九阶', 'Rank 9'],
+        ['巅峰', 'Peak'],
+        ['高等', 'High-Tier'],
+    ];
+
+    // Equipment slot types. 秘法 -> Technique (not Stance/Method — see
+    // scan() comment near the character_level_div /recipe_tooltip
+    // entries for why).
+    const slotPairs = [
+        ['头部', 'Head'],
+        ['躯干', 'Torso'],
+        ['腿部', 'Legs'],
+        ['脚部', 'Feet'],
+        ['武器', 'Weapon'],
+        ['秘法', 'Technique'],
+        ['领域', 'Domain'],
+        ['法则', 'Law'],
+        ['道具', 'Trinket'],
+        ['特殊', 'Special'],
+    ];
+
+    const buttons = {
+        '#save_button': [['保存', 'Save']],
+        '#save_to_file_button': [['导出', 'Export']],
+        '#load_from_file_button': [['导入', 'Import']],
+        '#inventory_show_all': [['全部', 'All']],
+        '#inventory_show_equipment': [['装备', 'Gear']],
+        '#inventory_show_consumable': [['消耗品', 'Usable']],
+        '#inventory_show_loot': [['掉落物', 'Loot']],
+        '#inventory_show_other': [['杂项', 'Misc']],
+        '#show_skills': [['技能', 'Skills']],
+        '#show_stances': [['姿态', 'Stances']],
+        '#show_family': [['家族', 'Family']],
+        '#message_show_unlocks': [['升级 & 解锁', 'Unlocks']],
+        '#message_show_events': [['_事件_', 'Events']],
+        '#message_show_crafting': [['_合成_', 'Craft']],
+        '#message_show_combat': [['_战斗_', 'Combat']],
+        '#message_show_loot': [['_掉落_', 'Loot']],
+        '#message_show_background': [['背景信息', 'Lore']],
+        '#skill_sort_by_name': [['名称排序', 'Sort by Name']],
+        '#skill_sort_by_level': [['等级排序', 'Sort by Level']],
+        '#journal_show_quests': [['心之境界', 'Heart\u00A0Realm']],
+        '#quest_list': [
+            ['解锁心之境界 - ', 'unlocks Heart Realm - '],
+            ['大地级一阶', 'Earth-Tier Rank 1'],
+            ['天空级一阶', 'Sky-Tier Rank 1'],
+            ['云霄级一阶', 'Skyhigh-Tier Rank 1'],
+            ['一重', 'Tier 1'],
+            ['二重', 'Tier 2'],
+            ['三重', 'Tier 3'],
+            ['！', '!'],
+            ['宝石吞噬者', 'Gem Devourer'],
+            ['吞噬宝石，提供全局技能经验加成', 'Devours gems, providing a global skill experience bonus'],
+            ['吞噬物品栏中全部宝石', 'Devour all gems in inventory'],
+            ['当前吞噬价值点:', 'Current Devoured Value Points:'],
+            ['贪婪之神', 'God of Greed'],
+            ['献祭金钱，提供全局运气加成', 'Sacrifices money, providing a global luck bonus'],
+            ['献祭物品栏中宝钱以上货币', 'Sacrifice currency of Treasure-tier or higher from inventory'],
+            ['当前献祭金额:', 'Current Sacrificed Amount:'],
+            ['信仰祭坛', 'Altar of Faith'],
+            ['炼化影响力', 'Refines Influence'],
+            ['，延后宝石软上限', ', delaying the gem soft cap'],
+            ['炼化1%的纳家影响力', "Refine 1% of the Na Family's Influence"],
+            ['已炼化的影响力:', 'Influence Refined:'],
+            ['(加成 : ', '(Bonus: '],
+            ['(加成:', '(Bonus: '],
+        ],
+        '#journal_show_bestiary': [['怪物手册', 'Bestiary']],
+        '#journal_show_levelary': [['楼层手册', 'Levelary']],
+        '#journal_show_data': [['统计/银行', 'Stat/Bank']],
+        '#crafting_mainpage_buttons': [
+            ['合成', 'Craft'],
+            ['烹饪', 'Cook'],
+            ['熔炼', 'Smelt'],
+            ['锻造', 'Forge'],
+            ['炼金', 'Alchemy'],
+        ],
+        '.crafting_subpage_buttons': [
+            ['第一幕', 'Act 1'],
+            ['第二幕', 'Act 2'],
+            ['第三幕', 'Act 3'],
+            ['第四幕', 'Act 4'],
+            ['物品/饰品', 'Items/Accessories'],
+            ['部件', 'Parts'],
+            ['装备', 'Gear'],
+        ],
+        '#inventory_sort_by_price': [['价值排序', 'Sort by Price']],
+        '#inventory_sort_by_name': [['名称排序', 'Sort by Name']],
+        '#switch_to_inventory': [['物品栏', 'Inventory']],
+        '#switch_to_combat': [['战斗', 'Combat']],
+        '#character_show_stats': [['属性', 'Stats']],
+        '#character_show_equipment': [['装备', 'Gear']],
+        '#character_show_tools': [['工具', 'Tools']],
+        '#trader_sort_by_price': [['按价值排序', 'Sort by Price']],
+        '#trader_sort_by_name': [['按名称排序', 'Sort by Name']],
+        '#trader_category_all': [['全部', 'All']],
+        '#trader_category_equipment': [['装备', 'Gear']],
+        '#trader_category_usable': [['消耗品', 'Usable']],
+        '#trader_category_other': [['杂项', 'Misc']],
+        '#trader_cost_mult_text': [['价格:', 'Price:']],
+        '#trade_price_text': [['总计:', 'Total:']],
+        '#trade_time_text': [['刷新:', 'Refresh:']],
+        '#accept_trade_button': [['交易', 'Trade']],
+        '#cancel_trade_button': [['取消', 'Cancel']],
+        '#exit_trade_button': [['离开', 'Leave']],
+        '#inventory_content_div .equip_item_button': [['装备', 'Equip']],
+        '#inventory_content_div .unequip_item_button': [['卸下', 'Unequip']],
+        '#inventory_content_div .item_use_button': [['使用', 'Use']],
+        '.item_tooltip': [
+            ['槽位: ', 'Slot: '],
+            ...slotPairs,
+            ...statPairs,
+        ],
+        '.stat_tooltip': [
+            // Full stat descriptions first — several mention other stat
+            // names inside their own text (e.g. Defense's description
+            // contains 攻击/Attack), so these need to match the whole
+            // original sentence before the shorter terms below get a
+            // chance to partially consume it.
+            ['攻击，受等级/装备/技能影响', 'Attack, affected by Level/Gear/Skills'],
+            ['防御，用于抵消攻击伤害', 'Defense, used to offset attack damage'],
+            ['攻击速度，影响每次攻击花费时间', 'Attack Speed, affects the time each attack takes'],
+            ['打出暴击的概率', 'The probability of landing a critical hit'],
+            ['打出暴击的伤害倍率', 'The damage multiplier when landing a critical hit'],
+            ['生命上限', 'Health Cap'],
+            ['生命恢复', 'Health Regeneration'],
+            ['普通攻击的伤害倍率', 'The damage multiplier of a Basic Attack'],
+            ['敏捷，影响命中率/闪避率', 'Agility, affects hit rate/dodge rate'],
+            ['分析:', 'Analysis:'],
+            ['基础值:', 'Base Value:'],
+            ['武器', 'Weapon'],
+            ['心之境界', 'Heart Realm'],
+            ['技能里程碑', 'Skill Milestones'],
+            ['境界', 'Realm'],
+            ['技能', 'Skills'],
+            ['装备', 'Gear'],
+            ['环境', 'Environment'],
+            ['光照', 'Light Level'],
+            ['宝石', 'Gems'],
+            ['秘法', 'Stance'],
+            ['效果', 'Effect'],
+        ],
+        '#character_level_div': [
+            ['境界 : ', 'Realm: '],
+            ...realmPairs,
+        ],
+        '#effects_div': [
+            ['生效效果:', 'Active Effects:'],
+        ],
+        '#location_actions_div': [
+            ['收集木头', 'Collecting Wood'],
+            ['抡着镐子...', 'Swinging a pickaxe...'],
+            ['每个采集循环', 'per Gathering Cycle'],
+            ['得到', 'Gain'],
+            ['基本经验', 'Base XP'],
+            ['对于', 'for'],
+            ['砍伐', 'Logging'],
+            ['挖掘', 'Mining'],
+            ['效率折算:', 'Efficiency Scaling:'],
+            ['技能等级', 'skill level'],
+            ['到', 'to'],
+            ['每', 'Every'],
+            ['秒', 'seconds'],
+            ['发现的机会:', 'chance to find:'],
+            ['收益递减:', 'Diminishing Returns:'],
+            ['因为已经进行的', 'Because of the'],
+            ['次行动', 'actions already performed'],
+            ['消耗的时间', 'time consumed'],
+            ['结束', 'Stop'],
+            ['偷偷用镐子挖出宝石', 'Secretly dig out gems with a pickaxe'],
+            // Location list tanslated via DeepSeek
+            ['纳家大厅', 'Na Family Hall'],
+            ['练兵场深处', 'Training Ground Depths'],
+            ['纳可的房间', 'Neko\'s Room'],
+            ['燕岗城 - 秘法石碑', 'Yangang City - Arcane Stele'],
+            ['燕岗城', 'Yangang City'],
+            ['燕岗近郊', 'Yangang Outskirts'],
+            ['郊区河流', 'Outskirts River'],
+            ['燕岗矿井', 'Yangang Mine'],
+            ['地宫入口', 'Crypt Entrance'],
+            ['地宫 - 看门人', 'Crypt - Gatekeeper'],
+            ['地宫浅层', 'Crypt Shallow Layer'],
+            ['地宫 - 石壁', 'Crypt - Stone Wall'],
+            ['地宫深层', 'Crypt Deep Layer'],
+            ['地宫核心 - 悬空平台', 'Crypt Core - Floating Platform'],
+            ['地宫核心 - 光幕', 'Crypt Core - Light Curtain'],
+            ['光幕空间', 'Light Curtain Space'],
+            ['荒兽森林营地', 'Wildbeast Forest Camp'],
+            ['荒兽森林', 'Wildbeast Forest'],
+            ['清野江畔 - 歧路', 'Qingye Riverbank - Fork'],
+            ['清野江畔 - 瀑布', 'Qingye Riverbank - Waterfall'],
+            ['清野江畔', 'Qingye Riverbank'],
+            ['纳家秘境 - 战斗区', 'Na Family Secret Realm - Combat Zone'],
+            ['纳家秘境', 'Na Family Secret Realm'],
+            ['结界湖', 'Barrier Lake'],
+            ['声律城废墟', 'Shenglü City Ruins'],
+            ['声律城战场', 'Shenglü City Battlefield'],
+            ['符文之屋', 'Rune House'],
+            ['天外飞船 - 右上房间', 'Extraterrestrial Spaceship - Upper Right Room'],
+            ['天外飞船 - 歧路', 'Extraterrestrial Spaceship - Fork'],
+            ['天外飞船', 'Extraterrestrial Spaceship'],
+            ['飞船核心 - 左上房间', 'Spaceship Core - Upper Left Room'],
+            ['飞船核心 - 下方房间', 'Spaceship Core - Lower Room'],
+            ['飞船核心', 'Spaceship Core'],
+            ['飞船宿舍', 'Spaceship Dormitory'],
+            ['赫尔沼泽入口', 'Hull Swamp Entrance'],
+            ['赫尔沼泽', 'Hull Swamp'],
+            ['黑暗森林 - 歧路', 'Dark Forest - Fork'],
+            ['黑暗森林', 'Dark Forest'],
+            ['飞云阁', 'Feiyun Pavilion'],
+            ['纯白冰原 - 冰霜门户', 'Pure White Ice Field - Frost Portal'],
+            ['纯白冰原', 'Pure White Ice Field'],
+            ['极寒冰城', 'Deepfrost Ice City'],
+            ['极寒冰宫', 'Deepfrost Ice Palace'],
+            ['时封水牢', 'Time-Sealed Water Prison'],
+            ['水牢洞府', 'Water Prison Grotto'],
+            ['水牢深处', 'Water Prison Depths'],
+            ['水牢走廊', 'Water Prison Corridor'],
+            ['传承幻境 - 水晶空间', 'Legacy Illusory Realm - Crystal Space'],
+            ['传承幻境', 'Legacy Illusory Realm'],
+            ['幻境核心·地宫', 'Illusory Realm Core · Crypt'],
+            ['幻境核心·结界湖', 'Illusory Realm Core · Barrier Lake'],
+            ['幻境核心·战场', 'Illusory Realm Core · Battlefield'],
+            ['幻境核心·飞船', 'Illusory Realm Core · Spaceship'],
+            ['幻境核心 - 歧路', 'Illusory Realm Core - Fork'],
+            ['幻境核心·森林', 'Illusory Realm Core · Forest'],
+            ['幻境核心·现世', 'Illusory Realm Core · Reality'],
+            ['幻境核心·决战', 'Illusory Realm Core · Final Battle'],
+            ['幻境核心·出口', 'Illusory Realm Core · Exit'],
+            ['纳家宝库', 'Na Family Treasury'],
+            ['狩猎大赛·城门战', 'Hunting Tournament · City Gate Battle'],
+            ['城门战 - 歧路', 'City Gate Battle - Fork'],
+            ['狩猎大赛·密林战', 'Hunting Tournament · Deepwood Battle'],
+            ['狩猎大赛·补给点', 'Hunting Tournament · Supply Point'],
+            ['狩猎大赛·古墓战', 'Hunting Tournament · Ancient Tomb Battle'],
+            ['毬毬山谷 - 歧路', 'Qiuqiu Valley - Fork'],
+            ['毬毬山谷', 'Qiuqiu Valley'],
+            ['山谷秘境', 'Valley Secret Realm'],
+            ['鲜血峰', 'Blood Peak'],
+        ],
+        '.item_category': [
+            ['部件', 'Component'],
+        ],
+        '.item_slot': [
+            ...slotPairs,
+        ],
+        '.equipment_slot_empty': [
+            ['你的 头部 槽位', 'Your Head Slot'],
+            ['你的 躯干 槽位', 'Your Torso Slot'],
+            ['你的 腿部 槽位', 'Your Legs Slot'],
+            ['你的 脚部 槽位', 'Your Feet Slot'],
+            ['你的 武器 槽位', 'Your Weapon Slot'],
+            ['你的 秘法 槽位', 'Your Technique Slot'],
+            ['你的 领域 槽位', 'Your Domain Slot'],
+            ['你的 法则 槽位', 'Your Law Slot'],
+            ['你的 道具 槽位', 'Your Trinket Slot'],
+            ['你的 特殊 槽位', 'Your Special Slot'],
+            ['头部 槽位', 'Head Slot'],
+            ['躯干 槽位', 'Torso Slot'],
+            ['腿部 槽位', 'Legs Slot'],
+            ['脚部 槽位', 'Feet Slot'],
+            ['武器 槽位', 'Weapon Slot'],
+            ['秘法 槽位', 'Technique Slot'],
+            ['领域 槽位', 'Domain Slot'],
+            ['法则 槽位', 'Law Slot'],
+            ['道具 槽位', 'Trinket Slot'],
+            ['特殊 槽位', 'Special Slot'],
+        ],
+        '.recipe_name': [
+            ...componentPairs,
+        ],
+        '[data-recipe_id="剑"] .recipe_name': [['剑', 'Sword']],
+        '[data-recipe_id="三叉戟"] .recipe_name': [['三叉戟', 'Trident']],
+        '[data-recipe_id="头盔"] .recipe_name': [['头盔', 'Helmet']],
+        '[data-recipe_id="胸甲"] .recipe_name': [['胸甲', 'Chestplate']],
+        '[data-recipe_id="腿甲"] .recipe_name': [['腿甲', 'Greaves']],
+        '[data-recipe_id="战靴"] .recipe_name': [['战靴', 'Boots']],
+        '[data-recipe_id="轮锋"] .recipe_name': [['轮锋', 'Wheel Blade']],
+        '[data-recipe_id="轮芯"] .recipe_name': [['轮芯', 'Wheel Hub']],
+        '.crafting_selection': [
+            ['选择一个', 'Select one '],
+            ...componentPairs,
+        ],
+        '.recipe_creation_button': [
+            ['制作最大', 'Craft Max'],
+            ['制作', 'Craft'],
+        ],
+        '.enemy_stat': [
+            ['伤害', 'Dmg'],
+            ['防御', 'Def'],
+            ['攻速', 'AS'],
+            ['命中', 'Hit'],
+            ['闪避', 'Eva'],
+        ],
+        // Stat names inside crafting recipe tooltips (parts and gear) —
+        // uses the same shared statPairs as item_tooltip, since these
+        // are the same vocabulary, just a different selector/context.
+        '.recipe_tooltip': [
+            ...statPairs,
+            ['限制境界:', 'Level Restriction:'],
+            ['及以下', 'and below'],
+            ...realmPairs,
+            ...slotPairs,
+            ['槽位: ', 'Slot: '],
+        ],
+        '#message_box_div': [
+            ['掉落', 'Loot:'],
+            ['获取了', 'Gained '],
+            ['获取', 'Obtained:'],
+            ['点', ' '],
+            ['批量使用了', 'Used in bulk:'],
+            ['使用', 'Used'],
+            ['上升了', ' increased by'],
+            ['软上限', 'Soft Cap'],
+            [' 个 ', ', '],
+            [' , ', ', '],
+            ['，', ', '],
+            ['。', '.'],
+            ...statPairs,
+        ],
+        '#skill_list': [
+            ['经验获取:', 'XP Gain:'],
+            ['经验消耗蠕变:', 'XP Cost Scaling:'],
+            ['经验获取', 'XP Gain'],
+            ['已满级', 'Maxed!'],
+            ['行动 技能', 'Activity Skills'],
+            ['角色 技能', 'Character Skills'],
+            ['战斗 技能', 'Combat Skills'],
+            ['合成 技能', 'Craft Skills'],
+            ['环境 技能', 'Environment Skills'],
+            ['秘法 技能', 'Technique Skills'],
+            ['武器 技能', 'Weapon Skills'],
+            ['全部', 'All'],
+            ['良好且规律的作息是好身体的基础,也是修炼技能的基石。到了满级或许可以扭曲时间？', 'A good, regular sleep schedule is the foundation of a healthy body, and also the cornerstone of cultivating skills. Perhaps time itself can be bent at max level?'],
+            ['提升挖掘矿石的技能', 'Improves the skill of mining ore'],
+            ['增加循环系统功能的运动！', 'Exercise that improves circulatory system function!'],
+            ['提升砍伐树木的技能', 'Improves the skill of felling trees'],
+            ['训练敏捷和速度的最佳方案！', 'The best method for training Agility and speed!'],
+            ['交易的艺术', 'The art of trading'],
+            ['杀不死我的，都将使我更强大', 'What doesn\'t kill me makes me stronger'],
+            ['总体战斗技能', 'Overall combat skill'],
+            ['显然的，不容置疑的，绝对的，这还不如用一把武器。不过，为什么不呢？', 'Obviously, indisputably, absolutely worse than just using a weapon. But why not anyway?'],
+            ['准备，装配，构建成品的艺术', 'The art of preparing, assembling, and building finished goods'],
+            ['提炼和升华原料中的有效成分', 'Refines and sublimates the active components within raw materials'],
+            ['变不可吃为可吃', 'Turns the inedible into the edible'],
+            ['冶炼矿石为金属', 'Smelts ore into metal'],
+            ['将金属变为有用之物', 'Turns metal into useful things'],
+            ['在黑暗中视物的能力', 'The ability to see in darkness'],
+            ['天空级强者的修炼功法，对所有技能大有裨益', 'A cultivation technique for Sky-Tier powerhouses, greatly beneficial to all skills'],
+            ['如何在战斗中灵活使用各种秘法的知识', 'Knowledge of how to flexibly use various techniques in combat'],
+            ['最普遍的血洛术式。', 'The most common Blood Falls technique.'],
+            ['传统且高贵的剑术技能', 'A traditional and noble swordsmanship skill'],
+            ['不传统，也不怎么高贵，但好用的三叉戟技能', 'Not traditional, and not very noble, but a useful trident skill'],
+            ['关于所有武器的知识', 'Knowledge concerning all weapons'],
+            ['增加所有低于此技能等级的秘法技能经验获取，每相差一级*1.1', 'Increases XP Gain for all Technique skills below this skill\'s level, by *1.1 per level of difference'],
+            ['增加[融血术]秘法的使用效果', 'Increases the effect of using the [Merge Blood Technique] Technique'],
+            ['将黑暗惩罚削弱到原来的 ^0', 'Weakens the darkness penalty to the original ^0'],
+            ['除外', ' excluded'],
+            ['纯粹黑暗', 'Pure Darkness'],
+            ['增加持剑时暴击率 ', 'Increases Crit Rate while wielding a sword by '],
+            ['增加持三叉戟时暴击率 ', 'Increases Crit Rate while wielding a trident by '],
+            ['将生命上限乘以', 'Multiplies Health Cap by'],
+            ['将攻击速度乘以', 'Multiplies Attack Speed by'],
+            ['将空手暴击率 增加', 'Increases Unarmed Crit Rate by '],
+            ['增加基础', 'Increases base '],
+            ['增加 ', 'Increases '],
+            ...statPairs,
+        ],
+        // Stance list — names + descriptions from the source dump.
+        // Full-phrase matching throughout, since these are all unique
+        // sentences with no reuse potential (unlike stat labels), and
+        // two descriptions reference other stance names in 【】 brackets,
+        // which are translated inline as part of the whole sentence
+        // rather than pattern-matched separately.
+        '#stance_list_div': [
+            ['星标', 'Favorite'],
+            ['选择', 'Select'],
+            ['名称', 'Name'],
+            ['[无]', 'None'],
+            ['不使用任何秘法，仅仅利用蛮力来战斗。', 'Uses no technique at all, relying purely on brute force to fight.'],
+            ['融血·疾', 'Merge Blood · Swift'],
+            ['可以稍微加快攻击速度。', 'Slightly increases attack speed.'],
+            ['融血·锐', 'Merge Blood · Keen'],
+            ['可以略微增强攻击力。', 'Slightly increases attack power.'],
+            ['水无心·流水', 'Water Heartless · Flowing Water'],
+            ['加快攻击速度，并稍微加强攻击力。', 'Increases attack speed, and slightly increases attack power.'],
+            ['水无心·洪水', 'Water Heartless · Flood'],
+            ['加强攻击力，并稍微加快攻击速度。', 'Increases attack power, and slightly increases attack speed.'],
+            ['水无心·雨水', 'Water Heartless · Rain'],
+            ['稍微增幅攻击力和攻击速度，但一次可以攻击多个目标。', 'Slightly boosts attack power and attack speed, but can hit multiple targets at once.'],
+            ['映星花·巨星', 'Starmirror Flower · Superstar'],
+            ['强大的单体攻击秘法，从3个方面对攻击进行叠乘。', 'A powerful single-target technique that multiplies attack across three separate factors.'],
+            ['映星花·繁星', 'Starmirror Flower · Myriad Stars'],
+            ['群体攻击秘法，乘区不如单体攻击，但可以一次攻击3-6个目标。', 'An area-attack technique — weaker multipliers than the single-target version, but hits 3-6 targets at once.'],
+            ['映星花·花海', 'Starmirror Flower · Flower Sea'],
+            ['抛弃了更强的杀伤力，而是专注于保存敌人战利品的价值。同样是攻击3-6个目标。', 'Gives up raw damage in favor of preserving the value of enemy loot drops. Also hits 3-6 targets.'],
+            ['映星天彩·纯色', 'Starmirror Skyrainbow · Pure Color'],
+            ['强大的单体攻击秘法。0级状态即为【映星花·巨星】的极限。', 'A powerful single-target technique. Level 0 already matches the cap of 【Starmirror Flower · Superstar】.'],
+            ['映星天彩·虹彩', 'Starmirror Skyrainbow · Iridescent'],
+            ['群体攻击秘法。0级即为【映星花·繁星】的极限，且不存在无法命中4个目标的虚弱期。', 'An area-attack technique. Level 0 already matches the cap of 【Starmirror Flower · Myriad Stars】, and doesn\'t have the weak period where it can\'t hit all 4 targets.'],
+            ['映星天彩·双虹', 'Starmirror Skyrainbow · Double Rainbow'],
+            ['附带有2连击效果的秘法。代价则是基础数值的缺失。此外，【烈日祝福·艮】或【A9·回风药剂】(没有幸运真的撑得到4-4吗)会覆盖它的效果。', 'A technique with a built-in double-hit effect. The cost is reduced base stats. Also, 【Blazing Sun Blessing · Gen】 or 【A9 · Wind Return Potion】 (can you really make it to 4-4 without Luck?) will override its effect.'],
+            ['映星天彩·血杀', 'Starmirror Skyrainbow · Bloodkill'],
+            ['附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，无法超过自身生命上限。基础数值和【双虹】类似。注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量。', 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level, and can\'t exceed your own max health. Base stats are similar to 【Double Rainbow】. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover.'],
+        ],
+        // Per-stance stat lines ("x1.2 攻击速度" etc) reuse the shared
+        // statPairs vocabulary via substring match, rather than being
+        // enumerated per stance — covers whatever multiplier value the
+        // game actually renders without needing to guess at exact text
+        // for stances not directly seen. Does NOT yet cover
+        // block_strength or hit_chance (used by the defensive/berserk
+        // stances) since their Chinese labels haven't been seen.
+        '.stance_tooltip_stats': [
+            ...statPairs,
+        ],
+    };
+
+    // Escapes regex special characters so a plain string can be used
+    // as a literal pattern with the global flag.
+    function escapeRegex(s) {
+        return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    function applySelector(selector, pairs) {
+        for (const el of document.querySelectorAll(selector)) {
+            const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+            let node;
+            while ((node = walker.nextNode())) {
+                for (const [zh, en] of pairs) {
+                    if (node.textContent.includes(zh)) {
+                        // Global regex, not a plain string replace —
+                        // a term like 点 can appear several times in
+                        // one sentence (once per stat in a bulk-gain
+                        // message), and .replace(str, val) only ever
+                        // replaces the first occurrence.
+                        node.textContent = node.textContent.replace(new RegExp(escapeRegex(zh), 'g'), en);
+                        el.classList.add('translated');
+                    }
+                }
+            }
+        }
+    }
+
+    function scan() {
+        // Skill names run before the buttons/substring pass below —
+        // raw skill name text needs to hit the exact-match pattern
+        // ("SkillName : level X/Y") before anything in #skill_list's
+        // own substring-matched pairs gets a chance to partially
+        // consume it. This is what caused 秘法精通 → "Technique精通"
+        // and 武器精通 → "Weapon精通": the bare 秘法/武器 category-label
+        // pairs fired first and corrupted the longer skill names
+        // before exact-match ever saw the original string. Those bare
+        // pairs are gone now (replaced with combined "X 技能" pairs
+        // that can't collide), but running this first is a second,
+        // independent safety layer against the same class of bug
+        // recurring if more #skill_list buttons pairs get added later.
+        applyItemNames('#skill_list');
+        for (const [selector, pairs] of Object.entries(buttons)) applySelector(selector, pairs);
+        // Item names inside recipe tooltips (result name + materials
+        // list), for every crafting/cooking/component "items"-type
+        // category, parts included.
+        applyItemNames('.recipe_tooltip');
+        // Also try recipe_name headers directly — for single-recipe
+        // items (no material choice) the header IS the item name, so
+        // this catches it. Safe to apply everywhere unconditionally:
+        // it's exact-match, so recipe names that aren't item names
+        // (cooking recipes, component categories) simply find no
+        // match and are left untouched.
+        applyItemNames('.recipe_name');
+        // Preview text on each material option in a "parts" recipe
+        // (sits right before that option's own nested tooltip, which
+        // the .recipe_tooltip call above already covers separately —
+        // directOnly avoids redoing that nested work here).
+        applyItemNames('.selectable_material', true);
+        // Same idea for the equipment-assembly dropdowns (Sword,
+        // Helmet, etc.) — selectable_component's own preview text
+        // ("ItemName, 140%, x1") uses the comma pattern already
+        // handled above, so no new matching logic needed here.
+        applyItemNames('.selectable_component', true);
+        // Inventory: item_tooltip is a separate class from crafting's
+        // recipe_tooltip but the same shape (bolded name up top).
+        // Scoped under #inventory_content_div in case these class
+        // names get reused in a shop/trade window elsewhere.
+        // item_tooltip is reused across inventory AND the gear tab
+        // (and possibly elsewhere), so this is intentionally unscoped
+        // rather than tied to #inventory_content_div.
+        applyItemNames('.item_tooltip');
+        // Inventory: the compact visible name, which sits in one of
+        // two wrapper classes depending on equipped vs regular —
+        // nesting depth varies (sometimes an extra rarity_* span in
+        // between) but the full-subtree walk handles that either way.
+        // Same two wrapper classes as before, now confirmed reused in
+        // the trader panel too, so unscoped rather than tied to
+        // #inventory_content_div.
+        applyItemNames('.equipped_item_name, .inventory_item_name');
+        // Gear tab: visible name on each equipped slot. Direct-child
+        // combinator so this only catches the outer rarity_* span
+        // (the item's name) and not the same-classed rarity_* span
+        // nested inside item_tooltip (that one's a quality percentage,
+        // already covered separately by the item_tooltip call above).
+        applyItemNames('.equipment_slot_div > [class*="rarity_"]');
+        // Bestiary/levelary loot info — both reuse the same
+        // bestiary_entry_tooltip class (one shared list component for
+        // both), but format loot differently: bestiary wraps each name
+        // in its own .loot_name div (plain exact-match), while
+        // levelary is raw "[ Name ] - X%" text lines with no wrapper,
+        // caught by the bracket pattern instead. Scoping to the whole
+        // tooltip (not just .loot_name) picks up both at once. Not
+        // container-scoped like the inventory calls above — this
+        // tooltip may detach/reattach elsewhere in the DOM on hover
+        // rather than staying nested under #bestiary_list/#levelary_list,
+        // so scoping to a container here risks silently missing it.
+        // Safe either way since matching is content-based, not a
+        // persisted "already done" flag.
+        applyItemNames('.bestiary_entry_tooltip');
+        // Event/message log — quote-wrapped item names within entries
+        // like loot drops. Scoped to the whole log container (not just
+        // .message_loot) in case other message types reference items
+        // too. Unlike everything else scoped so far, this container
+        // can grow unboundedly over a long play session rather than
+        // staying at a fixed size — should be fine at any reasonable
+        // log length, but if a slowdown ever shows up specifically
+        // tied to very long sessions with a huge accumulated log,
+        // this is the first place to look.
+        applyItemNames('#message_box_div');
+        // Gathering tooltip's drop-chance items ("百年柳木" etc) are
+        // quote-wrapped — same quote pattern as the message log, no
+        // new matching logic needed, just this call. The gathering
+        // skill name is also quote-wrapped in the same tooltip
+        // (e.g. "砍伐"), but isn't in itemNames, so the pattern safely
+        // no-ops on it there; the buttons-mechanism entry above
+        // handles that one instead.
+        applyItemNames('#gathering_tooltip');
+    }
+
+    scan();
+    document.addEventListener('DOMContentLoaded', scan);
+
+    // Re-scan when new nodes appear (menus/dialogs opening, tabs
+    // switching, or content getting rebuilt), batched to at most once
+    // per animation frame.
+    let queued = false;
+    function scheduleScan() {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(() => { queued = false; scan(); });
+    }
+
+    new MutationObserver(scheduleScan).observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+    });
+})();

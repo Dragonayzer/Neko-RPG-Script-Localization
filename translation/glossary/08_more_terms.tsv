@@ -1,0 +1,108 @@
+# Third sweep, from the coverage audit (audit_coverage.py). Forced substrings,
+# ␣ = literal space. Recipe/activity names are compositional, so most of this
+# file is verbs, suffixes and qualifiers that combine with the material names
+# already in 00_morphemes rather than one entry per recipe.
+#
+# --- crafting verbs / qualifiers ---
+熔炼	Smelt␣
+提炼	Extract␣
+精炼	Refine␣
+锤炼	Forge␣
+重铸	Reforge␣
+注灵	␣Spirit-Infusion
+处理	␣Processing
+拆包-	Unpack␣-␣
+合金	␣Alloy
+粗制	Crude
+精制	Refined
+改良	Improved
+古法	Ancient␣Method
+进阶	Advanced␣
+精英	Elite␣	V3.42; matches 精英炼金药剂-吹火 etc., the C6 recipe tier. Same shape as 进阶
+超浓缩	Ultra-Concentrated␣
+暗影提炼	Shadow␣Refining
+柳木注灵	Willow␣Spirit-Infusion
+铜骨注灵	Copper␣Bone␣Spirit-Infusion
+符文工作台	Rune␣Workbench
+月轮	Moonwheel
+#
+# --- cooking / alchemy ---
+烤肉	␣Grilled␣Meat
+炸肉	␣Fried␣Meat
+鱼肉	Fish
+炼金药剂	Alchemy␣Potion
+药剂	␣Potion
+#
+# --- weapon name suffix ---
+·改	␣·␣Modified
+#
+# --- traders ---
+自动售货机	Vending␣Machine
+矿井集市	Mine␣Market
+金属批发商	Metal␣Wholesaler
+营地商铺	Camp␣Shop
+物品存储箱	Item␣Storage␣Chest
+废墟商人	Ruins␣Merchant
+飞船集市	Spaceship␣Market
+百宝楼	Treasure␣Pavilion
+声望商人	Prestige␣Merchant
+燕岗杂货铺	Yangang␣General␣Store
+#
+# --- activities ---
+练习奔跑	Running␣practice
+练习游泳	Swimming␣practice
+感应水元素	Sense␣the␣water␣element
+抡着镐子	Swinging␣a␣pickaxe
+# The WHOLE phrase, not a bare 木头. 收集 is already a fragment ("Collect"), so
+# it consumed the front and left "Collect木头" on screen. 木头 occurs exactly
+# once in the entire game source - here - so a standalone entry for it would be
+# a fragment that can only ever fire inside this one phrase anyway.
+# Longest-first ordering is what makes this beat the bare 收集.
+收集木头	Collecting␣wood
+在郊区尽情地跑步	Run␣freely␣in␣the␣outskirts
+在河中练习游泳	Practice␣swimming␣in␣the␣river
+挖掘部分紫铜矿石	Mine␣some␣Copper␣Ore
+挖掘煤矿石	Mine␣Coal␣Ore
+在荒兽森林中砍伐柳木	Fell␣willow␣in␣the␣Wildbeast␣Forest
+在结界湖中垂钓	Fish␣in␣Barrier␣Lake
+砍伐密林的云霄一阶树妖	Fell␣the␣Skyhigh-Tier␣Rank␣1␣Treants␣of␣the␣Deepwood
+#
+# --- travel / action buttons ---
+睡一会	Sleep␣a␣while
+前往工作台	Go␣to␣the␣workbench
+听话离去	Leave␣obediently
+暂时退避	Retreat␣for␣now
+暂时返回	Return␣for␣now
+离开这个是非之地	Leave␣this␣troublesome␣place
+退避三舍	Back␣off
+回去练练再来挑战	Go␣train,␣then␣come␣back␣to␣challenge
+就地休整	Rest␣here
+迅速逃离	Flee␣quickly
+#
+# --- combat / system messages ---
+试图再次击杀	Tried␣to␣kill␣again
+试图在	Tried␣in␣
+中生成未定义的敌人	:␣generating␣undefined␣enemy
+召唤了	Summoned␣
+试图创建未定义的敌人	Tried␣to␣create␣undefined␣enemy
+的怪物手册条目	's␣Bestiary␣entry
+特殊属性␣编号	Special␣attribute␣#
+生命值完全恢复了	Health␣fully␣restored
+同时攻击最多	Simultaneously␣hits␣up␣to␣
+回合	␣turns
+#
+# --- misc UI ---
+镐子	Pickaxe
+斧子	Axe
+等级	Level
+[阅读]	[Read]
+[卸下]	[Unequip]
+导出	Export
+水元素感应	Water␣Element␣Sensing
+肤·免疫	Skin␣·␣Immunity
+燕岗城郊	Yangang␣Outskirts
+前往声律城	Heading␣to␣Shenglü␣City
+播放失败:	Playback␣failed:
+映星天彩·双红	Starmirror␣Skyrainbow␣·␣Double␣Red
+合成	Crafting	skill name in messages ("合成 达到了 level 12"). Safe as a substring: the Craft TAB lives in #crafting_window, which is NOT in EARLY_PROSE_FULL, so v4.0 pair renders it "Craft" before the late pass arrives.
+战斗	Combat	skill name; FRAGMENT so it resolves inside message templates ("战斗 达到了 level 18"). Longer 战斗-strings win by longest-first + exact-before-fragment.

@@ -1,0 +1,39 @@
+# done_v341 (_todo_v341 rows 1-26). KEY = _todo ROW NUMBER, 'row' mode.
+# V3.41c content: the Blood Peak zone (45). Enemy/location descriptions plus the
+# 反击 spec's own description and combat-log line.
+#
+# Glossary anchors used: 鲜血峰 = Blood Peak, 结界湖 = Barrier Lake, 荒兽 =
+# Wildbeast, 血洛 = Bloodfall, 大眼八爪鱼 = Big-Eyed Octopus, 吹火掌 =
+# Fire-Blowing Palm, 灵闪 = Spirit Flash, 惑幻 = Bewitch, 死线 = Deadline,
+# 红邪鬼 = Red Fiend, ·花海 = · Flower Sea, 红宝石 = Red Gem (宝石 = Gem).
+# 喵可 is Neko's cutesy self-nickname (喵 = meow), kept as Meowko.
+#
+# Rows 25-26 keep their ${...} and <span> verbatim and in the SAME order as the
+# Chinese - row 26 must split into three text chunks around the span exactly as
+# the source does, or add_chunk pairs the wrong halves.
+1	The domain of 【Great Verdant King Yusna】. Blood-path cultivation methods are commonplace here… rather sinister, isn't it.
+2	A vast, teeming sea of giants. Their attacks look painful, and honestly they are not one bit easier than they look.
+3	Some kind of mass-produced modified warrior, built for brute offense. Strong for its tier.
+4	Some kind of mass-produced modified warrior, well-rounded. Middling for its tier.
+5	You… where do you get the confidence to catch Meowko? How is that any different from polluting the enemy pool…
+6	A Big-Eyed Octopus grown strong through the essence-blood path. At least its flesh energy is too muddled to be useful, so it won't get carved up like the ones in Barrier Lake…
+7	Deliberately preserved, right in the middle of the chaotic mid-slope grounds that keep fights from breaking out on Blood Peak. Crowds of powerhouses gather here to fight to the death — but kill them all and you get both sides' property…
+8	Ugh… is this Great Verdant King territory actually hell…? So many horrifying flesh creatures… without enough Agility you'll be devoured in an instant.
+9	Hehe, sneaking extra attack speed onto Fire-Blowing Palm — what a lovely thing that is.
+10	If you can't break through Spirit Flash you probably won't break its defense at all… looks like the one above caps Attack, but actually that's my Red-White Princess!
+11	If you run into a BOSS with this special property you can switch to · Flower Sea for a bit… but not for trash mobs, surely!
+12	Right — there really are a great many Wildbeast farms around… so it's no surprise this area has plenty of strong Wildbeasts that escaped. Savages and giants count as Wildbeasts in a sense too — they can't even speak the Bloodfall common tongue.
+13	We still don't know why Red-Gem shields have such formidable defense. But perhaps this is a later name in a cultivation system like Gold–Sapphire–Amethyst?
+14	Oh my god, Lord Deadline… I was going to bring the Red-Servant Imp over too, but now there's probably no need. Honestly, if your Attack is too low you won't break its defense, so you won't get hit at all (?
+15	So — you're telling me ten of you Skyhigh-4s put together are still just Skyhigh-4 in power? You obviously just waited for one to dodge and had the other nine loose arrows! Then one dies and nine slip away…
+16	The so-called "absorbing essence blood too muddled, so residual consciousness invades you" doesn't exist yet at the Skyhigh realm. Human or animal Wildbeast, once the brain is gone it's dead for good.
+17	By attack, defense and the standards, you could call it 3+ Peak / 4+ Early… but its health is far too thin! And it has no mechanic! Rejected~ derpy Wild Bear!
+18	The reworked Bewitch generally still delivers the effect it should… with a frame this small, it drops dead before three rounds are up, so it eats less damage!
+19	Spring is here, and it's the season for explorers to respawn at random again~ These explorers are the easiest to fool; they charge in thinking there's some heavenly treasure.
+20	Powerhouses from the 【Dusk Domain】 battlefield, devotees of the myth that speed beats all. Now this finally looks like a squad… two tiers up, plus a plus sign!
+21	A 【Red Fiend】 that never turned. Without Fire-Blowing Palm it instantly becomes a nobody… I'll have to learn that skill sooner or later!
+22	After some investigation, there are no human farms nearby. The blood all comes from farmed high-bloodline Wildbeasts — those grow fast, and the blood quality is high.
+23	A relatively tough amplifier crystal. An important material for the 【Blood Peak Amplifier】…
+24	A relatively fragile amplifier crystal. An important material for the 【Blood Peak Limiter】…
+25	${f_enemy.name} drained ${format_number(character.stats.full.attack_power)} Attack [Counterattack]
+26	Before combat, the enemy adds <span style='color:#87CEFA'>100%</span> of the character's Attack to its own Attack

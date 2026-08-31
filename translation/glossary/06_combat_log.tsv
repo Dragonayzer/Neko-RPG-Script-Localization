@@ -1,0 +1,38 @@
+# Combat log + misc UI literals missed by the first pass. zh <TAB> en <TAB> [note]
+# Source: main.js / display.js short string literals (see diag_combat.py).
+#
+# ␣ = a literal space. Chinese runs words together where English needs separators,
+# and a real trailing space in a TSV is invisible and gets eaten by editors, so
+# build.py substitutes ␣ -> " " on load. Applied as substrings (longest first),
+# so " 伤害[暴击]" wins over " 伤害".
+#
+# --- damage / combat lines: "X 受到了 N 伤害[暴击]" ---
+受到了	␣took␣	verb: took (damage)
+伤害[暴击]	␣damage␣[Crit]
+伤害[反戈]	␣damage␣[Backlash]
+伤害[阻击]	␣damage␣[Interception]
+伤害[领域]	␣damage␣[Domain]
+点伤害	␣damage	点 = counter word, dropped in English
+伤害	␣damage
+未命中,并受到了	␣missed,␣and␣took␣
+未命中	␣missed
+闪避了一次	␣dodged␣an␣
+被打败,获取	␣was␣defeated,␣gained␣
+被反伤击败	␣was␣defeated␣by␣reflected␣damage
+被阻击击败	␣was␣defeated␣by␣Interception
+被领域击败	␣was␣defeated␣by␣the␣Domain
+经验值	␣XP
+(越级+	(Up-tier␣+	fighting above your level
+(压级-	(Suppressed␣-	level-suppression penalty
+#
+# --- character panel ---
+燕岗领排名:	Yangang␣Fief␣Ranking:	#character_rank_div
+战力:	Combat␣Power:
+#
+# --- travel buttons ---
+进入␣[	Enter␣[
+进入	Enter␣
+前往␣[	Go␣to␣[
+前往	Go␣to␣
+回到	Return␣to␣	NB: the v4.0 ['到','to'] pair mangles this to "回to" if it runs first
+[领域]	[Domain]	spec tag on "…点伤害[领域]". 领域 is typed `slot` in 00_morphemes so it is EXACT-only and cannot match inside a longer node; bracket-scoped keeps it off prose.

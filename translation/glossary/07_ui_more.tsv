@@ -1,0 +1,116 @@
+# Second sweep of UI literals, from the reference-screenshot report.
+# Same rules as 06: these are FORCED SUBSTRINGS (applied inside longer text),
+# and ␣ stands for a literal space. Longest-first ordering is applied at build
+# time, so "黑暗森林" (Dark Forest) still beats the bare "黑暗" below.
+#
+# --- bestiary / levelary tooltip section headers ---
+属性:	Stats:
+战利品:	Loot:
+预期收益/敌人：	Expected␣Value/Enemy:␣
+预期收益:	Expected␣Value:
+名称	Name
+#
+# --- journal panels ---
+心之境界	Heart␣Realm
+燕岗银行	Yangang␣Bank
+提现	Withdraw
+#
+# --- realm badges: "大地级六阶 +" -> "Earth-Tier Rank 6 +" -------------------
+# These were skipped in the first pass on the assumption they would compose
+# from the morpheme glossary, but those entries are exact-match only and a
+# badge is a single node, so nothing ever matched.
+微尘级	Dust-Tier␣
+万物级	All-Things-Tier␣
+潮汐级	Tide-Tier␣
+大地级	Earth-Tier␣
+天空级	Sky-Tier␣
+云霄级	Skyhigh-Tier␣
+领域级	Domain-Tier␣
+一阶	Rank␣1
+二阶	Rank␣2
+三阶	Rank␣3
+四阶	Rank␣4
+五阶	Rank␣5
+六阶	Rank␣6
+七阶	Rank␣7
+八阶	Rank␣8
+九阶	Rank␣9
+巅峰	Peak
+破限	Limit-Break
+# sub-ranks: "微尘级初级" -> "Dust-Tier Basic". These exist in 00_morphemes but
+# only as exact matches, so they never fired inside a composed badge.
+初级	Basic
+中级	Intermediate
+高级	Advanced
+初等	Basic
+高等	High-Tier
+#
+# --- light / environment levels (levelary "黑暗 I : ...") ---
+黑暗	Darkness
+明亮	Bright
+纯粹黑暗	Pure␣Darkness
+威压	Intimidation
+#
+# --- misc ---
+合成␣:	Crafting␣:	skill bar; scoped with the colon so the 合成 Craft button is untouched
+用镐子破坏光环	Break␣the␣aura␣with␣a␣pickaxe
+用镐子挖出	Dig␣out␣with␣a␣pickaxe
+基础值:	Base␣Value:	concatenated mid-line ("攻击速度 x0.785 [基础值: x0.5]"), so the anchored regex can never fire; also covers the stat-breakdown tooltip
+
+# --- v9.9: crafting component categories, bracket-scoped ---
+# display.js: `选择一个[${ComponentNameMap[recipe.components[n]]}]`
+# The category name is spliced into a longer node, and all 13 names are
+# EXACT-only (`component` rows in 00_morphemes.tsv; file 00 is not a
+# forced-fragment file), so none could resolve - every crafting dropdown
+# read "Select one [轮锋]". Scoped by the brackets on purpose: 轮芯 also
+# appears inside compound item names (凝胶轮芯 = Gel Wheel Hub), and a bare
+# fragment could split those when the compound itself is not a key.
+[剑刃]	[Sword Blade]
+[三叉戟头]	[Trident Head]
+[剑柄]	[Sword Hilt]
+[头部外甲]	[Head (Outer)]
+[胸部外甲]	[Chest (Outer)]
+[腿部外甲]	[Legs (Outer)]
+[脚部外甲]	[Feet (Outer)]
+[头部内甲]	[Head (Inner)]
+[胸部内甲]	[Chest (Inner)]
+[腿部内甲]	[Legs (Inner)]
+[脚部内甲]	[Feet (Inner)]
+[轮芯]	[Wheel Hub]
+[轮锋]	[Wheel Blade]
+
+# --- v10.0: found by the project-wide embedded-name sweep ---
+# display.js: `x${mult} ${MulNameMap[k]} 经验获取`. MulNameMap is
+# {"all":"全部","hero":"等级","all skill":"技能"}. 等级 resolves; 全部 and
+# 技能 do NOT - both are deliberately non-global (全部 is a v4.0 button
+# pair, 技能 as a bare fragment breaks "秘法 技能" -> Technique Skills).
+# Scoped to this readout by including 经验获取, so neither escapes it.
+全部␣经验获取	All␣XP␣Gain
+技能␣经验获取	Skill␣XP␣Gain
+# The "no stance" entry in combat_stances.js. Bracket-scoped: bare 无 is a
+# common character and must never become a fragment.
+[无]	[None]
+
+# --- v10.3: Deepfrost phase-change engine ---
+# `环境 : <span id="engine_result_temp">` - concatenated, so a fragment.
+环境␣:	Environment␣:
+# The leave button is 155px wide. "离开" + "极寒相变引擎" composed to
+# "LeaveDeepfrost Phase-Change Engine" - no space (离开 carries none) and far
+# too wide. One entry for the whole label instead; you are already inside
+# the engine, so naming it again is redundant.
+离开极寒相变引擎	Leave␣Engine
+
+# --- v10.5: Blazing Sun blessing time periods ---
+# main.js: `目前的时段为 ${MM1[C_time]}，` - the whole line is one node, so the
+# rule fires and inserts the period as $1 verbatim, leaving "23-45点".
+# Listed explicitly (the array is a fixed 8 values) rather than making 点 a
+# fragment - 点 is far too common (点伤害, 点数, 一点...) to risk globally.
+# A Bloodfall day runs 0-180, so these are hours.
+0-23点	0-23␣h
+23-45点	23-45␣h
+45-67点	45-67␣h
+67-90点	67-90␣h
+90-113点	90-113␣h
+113-135点	113-135␣h
+135-157点	135-157␣h
+157-180点	157-180␣h

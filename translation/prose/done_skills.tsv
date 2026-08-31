@@ -1,0 +1,32 @@
+# done_skills prose (_todo rows, keyed by srcline). ${...} preserved. (Skill NAMES were in glossary/03_skills.tsv.)
+202	${this.name()} reached level ${this.current_level}
+205	<br><br> Because ${this.name()} reached a new milestone, ${character.name} gained:
+417	, x${milestone.xp_multipliers[xp_multipliers[0]]} ${name} XP Gain
+419	x${milestone.xp_multipliers[xp_multipliers[0]]} ${name} XP Gain
+428	, x${milestone.xp_multipliers[xp_multipliers[i]]} ${name} XP Gain
+455	Increases Agility by ${Math.round(skills["Combat"].get_coefficient("multiplicative")*1000-1000)/10}%
+520	Increases Unarmed Crit Rate by ${Math.round(skills["Unarmed"].get_coefficient("multiplicative")*1000-1000)/10}%
+659	Increases base XP gain, and additionally increases Domain XP gain
+701	Increases base XP gain, and additionally increases 【Starmirror Flower】 XP gain
+753	Base Attack, Defense, Agility + ${format_number(R_value)}
+776	Increases the effect of using [Water Heartless]-series Techniques
+788	Increases the effect of using [Starmirror Flower]-series Techniques
+800	Increases the effect of using [Starmirror Skyrainbow]-series Techniques
+862	Weakens the darkness penalty to the original ^${Math.round(100-100*skills["Night vision"].current_level/skills["Night vision"].max_level)/100} ('Pure Darkness' excluded)
+899	Weakens the intimidation penalty to the original ^${Math.round(100-100*skills["Resistance"].current_level/skills["Resistance"].max_level)/100}
+944	Weakens the 'Pure Darkness' penalty to the original ^${Math.round(100-100*skills["Presence sensing"].current_level/skills["Presence sensing"].max_level)/100}
+1042	Venom damage weakened to ${100-skills["Toxic resistance"].current_level*5}% of the original,<br>then further weakened by 【Tough Skin】 to ${(100*(0.99**skills["Iron skin"].current_level)).toFixed(2)}% of the original.<br>Venom defense penalty ^${(1-skills["Toxic resistance"].current_level*0.05).toFixed(2)}
+1068	Increases XP gain for all weapon skills, +10% per level
+1118	Increases Crit Rate while wielding a sword by ${Math.round(skills["Swords"].get_coefficient()*1000- 1000)/10 }%
+1152	Increases Crit Rate while wielding a trident by ${Math.round(skills["Tridents"].get_coefficient()*1000- 1000)/10 }%
+1170	Increases Crit Rate while wielding a Moonwheel by ${Math.round(skills["Moonwheels"].get_coefficient()*1000- 1000)/10 }%,<br>and the Basic Attack Multiplier while wielding a Moonwheel becomes ${phase_mul[phase]}x.
+1635	Multiplies Attack Speed by ${format_number(value)}
+1704	Multiplies Health Cap by ${format_number(value)}
+1727	Multiplies Domain comprehension speed by ${format_number(value)} [becomes ^0.25 after Lv.39]
+1747	Harvest radius ${format_number(15+1.5*value)}px, spawn rate ${format_number(0.5+0.1*value)}/s,<br>capacity cap ${format_number(Math.floor((value + 1) ** 1.5 * 10))}, 【Radiance-Devouring Orchid】 chance: ${format_number(value ** 0.7 / 20)}% <br>${(character.equipment.sickle?.name == "死神之镰")?"<span style='violet'><b>[Reaper's Scythe active / effective level +4]</b></span>":""}
+1766	Grapple grab radius ${format_number(16+0.5*value)}px, swing rate ${format_number(0.2+0.02*value)}/s, retract speed +${format_number(10*value)}%, time to find new treasure ${format_number(3-0.1*value)}s.<br><br>${format_number(character.stats.full.agility)} Agility -> ${format_number((character.stats.full.agility/1e8)**(2/3))} px/s grapple speed
+1999	"Fishing bar" length: 40px ->  ${format_number(40+value)}px.
+2043	Base quality ${Math.round(2*skills["Crafting"].current_level+90)} %
+2064	Base quality ${Math.round(2*skills["Forging"].current_level+90)} %
+2099	Increases base Defense by ${Math.round(100*skills["Iron skin"].get_level_bonus())} %
+2161	Lowers the purchase price to ${Math.round((Math.pow(0.98,skills["Haggling"].current_level))*10000)/100}% of the original (no lower than 110%)

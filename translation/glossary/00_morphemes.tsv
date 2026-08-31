@@ -1,0 +1,176 @@
+# NekoRPG canonical morpheme glossary — the compositional backbone.
+# Item/equipment names are built as  MATERIAL + COMPONENT  (e.g. 精钢+剑刃 = Steel Sword Blade).
+# Fix these once and every compositional item name is consistent by construction.
+# Columns:  zh <TAB> en <TAB> category <TAB> note
+# Reconciled against Script.txt v4.0 existing choices. Where a "material" is an
+# over-stripping artifact of a longer unique name, it's tagged category=NOT-A-MATERIAL.
+#
+# === MATERIALS (prefixes) ===
+铁	Iron	material
+铁制	Iron	material	"iron-made"; used on 铁制头盔 etc. Renders same as 铁
+精钢	Steel	material
+紫铜	Copper	material
+宝石	Gem	material
+宝石母	Raw Gem	material	宝石母锭 = Raw Gem Ingot
+地宫	Crypt	material
+地宫金属	Crypt Metal	material
+暗影	Shadow	material
+暗影钢	Shadowsteel	material
+充能	Charged	material
+充能合金	Charged Alloy	material
+脉冲	Pulse	material
+脉冲合金	Pulse Alloy	material
+蓝金	Blue Gold	material
+海绿	Seagreen	material
+红钢	Red Steel	material
+秘银	Mithril	material
+旋律	Melody	material
+旋律合金	Melody Alloy	material
+冰髓	Frostmarrow	material
+万载冰髓	Age-Old Frostmarrow	material
+晶化	Crystallized	material
+晶化合金	Crystallized Alloy	material
+水素	Hydrogen	material
+水素合金	Hydrogen Alloy	material
+魂晶	Soul Crystal	material
+盖亚	Gaia	material
+盖亚合金	Gaia Alloy	material
+远古	Ancient	material
+远古合金	Ancient Alloy	material
+源金	Primal Gold	material
+古源金	Ancient Primal Gold	material
+红钨	Red Tungsten	material
+血灵	Bloodspirit	material
+破空	Skybreaker	material
+虹彩	Iridescent	material
+光暗	Light-Dark	material
+黑森	Blackwood	material
+密林	Deepwood	material
+极寒	Deepfrost	material
+幻符	Phantom Rune	material
+高能	High-Energy	material
+活性	Reactive	material
+粘合	Adhesive	material
+异兽	Aberrant Beast	material
+苇编	Woven Reed	material
+冰棉	Frost Cotton	material	青冰棉 = Blue Frost Cotton
+柳木	Willow	material
+改良	Improved	material
+骨	Bone	material
+铜骨	Copper Bone	material
+水晶	Crystal	material
+凝胶	Gel	material	also a standalone item/component
+固态	Solid	material	固态凝胶 = Solid Gel
+流动	Flowing	material	流动凝胶 = Flowing Gel
+五彩	Rainbow	material	五彩凝胶 = Rainbow Gel
+血钻	Blood Diamond	material	V3.42; 血钻锭 = Blood Diamond Ingot, 血钻轮锋 = Blood Diamond Wheel Blade
+亮青	Bright-Cyan	material	V3.42; anchored on the existing 亮青水晶 = Bright-Cyan Crystal
+鲜红	Bright-Red	material	V3.42; anchored on the existing 鲜红八爪鱼 = Bright-Red Octopus
+灰暗	Dusk	material	V3.42; anchored on the existing 灰暗双剑小队 = Dusk Twin-Sword Squad
+血峰	Blood Peak	material	V3.43; short form of the zone 鲜血峰 = Blood Peak
+光环	Aura	NOT-A-MATERIAL	光环杖芯 = Aura Staff Core (unique)
+断	Broken	NOT-A-MATERIAL	断剑 = Broken Sword (unique)
+血杀	Bloodkill	NOT-A-MATERIAL	血杀剑 = Bloodkill Sword (unique)
+一捆	Bundle of	prefix-qty	一捆X = "Bundle of X"; quantity prefix, not a material
+#
+# === COMPONENTS (suffixes) ===
+锭	Ingot	component
+碎片	Fragment	component	matches the existing 甲壳碎片/蓝金碎片/远古碎片 = … Fragment
+军魂	Army Soul	component	V3.42; 灰暗军魂 = Dusk Army Soul
+能量核心	Energy Core	component	anchored on the existing C1·能量核心 = C1 · Energy Core
+限制器	Restrictor	component	V3.43; 血峰限制器 = Blood Peak Restrictor
+增幅器	Amplifier	component	V3.43; 血峰增幅器 = Blood Peak Amplifier
+矿	Ore	component
+织料	Cloth	component
+凝胶	Gel	component
+剑刃	Sword Blade	component
+剑柄	Sword Hilt	component
+剑	Sword	component	full weapon
+三叉戟头	Trident Head	component
+戟头	Trident Head	component	short form of 三叉戟头
+三叉戟	Trident	component	full weapon
+轮锋	Wheel Blade	component
+轮芯	Wheel Hub	component
+杖芯	Staff Core	component
+镐	Pickaxe	component	tool
+斧	Axe	component	tool
+镰刀	Scythe	component	tool
+钻头	Drill	component	tool
+头盔	Helmet	component	metal armor set
+胸甲	Chestplate	component	metal armor set
+腿甲	Greaves	component	metal armor set
+战靴	Boots	component	metal armor set
+帽子	Hat	component	cloth armor set
+背心	Vest	component	cloth armor set
+裤子	Pants	component	cloth armor set
+袜子	Socks	component	cloth armor set
+皮肤	Skin	component	skin/hide line
+头部内甲	Head (Inner)	component	crafting sub-part
+头部外甲	Head (Outer)	component	crafting sub-part
+胸部内甲	Chest (Inner)	component	crafting sub-part
+胸部外甲	Chest (Outer)	component	crafting sub-part
+腿部内甲	Legs (Inner)	component	crafting sub-part
+腿部外甲	Legs (Outer)	component	crafting sub-part
+脚部内甲	Feet (Inner)	component	crafting sub-part
+脚部外甲	Feet (Outer)	component	crafting sub-part
+#
+# === STATS ===
+生命	Health	stat
+生命上限	Health Cap	stat
+生命恢复	Health Regeneration	stat
+攻击	Attack	stat	short form
+攻击力	Attack Power	stat	crafting form
+防御	Defense	stat	short form
+防御力	Defense Power	stat	crafting form
+攻速	Attack Speed	stat	short form
+攻击速度	Attack Speed	stat	crafting form
+暴击率	Crit Rate	stat
+暴率	Crit Rate	stat	short form
+暴击概率	Crit Probability	stat	crafting form
+暴击伤害	Crit Damage	stat
+爆伤	Crit Damage	stat	short form
+普攻倍率	Basic Attack Multiplier	stat
+敏捷	Agility	stat
+幸运	Luck	stat
+宝石耐性	Gem Resistance	stat
+#
+# === EQUIPMENT SLOTS ===
+头部	Head	slot
+躯干	Torso	slot
+腿部	Legs	slot
+脚部	Feet	slot
+武器	Weapon	slot
+秘法	Technique	slot	NOT Method/Stance — canonical per Script.txt
+领域	Domain	slot
+法则	Law	slot
+道具	Trinket	slot
+特殊	Special	slot
+#
+# === REALM TIERS + RANKS ===
+微尘级	Dust-Tier	realm
+万物级	All-Things-Tier	realm
+潮汐级	Tide-Tier	realm
+大地级	Earth-Tier	realm
+天空级	Sky-Tier	realm
+云霄级	Skyhigh-Tier	realm
+初级	Basic	rank	微尘级 sub-rank
+中级	Intermediate	rank	微尘级 sub-rank
+高级	Advanced	rank	微尘级 sub-rank
+初等	Basic	rank
+高等	High-Tier	rank
+巅峰	Peak	rank
+一阶	Rank 1	rank
+二阶	Rank 2	rank
+三阶	Rank 3	rank
+四阶	Rank 4	rank
+五阶	Rank 5	rank
+六阶	Rank 6	rank
+七阶	Rank 7	rank
+八阶	Rank 8	rank
+九阶	Rank 9	rank
+一重	Tier 1	tier
+二重	Tier 2	tier
+三重	Tier 3	tier
+四重	Tier 4	tier
+五重	Tier 5	tier
+六重	Tier 6	tier

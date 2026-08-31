@@ -1,0 +1,54 @@
+# Full-phrase dialogue options. zh <TAB> en <TAB> [note]
+#
+# NOT a forced-substring file (no 05_-10_ prefix), so these land in proseExact
+# and are matched at the EXACT stage - which runs BEFORE the template regexes.
+# That ordering is the whole point: the generic pattern
+#     ^[和与]\s*(.+?)\s*对话$  ->  "Talk with $1"
+# would otherwise fire first and emit "Talk with 结界湖的神秘强者", leaving the
+# captured group untranslated for the fragment pass to half-fix into
+# "Talk with Barrier Lake的神秘强者".
+#
+# The pattern stays useful for options whose middle is just a name
+# ("和 枫杏红 对话" -> "Talk with Feng Xinghong"); it must simply not outrank a
+# translation of the entire line.
+和结界湖的神秘强者对话	Talk with the mysterious powerhouse of Barrier Lake
+和突然出现的神秘少女交流	Speak with the mysterious girl who appeared
+和走廊中的粉发少女交流	Speak with the pink-haired girl in the corridor
+和粉发少女[溪月]对话	Talk with the pink-haired girl [Xiyue]
+和铁甲青年对话	Talk with the iron-armoured youth
+和怨念集合体对话	Talk with the mass of resentment
+和峰大哥对话	Talk with Brother Feng
+和峰大哥(?)对话	Talk with Brother Feng(?)
+和左阿“前辈”对话	Talk with "Senior" Zuo'a
+和溪月对话	Talk with Xiyue
+与父亲纳布对话	Talk with Father Nabu
+峰	Feng	the character; the item is his stat card. 巅峰 (Peak) is separate
+峰(飞云)	Feng (Feiyun)
+左阿(决战)	Zuo'a (Final Battle)
+
+# --- v8.6: tool-slot tooltips ---
+# display.js builds `你的 ${mapp[key]} 槽位`. v4.0 has pairs for the 10 original
+# slots in both forms, but the 3 TOOL slots were added later and have none.
+# EXACT (not fragment) on purpose: .item_tooltip is in EARLY_PROSE_EXACT_SEL,
+# which runs exact-only, so this fires immediately instead of waiting for the
+# per-panel pass. The regex in build.py covers any slot added in future.
+你的 镰刀 槽位	Your Scythe Slot
+你的 镐子 槽位	Your Pickaxe Slot
+你的 斧子 槽位	Your Axe Slot
+
+# --- v9.8: the character 峰 (Feng) inside name-embedding templates ---
+# "你应该与 ${dialogue} 对话" and "[和与] ${name} 对话" are whole-node REGEXES,
+# and a regex inserts $1 verbatim. 峰 is EXACT-only on purpose - as a
+# fragment it would wreck 巅峰 (Peak) and 峰大哥 - so it cannot resolve when
+# embedded, and the log read "You should talk to 峰".
+#
+# EXACT entries for the rendered forms instead: stage 1 runs BEFORE the
+# regex stage, so these win outright and 峰 stays out of the fragment
+# alternation entirely. 47 of the 49 dialogue names already resolve as
+# fragments; these two are the only ones that cannot.
+你应该与 峰 对话	You should talk to Feng
+你应该与 峰(飞云) 对话	You should talk to Feng (Feiyun)
+与 峰 对话	Talk with Feng
+与 峰(飞云) 对话	Talk with Feng (Feiyun)
+和 峰 对话	Talk with Feng
+和 峰(飞云) 对话	Talk with Feng (Feiyun)

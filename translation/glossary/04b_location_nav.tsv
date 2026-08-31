@@ -1,0 +1,78 @@
+# NekoRPG travel/nav button labels (custom_text) — zh <TAB> en.  Source: locations.js custom_text.
+# 72 entries. Full-phrase translation (Chinese SVO needs reordering, so substring templating
+# can't be used, e.g. 与X战斗 = "Fight X"). Embedded names reconciled with 02_enemies.tsv +
+# the location dict. These render on connected-location travel buttons — selector wiring TBD
+# when Script.txt is rebuilt.
+#
+与城门下的石精战斗	Fight the Stone Sprites at the City Gate
+与大地级三阶敌人抢夺宝石	Contest gems with Earth-Tier Rank 3 enemies
+与挡路的大门派杂役战斗	Fight the Major-Sect Menials blocking the way
+与百兰战斗	Fight Bailan
+与百家近卫战斗	Fight the Hundred-Clans Guards
+与百方战斗	Fight Baifang
+与荒兽头目交战	Engage the Wildbeast Chief
+前往【极寒冰宫】	Go to 【Deepfrost Ice Palace】
+前往大厅	Go to the Hall
+前往挑战冰宫守卫	Go challenge the Ice Palace Guards
+前往挑战冰宫守卫[旧]	Go challenge the Ice Palace Guards [Old]
+前往挑战门边的待从	Go challenge the Attendant by the door
+向地宫养殖者发起挑战	Challenge the Crypt Breeder
+回到一重幻境	Return to Illusory Realm Tier 1
+回到三重幻境	Return to Illusory Realm Tier 3
+回到二重幻境	Return to Illusory Realm Tier 2
+回到五重幻境	Return to Illusory Realm Tier 5
+回到休息区修整	Return to the rest area to recover
+回到传承幻境	Return to the Legacy Illusory Realm
+回到入口处	Return to the entrance
+回到六重幻境	Return to Illusory Realm Tier 6
+回到古墓中	Return to the Ancient Tomb
+回到四重幻境	Return to Illusory Realm Tier 4
+回到地宫	Return to the Crypt
+回到地宫的荒兽海中	Return to the Crypt's Wildbeast Sea
+回到城门前	Return to the City Gate
+回到家族秘境里	Return to the Family Secret Realm
+回到密林中	Return to the Deepwood
+回到幻境核心	Return to the Illusory Realm Core
+回到废墟中战斗	Return to fight in the Ruins
+回到战斗区	Return to the Combat Zone
+回到时封水牢	Return to the Time-Sealed Water Prison
+回到极寒冰宫	Return to the Deepfrost Ice Palace
+回到毬毬山谷	Return to Furball Valley
+回到水牢中战斗	Return to fight in the Water Prison
+回到江畔区域历练	Return to train in the Riverbank area
+回到沼泽中的安全区域	Return to the safe area in the Swamp
+回到浅层处	Return to the Shallow Layer
+回到纯白冰原	Return to the Pure White Ice Field
+回到纳家	Return to the Na Family
+回到纳家宝库	Return to the Na Family Treasury
+回到营地	Return to the Camp
+回到藏宝图的路线上	Return to the Treasure Map route
+回到赫尔沼泽	Return to Hull Swamp
+回到飞云阁	Return to Feiyun Pavilion
+回到飞船核心	Return to the Spaceship Core
+回到黑暗森林	Return to the Dark Forest
+回城	Return to town
+强行进入地宫	Force entry into the Crypt
+快速旅行 - 第一幕	Fast Travel - Act 1
+快速旅行 - 第三幕	Fast Travel - Act 3
+快速旅行 - 第二幕	Fast Travel - Act 2
+快速旅行 - 第四幕	Fast Travel - Act 4
+挑战左阿！！！	Challenge Zuo'a!!!
+挑战心之灵·暴走	Challenge Heart Spirit · Rampage
+挑战心之灵·滋生	Challenge Heart Spirit · Proliferation
+挑战心之灵·禁锢	Challenge Heart Spirit · Confinement
+挑战拦路的[追光]影子荒兽	Challenge the blocking [Light-Chasing] Shadow Wildbeast
+挑战秘境的守护灵	Challenge the Secret Realm's Guardian Spirit
+挑战结界湖最深处的“灵”	Challenge the "Spirit" in the depths of Barrier Lake
+挑战蓝色的庞然大物	Challenge the blue behemoth
+暂且离开核心区域	Leave the core area for now
+暂且离开这艘飞船	Leave this spaceship for now
+清理石壁周围的二阶荒兽	Clear the Rank 2 Wildbeasts around the Stone Wall
+离开决战之地	Leave the final battle ground
+离开地宫	Leave the Crypt
+走小路，回到营地	Take the side path, return to the Camp
+赶路回到家族秘境	Hurry back to the Family Secret Realm
+返回声律城中	Return to Shenglü City
+返回大厅	Return to the Hall
+返回飞船核心区域	Return to the Spaceship Core area
+进入决战[⚠️胜利前无法返回]	Enter the final battle [⚠️ Cannot return before victory]

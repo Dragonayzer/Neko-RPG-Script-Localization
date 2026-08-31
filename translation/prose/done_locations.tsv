@@ -1,0 +1,335 @@
+# done_locations — srcline <TAB> english.  Keyed to _todo_locations.tsv.
+# Characters: 纳可=Neko, 可可=Koko(nickname), 纳娜米=Nanami, 纱雪=Shaxue, 峰=Feng, 百方=Baifang,
+#   莫尔=Moore, 雷冬=Leidong, 枫杏红=Feng Xinghong, 左阿=Zuo'a, 纳鹰=Na Ying, 石风雄=Shi Fengxiong.
+# dyn lines keep ${...} exactly (need regex wiring at rebuild).
+217	${f_enemy.name} drained ${format_number(character.stats.full.attack_power * 0.1)} Attack, ${format_number(character.stats.full.defense * 0.1)} Defense, ${format_number(character.stats.full.agility * 0.1)} Agility [Sync]
+222	${f_enemy.name} drained ${format_number(character.stats.full.attack_power * 2.0)} Attack [Sync · Magic]
+225	${f_enemy.name} drained ${format_number(character.stats.full.attack_power * 0.5)} Health [Blade Drain]
+229	${f_enemy.name} drained ${format_number(character.stats.full.defense * 0.5)} Health [Shield Drain]
+233	${f_enemy.name} drained ${format_number(character.stats.full.attack_power * 2.5)} Health [Blade Drain]
+237	${f_enemy.name} drained ${format_number(character.stats.full.defense * 2.5)} Health [Shield Drain]
+241	${f_enemy.name} drained ${format_number(character.stats.full.agility * newEnemy.spec_value[30])} Attack [Purify]
+248	${f_enemy.name}'s Attack/HP became ${format_number(M58*100)}%! [Rampage]
+256	[Crypt Breeder] Oho, someone barged all the way in here?
+257	[Nanami] I won't waste words with you. Speak — why do you want to harm my Na Family!
+258	[Shaxue] (Here we omit 22 well-known plot lines about the Bloodkill Hall and the Crypt Breeder.)
+259	[Nanami] In that case, it's about time… Koko!
+260	A strange weapon suddenly appeared in the girl's hand. About a meter long, with a pitch-black hollow at its tip. Its whole texture radiated a suffocating menace.
+261	In barely a tenth of a second, the weapon in Nanami's hand burst with dazzling silver-white light. With a thunderous boom, the entire Crypt seemed to tremble!
+262	Struck by the recoil, Nanami spat blood. Neko, snapping to her senses, immediately embraced her sister, together bracing against the weapon's staggering kickback.
+263	[Neko] Are you okay, Sis—
+264	[Nanami] Cough… it's not over yet, Koko. What comes next, I leave to you!
+265	The Crypt Breeder, struck head-on, lost half its body almost instantly and let out a venomous roar.
+266	[Crypt Breeder] Argh, what was that, impossible!! Damn it, I fell for it — I'll kill you, kill you all, wipe out every last one of you Yangang Fief people—
+267	[Nanami] Koko, don't let your guard down! This is a Sky-Tier powerhouse's dying flare — just hold out through this and it'll be enough!
+268	[Neko] Understood!
+274	The Crypt Breeder is on its last breath! Its Attack/Defense/Agility/Health are cut to one-hundredth of before!
+280	[Shaxue] High-energy reaction! Detected that Nanami is not in the party!
+281	The Crypt Breeder is now full of vigor! Its Attack/Defense/Agility/Health are all back to their former state!
+359	Because you hold ${key_cnt} Tiny Flower Fragments, aura weakened: 140% -> ${140-key_cnt*8}%!
+369	Because you hold ${key_cnt} Tiny Flower Fragments, aura weakened: 132% -> ${132-key_cnt*8}%!
+381	{"id":"峰"}  [data id reference to 峰=Feng — leave unchanged in source]
+383	[Feng] Finally made it. All that trailing her the whole way wasn't for nothing.
+384	[Feng] Well then, it's about time I got going too…
+388	The Aura Staff blazed with light, then dimmed…
+389	Its materials aren't enough to amplify such a powerful enemy!
+392	[Aura Staff] BOSS-tier enemies can't be amplified!
+396	[Aura Staff] Aura: ${format_number(100*(this.enemy_stat_halo + halo_fix - 0.25))}% -> ${format_number(100*(this.enemy_stat_halo + halo_fix))}%
+404	With a sound like a balloon deflating,
+405	the Wildbeast Puppet was squashed flat by Neko's Skyhigh-Tier intimidation.
+406	For something cobbled together from swamp materials, lasting this long is already impressive…
+426	Summoned 3x Warship Weeder B1
+435	[Defeat Shift] ${E_name} is shielded from the front by ${enemy.name}!
+707	A place forever as dim as a clear night.
+712	A very dark place, darker than most dark nights.
+723	Pure darkness, without even a sliver of light.
+739	A thin intimidation pervades the area, slightly affecting attack potency and speed.
+749	A thick intimidation pervades the area, greatly affecting attack potency and speed.
+858	The Deepwood's venomous insects bite you until you can barely cope…
+936	A bright, tidy hall — where Neko usually spends her time.
+943	A small wooden cabin deep in the Training Ground.
+948	The path ahead seems unguarded... could this be the passage to the outside world?
+958	A cozy little room with a small pink bed and a practice workbench.
+1007	Where the Na Family's youngsters train. There are young monsters to spar with.
+1027	To save Sister, you must first raise your own strength! Head to the Training Ground and spar with the monsters first.
+1031	A bit deeper into the Training Ground. There are young monsters to spar with.
+1050	Not enough... don't get smug over beating the weakest monsters — the road is still long!
+1054	The depths of the Training Ground. There are growth-stage monsters to spar with.
+1076	A dark path within the Training Ground. The growth-stage monsters are a cut stronger.
+1098	A dark passage within the Training Ground; the dimness already affects combat.
+1117	So dark… so scary… maybe I should forge some armor to protect myself.
+1120	Before a dark passage; faint points of light seem to come from its end?
+1139	Even a kid could sneak in here, which means this must be the right path! Yay!
+1142	No longer dark, but the area near the side gate is swarming with monsters.
+1161	Lots of suspicious doors nearby! But to inspect them, you must first defeat the crowd of enemies before you…
+1165	Before a heavy door. Looks like getting out means knocking the Attendant out cold…
+1179	Halt, miss.<br>Those below Earth-Tier are forbidden to come and go freely here.
+1200	The bustling outer city of Yangang. Even in a world that worships strength, the citizens never run out of things to gossip about.
+1206	No matter how many times you see it, the city's splendor turns heads. But right now, getting out of the city as fast as possible is what matters!
+1212	An ordinary street on Yangang City's 14th Ring.
+1234	An ordinary street on Yangang City's 15th Ring.
+1256	A stele inscribed by Yangang's city lord "Shi Fengxiong," recording basic Bloodfall techniques.
+1270	Where'd this little girl come from? Want to grasp the techniques here? Get past us first!
+1274	An ordinary street on Yangang City's 16th Ring.
+1297	An ordinary street on Yangang City's 17th Ring.
+1316	From here you can already faintly make out the city gate… Yangang City has 18 Rings in all; beyond that lie the outskirts.
+1320	The ring road of Yangang City's outermost Ring.
+1343	Yangang City's gate — just defeat the Stone Sprites blocking the way to get out!
+1356	Finally at the foot of the city gate...<br>What IS this granite come to life! Guess I'll just have to defeat it first.
+1371	The area outside Yangang City. Birdsong and blossoms, shady green trees — yet a great many Tide-Tier monsters lurk within.
+1376	Finally out of the city! Now, let's find someone to ask for some information.
+1384	Not far outside the city gate. Looks like it's time to teach that condescending old man a lesson!
+1397	Hey mister, isn't it a bit much, a man your age bullying a little girl? Looks like you need a lesson.
+1400	Following the treasure map, a monster-filled area on the necessary route.
+1421	Following the treasure map, an area where ill-intentioned cultivators lie in ambush.
+1443	Following the treasure map, an area with a great many Wildbeasts.
+1463	An area with aura-buffed Wildbeasts; the Wildbeasts' overall strength is bumped up a tier.
+1484	An area closer to the aura's source, drawing in Earth-Tier powerhouses.
+1506	The Crypt looms on the horizon, within reach. But the nearby monsters have grown even more frenzied.
+1525	The building before you should be the treasure site. There's someone ahead — that outfit, a Yangang Fief mercenary?
+1531	The Crypt's entrance, the source of the frenzied aura. Some possessed mercenaries linger here.
+1544	Something's wrong — why do these people look at me with such crazed eyes? Could it be some evil spell?
+1560	A bright little river, good for practicing your swimming!
+1568	A gathering spot for cultivators around the mine; it has a workbench a bit better than the practice one, a simple rest room, and some leftover A1-tier metal underground!
+1574	Shut the doors and windows, sleep for a bit.
+1579	Use the shared workbench [Tier+2]
+1597	The Crypt's entrance. The scent of gems is strong, but Earth-Tier Rank 3 enemies stand guard.
+1604	What a terrifying aura — a monster this scary right inside the door!
+1607	Are you sure you want to fight it… taking hits to grow stronger has been nerfed now, you know!
+1623	The Crypt's shallow layer. Teeming with Wildbeasts, and hiding many treasures too.
+1635	A wide-open "treasure site" littered with Earth-Tier powerhouses.
+1655	A Crypt area full of Wildbeasts and frenzied humans; the humans here seem to have become killing machines.
+1674	Go back and call the family? That would waste too much time, and Sister would be in danger. No — now isn't the time to think about that.
+1677	A Crypt area fraught with danger. Oh, and Crypt Metal is on sale!
+1695	A powerhouse once said… opportunity is always something you seize for yourself. Sitting still, waiting for it to fall on your head, isn't realistic.
+1698	A sea formed of Wildbeasts; on the stone wall you can find cultivation arts.
+1717	Some words are carved on the stone wall. They look like a kind of cultivation art.
+1721	The Crypt's 15th floor, the end of the Wildbeast Sea. The path further down is blocked by an Abyssal Shadow.
+1734	Earth-Tier Rank 2, and clearly not the just-broke-through kind. Is it the leader of these Wildbeasts?
+1738	The Crypt's 13th floor, a stone wall inscribed with cultivation arts. But only by clearing the Wildbeasts will there be time to comprehend them.
+1763	The area beyond the Wildbeast Sea. Nanami is trapped here.
+1769	What an eerie aura. This doesn't seem like a relic left by a powerhouse — because when powerhouses make relics, they usually leave guidance.
+1772	A chaotic corridor, a pungent bloody stench. The environment is a layer worse than the Crypt's shallow layer.
+1792	Deeper into the Crypt; in the distance a blue-purple light curtain seems to appear.
+1812	An area near the blue-purple light curtain; some floating platforms lie ahead.
+1832	The deep area beyond the floating platforms. The Wildbeasts here have generally reached Earth-Tier Rank 3.
+1852	A deep area where Wildbeasts are packed in pairs. The source of the violent aura isn't far now…
+1872	That's it! Beyond the far shore of the Rank-3 Wildbeast Sea, the culprit behind it all…
+1893	Behind the raging rock-fire hides a Superior Yellow Gem. It's exceedingly ferocious, but its life force is like a candle in the wind — snuffed out at a touch.
+1904	[Neko] I've got to get it. Hehe, it must be worth a lot — I wonder how much it'll sell for… [Nanami] It wouldn't fetch even a single Red Knife Coin!
+1907	The green-purple light curtain is right before your eyes. Instinct tells Neko a place like this must hide something good behind it.
+1923	The safe area behind the green-purple light curtain. The curtain itself has a "refining" ability, and can also be used as a workbench.
+1934	Use the light curtain to process items [Tier+4]
+1948	The deepest part of the Crypt. The 【Crypt Breeder】 is right in the center of this 35th-floor underground chamber.
+1962	[Nanami] There's also the aura of a fearsome powerhouse. Koko, we may soon have to face an unbeatable opponent. Until I play my trump card, do not act rashly.
+1981	The safe zone for Neko's next training ground after leaving the Crypt.
+1995	The interior of the Wildbeast Forest. Dense trees block most of the sunlight, and many Wildbeasts lurk in the dark.
+2006	A forest area overrun with Wildbeasts, with many Earth-Tier cultivators who've come to train too.
+2026	A forest area overrun with Wildbeasts; some have migrated here from the now treasure-stripped Crypt.
+2047	A forest area overrun with Wildbeasts; some possess powerful recovery abilities.
+2065	Unlocked Wildbeast Forest - 3. Besides that, felling the camp's willows is now unlocked too.
+2068	A forest area overrun with Wildbeasts; some Wildbeasts and humans have reached Earth-Tier Rank 5.
+2088	A battle with the Hundred-Clans Guards. Defeat them and you can flee.
+2101	[Neko] You're right, but your brother hasn't even reached Earth-Tier — how did you cultivate all the way to Earth-Tier Rank 7?
+2104	A battle with Baifang. You can come back and beat him later!
+2116	[Baifang] It ran off? This is a problem. Getting another chance to strike won't come so easy.
+2129	Head back along this river and you can return to the family… hurry and report this to Father!
+2139	Along the Qingye River, the road home. Baifang still has arrangements set up in this area.
+2159	Along the Qingye River, the road home. Wildbeasts swarm — to avoid Baifang, a danger zone of this level is unavoidable.
+2180	Along the Qingye River, the road home. Not only do Wildbeasts swarm, but there's a faint frenzied aura in this area.
+2202	Along the Qingye River, the road home. The Wildbeasts' strength has leapt greatly, but the family is no longer far — no need to linger in battle.
+2223	A chance encounter with a Rank-7 warrior; giving it your all still can't win… don't forget this "fly-away" later (x
+2237	Near a waterfall Neko visited as a child. It seems to hold some kind of insight.
+2252	Father is not far off. Just defeat this menial and you'll be safe!
+2279	A training Secret Realm built by the Na Family. It has an advanced workbench, a rest area, and a storage room.
+2283	Regulate your breathing, meditate [+10 XP/s]
+2288	Use the advanced workbench [Tier+6]
+2305	A training Secret Realm built by the Na Family. It has five layers, each with more and stronger Wildbeasts and monsters, and a stronger aura effect.
+2316	A training Secret Realm built by the Na Family. This is the outermost area.
+2337	A training Secret Realm built by the Na Family. This is a fairly outer area.
+2357	A training Secret Realm built by the Na Family. This is the area between inner and outer.
+2377	A training Secret Realm built by the Na Family. This is the area fairly close to the core.
+2397	A training Secret Realm built by the Na Family. This is the core area.
+2419	The innermost area of the Na Family's training Secret Realm. The spirit-array strength can be freely adjusted. (The Levelary may lag; go by the Heart-Fire Elf for stats.)
+2437	The Secret Realm's innermost elf is right here. Defeat it to take control of the whole Secret Realm!
+2467	The Barrier Lake, which seals the "Spirit," reached under Ancestor Na Ying's guidance.
+2475	The lake at the Secret Realm's core. Newborn "Spirits" and Wildbeasts roam here.
+2496	The lake at the Secret Realm's core. Newborn "Spirits," humans, and the Secret Realm's guardian coexist.
+2516	The lake at the Secret Realm's core. Quite dangerous earthbound "Spirits" have appeared — fall in carelessly and you won't easily escape.
+2536	The lake at the Secret Realm's core. More human bodies possessed by "Spirits" have appeared.
+2576	Ugh… so strong! I hope you didn't lose your Tiny Flower Fragments.
+2591	Before you knew it… you've reached the core area. The "Spirits" living here are first-rate in strength too.
+2608	The lord's city of the Shenglü Fief, blasted to ruins by a D9-tier spaceship. Amid the chaos lie many useful treasures.
+2618	Shenglü City, destroyed by a D9 spaceship. It's a mixed bag in here — good for fishing in troubled waters.
+2718	…one-shot the moment you peek out?! If you can read this line, you've surely already found the way to crack it.
+2732	An Earth-Tier Peak Shadow Wildbeast actually blocks the way…<br>Then I'll use it to test how much I've improved.
+2744	The chaotic battlefield outside Shenglü City. No need to linger — the target is the B9 spaceship!
+2755	The Rune Workbench Kit even throws in a chest, a bed, and an energy-gathering array! Truly great value…
+2761	Cultivate in the Rune House [+40 XP/s]
+2766	Use the Rune Workbench [Tier+8]
+2782	The battlefield outside Shenglü City, destroyed by a D9 spaceship — killing and plunder are commonplace.
+2884	Ahead is the goal of this trip — [the B9 Spaceship]. But there's a big blue robot blocking the way, y'know.
+2897	[Shaxue] The core of the 【Scattered Bloom】 insight is weakening attack based on the health ratio. To crack it, simply raise your Health Cap, or deal forced damage.
+2898	This blue fellow, with its power and speed… already rivals the Crypt Breeder of that day. You must fully prepare before heading over.
+2909	The final goal of the Shenglü City trip. It may hold treasures rare even on the Bloodfall Continent, yet everything about it exudes hostility and murderous cold toward outsiders.
+2920	The interior of the B9-tier spaceship. Some suppression field makes outsiders quite uncomfortable.
+2939	The interior of the B9-tier spaceship. Some heavy-industry machines that seem to share an origin have appeared.
+2958	The interior of the B9-tier spaceship. There seems to be a mole mixed in!
+2978	The interior of the B9-tier spaceship. The biggest enemies are all at -5…
+2998	The interior of the B9-tier spaceship. Watch out for the 416-416-416 Black-Iron Warriors!
+3018	Wait — if my eyes aren't deceiving me, that fellow in the upper right is…!
+3030	Hmph, young master Baifang? What a small world. Running into you here… it's time to make you pay!
+3034	There are Sky-Tier robots blocking the way here! But the gem behind them looks pretty huge…
+3047	Legend says past here is the spaceship adventurers' exchange meet… gotta think of a way to beat that blue fellow!
+3051	Too much plot, won't write it here for now… come to think of it, memory's so expensive, this Storage Maiden B1 must be worth a fortune.
+3064	Coo! Coo coo!
+3078	The core part of the Alien Spaceship. Intimidation pervades it, yet it holds the opportunity to reach Sky-Tier.
+3082	We must have entered the core region; the road ahead is likely littered with powerful technological creations.
+3087	The core of the B9-tier spaceship. The suppression field is stronger, and B1-tier machines are everywhere.
+3106	The core of the B9-tier spaceship. The suppression field is stronger. Experience resisting it accumulates faster and faster.
+3125	The core of the B9-tier spaceship. Machines and Wildbeasts coexist; you can catch the faint scent of evolution crystals.
+3144	The core of the B9-tier spaceship. Machines and Wildbeasts coexist; a dangerous aura is not far off.
+3163	This is the place! Charge through! No need to linger — it's all B1-tier specialized machines even more terrifying than B2!
+3182	Two mechanical creations seem to be guarding some kind of cultivation art.
+3197	A room behind the red door, thick with the aura of evolution. It seems someone ran experiments here.
+3210	[Nanami] Do you feel it, Koko? The nearby energy is a little restless, as if swirling around some center.
+3214	Those who didn't buy the Rune Workbench before are in luck! Alien tech — both its energy-gathering array and workbench are a tier better than the Rune House's.
+3220	Use the alien energy-gathering array [+120 XP/s]
+3225	Use the alien workbench [Tier+10]
+3237	Alert! Alert! Unidentified life-forms have reached the core area! Activating main combat hub, executing emergency purge program—
+3264	The outer edge of a beast-tide spread zone, after the Alien Spaceship triggered the 【Beast Tide】.
+3269	Two years later, Yangang Fief, Hull Swamp.
+3276	A Sky-Tier Wildbeast gathering ground in a beast-tide spread zone, after the Alien Spaceship triggered the 【Beast Tide】.
+3282	A swamp swept by the 【Beast Tide】. The beast kings above Skyhigh-Tier have been wiped out, but early Sky-Tier Wildbeasts are still quite common.
+3358	The elite Yangang mercenaries took Baifang's commission and lured Neko here. Yet behind danger may lie opportunity.
+3371	[Yangang Elite Mercenary x2] Monster… stay back!
+3381	A dark, cloud-shrouded forest. Neko has lost her way here, and there seems to be no one around.
+3386	In novels, a creepy place like this always has bad things happen, right? Ugh… I have to be careful from here, and slowly find my way back.
+3392	A dark, cloud-shrouded forest. But everyone's Night Vision skill should be maxed long ago, right?
+3411	A dark, cloud-shrouded forest. An ominous aura all around.
+3430	A dark, cloud-shrouded forest. The enemies' life force is a cut higher.
+3449	A dark, cloud-shrouded forest. With Brother Feng's guidance, the exit is right ahead.
+3468	There's a huge Savage-Gu Beast near the young man eating grilled meat! Hurry and save him!
+3481	Huh, someone's ahead?
+3485	Brother Feng's Moonwheel insight, free for a limited time! Just blast this Ferocious Beast!
+3499	[Leidong] Ahead is a mutated Wildbeast, likely at the Rank-4 Peak level.
+3512	A one-stop solution of shop-sleep-chest-crafting. Truly the best inn in the city — it feels like home.
+3519	Rest at Feiyun Pavilion [+360 XP/s]
+3524	Go to the Refining Tower to craft [Tier+12]
+3540	A rather frigid land of ice and snow. The temperature lingers around 240K (-33°C), and the ice element in the air can even bring misfortune upon Earth-Tier cultivators.
+3545	In a silver-white world wrapped in thick snow, two girls stand atop a snow-mountain peak, overlooking the boundless white land.
+3553	A white world of ice and snow. The ice element makes some ice-element insights easy to cast — be careful!
+3571	Be sure to always keep your health line in a healthy range. Once it drops out, Ice Seal's combo…
+3589	Ice Seal has levels too! It's fine if the one that blocked the last zone ≠ the next zone's…
+3607	By rights there should be a 1.3e8-defense Scattered Bloom here. But without a Magic Attack potion right now, I can only take it and go.
+3625	Ahead is a stone gate flanked by ice and snow. You must get past this grudge-monster to touch it.
+3638	System hint: touching the Frost Portal may bring an unexpected reward.
+3655	[Hunter-Soldier] Nothing more to say — if you really want to apologize, then stay here! Kill!
+3685	So sorry, the last character of this place's name has been changed… to keep a cat from falling into the void, this location was made!
+3693	Set in the heart of the Pure White Ice Field, a city made entirely of Ice Blocks. The witches seem to want to keep Neko and Nanami here, without realizing the tables have quietly turned.
+3699	[Witch] Little outsiders, I thought you'd back off knowing the odds, but you actually barged into this ice city.
+3703	An ice-block city brimming with hostility, where witches guide the frenzied Wildbeasts.
+3721	An ice-block city brimming with hostility, where more witches keep unleashing aura on the Wildbeasts.
+3739	An ice-block city brimming with hostility; the witches have left… after all, even they can't control the power of the Ice-Blood Weeders.
+3756	An ice-block city brimming with hostility. This is a more central area… the strange pink-haired girl seems to be nearby! Should you follow?
+3774	Under the aura's protection, we shall charge to the death! Aaaaaahhh!!!
+3788	[Hostile Old Man] Arrogant outsider, killing my kinsmen — your crime deserves death!
+3797	A strange domain brimming with the water element. You came in after being knocked out by that strange pink-haired girl!
+3802	[Old Man] You lot… are finished… the master will… avenge us…
+3808	This zone has quite a lot of mini-bosses. They'll be split from I to IV!
+3823	Moore has a good temper, and is a good person too… there won't be a "kill" button.
+3840	A water prison imprisoning many Sky-Tier powerhouses. It also breeds many 【Spirits】 used to accumulate XP.
+3904	A grotto "voluntarily" vacated by a ranking powerhouse after hearing of the Neko sisters' feats.
+3910	Cultivate in the Water Prison Grotto [+1440 XP/s]
+3915	Use the smelting array [Tier+14]
+3933	A strange domain brimming with the water element. Set out from here to challenge the ranking powerhouses!
+3942	A water prison imprisoning many Sky-Tier powerhouses. From here you can head to the ranking powerhouses' quarters.
+3980	A water prison imprisoning many Sky-Tier powerhouses. The shore is getting closer and closer.
+4000	Defeat her to unlock Time-Sealed Water Prison - 5!
+4016	Defeat her to… get three Legendary Red Gems?
+4031	Defeat her to leave the Water Prison!
+4058	You've left the Time-Sealed Water Prison's range… wait! That pink-haired girl!
+4068	A space radiating multicolored light, surrounded by many Wildbeasts of (roughly?) equal strength. Awakened — it's hunting time!
+4079	A space radiating multicolored light. Whatever Zuo'a is really after, at least there truly are many breakthrough opportunities here.
+4158	Defeat the come-to-life Bestiary to obtain the five-colored crystals — and Starmirror Violet too, of course.
+4176	Let's test whether the damage is normal! (It's definitely NOT because Shaxue's save is stuck at 3-5 and can't test that this map got put here.)
+4191	If you can't win, go back and eat a couple Restraint books! Maybe there are other cheese strats too?
+4210	The journey through the illusion should end here… wait, you're kidding, this — this is the Crypt? I hear Sister's voice!
+4219	Faintly hear Sister's voice?! Sister couldn't be — right there —
+4237	Bold Furball! One look and I can tell you're not Sister! Sister can go Ethereal, sure, but she's nowhere near as strong as you.
+4258	So this time it's — the Family Secret Realm, the Barrier Lake? I wonder if there are Icicle Fish here. This place, too, is… somewhere that deeply shaped me.
+4268	It was right here that Senior Na Ying taught me so much cultivation wisdom, helping me grow step by step to where I am now.
+4292	The illusion has been broken through two layers now. That catastrophe of devastation… being there in person, one can't help turning violent.
+4302	You must firmly believe — all this catastrophe… is an illusion… an illusion!
+4321	By the way, what clever uses might a Penrose triangle have in offense and defense? Feels like a nice theme for a bit of ingenuity.
+4340	So then, the fourth-layer illusion… the alien visitors' Spaceship Core? Come to think of it, a strange resentment seems to be gathering nearby.
+4351	This resentment… it wasn't sensed in any of the previous three illusion layers. This time, what is it?
+4369	Looks like talking won't work! Plan B~ Phys·i·cal De·liv·er·ance!
+4384	Really vicious! Savage-Gu Beast, Fierce-Gu Beast, Terror-Gu Beast — taking name suggestions for the next one! How about Rampage-Gu Beast?
+4405	What thick fog… but making out what's in front is still no problem. This is the forest where I met Brother Feng, right?
+4417	Come to think of it, if the Hundred Clans hadn't schemed with many factions, I'd never have met Brother Feng, and none of what followed would have happened.
+4435	This fellow's confidence depends on how deeply it's poisoned by Restraint! In the end it's just a factor of two… don't blame Restraint when your Magic Attack falls short.
+4455	After breaking free from the Inner Demon's assault, colorful light emerges. All five illusion layers shatter; this place is the true core of the illusion. Also, Zuo'a is busy erasing marks, so you can sneak a use of the array here!
+4461	"Borrow" the illusion array to cultivate [+5760 XP/s]
+4466	"Borrow" the smelting array [Tier+16]
+4482	Please step onto the final battleground and defeat Zuo'a!
+4506	This is the ultimate end of Act 3! Oh, and you can't go back. Revival is on-the-spot revival too.
+4516	Heart Spirit · Confinement — choose-your-own enemy area!
+4530	Heart Spirit · Proliferation — choose-your-own enemy area!
+4544	Heart Spirit · Rampage — choose-your-own enemy area!
+4558	Zuo'a's final battle!
+4583	Zuo'a's battle… is over!
+4594	Finally back at the family! Time to seize the head-of-house seat…
+4601	The old man broke through. Taking the treasure won't be as simple as in the original story!
+4620	The thrilling Yangang Fief Hunting Tournament. This is the first stage!
+4630	The tense, exciting Yangang Fief Hunting Tournament~ all Skyhigh-Tier combatants~
+4649	I hear many powerhouses nearby have chosen to band together for warmth. Without enough influence, even buying supplies might be a problem?
+4668	A lone hero valiantly slaying enemies can't expand a whole faction's influence. What truly matters is a mass of mainstays…
+4684	[Neko] Huh, that person over there looks lifeless. Are they already dead and eliminated… wait! Why did it turn green and get stronger! I must avoid it.
+4687	I've come back from hell! Do you know how I've spent these past few decades?!!
+4702	The Barrier Lake boss fight makes a triumphant return! Still the mage-warrior-tank lineup~
+4726	Seemingly an ancient battlefield abandoned in a past epoch. Traces of artificial constructs remain, yet the vegetation has grown wildly lush.
+4732	[Neko] Odd — no route map for the Hunting Tournament seems to have been handed out before the battle. But since it's a hunt, following the route with the most powerhouses and Wildbeasts is the right call!
+4738	A wild supply area. It seems the aura of an ancient forging furnace drove off the venomous insects here, making it a rare haven in the Deepwood. There's even some water here, good for practicing high-difficulty swimming moves!
+4743	Cultivate resources at the supply point [+23040 XP/s]
+4748	Use the ancient forging furnace left by predecessors [Tier+18]
+4764	Because of the many powerhouse corpses on the ancient battlefield, the mosquitoes have gradually adapted and evolved, greatly boosting their armor-piercing power!
+4783	[???] Buzz buzz buzz buzz… [Neko] Looks like this route is thick with mosquitoes. Until I have a strong recovery effect, better to end fights as fast as possible.
+4786	The Weird Old Tree really is the number-one mountain pass under heaven. Good news: 4-3 doesn't have this thing.
+4804	[Neko] As I push deeper into the Deepwood, the enemies grow stronger, yet the mosquito count — which indicates heaven-and-earth energy density — stays nearly constant. There must be an entrance to a great opportunity ahead!
+4807	Counter-cards aren't only Neko's items: see, that 【Harden】 is the counter-card for the C1 Laser Gun · Damaged.
+4827	There are no Weird Old Trees here anymore. But the price is… ultimate stats and mechanics!
+4845	[Neko] The powerhouses all seem gathered before an impregnable main gate. To go around it, just quickly defeat 3 sentries! Great chance!
+4849	Hurry and take them all out! They don't look like they have much health, but these are all Time-Seals…
+4874	Knew there'd be good stuff in front of the sentry post~ Though the ancient tomb reeks of a cold, gloomy aura, you can faintly sense that breaking through to Skyhigh-Tier is right here! [Endpoint of pre-V4.20 versions]
+4884	Someone nearby seems to be searching for the whereabouts of the Na Family's descendants! [Hint: reach 50 influence and pass through this area]
+4904	How did the sentry turn thief and run into the ancient tomb! Is this the rule-breaking the Hunting Tournament brings…
+4925	Any merchant named a 【Prestige Merchant】 has stock tied to your influence. Be sure to remember this!
+4945	Ahead is the ancient tomb's bottom floor, the 【finish line】! Legend says a mysterious grand prize is there. Hope no one's beaten you to it…
+4965	Spar with Feng Xinghong to obtain the recipe for the Intermediate Evolution Crystal!
+4981	Now's the moment! Catch that Dog King mid-breakthrough~
+4995	Defeat Feng Xinghong to earn an audience with the city lord!
+5020	The border zone between 【Yangang Fief】 and 【Qingbo Fief】, where mid Skyhigh-Tier explorer powerhouses are active!
+5031	A Secret Realm once occupied by a band of Cyan Furball Generals and Red-Servant Imps. On hearing of Neko's deeds, they all slunk away in defeat…
+5036	Cultivate resources in the Valley Secret Realm [+92160 XP/s]
+5041	Use the valley's C4-tier crafting station [Tier+20]
+5055	The return of the Deadline is quite the horror event… so what if the Deadline's return in this zone is only the smallest problem?
+5074	This zone's 【Ice-Shard Sword】 execution threshold is at 3.6e11 Agility. Don't count on luck — Deadline's damage boost will shatter every illusion.
+5091	[Neko] Having beaten the previous 20 waves of enemies and freed up a usable Secret Realm… the enemies ahead are stronger. Let's rest here a bit first.
+5094	This zone's 【Frostbite】 execution threshold is at 8.1e11 Attack+Defense. No more Defeat Shift or Deadline — time to catch your breath…
+5112	[Neko] A black-iron obelisk?! This place must hold an over-spec chance to upgrade an insight!
+5115	This zone's 【Ice Seal】 execution threshold is at 5.4e13 remaining Health, the 【Light-Chase】 threshold at 7.2e11 Defense, plus 【Deadline】 damage boost, and 【Scattered Bloom】/【Health Limit】 harvesting remaining Health.
+5132	[Neko] Something incredible seems buried beneath the Valley Secret Realm… digging it all up is out of the question. But how about feeling it out with psychokinesis?
+5135	An obelisk made of black-iron matrix! Paying respects to it may bring a qualitative leap to the 【Starmirror Flower】 insight. As for these fellows… the only effective response is to dodge more 【Fire-Blowing Palms】.
+5156	A total bunch of extras dragged in to fill out the count. This zone's resources all went to nourishing the treasure buried below…
+5174	The border zone between Shenghuang Fief and Lanling Fief; endless strife, a bloodbath. This main peak is the domain of the 【Great Cyan King】. [Endpoint of pre-V3.50 versions]
+5720	Fight the rapids in the Qingye Waterfall [EXP x32]
+5794	Run laps in the Secret Realm [EXP x32]
+5833	Rush to Shenglü City [EXP x64]
+5844	Secretly dig out a bigger gem with a pickaxe
+5862	Dig open the ice block to save the trapped merchant
+5879	Sense the water element filling the Time-Sealed Water Prison
+5889	Secretly dig out with a pickaxe… the Bloodkill Sword?
+5907	Fish in the Illusory Realm · Barrier Lake (2D)
+5923	Practice Divine Stride amid the enemy horde [EXP x192]
+5933	Dodge pursuers in the Deepwood's stream [EXP x192]

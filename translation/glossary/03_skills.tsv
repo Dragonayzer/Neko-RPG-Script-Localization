@@ -1,0 +1,39 @@
+# NekoRPG skills — zh <TAB> en <TAB> note.  Source: NekoRPG/src/skills.js
+# Skill NAMES: 110 of 111 already in Script.txt (itemNames "skill names" block). Only 战斗 missing.
+# Milestones carry no display text (code-only skill-unlock refs).
+# DESCRIPTIONS: 14 not yet in script — translated directly (not via DeepSeek) because each is
+#   dense with 【bracketed】 glossary terms DeepSeek would break; all embedded terms below are
+#   reconciled to the existing glossary. These are static strings (no ${} interp) → safe for
+#   exact-match DOM replacement under #skill_list.
+#
+# === MISSING NAME ===
+# 战斗 MOVED to 08_more_terms.tsv. It has to be a FRAGMENT, not an exact entry:
+# the message log renders "${skill.name()} 达到了 level 18" and our whole-node
+# regex inserts the captured name verbatim, so an exact-only name survives as
+# "战斗 reached level 18". Same cause as 合成 (v8.0). See audit_messages.py.
+# Exact (not a fragment) so it fires in the precise early pass, ahead of
+# applyItemNames. That rewrites [融血术] -> [Merge Blood Technique], after which
+# the equivalent v4.0 #skill_list pair can never match - a bug that predates the
+# prose layer, since applyItemNames has always run before the buttons pass.
+增加[融血术]秘法的使用效果	Increases the effect of using the [Merge Blood Technique] Technique
+#
+# === DESCRIPTIONS (static; embedded terms match glossary) ===
+天外的观想法，对领悟与能量积累都有巨大作用	An otherworldly meditation method — greatly boosts both insight and energy accumulation.
+【映星花】秘法的第二层大境界。可以大幅增强原始秘法的经验获取。	The second great realm of the 【Starmirror Flower】 Technique. Greatly increases the original technique's XP gain.
+纳可的领域(雏形).每升一级都能获取基础属性，每提高一个阶段都能获取全新的领悟！	Neko's Domain (prototype). Every level grants base attributes, and every stage advanced grants a whole new insight!
+纳可在清野瀑布前领悟的剑法。拥有3种使用方式。	A sword art Neko realized before the Qingye Waterfall. Has three ways to be used.
+峰大哥教授的高级秘法。似乎可以用很久的样子。	An advanced Technique taught by Brother Feng. Looks like it'll last a good long while.	峰 = Feng (character), not "Peak"
+【映星花】的升华形态。多出了5层的同时多出了吸血与连击的能力。	The sublimated form of 【Starmirror Flower】. Gains 5 extra tiers along with lifesteal and multi-hit abilities.
+抵抗天外飞船中无处不在的威压的能力	The ability to withstand the pervasive intimidation throughout the Alien Spaceship.	威压=Intimidation, 天外飞船=Alien Spaceship
+不用眼睛感知到“存在”的能力	The ability to sense "presence" without using your eyes.
+对常见蚊虫毒液的免疫能力。	Immunity to the venom of common insects.
+操纵【银霜月轮】念力兵器的能力。每20级会蜕变，大幅提升普攻倍率。	The ability to wield the 【Silver Frost Moonwheel】 psychokinetic weapon. It transmutes every 20 levels, greatly raising the Basic Attack Multiplier.
+感应水元素，加快对领域的感悟！(领域三重巅峰[lv.39]前有效)	Sense the water element to speed up your comprehension of the Domain! (Effective until Domain Tier 3 Peak [lv.39])
+更好地收割绝音蕨！	Harvest Silent Fern more effectively!
+更好地钻探地层！	Drill through the earth's strata more effectively!
+增加钓鱼的熟练度,提高大鱼上钩的概率[3级出现青花鱼/10级出现冰柱鱼]<br>幻境核心:0.75x长度[13级出现血莲鱼，21级出现冰柱鱼王]	Increases Fishing proficiency and the chance of hooking big fish [Mackerel appears at Lv.3, Icicle Fish at Lv.10]<br>Illusory Realm Core: 0.75× length [Blood Lotus Fish at Lv.13, Icicle Fish King at Lv.21]
+# Exact, not a fragment: #skill_list gets the early pass in exact-only mode,
+# and v4.0's ['增加基础',...] + ['经验获取',...] pairs would otherwise reduce this
+# to 'Increases base XP Gain量' before any fragment of ours could match.
+增加基础经验获取量	Increases base XP gain
+死神之镰已激活 / 有效等级+4	Reaper's Scythe active / effective level +4

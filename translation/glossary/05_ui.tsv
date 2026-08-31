@@ -1,0 +1,175 @@
+# NekoRPG UI / combat / effect terminology — zh <TAB> en <TAB> note.
+# Sources: main.js (spec-tag if-chain), active_effects.js, display.js.
+# Root-level entries: the script's substring matcher turns "撕裂"→"Rend" AND "[撕裂]"→"[Rend]".
+# ⚠️ ORDERING: multi-char compounds (贪婪·宝石) MUST precede their root (贪婪); ·suffix rows first.
+# ⚠️ SCOPING: several roots collide with item/enemy names (血杀=Bloodkill sword, 追光=Light-Chaser
+#   enemy, 散华=potion). On rebuild, wire these under the combat/effects selectors, NOT globally.
+#
+# === SUFFIX CONVENTIONS (apply within effect names) ===
+·免疫	· Immunity	effect-suffix
+·祝福	· Blessing	effect-suffix
+·削弱	· Weakened	effect-suffix
+·宝石	· Gem	effect-suffix
+·改	· Mod	effect-suffix (modified/revised variant)
+·伪	· Pseudo	effect-suffix
+·魔	· Magic	effect-suffix
+·正	· Forward	effect-suffix
+·逆	· Reverse	effect-suffix
+#
+# === COMBAT SPECIAL-ATTRIBUTE EFFECTS (enemy spec tags + player buffs) ===
+魔攻	Magic Attack	matches A9·魔攻药剂
+牵制	Restraint	matches existing dict
+撕裂	Rend
+衰弱	Enfeeble
+反转	Reversal
+回风	Wind Return	matches A9·回风药剂
+执着	Fixation
+贪婪·宝石	Greed · Gem	before 贪婪
+贪婪·改	Greed · Mod	before 贪婪
+贪婪	Greed
+分裂	Split
+柔骨	Bone-Soften
+压制·伪	Suppression · Pseudo	before 压制
+压制..?	Suppression..?	dev placeholder text — kept literal
+压制	Suppression
+生命限制	Health Limit
+血杀·正	Bloodkill · Forward	before 血杀
+血杀·逆	Bloodkill · Reverse	before 血杀
+血杀	Bloodkill	matches 血杀剑
+灵体	Ethereal
+凌弱	Bully
+灵闪	Spirit Flash	matches B9·灵闪药剂
+散华·改	Scattered Bloom · Mod	before 散华
+散华	Scattered Bloom	matches B9·散华药剂
+硬化	Harden
+吹火	Fire-Blowing	V3.42; matches C6·吹火药剂 and the 吹火 C6 effect. Anchored on the existing 吹火掌 = Fire-Blowing Palm
+坚固	Fortify	matches A9·坚固药剂
+异界之门	Otherworld Gate	matches B9·异界药剂
+迅捷	Swift
+疾走	Dash
+飓风	Hurricane
+同调	Sync
+天剑	Sky Sword
+绝世	Peerless
+饮剑·改	Blade Drain · Mod	before 饮剑
+饮剑	Blade Drain	lifesteal-via-sword
+饮盾·改	Shield Drain · Mod	before 饮盾
+饮盾	Shield Drain
+阻击	Interception
+净化	Purify
+回春	Rejuvenation
+反戈	Backlash
+2连击	2-Hit Combo	before 连击
+3连击	3-Hit Combo	before 连击
+连击	Combo
+自爆	Self-Destruct
+追光	Light-Chase	NB collides w/ 追光者=Light-Chaser enemy — scope carefully
+召唤	Summon
+圣阵·一元	Holy Array · Monad	before 圣阵
+圣阵·两仪	Holy Array · Duality	before 圣阵
+圣阵·三相	Holy Array · Trinity	before 圣阵 (item 三相=Tri-Phase is separate)
+圣阵	Holy Array
+斩阵·起	Slash Formation · Opening	before 斩阵
+斩阵·承	Slash Formation · Continuation	before 斩阵
+斩阵·终	Slash Formation · Finish	before 斩阵
+斩阵	Slash Formation
+激光	Laser
+冰凌剑	Ice-Shard Sword
+冰封术	Ice Seal
+冻伤	Frostbite
+冰符咒	Ice Talisman
+惑幻	Bewitch
+时封	Time-Seal	matches 时封水牢
+血遁	Blood Escape
+吹火掌	Fire-Blowing Palm
+禁锢	Confinement	matches 心之灵·禁锢
+滋生	Proliferation	matches 心之灵·滋生
+暴走	Rampage	matches 心之灵·暴走
+心之灵	Heart Spirit
+败移	Defeat Shift	uncertain — obscure; verify in play
+同调·魔	Sync · Magic	before 同调
+灵魂之力	Soul Power	灵魂之力 I-V
+#
+# === CONSUMABLE / ENVIRONMENT EFFECTS (active_effects.js) ===
+饱食	Satiated	饱食 II-X keep numerals
+恢复	Recovery	恢复 A1/A8/B1... keep tier codes
+强化	Enhancement	强化 A1/C3/C3G keep codes
+虚弱	Weakened
+辐射	Radiation
+灵感	Inspiration
+迟缓	Sluggish
+死线	Deadline
+#
+# === BLESSINGS (moon-phase + Bagua-trigram sets live here) ===
+皎月祝福	Bright Moon Blessing
+烈日祝福	Blazing Sun Blessing
+新月	New Moon
+蛾眉月	Crescent Moon
+上弦月	First Quarter
+盈凸月	Waxing Gibbous
+满月	Full Moon
+亏凸月	Waning Gibbous
+下弦月	Last Quarter
+残月	Waning Crescent
+乾	Qian	trigram (Heaven)
+兑	Dui	trigram (Lake)
+离	Li	trigram (Fire)
+震	Zhen	trigram (Thunder)
+巽	Xun	trigram (Wind)
+坎	Kan	trigram (Water)
+艮	Gen	trigram (Mountain) — matches earlier 烈日祝福·艮=·Gen
+坤	Kun	trigram (Earth)
+#
+# === REALM ADDITIONS (rest compose via 00_morphemes) ===
+破限	Limit-Break	大地级破限 = Earth-Tier Limit-Break
+领域级	Domain-Tier	领域级一阶 = Domain-Tier Rank 1
+速度	Speed	distinct from 敏捷=Agility
+#
+# === UI ACTIONS / STATUS LABELS ===
+睡觉	Sleep	睡觉... = Sleeping...
+起床	Wake Up
+行动	Action
+角色	Character
+收集	Collect
+前往	Go to
+进入	Enter
+回到	Return to
+返回	Return
+离开	Leave
+无效果	No Effect
+摸鱼ing	Slacking	slang: idling/goofing off
+黑暗	Darkness
+光环	Aura
+威压	Intimidation
+小队	Squad
+大队	Company
+手动保存游戏	Manually save the game
+已阻止生成不安全的存档	Blocked generation of an unsafe save
+#
+# === NEW / WIP LOCATIONS (future content — 【WIP】 tag preserved) ===
+破败之域	Ruined Domain
+破败危壁	Ruined Precipice
+枯叶走廊	Withered-Leaf Corridor
+灰魇【WIP】	Grey Nightmare 【WIP】
+灰魇庭院	Grey Nightmare Courtyard
+珍珠海	Pearl Sea
+风雷大会	Wind-Thunder Assembly
+行道盟审判战	Wayfarers' League Judgment Battle
+深林【WIP】	Deep Forest 【WIP】
+血魔海	Blood Demon Sea
+炎眸【WIP】	Flame Eye 【WIP】
+葬地【WIP】	Burial Ground 【WIP】
+冗音圣树	Echoing-Sound Sacred Tree
+冗音之塔	Tower of Echoing Sound
+音界	Sound Realm
+圣城【WIP】	Holy City 【WIP】
+#
+# === LARGE-NUMBER UNITS (⚠️ SEPARATE TASK — number formatting, not simple pairs) ===
+# These are myriad-grouped power-of-10000 units. Left here for reference; converting
+# "276.47万" style numbers to English notation is the script's existing number-format TODO.
+# 万=1e4 亿=1e8 兆=1e12 京=1e16 垓=1e20 秭=1e24 穣=1e28 沟=1e32 涧=1e36 正=1e40 载=1e44 极=1e48
+#
+# --- V3.41c combat spec tag. FORCED FRAG on purpose: display.js splices spec
+# tags into combat-log lines ("…点伤害[反击]"), so an exact-only entry could
+# never fire inside the longer node - the v9.4 领域 lesson.
+反击	Counterattack

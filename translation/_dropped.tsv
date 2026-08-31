@@ -1,0 +1,54 @@
+reason	cjk	zh	en
+dup-regex	Y	快速返回 [${last_bed.name}]	Quick Return [${last_bed.name}]
+dup-regex	Y	"${skill_names}" 技能等级 ${current_activity.gained_resources.skill_required[0]} 到 ${current_activity.gained_resources.skill_required[1]}	"${skill_names}" skill level ${current_activity.gained_resources.skill_required[0]} to ${current_activity.gained_resources.skill_required[1]}
+dup-regex	Y	${f_enemy.name} 吸取了 ${format_number(character.stats.full.attack_power * 2.5)} 生命 [饮剑]	${f_enemy.name} drained ${format_number(character.stats.full.attack_power * 2.5)} Health [Blade Drain]
+dup-regex	Y	${f_enemy.name} 吸取了 ${format_number(character.stats.full.defense * 2.5)} 生命 [饮盾]	${f_enemy.name} drained ${format_number(character.stats.full.defense * 2.5)} Health [Shield Drain]
+dup-regex	Y	, x${milestone.xp_multipliers[xp_multipliers[i]]} ${name} 经验获取	, x${milestone.xp_multipliers[xp_multipliers[i]]} ${name} XP Gain
+dup-regex	Y	, x${rewards.xp_multipliers[xp_multipliers[0]]} ${name} 经验获取	, x${rewards.xp_multipliers[xp_multipliers[0]]} ${name} XP Gain
+dup-regex	Y	, x${rewards.xp_multipliers[xp_multipliers[i]]} ${name} 经验获取	, x${rewards.xp_multipliers[xp_multipliers[i]]} ${name} XP Gain
+dup-regex	Y	x${rewards.xp_multipliers[xp_multipliers[0]]} ${name} 经验获取	x${rewards.xp_multipliers[xp_multipliers[0]]} ${name} XP Gain
+dup-regex	Y	品质: ${quality}%	Quality: ${quality}%
+dup-regex	Y	基于 ${format_number(C_HP)} 的生命力，	Based on ${format_number(C_HP)} life force,
+dup-regex	Y	基准品质 ${Math.round(2*skills["Forging"].current_level+90)} %	Base quality ${Math.round(2*skills["Forging"].current_level+90)} %
+dup-regex	Y	增加了${Luck_gain.toFixed(2)}	increased by ${Luck_gain.toFixed(2)}
+dup-regex	Y	增加了${SCGV_gain.toFixed(2)}	increased by ${SCGV_gain.toFixed(2)}
+dup-regex	Y	攻击力: + ${format_number(item.attack_value * ScaledQualityMultiplier(quality)) }	Attack Power: + ${format_number(item.attack_value * ScaledQualityMultiplier(quality)) }
+dup-regex	Y	沼泽辐射扩散: ${format_number(inf_combat.B3 )} % -> ${format_number(inf_combat.B3 + 10 * (1 -  E_modi))} %	Swamp radiation spread: ${format_number(inf_combat.B3 )} % -> ${format_number(inf_combat.B3 + 10 * (1 -  E_modi))} %
+dup-regex	Y	沼泽辐射扩散: ${format_number(inf_combat.B3)} % -> ${format_number(B3_after)} %	Swamp radiation spread: ${format_number(inf_combat.B3)} % -> ${format_number(B3_after)} %
+dup-regex	Y	自动切换材料: ${component_2_key}	Auto-switched material: ${component_2_key}
+dup-regex	Y	角色每拥有${format_money(enemy.spec_value[55])},该敌人伤害减少	For every ${format_money(enemy.spec_value[55])} the character holds, this enemy's damage decreases by
+dup-regex	Y	解锁新技能: ${unlocked_skill.name()}	Unlocked new skill: ${unlocked_skill.name()}
+dup-regex	Y	赐福一次的耗费为 ${format_money(Math.round(C_HP ** 1.4))}	one blessing costs ${format_money(Math.round(C_HP ** 1.4))}
+dup-regex	Y	赐福内容为 ${MM2[C_time]}.(1800s)	the blessing content is ${MM2[C_time]}. (1800s)
+dup-regex	Y	选择一个[${ComponentNameMap[recipe.components[1]]}]	Select one [${ComponentNameMap[recipe.components[1]]}]
+dup-regex	Y	防御力: + ${format_number(item.defense_value * ScaledQualityMultiplier(quality))}	Defense Power: + ${format_number(item.defense_value * ScaledQualityMultiplier(quality))}
+regex	n	${format_money(character.money)} / ${format_money(C_money)}	${format_money(character.money)} / ${format_money(C_money)}
+regex	n	${options.quality[0]}%	${options.quality[0]}%
+regex	n	${options.quality[1]}%	${options.quality[1]}%
+regex	n	74?"lime":success_chance>49?"yellow":success_chance>24?"orange":"red"}">${success_chance}%	74?"lime":success_chance>49?"yellow":success_chance>24?"orange":"red"}">${success_chance}%
+regex	Y	${(character.equipment.sickle?.name == "死神之镰")?"	${(character.equipment.sickle?.name == "死神之镰")?"
+regex	n	${(format_number((Math.pow(inf_combat.MP+1,0.10)-1)*100))}%	${(format_number((Math.pow(inf_combat.MP+1,0.10)-1)*100))}%
+regex	n	${EquipSlotMap[item.equip_slot]}	${EquipSlotMap[item.equip_slot]}
+regex	n	${EquipSlotMap[item.weapon_type]}	${EquipSlotMap[item.weapon_type]}
+regex	n	${Math.round(get_enemy_killcount())}	${Math.round(get_enemy_killcount())}
+regex	n	${Math.round(total_crafting_attempts)}	${Math.round(total_crafting_attempts)}
+regex	n	${Math.round(total_crafting_successes)}	${Math.round(total_crafting_successes)}
+regex	n	${create_item_tooltip_content({item, options: {quality: quality_range}})}	${create_item_tooltip_content({item, options: {quality: quality_range}})}
+regex	n	${create_item_tooltip_content({item: item_templates[recipe.getResult().result_id], options: {quality:recipe.Q_able,skip_quality:false}})}	${create_item_tooltip_content({item: item_templates[recipe.getResult().result_id], options: {quality:recipe.Q_able,skip_quality:false}})}
+regex	n	${create_item_tooltip_content({item: item_templates[recipe.getResult().result_id], options: {skip_quality: true}})}	${create_item_tooltip_content({item: item_templates[recipe.getResult().result_id], options: {skip_quality: true}})}
+regex	n	${create_item_tooltip_content({item:item_templates[material.result_id], options: {quality: quality_range}})}	${create_item_tooltip_content({item:item_templates[material.result_id], options: {quality: quality_range}})}
+regex	n	${format_money(inf_combat.MP*1e12)}	${format_money(inf_combat.MP*1e12)}
+regex	n	${gains}	${gains}
+regex	Y	${is_combat?"掉落 ":"获取 "} "	${is_combat?"Loot: ":"Obtained: "} "
+regex	Y	${item_templates[this.components.head].name_prefix} ${this.weapon_type === "hammer" ? "战锤" : WTM[this.weapon_type]}	战锤=War Hammer  [${} weapon-name template; add 战锤→War Hammer to glossary]
+regex	n	${realm_rate[r][3]}！	${realm_rate[r][3]}!
+regex	Y	${stances[stance_id].randomize_target_count?"Randomly hits up to":"同时攻击"} ${target_count} 个敌人	${stances[stance_id].randomize_target_count?"Randomly hits up to":"Simultaneously hits"} ${target_count} enemies
+regex	n	${target_item.getName()}	${target_item.getName()}
+regex	n	${window.REALMS[character.xp.current_level][1]}	${window.REALMS[character.xp.current_level][1]}
+regex	n	${window.REALMS[character.xp.current_level][1]}	${window.REALMS[character.xp.current_level][1]}
+regex	n	${window.REALMS[item.realmcap][1]}	${window.REALMS[item.realmcap][1]}
+regex	n	${window.REALMS[item_templates[id].realmcap][1]}	${window.REALMS[item_templates[id].realmcap][1]}
+regex	n	+${(format_number(0.5*(Math.log10(inf_combat.InP+1) ** 1.5)))}	+${(format_number(0.5*(Math.log10(inf_combat.InP+1) ** 1.5)))}
+regex	Y	[冰封术${bfs_mul==0?"·免疫":""}]	[Ice Seal${bfs_mul==0?"· Immunity":""}]
+regex	n	x${format_number(get_hero_xp_gain())}	x${format_number(get_hero_xp_gain())}
+regex	n	x${format_number(get_skills_overall_xp_gain())}	x${format_number(get_skills_overall_xp_gain())}

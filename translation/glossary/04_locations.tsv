@@ -1,0 +1,18 @@
+# NekoRPG location reconcile — zh <TAB> en <TAB> note.  Source: NekoRPG/src/locations.js
+# FINDING: 57 distinct base locations; 50 already in Script.txt #location_actions_div block.
+# Combat sub-zones (BaseName - 1/2/X/XL/I-IV/∞ ...) inherit automatically via the script's
+# substring matcher — no per-zone entries needed. Only the 7 bases below were missing.
+#
+# ⚠️ ORDERING: each of these is a SUBSTRING of longer entries already in the dict
+#   (地宫 ⊂ 地宫入口/地宫核心; 地宫核心 ⊂ 地宫核心 - 悬空平台; 幻境核心 ⊂ 幻境核心·地宫; etc).
+#   The script applies every matching pair per text node, so these MUST be appended AFTER
+#   all more-specific location entries, or they corrupt them (Crypt入口 bug). Order within
+#   this list also matters: 地宫核心 before bare 地宫.
+#
+纳家练兵场	Na Family Training Ground	cf existing 练兵场深处 = Training Ground Depths
+幻境核心	Illusory Realm Core	append after all 幻境核心·X entries
+地宫核心	Crypt Core	append after 地宫核心 - 悬空平台/光幕; before bare 地宫
+地宫	Crypt	append LAST among 地宫* entries
+城门战	City Gate Battle	cf existing 城门战 - 歧路 = City Gate Battle - Fork
+密林战	Deepwood Battle	cf existing 狩猎大赛·密林战 = Hunting Tournament · Deepwood Battle
+古墓战	Ancient Tomb Battle	cf existing 狩猎大赛·古墓战 = Hunting Tournament · Ancient Tomb Battle

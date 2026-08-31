@@ -1,0 +1,103 @@
+# done_dialogues (batch 1, _todo rows 1-100). KEY = _todo ROW NUMBER (not srcline — dialogue
+# srclines collide: multiple <br>-split fragments share one line). <br>/<span> preserved.
+# Chars: 纳可=Neko, 可可=Koko, 纳娜米=Nanami(娜娜=Nana), 纳布=Nabu, 纱雪=Shaxue, 纳鹰=Na Ying, 百兰=Bailan.
+1	Who are you?
+2	I'm the Cat Demon! Now, let me give you a brief introduction to this place.
+3	Where is this?
+4	In the beginning, there was born a continent named Bloodfall.<br>
+5	The Bloodfall Continent brims with energy, giving rise to many races and forms of life.<br>
+6	On this continent, the strong may trample countless weak underfoot at will!<br>And here — this is the Na Family, Yangang Fief, Siyong World, Bloodfall Continent.
+7	And who is Neko?
+8	Neko, an unremarkable little girl of the Na Family in Yangang City.<br>
+9	One day, just as Neko finished her morning cultivation,<br>
+10	she found that her sister Nanami, who grew up alongside her, had vanished.<br>
+11	On learning from the family that Nanami had gone out to train yesterday and hadn't returned, Neko was in no state to think it over,<br>
+12	and resolutely left the family alone to search for Nanami's trail.<br>
+13	And so, our story begins here…
+14	In [V0.13], this dialogue theoretically won't unlock.<br>
+15	If you're updating a save from an old version, use this dialogue to unlock the later areas.<br>
+16	MOD - NekoRPG author: Supernatural Creature Fire-Breathing Research Association - Shaxue (still sobbing away =w=)<br>
+17	Original: Yet Another Idle RPG - miktaew<br>
+18	Setting drawn from: I Eat Tomatoes' "Swallowed Star," Qianye's "Nako Monogatari"<br>
+19	Merge Blood · Swift has been added to your selectable Techniques!
+20	Merge Blood · Keen has been added to your selectable Techniques!
+21	Hello? Is there a shop nearby?
+22	Little girl, just came out from your family, did you?<br>
+23	Land in central Yangang City costs a fortune, so shops are usually outside the 16th Ring.<br>
+24	The nearest one is a chain store, the "Yangang General Store."<br>
+25	And you are…?
+26	Where'd this little girl come from — going out to train alone with cultivation as slight as yours,<br>are you really sure that's fine? The Wildbeasts out there will eat you.
+27	Mister, it's not nice to look down on people, you know.
+28	Hey, who're you calling mister — you want me to——
+29	Wait, mister, what's that in your hand?
+30	This, this is a map,<br>charting a recently discovered treasure site.
+31	Any more detailed information?
+32	Yes, yes, I hear there's plenty of good stuff inside,<br>but it's quite dangerous — few come out alive.
+33	Hand this over and you can go.
+34	…So be it.<br>(Ugh, to be bested by a little girl this time — what rotten luck. How will I explain this to the family later…)
+35	For V0.21 save updates, click this prompt to gain access to the next area.
+36	Zone 3-1 unlocked!
+37	Um… old sir, what did you want to say?
+38	Sometimes, fighting monsters head-on yields little.<br>
+39	But when you use your pickaxe cleverly,<br>
+40	you may achieve unexpected wonders."<br>
+41	But don't get greedy…<br>diminishing marginal returns are on full display here.
+42	Sister!
+43	Koko?!<br>Why are you here? It's dangerous.<br>Listen to your sister — stop fooling around and get back to the family, quickly.
+44	No. An obedient child could never abandon her sister at a time like this.
+45	…It's my fault for not being clear.<br>Actually, this expedition had Head Nabu's tacit approval.<br>Or rather, he deliberately arranged for me to come.
+46	Huh, huh?
+47	…I'll be honest — during an earlier Wildbeast hunt,<br>the family was ambushed by an unknown party and suffered heavy losses.<br>
+48	The attacker was extremely powerful.<br>Using his uncanny movement and speed,<br>he slaughtered our kin with almost effortless ease.<br>
+49	The head, furious, sent the family's finest elites to search,<br>and at last — they discovered this treasure-laden Crypt,<br>and spread the word!<br>
+50	Now, Earth-Tier cultivators from a thousand li around<br>have been getting word and rushing here one after another.<br>Yet the Crypt's master has made no move.
+51	So that's how it is? Sounds a little scary. Then Sister, why are you…
+52	Mm… this opponent is very cunning.<br>If the family rashly sent a Sky-Tier powerhouse,<br>it would only put them on alert.<br>
+53	So they quietly sent me, an inconspicuous junior,<br>disguised as a reckless ordinary adventurer.<br>And right now, I hold a trump card enough to kill them.<br>
+54	But there are just too many Wildbeasts below.<br>I can handle a few at most,<br>and I can't expose that trump card — so I got trapped here.
+55	Leave it to me, Sister. Together, we'll take them all down!
+56	No, no, it's too dangerous.<br>…Wait, Koko, how did you get here?<br>Don't tell me you took care of that elite Wildbeast up above?<br>
+57	I told you, don't underestimate me. Besides, if I can't even help my sister with this much, then what am I even for?
+58	…<br>I see — so the little girl has grown up without my noticing…<br>All right, understood.
+59	Father, Sister.
+60	[Nabu] You're both here. Koko, Nana, you've done well this time.<br>[Nanami] Koko, we really rendered great service this time! The Lord's Manor actually gave such a huge reward.
+61	Yes… the reward was far richer than I imagined.
+62	[Nabu] Koko, is something on your mind?<br>[Nanami] Head, Senior, whatever Koko wants to say, she'll say herself. Don't press her…<br>[Nabu] So be it. After all, the little girl is eleven this year. How does it feel? About to break through to Earth-Tier, aren't you?
+63	Yes… ever since the trip to the Crypt, I've felt it deeply — I've faintly touched that threshold.
+64	There are two ways to reach Earth-Tier.<br>The first is to slowly accumulate insight until it comes naturally.<br>The second — a swift breakthrough through trials.
+65	…I don't want to wait any longer. Father, Sister, I want to go to the Wildbeast Forest and seek the chance to break through.
+66	[Nanami] Koko…<br>[Nabu] The Wildbeast Forest is perilous,<br>but since you have this adventurous heart, your father will surely support you.<br>
+67	The sword and armor you cobbled together from scraps in the Training Ground<br>are yours from now on.<br>
+68	And a protective talisman hiding a teleportation array.<br>If you meet danger, use it.<br>
+69	[Nanami] Head, Senior, the Wildbeast Forest is too dangerous.<br>Why not give Koko the Laser Gun I used before?<br>
+70	No. Though it would let Koko handle trouble easily,<br>it would also rob her of the pressure a breakthrough needs.<br>
+71	Father, what is a Laser Gun?
+72	It's about time I told you these things.<br>They tie into a legend.<br>
+73	The legend of the <span style="color:lightblue">【Alien Clans】</span>.<br>Once you break through to Earth-Tier, Koko, I'll tell you more.
+74	Is that so… I understand. Then, wait for my good news.
+75	Hmph, always giving your sister worry.<br>Do your best, little girl.<br>…Just like before, be sure to come back safe and sound.
+76	Father once said the outside world is dangerous and cruel.<br>…But I don't believe it. I want to go see farther places.
+77	Now I've been through a brush with death,<br>and I understand what Father meant.
+78	Perhaps, on the day I truly become strong,<br>this wish can come true.
+79	Beyond the waterfall are mountains; what's beyond the mountains?
+80	[A strange voice] What are you afraid of?<br>You must become strong! Go explore the outside world!<br>Life-and-death trials won't kill you — at worst you fail and wake up back in bed!
+81	Her body grew ever more supple and nimble.<br>All the sediment accumulated over these days<br>was finally, in this moment, fully ignited!
+82	…What happened? What did I just do?
+83	Water Heartless · Flood, Water Heartless · Flowing Water, Water Heartless · Rain have been added to your selectable Techniques!
+84	Koko! Are you all right? What are all these wounds?
+85	It's a long story… I got into a fight with the Hundred Clans out there. Good thing I had that talisman.
+86	Neko told Nabu what had happened,<br>including the unexpected gain from contemplating the Qingye Waterfall after being wounded.<br><br>[Nabu] Outrageous — those Hundred-Clans bastards! They deserve to die!<br>Merely envious of what my Na Family gained this time, they pulled such a stunt.<br>That Bailan isn't even Earth-Tier and has no standing in the Hundred Clans at all — "avenging him" is just a shameful excuse!
+87	This matter… is partly my fault too. I shouldn't have provoked the powerful Hundred Clans and brought trouble to the family.
+88	Koko, this isn't your fault.<br>Don't go out alone for a while; I'll send people to protect you. [Neko] I'm fine. Father, you said it yourself — only dangerous places hold opportunity.
+89	The strength I have now is precisely thanks to this life-and-death crisis.
+90	(The lore of the Alien Clans is omitted here) What a captivating world—
+91	…It's also time to send you into the Family Secret Realm to temper yourself. Mind you, the standard for entering the Na Family Secret Realm is reaching mid Earth-Tier.
+92	Huh, the Family Secret Realm?
+93	Hmph~ now you know how formidable I am?
+94	Mercy, mercy——<br>I'm just a "Spirit" born of the Secret Realm,<br>I've got no assets or resources at all…
+95	Huh, in a core area like this, you should have some of the Secret Realm's privileges, right?
+96	Ah, right, right!<br>I can help you adjust the Secret Realm's spirit-array power!<br>That way you can gain more combat insight!
+97	How high is the spirit-array power set right now?
+98	Raise the spirit-array power to the current cap (ノ▼Д▼)ノ
+99	…Senior, and you are…?
+100	Heh, you don't recognize me yet?<br>True — it's been several thousand years since I fell.<br>Back then, I followed the Lord of Yangang City and earned merit in battle,<br>founding the Na Family within Yangang City.<br>I never imagined the family would come this far.

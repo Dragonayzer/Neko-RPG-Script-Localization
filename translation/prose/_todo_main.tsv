@@ -1,0 +1,277 @@
+stat	144	你获得了收集材料的能力！
+stat	145	你获得了合成物品和装备的能力！
+stat	146	领悟【微火】的进化之路已经被打通！
+stat	147	你掌握了【初等进化结晶】的凝聚方法！
+stat	148	你掌握了【银霜月轮】的合成方法！
+stat	149	【家族系统】已激活！(右下角第三栏)
+dyn	449	[ 进入 ${location.name} ]
+dyn	599	${character.name} 结束了 ${ActivityEndMap[current_activity.activity_name]}
+dyn	603	该行动已进行${current_activity.done_actions}次
+dyn	628	解锁行动 "${activity_data.activity.activity_name}" - "${activity_data.location}"
+dyn	835	次生死呢，<br>也知道了父亲大人的话是什么意思。
+dyn	842	都到大地级中期了还不去？<br>再这样出去别说你是我女儿！<br>
+dyn	843	你的自创剑法，<br>足以令你发挥出超过大地级五阶的实力。<br>
+dyn	845	...等会，百方已经被你揍哭了???<br>
+dyn	846	待你历练有成，那区区百方，自是不足为惧！<br>
+dyn	848	家族秘境，每半年开启一次。<br>这段时间，你就留在家族，<br>巩固你当前的境界实力吧。
+dyn	853	<br><br>跳过了${Math.floor(T/10800)}血洛日,${Math.floor((T%10800)/60)}时,${T%60}分钟游戏内时间。
+dyn	854	<br><br>在这段时间内， ${character.name} 修炼获取了 ${format_number(Math.sqrt(T*1e10))} 经验！
+dyn	859	当前的灵阵强度是 ${inf_combat.A6.cur}层 , <br>上限是 ${inf_combat.A6.cap}层！
+dyn	860	<br>当前的效果是： <br>敌人属性 +${inf_combat.A6.cur*8}%  <br>掉落 +${(Math.pow(1+inf_combat.A6.cur*0.08,1)*100-100).toFixed(2)}%<br>经验 +${(Math.pow(1+inf_combat.A6.cur*0.08,1.5)*100-100).toFixed(2)}%
+dyn	865	功率加大！当前强度：${inf_combat.A6.cur-1} -> ${inf_combat.A6.cur}
+stat	866	灵阵功率已达绝对上限【9999】。
+dyn	871	灵阵功率已达当前上限...<br>想要继续提高的话，先重新清理敌人吧。
+dyn	878	功率拉满！当前强度：${d_cur} -> ${inf_combat.A6.cur}
+dyn	890	功率降低！当前强度：${inf_combat.A6.cur+1} -> ${inf_combat.A6.cur}
+stat	893	如果想要少于五层的灵阵，直接去前面的区域就好了...
+dyn	898	能在<span class="realm_terra">${window.REALMS[character.xp.current_level][1]}</span>的境界 , <br>${age}岁的年龄，<br>走到结界湖这里，你已经是非常优秀的纳家后人。
+dyn	900	<br>  若我纳家诞生一位天才，<br>或许能重新兴盛，替我报了未尽的仇怨。<br>
+dyn	902	结界已经松动到这种程度了吗...<br>之前，这里还只能容纳大地级中期以下的修者进入的。<br>
+dyn	903	哇！！！居然如此年轻，我纳家振兴在即！<br>
+dyn	904	我寻思...在这里沉睡了一个纪元不到，<br>外面的宇宙规则都改了？<br>，大地级不应该只有0.1纪元的寿命的嘛...<br>
+dyn	905	喂喂，这里不是给纳家年轻人用的秘境吗...<br>
+dyn	906	诶，多少岁...算了啦。<br>有领悟在，什么时候开始都不迟！<br>
+dyn	911	<br><br> 获取了9999亿【秘法精通】经验值。
+dyn	915	目前为止，${character.name} <br>已经制造了 ${killcount} 份杀戮。<br><br>
+dyn	916	可以在这样的世界中，<br>不造下无谓的杀戮，<br>${character.name} 即使在整个燕岗领中<br>，也是最无瑕的大地级后期强者之一了。
+dyn	917	在残酷的血洛大陆上，<br>弱肉强食无可厚非。<br>只要问心无愧，<br>敌人们就只是前进路上的踏板。
+dyn	918	每当冰冷的敌人化作温暖的<br><b>宝石，刀币与价值点，</b><br>${character.name}就感到一股暖流从心中升起。<br>多多杀戮或许在遥远的未来可以促进吸收血洛晶，<br>但更重要的还是不要因杀意失去了理智。
+dyn	920	纯洁的${character.name}<br>善良的${character.name}<br>乖孩子${character.name}<br>这是一场游戏<br>让我看看你到底能够<br>堕落的多么肮脏呢
+dyn	926	这个神像不足以给 ${character.name} 这样的强者赐福...
+dyn	928	基于 ${format_number(C_HP)} 的生命力，<br>赐福一次的耗费为 ${format_money(Math.round(C_HP ** 1.35))}<br>
+dyn	932	<br>目前的月相为 ${MM1[C_moon]}，<br>赐福内容为 ${MM2[C_moon]}.(1800s)
+dyn	933	<br>⚠️接受皎月祝福会清空原有状态效果⚠️
+dyn	941	这个神像仅能给 ${character.name} 这样的强者清空效果...
+dyn	942	基于 ${format_number(C_HP)} 的生命力，<br>赐福一次的耗费为 ${format_money(Math.round(C_HP ** 1.4))}<br>
+dyn	950	<br>目前的时段为 ${MM1[C_time]}，<br>赐福内容为 ${MM2[C_time]}.(1800s)
+dyn	951	<br>⚠️接受烈阳祝福会清空原有状态效果⚠️
+dyn	968	叮~余额不足！<br> ${format_money(character.money)} / ${format_money(C_money)}
+dyn	972	钱包: ${format_money(character.money)} ->
+stat	976	原有的状态效果全部被皎月净化了！
+stat	1009	原有的状态效果全部被烈日净化了！
+dyn	1042	在看到这冰蓝色六芒星阵时，我印证了很多东西……<br>
+dyn	1043	曾经领悟的水元素秘法，<br>
+dyn	1044	与火元素领域，彻底融合在了一起。<br>
+dyn	1045	竟然……会有这么神异的现象产生。<br>
+dyn	1046	互斥的两种元素，本该是极难相容。<br>
+dyn	1047	可一旦达到完美的临界点，<br>
+dyn	1048	便能迈入【冰火两重天】的玄妙之境，<br>
+dyn	1049	迸发出不可思议的力量！<br>
+dyn	1051	，【火灵幻海】获取了51.2垓经验！<br>
+dyn	1054	【焰海霜天】获取了51.2垓经验...?<br>
+dyn	1055	怎么领悟又已经突破了哇！也太能刷了叭！！<br>
+dyn	1068	你的【结界湖之心】已经被转化为【结界湖之心·材】，<br>可以继续升级为【飞船之心】。
+stat	1071	请将【结界湖之心】佩戴后再次尝试！
+dyn	1082	你的【冰原之心】已经被转化为【冰原之心·材】，<br>可以继续升级为【幻境之心】。
+stat	1085	请将【冰原之心】佩戴后再次尝试！
+dyn	1088	(摸)可可,天空级一般来说不会发烧了哦。<br>她不是一直被你拽在身边，不肯放走吗?<br>
+dyn	1089	是啊，迫不及待就离开了。<br>娜娜这孩子，也有一颗强者的心啊。<br>
+dyn	1094	纳可姐妹修炼时长仅有${current_game_time.day_count}天，却双双突破天空级，<br>这绝对是燕岗领罕有的事情。无数人前来贺喜。<br>他们带来了总共${format_money(hx_money)}的礼品。<br>纳布又往里贴了20%，<br>平分给了纳可和纳娜米。<br>纳可收到了${format_money(Math.round(hx_money * 0.6))}
+dyn	1098	[纳布]你姐姐的事，不用太担心。<br>你只管好好修炼，直到彻底成长起来，<br>到时候再去协助她就是。<br>
+dyn	1107	我说，“饵料”已经布下！！<br>就算你有多的碎片也必须先打完这一只哇！
+stat	1115	“饵料”已经布下……(古墓战 - II 已解锁)
+dyn	1122	<img src='image/item/evolve_1e16_shard.png'>中等进化结晶碎片 数量不足……
+dyn	1141	消耗了 ${C_pz * T_cnt} 个 荒兽凭证，<br>
+dyn	1142	兑换了 ${T_cnt} 个 ${pz_map[T_S]}。<br>
+dyn	1145	未发现【<img src='image/item/B3_ear.png'>荒兽凭证】！<br>兑换点需要它才能兑换物品...
+dyn	1197	【<img src='image/item/inherit_pink.png'>传承水晶·粉】不足！ ${cur_cnt} / ${cur_cost}
+dyn	1200	未发现【<img src='image/item/inherit_pink.png'>传承水晶·粉】！<br>需要它才能扭蛋...
+stat	1212	提示:轮锋+轮芯的组装 现已解锁
+dyn	1228	【焰海霜天[领域二重]】获取了1.68秭经验！<br>
+dyn	1231	【焰海霜天[领域三重]】获取了1.68秭经验！<br>
+dyn	1232	这次……能提前突破一点也不意外（笑！<br>
+dyn	1239	【焰海霜天[领域三重]】获取了64秭经验！<br>（到现在，<br>在直面领域级强者，<br>感受其来自领域的威压之后，<br>本就临近突破的四重领域，<br>终于迈出了最后一步。）
+dyn	1243	【出云落月[领域四重]】获取了64秭经验！<br>
+dyn	1244	抱歉纱雪高考去了……别说突破了都有人48级了！喵啊啊啊！<br>
+dyn	1268	[心魔之主]哼，自爆！<br>恐怕云霄级强者来了，<br>都扛不住16兆伤害吧！<br>
+dyn	1270	……哈？压制${100 - qz_perc}%,牵制${qz_perc}%?<br>
+dyn	1271	哈哈哈——恐惧牵制又如何？<br>你不会的技能，我又从何模仿起呢？<br>强行抹杀！汇集心魔的一切力量，<br>誓要令你……彻底沉眠！
+dyn	1272	你还偷看燕岗领五大禁书之一的牵制书！<br>自己从来没用过，也不想用……<br>只是为了坑我吗！<br>……强行抹杀……汇集力量……<br>令你，彻底沉眠！
+dyn	1273	牵制书不愧是燕岗领五大禁书之一……<br>该死，我的力量已经十不存一。<br>你到底从哪里搞到的这个？<br>外面那帮黄不拉几的商人，<br>还是某个封闭许久的老坟？<br><br>唏，可以和解吗？
+dyn	1287	原本的强榜第二，也不是蓝柒，而是<span style='color:aqua'>冰蓝</span>。<br>不过，她倒在了黎明前的黑暗中……
+dyn	1287	喏，我旁边这位也不是蓝柒，而是<span style='color:aqua'>冰蓝</span><br><br>[冰蓝]……嗯嗯……
+dyn	1289	例如秋兴就是一例……<br>不过倒也不用担心冰家追下追杀令。<br>作为死士，在危机四伏的水牢中遇难，<br>也在所难免。
+dyn	1289	<br>[秋兴]哎啊啊，小姐。<br>这种说法有点太残忍了吧？<br>家主大人待我等不薄，<br>我等也不过是奉命行事。
+dyn	1291	[纳可]那，之所以排出强榜是为了……<br><br>[冰溪月]哎呀呀，这你得去问冰蓝了……<br>最新一代的强榜还是她一手操办的呢。
+dyn	1291	[纳可]那，蓝柒……冰蓝小姐，<br>之所以排出强榜是为了？<br><br>[冰蓝]……左阿是一个戒心很重的人。<br>我将实力控制在天空级六阶，<br>长此以往，他必然会有疑心。<br>【强榜】是一种掩饰，<br>这让左阿误以为我是那种享受者，<br>压制他人，高高在上的家伙。<br><br>[莫尔]是的，而且在那老贼的眼中，<br>这样一个榜单，反而看似对他的杀戮规则有益。<br>呵，他也以为自己能轻松掌控全局。
+dyn	1296	[冰蓝]两位，大恩不言谢。<br>自此之后，凡我族血脉所及之处，<br>便敬二位为坐上宾，<br>即便献上性命，也定护你们周全。<br><br>[冰溪月]哦哦，气场很足的嘛。<br>话说小蓝你今天，<br>一次性说了这么多话？有点难得呀。<br>是时候了，回家了哦。<br>纳可小姐……谢谢你。<br>拿着这个，后会有期啦。<br><br>冰溪月玉手一挥，<br>一枚镌刻着<span style='color:aqua'>冰</span>字的玉简落入纳可手中。
+dyn	1301	[冰溪月]两位，虽说有些许摩擦，<br>但冤家宜解不宜结，<br>毕竟小姐也是唯一成功破局之人。<br>纳可小姐……谢谢你。<br>拿着这个，后会有期啦。<br><br>冰溪月玉手一挥，<br>一叠369枚<span class='coin coin_moneyQa' >宇宙币</span>落入纳可手中。
+dyn	1306	[冰溪月]两位……<br>虽然破局之人是你们，<br>但你们的杀念属实太重。<br>在被你杀掉之前，<br>我还是先溜为妙。<br><br>冰溪月玉手一捏，<br>一枚镌刻着<span style='color:aqua'>冰</span>字的玉简被捏碎，<br>她的身影也消散在空气中。
+dyn	1315	${age}年了呐！！<br>
+dyn	1316	家族里的人都说你们很快就会回来。<br>看来我也是瞎操心一趟。
+dyn	1317	虽然那个历练地点是峰大哥建议的……<br>但以后还是不要离开那么久，好吗？<br>
+dyn	1318	得亏你们还记得回来……<br>再不回来的话，<br>家族都不知道谁继承了。
+dyn	1319	满燕岗城都在传，<br>曾经惊才绝艳的纳可姐妹，<br>双双陨落在了那座出不去的冰宫！<br>再晚回来几年，你们估计连纳家都看不到了。
+dyn	1341	${character.name} 获取了 "${item_id}"
+dyn	1365	解锁新商人: ${trader.name}
+dyn	1374	未定义的对话: NPC[${dialogue_name}] - 对话[${textline.unlocks.textlines[i].lines[j]}]
+dyn	1426	解锁了一个秘法: "${stances[stance_id].name}"
+dyn	1613	[冰封术${bfs_mul==0?"·免疫":""}]
+stat	1872	心之灵的虚影摇曳着。现在还不能倒下！
+stat	1884	在战斗区外流血而昏迷 - 已自动回到床上！
+stat	1990	 血量时自爆。
+stat	1991	 点伤害。
+stat	2001	几乎零点一秒之内，纳娜米手中的武器，绽放出耀眼的银白色光芒。只听轰隆一声巨响，整座飞船都似乎为之震颤！
+stat	2002	遭到反震力冲击的纳娜米纹丝不动。比起地宫之行的时候，她已经提高了足足七阶修为，不再会被区区反冲力给轰吐血了。
+stat	2004	[纳娜米]噗...我像是有事的样子吗！快去给飞船中枢补刀！
+stat	2005	正面被武器击中的飞船中枢B6，受到了不轻的创伤，零部件四处横飞。
+stat	2006	它的血量已被降为1。
+stat	2013	几乎零点一秒之内，......谁来着？她在这里嘛？
+stat	2016	[纱雪]镭射枪攻击没有了，攻击和血量处于绝对劣势...
+stat	2017	[纱雪]那就凭借高额的敏捷和速度，
+stat	2018	[纱雪]一点点击碎这个又大又笨的中枢吧！
+stat	2053	如果敌人的攻击少于角色的2倍，角色受到的伤害减少(角色防御/敌人防御)的二分之一。反之，增加(角色防御/敌人防御)的两倍。该效果不会把伤害降低到0以下。
+dyn	2138	${attacker.name} 将 ${character.name} 的攻击 延迟了0.5轮![吹火掌].
+stat	2237	获取新领悟 [燃灼术]！
+stat	2244	火红色的六芒星缓缓升起，
+stat	2245	这片区域的温度急剧上升，
+stat	2246	连舰船的地面，都被高温烤得似乎扭曲了起来。
+stat	2247	获取新领悟 [火灵幻海]！
+stat	2253	水，滋润万物，温和优雅……
+stat	2254	火，残酷暴戾，却照耀一切，点燃希望。
+stat	2255	获取新领悟 [焰海霜天]！
+stat	2256	[极寒相变引擎] - [焰海] / [霜天] 环境 现已解锁！
+stat	2262	领域【焰海霜天】晋升为第三重！请检查装备栏查看详情！
+stat	2268	领悟了第四重领域【出云落月】！请检查装备栏查看详情！
+stat	2274	领域【出云落月】晋升为第五重！请检查装备栏查看详情！
+stat	2280	领域【出云落月】晋升为第六重！请检查装备栏查看详情！
+dyn	2291	${character.name} 生命上限提升了20%！
+dyn	2299	${character.name} 攻防敏提升了1亿！
+stat	2308	【左阿】封印完成，全属性降低10081倍！
+dyn	2309	${character.name} 将全身心的灵魂力量投入幻境！ 攻防敏提升了5亿！
+dyn	2504	${character.name} 获取了60s【迟缓】效果！
+stat	2510	场上增加了3只【心之灵·暴走】！
+stat	2516	【心之灵·暴走】的攻击与血量提高了5%！
+stat	2522	获取了1点【灵魂之力】！
+dyn	2530	${character.name} 获取了20s【死线】效果！
+dyn	2534	${character.name} 获取了60s【死线】效果！
+dyn	2540	沼泽辐射扩散: ${format_number(inf_combat.B3)} % -> ${format_number(inf_combat.B3 + 0.004)} % 
+stat	2556	装备槽里的姐姐回家了！
+stat	2562	{\"id\":\"纳娜米\",\"quality\":100}
+stat	2565	物品栏里的姐姐回家了！
+stat	2569	[纱雪]诶诶，怎么哪里都找不到姐姐啊。
+stat	2570	[纱雪]真的打掉了那只100倍属性的地宫耶！好厉害！
+stat	2571	[纱雪]那么，作为给胜利者的小奖励，
+stat	2572	[纱雪]这-9999极的经验就送你啦。
+stat	2594	{\"id\":\"纳娜米(飞船)\",\"quality\":130}
+stat	2602	[纱雪]真的打掉了那只4200亿血的中枢耶！好厉害！
+stat	2604	[纱雪]这只姐姐就留给你保管啦。
+stat	2611	[纱雪]为性能考虑，【地宫养殖者】前的商人将不再进货。
+stat	2624	击败左阿！自动切换地图【幻境核心·出口】！
+stat	2625	【幻境核心·决战】已封锁且无法进入！
+stat	2626	所有状态效果已清除！
+stat	2630	[纱雪]为性能考虑，【舰船中枢B6】前的商人将不再进货。
+dyn	2653	${character.name} 恢复了 ${format_number(character.stats.full.health - pre_health)} 点血量[吸血${(1+skills["ReflectStarSkyRainbow"].current_level*0.1).toFixed(1)}%]
+dyn	2764	解锁新技能: ${skill.name()}
+dyn	2824	解锁新技能: ${unlocked_skill.name()}
+dyn	2836	技能 ${prev_name} 升级为 ${new_name}
+stat	2894	在古墓里发现了一颗中等进化结晶碎片！
+stat	2900	峰大哥演示了月轮的使用方法，【银霜月轮】获取了9999兆 经验！
+dyn	2904	搜刮废墟，获取了 ${format_money(Math.floor(RNG_M * money))} .
+dyn	2916	${character.name} 感到附近有财富与交易的气息 ....
+dyn	2947	首次通过 ${location.name} ，获取 ${format_number(location.first_reward.xp)} 经验 
+dyn	2950	在战斗中，${character.name} 获取了突破大地级的感悟。
+dyn	2955	通过 ${location.name} ，获取额外 ${format_number(location.repeatable_reward.xp)} 经验 
+dyn	2958	在战斗中，${character.name} 再次随机地获取了突破大地级的感悟。
+dyn	2996	你应该与 ${location.repeatable_reward.textlines[i].dialogue} 对话
+dyn	3022	灵阵强度上限解放： ${inf_combat.A6.cur} -> ${inf_combat.A6.cap} ！
+dyn	3037	解锁地点 ${location.name}
+dyn	3103	制造了 ${item_templates[result_id].getName()} x${count}
+dyn	3107	制造 ${item_templates[result_id].getName()} 失败!
+dyn	3150	制造了 ${result.getName()} [品质 ${result.quality}%]
+dyn	3192	自动切换材料: ${component_1_key}
+dyn	3199	自动切换材料: ${component_2_key}
+dyn	3304	批量制造了 ${item_templates[result_id].getName()} ,其中 ${cnt_s}/${cnt} 成功
+dyn	3331	真·批量制造了 ${item_templates[result_id].getName()} x${count}(${max_todo}轮)
+dyn	3355	批量制造了 ${latest_comp} * ${cnt - 1} ,其中最高品质为 ${cnt_b} %
+dyn	3393	真·批量制造了 ${result.id} * ${c_ttl} ,其中最高品质为 ${q_range[1]} %
+dyn	3421	真·批量制造了 ${cnt - 1} 件装备 ,其中最高品质为 ${cnt_b - 1e12} %
+dyn	3422	批量制造了 ${cnt - 1} 件装备 ,其中最高品质为 ${cnt_b} %
+dyn	3465	随着符文工作台套件被摆下，一座小屋拔地而起。在这片废墟中，${character.name} 得到了一片温暖的港湾。
+dyn	3471	旋律合金作为活塞，多孔冰晶作为隔热，冰原超流体作为热容……冰原的环境本十分恶劣，${character.name} 却掌握了巧妙利用它的方法。
+dyn	3476	释放了第${inf_combat.B6}个冰宫商人！
+dyn	3477	进货倍率 ${(inf_combat.B6 ** 0.8).toFixed(2)}x , 品质加成: ${(Math.log(inf_combat.B6) * 9).toFixed(1)}%
+stat	3478	之前的9999个商人已经垄断了燕岗领的生意！抓来更多的也没用了！
+dyn	3492	从 B9·??药剂 中获取了 ${Rnd}! (${cnt} / 5)
+dyn	3501	牵制领悟度提升到了 ${global_flags["qz_percent"]}%!
+dyn	3508	你的境界是 <span class=realm_${window.REALMS[character.xp.current_level][5]}>${window.REALMS[character.xp.current_level][1]}</span> ,超过了 <span class=realm_${window.REALMS[item_templates[id].realmcap][5]}>${window.REALMS[item_templates[id].realmcap][1]}</span> ,因此无法使用 ${item_templates[id].name}
+dyn	3528	使用 ${item_templates[id].name} , 
+dyn	3563	真·批量使用了 ${gem_cnt} 个 ${item_templates[id].name}
+dyn	3564	攻击 + ${format_number(G_value*SCGV*(FSCM[0] - CSCM[0]))} (软上限 ${format_number(CSCM[0])}x -> ${format_number(FSCM[0])}x)
+dyn	3565	防御 + ${format_number(G_value*SCGV*(FSCM[1] - CSCM[1]))} (软上限 ${format_number(CSCM[1])}x -> ${format_number(FSCM[1])}x)
+dyn	3566	敏捷 + ${format_number(G_value*SCGV*(FSCM[2] - CSCM[2]))} (软上限 ${format_number(CSCM[2])}x -> ${format_number(FSCM[2])}x)
+dyn	3567	血量 + ${format_number(G_value*SCGV*HPMV*(FSCM[3] - CSCM[3]))} (软上限 ${format_number(CSCM[3])}x -> ${format_number(FSCM[3])}x)
+dyn	3597	${format_number(R_value)}[软上限]
+dyn	3659	使用了 ${item_templates[id].name} , 获取了 ${format_number(E_value*E_modi)} 经验${E_modi==1?"":
+stat	3663	因能量吸收不充分，部分基因原能外溢！
+dyn	3664	沼泽辐射扩散: ${format_number(inf_combat.B3 )} % -> ${format_number(inf_combat.B3 + 10 * (1 -  E_modi))} % 
+stat	3690	{\"id\":\"B9·??药剂\"}
+dyn	3695	批量使用了 ${Math.round(B9_all/5)} 个 B9·??药剂。
+stat	3696	因数量过多(>100)，直接均分到了4种药剂上。
+dyn	3710	批量使用了 ${cnt} 个 ${id}.
+dyn	3712	获取了${format_number((A1-A0)||0)}点攻击，${format_number((D1-D0)||0)}点防御，${format_number((G1-G0)||0)}点敏捷，${format_number((H1-H0)||0)}点生命。
+stat	4636	[纱雪]宝石的力量超越了极限……触发了【大坍缩】！
+stat	4637	你已获取1无限点，请移步AntiNeko Dimensions 领取。
+stat	4638	宝石提供的所有属性已经清空！
+stat	4855	新的一天开始了！原能辐射浓度略有下降。
+dyn	4856	沼泽辐射扩散: ${format_number(inf_combat.B3)} % -> ${format_number(B3_after)} % 
+stat	4966	 上钩了！
+stat	4974	 逃跑了！
+dyn	5143	收割检定:1d1000000=${light_rnd}/${light_chance} 
+stat	5144	成功!已获取【噬芒兰】*1.
+stat	5360	钻探地层，发掘出了
+stat	5519	反应堆因温度过高熔毁了！！！
+stat	5613	获取了 凝胶剑柄 (品质 
+stat	5627	获取了 初等进化结晶(反应堆内辐射已清除)
+dyn	5699	觉醒${(inf_combat.FE.fruit / 1e4).toFixed(4)}%
+dyn	5917	提取了 ${r_id} x ${count} !
+stat	5932	玄冰果实 已开始吸取冰元素 !
+dyn	5939	提取了 ${q_id} !
+stat	5957	你的【飞船之心】已经被转化为【飞船之心·材】，
+stat	5958	可以继续升级为【冰原之心】。
+stat	5960	请将【飞船之心】佩戴后再次尝试！`
+dyn	5978	<span class='realm_sky'>[百方]</span>：苦苦追寻这些年，总算让我找到了……
+stat	5979	纳可老祖，被族人簇拥的滋味好受吗？
+stat	5980	现在关于你的消息可是不胫而走哦？
+stat	5981	要不是在荒兽森林我抢来了牵制药水的配方，
+stat	5982	或许我也和炎塔他们一样，
+stat	5983	成为十三斧下的亡魂了吧。
+stat	5984	多说无益！来战！！
+dyn	5989	<span class='realm_cloudy'>[枫杏红]</span>：苦苦追寻这些年，总算让我找到了……
+stat	5990	等会，有话好好说，先别拔月轮，我不是来找事的！
+stat	5991	如此如此，这般这般……总之纳家先祖于我有救命之恩，无以为报。
+stat	5992	小友这些日子也闯出了些名气，不如和我切磋一场？
+dyn	5993	我观小友困在<span class='realm_sky'>天空级破限</span>也有些时日了。
+dyn	5994	<img src='image/item/evolve_1e16_shard.png'>中等进化结晶碎片本身不足打破境界壁垒，
+dyn	5995	又不好轻易熔炼成完整的<img src='image/item/evolve_1e17.png'>中等进化结晶，很困扰吧？
+stat	5996	我只用六成力量，如果让我满意，就教你一种全新的突破思路~
+dyn	6159	夺位之后${family_data.mem[0].break * -1}天，首位纳家天骄子弟重回<span class='${realm_rate[r][4]}'>${realm_rate[r][3]}！
+stat	6160	{"id":"冰家玉简"}
+dyn	6162	<span class='realm_sky'>秋兴【天空级八阶】</span>加入了新纳家！
+dyn	6167	<span class='realm_sky'>冰蓝【天空级巅峰】</span>加入了新纳家！
+stat	6168	或许你可以考虑把玉简卖了。
+dyn	6174	<span class='realm_sky'>纳娜米【天空级四阶】</span>加入了新纳家！
+dyn	6192	因开了太多的[1]常规工作，家族净利润仅为 ${format_money(family_data.re_gain)} ，纳可破产了！
+stat	6193	所有[1]常规工作 已经改为 [2]秘境试炼！
+dyn	6224	哪个天才想出来的要${family_data.baby}个孩子！
+stat	6225	计划每日新生儿数目已经自动归零！
+dyn	6231	要${family_data.baby}个孩子又是什么个思路啊！
+dyn	6232	多出来的是${((family_data.baby-Math.floor(family_data.baby))*5)}条悟吗！
+dyn	6233	计划每日新生儿数目已经自动取整到${Math.round(family_data.baby)}！
+dyn	6239	因无力负担 ${format_number(family_data.baby )} 个新生儿产生的 ${format_money(get_baby_cost(family_data.baby))} 费用，纳可破产了！
+stat	6240	计划每日新生儿数目已经归零！
+dyn	6553	<span class='realm_terra'>大地级一阶</span>解锁心之境界 - 一重！
+dyn	6577	<b>${s_color}宝石吞噬者</span> </b> - 吞噬宝石，提供全局技能经验加成<br>
+dyn	6579	<div id = 'gem_consumer' class = 'gem_consume_button' onclick='gem_consume()'>吞噬物品栏中全部宝石</div>
+dyn	6580	当前吞噬价值点:${s_color}${format_number(inf_combat.VP.num)}</span> <br>(加成:${s_color}${format_number(Math.pow(inf_combat.VP.num+1,0.07)*100-100)}%</span>)<br><br><br><br>
+dyn	6582	<span class='realm_sky'>天空级一阶</span>解锁心之境界 - 二重！
+dyn	6585	<b><span style="color:cyan">贪婪之神</span> </b> - 献祭金钱，提供全局运气加成<br>
+dyn	6586	<div id = 'coin_consumer' class = 'coin_consume_button' onclick='coin_consume()'>献祭物品栏中宝钱以上货币</div>
+dyn	6587	当前献祭金额:<span style="color:cyan">${format_money(inf_combat.MP*1e12)}</span> <br>(加成:<span style="color:cyan">${(format_number((Math.pow(inf_combat.MP+1,0.10)-1)*100))}%</span>)<br><br><br><br>
+dyn	6590	<span class='realm_cloudy'>云霄级一阶</span>解锁心之境界 - 三重！
+dyn	6594	<b><span style="color:#ff11dd">信仰祭坛</span> </b> - 炼化影响力<img src='image/item/B9_soul.png'>，延后宝石软上限<br>
+dyn	6595	<div id = 'influ_consumer' class = 'influ_consume_button' onclick='influ_consume()'>炼化1%的纳家影响力</div>
+dyn	6596	<span style="color:lightskyblue">已炼化的影响力:${format_number(inf_combat.InP)}<img src='image/item/B9_soul.png'></span> <br>(加成 : <span style="color:#ff11dd">+${(format_number(0.5*(Math.log10(inf_combat.InP+1) ** 1.5)))}</span>)<br><br><br><br>
+dyn	6660	余额不足! (${format_money(character.money)} / ${format_money(value)})
+dyn	6664	钱包: ${format_money(character.money)} -> ${format_money(character.money - value)} 
+dyn	6668	获取了 ${coin} x ${coin_num} !

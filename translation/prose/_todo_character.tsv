@@ -1,0 +1,32 @@
+dyn	214	<b>被<span class="realm_terra">大地级瓶颈</span>限制 - 经验已锁定</b>
+dyn	222	<b>被<span class="realm_sky">天空级瓶颈</span>限制 - 经验已锁定</b>
+dyn	230	<b>被<span class="realm_cloudy">云霄级瓶颈</span>限制 - 经验已锁定</b>
+dyn	261	攻击提高了${format_number(this_realm[2] * 2)}<br>
+dyn	262	防御,敏捷提高了${format_number(this_realm[2])}<br>
+dyn	263	生命上限提高了${format_number(this_realm[3])}<br>
+dyn	264	小阶段突破，攻击速度额外增加${realm_spd_gain}<br>
+dyn	268	大境界突破，获取特殊能力<span style="color:#ff8080">【微火】</span>！<br>
+dyn	269	角色属性<span style="color:#66ccff">【普攻倍率】</span>现已解锁！<br>
+dyn	271	心之境界一重 - 宝石吞噬者 现已解锁！<br>
+dyn	277	<span style="color:#66ccff">普攻倍率</span>增加了${A_mul_gain.toFixed(2)}<br>
+dyn	283	大境界突破，【燃灼术】获取了9999兆经验！<br>
+dyn	286	大境界突破，【火灵幻海】获取了9999兆经验...?<br>
+dyn	287	怎么领悟已经突破了哇。也太能刷了叭。<br>
+dyn	290	角色属性<span style="color:#ffee11">【幸运】</span>现已解锁！<br>
+dyn	291	同时，【暴击】属性被浓缩了！<br>【暴击概率】降低为四分之一，【暴击伤害】提高了四倍！<br>
+dyn	294	心之境界二重 - 贪婪之神 现已解锁！<br>
+dyn	295	基础时间流速: 6min -> 48min!<br>
+dyn	300	大境界突破，【出云落月[领域四重]】获取了9999秭经验！<br>
+dyn	303	大境界突破，【出云落月[领域五重]】获取了9999秭经验...?<br>
+dyn	307	所有状态效果已清除！<br>
+dyn	313	角色属性<span style="color:#ff11dd">【宝石软上限起始倍率(SCGV)】</span>现已解锁！<br>
+dyn	314	心之境界三重 - 信仰祭坛 现已解锁！ <br>
+dyn	315	基础时间流速: 48min -> 288min!<br>
+dyn	323	<span style="color:#ffee11">幸运</span>增加了${Luck_gain.toFixed(2)}<br>
+dyn	330	<span style="color:#ff11dd"> SCGV </span>增加了${SCGV_gain.toFixed(2)}<br>
+dyn	334	技能经验倍率提高了${Math.round(total_skill_xp_multiplier*100-100)}%<br>
+dyn	342	${character.name} 境界突破，达到 ${lvl_display} <br>${gains}
+dyn	735	坚固药剂抵挡了溢出的 ${format_number(damage_taken - character.stats.full.max_health * 0.05)} 伤害！
+dyn	740	烈日祝福·坤 抵挡了溢出的 ${format_number(damage_taken - character.stats.full.max_health * 0.08)} 伤害！
+stat	749	[死线·凝滞]受到的伤害x2！
+stat	753	[死线]受到的伤害x5！

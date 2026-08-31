@@ -1,0 +1,164 @@
+dyn	293	<br><br><b>品质: <span class="${rarity_colors[item.getRarity(options.quality[0])]}"> ${options.quality[0]}% </span> - <span class="${rarity_colors[item.getRarity(options.quality[1])]}"> ${options.quality[1]}% </span></b>
+dyn	295	<br><br><b><span class="${rarity_colors[item.getRarity(quality)]}">品质: ${quality}% </span></b>
+dyn	315	<br>类型: <b>${EquipSlotMap[item.weapon_type]}</b>
+dyn	318	<br>槽位: <b>${EquipSlotMap[item.equip_slot]}</b>
+dyn	328	+ 无 [${components[1]}]
+dyn	343	<br><br>攻击: ${format_number(item.getAttack(options.quality[0]))}-${format_number(item.getAttack(options.quality[1]))}
+dyn	346	<br><br>防御: ${format_number(item.getDefense(options.quality[0]))}-${format_number(item.getDefense(options.quality[1]))}
+dyn	371	<br><br>攻击: ${format_number(item.getAttack())}
+dyn	374	<br><br>防御: ${format_number(item.getDefense())}
+dyn	401	<br>限制境界: <span class=realm_${window.REALMS[item.realmcap][5]}>${window.REALMS[item.realmcap][1]}</span> 及以下<br>
+dyn	427	<br><br><b class="${rarity_colors[item.getRarity(quality)]}">品质: ${quality}% </b>
+dyn	430	<br>部件等级: ${item.component_tier}
+dyn	437	<br>攻击力: + ${format_number(item.attack_value)}
+dyn	440	<br>防御力: + ${format_number(item.defense_value)}
+dyn	448	<br>攻击力: + ${format_number(item.attack_value * ScaledQualityMultiplier(quality)) }
+dyn	451	<br>防御力: + ${format_number(item.defense_value * ScaledQualityMultiplier(quality))}
+dyn	478	<br>价值: ${format_money(round_item_price(item.getValue(quality) * ((options && options.trader) ? traders[current_trader].getProfitMargin() : 1) || 0))}
+dyn	481	 [初始 ${format_money(round_item_price(item.getBaseValue(quality) * ((options && options.trader) ? traders[current_trader].getProfitMargin() : 1) || 1))}]
+dyn	740	, x${rewards.xp_multipliers[xp_multipliers[0]]} ${name} 经验获取
+dyn	742	x${rewards.xp_multipliers[xp_multipliers[0]]} ${name} 经验获取
+dyn	751	, x${rewards.xp_multipliers[xp_multipliers[i]]} ${name} 经验获取
+dyn	772	${is_combat?"掉落 ":"获取 "} "
+dyn	820	你的钱包: ${format_money(character.money)}
+dyn	1240	<span class = "item_category">[部件]</span> <span class="item_name"><span class="${rarity_colors[target_item.getRarity()]}">${target_item.getName()}</span></span>
+dyn	1360	${mapp[key]} 槽位
+dyn	1362	你的 ${mapp[key]} 槽位
+dyn	1432	伤害:${format_number(current_enemies[i].stats.attack)}
+dyn	1433	防御:${format_number(current_enemies[i].stats.defense)}
+dyn	1434	攻速:${format_number(disp_speed)}
+dyn	1437	命中:${(HIT!=100)?(HIT+'%'):'MAX'}
+dyn	1438	闪避:${(EVA!=100)?(EVA+'%'):'MAX'}
+dyn	1632	<i class="material-icons">format_list_bulleted</i>  展开
+dyn	1643	<img src='image/item/violet_ingot.png'><b><span style='color:plum'>灵魂之力 : 
+dyn	1643	</span><br>剩余敌人: </b>
+dyn	1838	<span style="color:#ffd8c0"><i class="material-icons">warning_amber</i>  快速返回 [${last_combat.name}]</span>
+dyn	1866	<span style="color:#c0c0ff"><i class="material-icons">directions</i> 快速返回 [${last_bed.name}]</span>
+dyn	1905	<i class='material-icons'>arrow_back</i> 收起
+dyn	1969	光环 ${format_number(c_halo*100.0)} %
+dyn	1996	 [基础值: x${effects.multipliers[stat]}]
+dyn	2004	<br>毒液伤害: ${format_number(800e8*(1-skills["Toxic resistance"].current_level*0.05)*(0.99**skills["Iron skin"].current_level))}
+dyn	2208	<span class="crafting_selection"><i class="material-icons icon subcrafting_dropdown_icon"> keyboard_double_arrow_down </i>选择一个[${ComponentNameMap[recipe.components[0]]}]</span>
+dyn	2215	<span class="crafting_selection"><i class="material-icons icon subcrafting_dropdown_icon"> keyboard_double_arrow_down </i>选择一个[${ComponentNameMap[recipe.components[1]]}]</span>
+dyn	2401	配方等级：${recipe.recipe_level[1]}<br>
+dyn	2402	成功率: <b><span style="color:${success_chance > 74?"lime":success_chance>49?"yellow":success_chance>24?"orange":"red"}">${success_chance}%</span></b><br><br>材料:<br>
+dyn	2412	<br>产物:<br><div class="recipe_result">${create_item_tooltip_content({item: item_templates[recipe.getResult().result_id], options: {quality:recipe.Q_able,skip_quality:false}})}</div>
+dyn	2413	<br>产物:<br><div class="recipe_result">${create_item_tooltip_content({item: item_templates[recipe.getResult().result_id], options: {skip_quality: true}})}</div>
+dyn	2423	<br>产物:<br><div class="recipe_result">${create_item_tooltip_content({item:item_templates[material.result_id], options: {quality: quality_range}})}</div>
+dyn	2435	产物:<br><div class="recipe_result">请在每一类中选择一个部件</div>
+dyn	2471	产物:<br><div class="recipe_result">${create_item_tooltip_content({item, options: {quality: quality_range}})}</div>
+dyn	2654	<span class="activity_efficiency_info">效率折算:<br>"${skill_names}" 技能等级 ${location_activity.gained_resources.skill_required[0]} 到 ${location_activity.gained_resources.skill_required[1]}</span><br><br>
+dyn	2657	每 ${format_reading_time(gathering_time_needed)}, 发现的机会:
+dyn	2668	<br><br><b><span style="color:red">收益递减:</span></b><br>因为已经进行的 ${exp_t} 次行动,<br> 消耗的时间 x ${format_number(Math.pow(exp_s,exp_t))}
+dyn	2690	<span class="activity_efficiency_info">效率折算:<br>"${skill_names}" 技能等级 ${current_activity.gained_resources.skill_required[0]} 到 ${current_activity.gained_resources.skill_required[1]}</span><br><br>
+stat	2723	幸运(影响材料掉率,杀怪经验)
+stat	2727	宝石耐性，全称宝石软上限起始点倍率(SoftCappedGemValue)
+dyn	2784	战力: ${chara_rank}
+dyn	2816	<br>基础值: ${Math.round(100* character.stats.total_flat.attack_points)/100}
+dyn	2836	<br>武器: +${format_number(character.equipment.weapon.attack_power)}
+dyn	2893	<span class='rarity_antique'><b>导出(奖励)</span></b>
+dyn	2953	<span class=realm_${window.REALMS[character.xp.current_level][5]}>境界 : ${window.REALMS[character.xp.current_level][1]}</span>
+dyn	2959	<span class="data_entry_name">基础等级经验获取:</span><span class="data_entry_value">x${format_number(get_hero_xp_gain())}</span>
+dyn	2960	<span class="data_entry_name">基础技能经验获取:</span><span class="data_entry_value">x${format_number(get_skills_overall_xp_gain())}</span>
+dyn	2961	<span class="data_entry_name">敌人击杀数:</span><span class="data_entry_value">${Math.round(get_enemy_killcount())}</span>
+dyn	2962	<span class="data_entry_name">合成成功数:</span><span class="data_entry_value">${Math.round(total_crafting_successes)}</span>
+dyn	2963	<span class="data_entry_name">合成尝试数:</span><span class="data_entry_value">${Math.round(total_crafting_attempts)}</span>
+dyn	3046	每秒得到 ${current_activity.skill_xp_per_tick} ${skills[activities[current_activity.activity_name].base_skills_names].name()} 基础经验值   (${needed_xp})
+dyn	3048	得到 ${current_activity.skill_xp_per_tick} 基本经验 每个采集循环 对于 ${skills[activities[current_activity.activity_name].base_skills_names].name()} (${needed_xp})
+dyn	3066	结束 ${dev_ACNMap?current_activity.activity_name:ActivityNameMap[current_activity.activity_name]}
+dyn	3127	每秒获取 ${format_number(current_activity.skill_xp_per_tick*get_skills_overall_xp_gain())}  ${skills[activities[current_activity.activity_name].base_skills_names].name()} 经验值 (${needed_xp})
+dyn	3137	<br>目的地 已抵达.(从[纳家秘境]出发)
+dyn	3142	<br>基础速度: ${format_number(speed)} m / s.
+dyn	3144	<br>速度: ${format_number(speed)} m / s. <br>(跑步 lv.${skills["Running"].current_level}, + ${format_number(Math.pow(1.1,skills["Running"].current_level)*100-100)}%)
+dyn	3146	<br>时间流速: 36000 s / s.
+dyn	3147	<br>最终速度: ${format_number(speed*36)} km / s.
+dyn	3148	<br>剩余距离：${Math.round(3.2e6 - inf_combat.A7.cur).toLocaleString('en-US')} / 3,200,000 km.
+dyn	3217	<i class="material-icons icon skill_dropdown_icon"> keyboard_double_arrow_down </i>${SkillsCategoryMap[skill.category]} 技能
+dyn	3368	经验获取: x${xp_gain}<br><span>经验消耗蠕变: x${skill.xp_scaling}</span>
+dyn	3545	${stances[stance_id].randomize_target_count?"Randomly hits up to":"同时攻击"} ${target_count} 个敌人</div>
+dyn	3612	新生儿超过1万，花费受到一重软上限限制(^1.5)<br>
+dyn	3613	新生儿超过1亿，花费受到二重软上限限制(^1.75)<br>
+dyn	3614	新生儿超过1兆，花费受到三重软上限限制(^2.0)<br>
+dyn	3706	这个敌人似乎掌握了魔法。<br>敌人无视角色的防御。
+dyn	3707	这个敌人拥有土元素之力，坚不可摧。<br>单次对敌人的伤害不能超过<span style='color:#87CEFA'>1</span>。
+dyn	3708	这个敌人出手快人一步。<br>敌人首先发动一次<span style='color:yellow'>额外攻击</span>。
+dyn	3709	敌人进攻速度很快，拥有更加恐怖的杀伤力，但同时也意味着生命力会较为脆弱。<br>敌人每回合攻击<span style='color:#87CEFA'>2次</span>。
+dyn	3710	这个敌人出手快而敏捷。<br>敌人首先发动一次<span style='color:#87CEFA'>3连击</span>。
+dyn	3711	牵制对手的招式可能成为窍门或是负累。<br>敌人每回合伤害*<span style='color:#87CEFA'>（敌人防御力/角色防御力）</span>。
+dyn	3712	敌人进攻速度很快，拥有更加恐怖的杀伤力，但同时也意味着生命力会较为脆弱。<br>敌人每回合攻击<span style='color:#87CEFA'>3次</span>。
+dyn	3713	这个敌人攻击非常凶猛，造成了撕裂效果。<br>敌人的战斗伤害增加<span style='color:#87CEFA'>一半</span>。
+dyn	3714	用毒魔法弱化对手的能力。<br>与该敌人战斗时，角色的攻防效力削弱<span style='color:#87CEFA'>
+dyn	3715	微妙的战斗领悟，使用诡异的战法，为攻守双方带来全新的策略维度。<br>战斗中，角色<span style='color:yellow'>攻击与防御效力交换</span>。
+dyn	3716	借助风元素的势进行的二段不对等打击。<br>敌人每回合以<span style='color:#87CEFA'>0.8、1.2倍</span>攻击<span style='color:yellow'>各攻击一次</span>。
+stat	3717	光环异兽的身周总是围着一群异兽，并且个个都看起来很亢奋。(效果整合在楼层属性中)
+dyn	3718	时元素领悟。短暂延缓自身周围区域内时间的流速，为某些关键时刻创造机会。<br>每一回合战斗伤害变为<span style='color:#87CEFA'>回合数</span>倍。
+dyn	3719	制人于幻境中，受到幻境的蛊惑。<br>前<span style='color:#87CEFA'>3回合</span>，以角色攻击各额外攻击一次。
+dyn	3720	看起来很像虚张声势的剑阵。<br>敌人布下诡秘的杀阵，在战斗进行到第<span style='color:#87CEFA'>二、四、六</span>回合时，分别对角色额外造成<span style='color:#87CEFA'>2倍、3倍、4倍</span>敌人攻击力的伤害。
+dyn	3721	时元素领悟。触及了一丝命运规律的领悟，张开的黑暗之门似通向另一个世界。<br>每一回合战斗伤害变为<span style='color:#87CEFA'>2*回合数-1</span>倍。
+dyn	3722	这个敌人迅疾如风，引动了天地间的风元素异象。<br>敌人首先发动4段<span style='color:#87CEFA'>5倍伤害</span>的攻击。
+dyn	3723	铁杵磨成针。<br>敌人的攻击额外增加角色生命的0.5%。
+dyn	3724	这个敌人似乎对金钱十分敏感。<br>角色每拥有${format_money(enemy.spec_value[18])},该敌人伤害减少<span style='color:#87CEFA'>1%</span>.
+dyn	3725	玄妙且具备威胁的领悟，可以共享属性。<br>敌人会随着角色的变强而变强，其攻防敏附加<span style='color:#87CEFA'>10%</span>角色的攻防。
+dyn	3726	可将天地能量汇聚于自身的攻势进行战斗。<br>敌人每回合额外造成自身攻击<span style='color:#87CEFA'>3倍</span>与角色防御<span style='color:#87CEFA'>2倍</span>差值的伤害。
+dyn	3727	以特殊的生命形式而存在。<br>敌人对角色每回合造成<span style='color:#87CEFA'>
+dyn	3727	与角色敏捷之差的五倍</span>点伤害。<br>此额外伤害下限为0.
+dyn	3728	五连绝世。<br>战斗前，敌人以0.9倍的攻击力发动一次<span style='color:#87CEFA'>5连击</span>。
+dyn	3729	光元素领悟。以快而强大的进攻压制对手。<br>当<span style='color:#FFFF00'>角色的攻击（计算加成）少于敌人</span>时，敌人受到的伤害比例减少<span style='color:#87CEFA'>（敌人防御/角色防御）的二分之一</span>。
+dyn	3730	将炽烈的进攻元素吸收并化为自身的能力。<br>敌人的生命增加角色攻击的<span style='color:#87CEFA'>0.5倍</span>。
+dyn	3731	将刚猛的防守元素吸收并化为自身的能力。<br>敌人的生命增加角色防御的<span style='color:#87CEFA'>0.5倍</span>。
+dyn	3732	拥有两种能力的战斗法师。敌人每回合的攻击<span style='color:#87CEFA'>翻倍</span>
+dyn	3733	接下攻击，并化为另一种劲力发回。<br>战斗时，角色的攻击效力转移<span style='color:#87CEFA'>10%</span>到防御上。
+stat	3734	别想用它刷坚韧皮肤！
+dyn	3735	这个敌人似乎懂得且战且退的道理。<br>如果敌人闪避了攻击，则额外对角色造成<span style='color:#87CEFA'>
+dyn	3735	</span>点魔法伤害。
+dyn	3736	战斗前，敌人将角色敏捷的<span style='color:#87CEFA'>
+dyn	3736	倍</span>加到自己的攻击上。
+dyn	3737	木元素领悟。修习了战复魔法的冒险者钟爱的属性。<br>敌人每次命中恢复自身生命上限<span style='color:#87CEFA'>30%</span>的生命。
+dyn	3738	反戈一击。<br>敌人将角色伤害的<span style='color:#87CEFA'>20%</span>反弹给角色。
+dyn	3739	敌人进攻速度很快，拥有更加恐怖的杀伤力，但同时也意味着生命力会较为脆弱。<br>敌人每回合攻击<span style='color:#87CEFA'>
+dyn	3739	次</span>。
+dyn	3740	欺凌弱小的敌人容易被防杀。<br>当角色<span style='color:#FFFF00'>防御小于敌人</span>时，其<span style='color:#FFFF00'>与敌人防御的差值</span>将拉大<span style='color:#87CEFA'>一倍</span>。
+dyn	3741	这个敌人似乎懂得力量外放的道理。<br>敌人每次被攻击，则额外对角色造成<span style='color:#87CEFA'>
+dyn	3741	</span>点领域伤害。此伤害可被敏捷1:1减免。
+dyn	3742	强者在绝望之下最后的尊严。<br>第20回合触发，血量下降到1，对角色造成<span style='color:#87CEFA'>自身剩余生命*4</span>的伤害。
+dyn	3743	奇妙的能力，感应血气并作用于攻击。<br>角色攻击的效力削弱（敌人生命/角色生命）的<span style='color:#87CEFA'>一倍</span><br>。
+dyn	3744	由传说中的最强妖精创造的符咒，虽然她的生命力并不如何高。<br>在<span style='color:#FFFF00'>第9回合</span>施展冰符咒，额外造成<span style='color:#87CEFA'>20倍攻击力</span>的魔法伤害。
+dyn	3745	这个敌人似乎对宝石十分敏感。<br>角色每在[心之境界-一重]拥有${format_number(enemy.spec_value[39])}价值点<br>,该敌人伤害减少<span style='color:#87CEFA'>1%</span>.
+dyn	3746	光元素领悟。这个敌人快得恍若一道照亮世界的光。<br>敌人首先发动一次敌人首先发动3段<span style='color:#87CEFA'>50倍伤害</span>的<span style='color:#FFFF00'>必中攻击</span>。
+stat	3747	群居生物同心协力的体现。敌人刷新时，额外刷新3只【紫锈胎人】。
+dyn	3748	才德全尽谓之圣人，十圆无缺谓之圣阵。<br>敌人布下圣阵，在战斗进行到第<span style='color:#87CEFA'>五、十、二十</span>回合时，分别对角色造成<span style='color:#87CEFA'>3倍、9倍、27倍</span>角色与敌人攻防之和的穿透伤害。
+dyn	3749	攻击时，无论是否命中，都额外造成<span style='color:#87CEFA'>
+stat	3750	群居生物同心协力的体现。敌人刷新时，额外刷新3只【舰船除草机B1】。
+dyn	3751	在敌人的手中走过十回合！敌人会在第10回合被镭射枪击中，将<span style='color:#87CEFA'>血量降为1</span>.<br><span style='color:#FF0000'><b>前提是,姐姐被你带在身边.</b></span>
+dyn	3752	将炽烈的进攻元素吸收并化为自身的能力。<br>敌人的生命增加角色攻击的<span style='color:#87CEFA'>2.5倍</span>。
+dyn	3753	将刚猛的防守元素吸收并化为自身的能力。<br>敌人的生命增加角色防御的<span style='color:#87CEFA'>2.5倍</span>。
+dyn	3754	冰元素领悟。将冰元素变换为剑形态，刺穿对手的术式，唯有灵活的腾挪方可抵挡。<br>战斗前，对角色造成相当于角色攻防和<span style='color:#87CEFA'>20倍</span>的必中伤害。该技能效果可被敏捷减免，每${format_number(enemy.spec_value[48])}点敏捷可减免1%伤害。
+dyn	3755	冰元素领悟。可以让人瞬间变成冰块的术式，唯有蓬勃的生命得以顽强成长。<br>战斗前，对角色进行<span style='color:#87CEFA'>5段${format_number(enemy.spec_value[49].rnd / 5)}倍</span>的先攻。该技能效果可被生命减免，每${enemy.spec_value[49].hp}点生命可免除0.2倍先攻倍率。
+dyn	3756	冰元素领悟。让对手在低温中感受到难以言喻的痛苦，强大的体魄是镇痛的必要条件。<br>战斗前，对角色造成相当于角色敏捷<span style='color:#87CEFA'>40倍</span>的必中伤害。该技能效果可被攻防和减免，每${enemy.spec_value[50]}点攻防和可减免1%伤害。
+dyn	3757	压制对手的招式可能成为窍门或是负累。<br>敌人每回合伤害*<span style='color:#87CEFA'>（敌人攻防和/角色攻防和）</span>。
+dyn	3758	压制/牵制对手的招式可能成为窍门或是负累。<br>敌人每回合伤害*<span style='color:#87CEFA'>(敌人攻防和/角色攻防和)^(1-0.01*牵制领悟度)*(敌人防御力/角色防御力)^(0.01*牵制领悟度)</span>。
+dyn	3759	玄妙且具备威胁的领悟，可以共享属性。<br>敌人会随着角色的变强而变强，其攻击附加<span style='color:#87CEFA'>200%</span>角色的攻击。
+dyn	3760	限制对手的能力可能成为窍门或是负累。<br>敌人每回合伤害*（敌人生命/角色生命）[PS:上限100倍]。
+dyn	3761	这个敌人似乎对金钱十分敏感。<br>角色每拥有${format_money(enemy.spec_value[55])},该敌人伤害减少<span style='color:#87CEFA'>1%</span>,上限<span style='color:#87CEFA'>80%</span>.
+dyn	3762	敌人死亡时，角色获取一个<span style='color:#87CEFA'>攻速-20%</span>的状态效果，持续<span style='color:#87CEFA'>30s</span>。
+stat	3763	敌人死亡时，场上【心之灵·暴走】数量增加3个。
+stat	3764	敌人死亡时，场上【心之灵·暴走】基础攻击/血量增加5%(叠加)。
+stat	3765	敌人死亡时，获取1点【灵魂之力】。
+stat	3766	空元素领悟。敌人会召唤一只本区敌人为它挡枪(不会循环召唤)
+dyn	3767	小队成员为了生存而聚集在一起战斗。<br>由2-50个单位组成的小队。
+dyn	3768	不要忘记那些不得不做的事情。战斗结束后，角色获取<span style='color:#87CEFA'>60s 5倍易伤</span>(会显示在血条上)。
+dyn	3769	当角色攻击大于防御时，怪物将<span style='color:#FFFF00'>无视超出部分的攻击数值</span>。
+dyn	3770	大队成员气势汹汹，欲杀死所有阻拦自己的敌人。<br>由100-5000个单位组成的大队。
+dyn	3771	燃烧精血获取到的远超同境的移速，精血枯竭时即会原形毕露。<br>敌人有效敏捷上升<span style='color:#FFFF00'>敌人血量百分比的99倍</span>。
+dyn	3772	火、空元素领悟。穹斗世界古书中记载的某种斗技，控制与对手的距离。<br><span style='color:#FFFF00'>敌人命中角色时</span>，将角色下一次攻击冷却<span style='color:#87CEFA'>增加50%</span>(可叠加)
+dyn	3773	你曾为自己的使命流过多少血？<br>当<span style='color:#FFFF00'>角色生命多于敌人</span>时，敌人伤害<span style='color:#87CEFA'>增加一半</span>，反之<span style='color:#87CEFA'>减少一半</span>。
+dyn	3774	奇妙的能力，感应血气并作用于攻击。<br>角色攻击的效力削弱（敌人生命/角色生命）的<span style='color:#87CEFA'>10%</span><br>。
+stat	3945	] 未定义！
+stat	4027	灭门战【WIP/需要剧情修正】
+dyn	4034	<b>区域 ${Math.floor(zone/10)} - ${zone%10}</b>
+dyn	4058	敌人[${enemy_name}] 的怪物手册词条未定义！
+dyn	4148	<br><br>楼层属性：
+dyn	4169	<br>光环 ${format_number(c_halo * 100.0)} %(掉落 + ${format_number((Math.pow(c_halo+1,1)-1)*100.0)}%,经验 + ${format_number((Math.pow(c_halo+1,1.5)-1)*100.0)}%)
+dyn	4171	<br><br>此处敌人：<br>
+dyn	4178	<br>此处战利品(平均)：<br>
+dyn	4268	加载自动存档 [${date_string.replaceAll("_",":")}]

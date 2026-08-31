@@ -1,0 +1,89 @@
+# done_items — srcline <TAB> english.  Keyed to _todo_items.tsv source lines.
+# line 897 is a ${} weapon-name code template; only CJK = 战锤 → War Hammer (glossary add, not DOM text).
+897	战锤=War Hammer  [${} weapon-name template; add 战锤→War Hammer to glossary]
+2342	Holds pure life energy, boosting the absorption rate of free energy from the air.
+2353	A wellspring of life forever seeking vigorous vitality.
+2364	A puppet Furball revived by feeding still-active Gel into a core and soul. It can warn of danger, but carrying it inevitably cramps your style.
+2381	Few ever notice the extraordinary power hidden in the Bloodfall Continent's Knife Coins. But the backlash within is not to be underestimated.
+2395	A Large Glass Cannon without its fully-evolved form. But hey — the cannon's gone, the glass remains…
+2409	An emblem that builds an energy cycle from two attributes of Wildbeast Essence. Greatly increases recovery speed, and adds a little vitality too.
+2423	An emblem that builds an energy cycle from three attributes of Wildbeast Essence. Still a bit short of perfection — it lacks some wind-attribute energy…
+2439	A shame Moyu Star has no tradition like Shenghuang City's. This money can only be used as one big shield now.
+2457	You can even whip one up yourself! It's been buffed, but man, this thing is undercooked…
+2472	A sky lantern lit from Fluorescent Essence mixed with Swamp Beast Oil. It disperses the swamp's miasma and briefly stuns Wildbeasts that never see the light.
+2483	A forbidden product recorded in the Spaceship Core. Its actual use, however, is just running off to draw aggro… luring in more enemies.<br><span class='realm_cloudy'><b>Skyhigh-Tier Rank 1</b></span> nullifies it!
+2497	Unleashes an extra 25% aura on enemies!<br>(Loot +25%, XP +39.7%)<br>PS: No effect on targets <span class='realm_cloudy'>Skyhigh-Tier</span> or above, or <b>[BOSS]</b> targets.
+2505	The downside is you're visible from two miles off, but a full coat of ice spikes is a treasure that attacks and defends at once! (Agility and such? Godspeed.)
+2522	A disco ball assembled from a mass of Iridescent Staff Cores, hard to shatter thanks to Hydrogen Alloy's hardness. It stuns enemies so they can't mount a defense!
+2536	The enemies in the Illusory Realm all originate from these crystals; nearby, their minds are at their most slack — effectively granting you stats!
+2553	Draw in the Moonwheel crystals, gather your power, charge a single strike. The attack's breadth narrows greatly, but its depth is enough to pierce the hardest Sky-Tier metal.<br><span class='realm_cloudy'><b>Skyhigh-Tier Rank 4</b></span> nullifies it!
+2568	Guess why the Na Family, with no Skyhigh-Tier member, can still do business in Yangang City? This adaptive shield can whittle down even a Skyhigh-Tier Rank 1's attack, layer by layer!
+2579	Greatly weakens the vulnerability from 【Deadline】 (5x → 2x), and its duration (60s → 20s).
+2590	Damaged, it can't charge beyond 10%, so there's no super-strike to one-shot a Skyhigh-Tier Rank 1. But that also makes its fire rate quite fast, usable as a regular weapon.<br>Of course, it's still a bit prone to being caught off guard…
+2604	An item made from a mountain of 【Bloodspirit Bone Cotton】. When released, its surging blood-aura quickly disorients enemies… it just affects you a little too.
+2618	"In this world, there is no flower more beautiful than an artificial one."
+2647	A cultivation art for Sky-Tier powerhouses; greatly boosts the efficiency of skill-proficiency accumulation, while slightly increasing free-energy absorption.
+2658	Release the genetic primal force within your body to melt each shining star across the cosmos. Raises overall XP gain, especially furthering comprehension of the Domain.
+2669	A mysterious, elusive advanced art; within its restrained violet radiance lies a heart-stopping power.
+2687	The insight to kindle flame with simple psychokinesis.
+2704	Psychokinetic flames blaze fiercely, as if to set this whole space alight.
+2725	A wholly red flame-beast drifts through the air, the fire-element ripples around it gathering into a sea.
+2746	A strange domain formed by harmonizing two conflicting elements. Under this ice-and-fire duality, cold and heat inflict a twofold torment — living things, stay away.
+2786	A domain woven from crisscrossing water and fire elements. Amid the water-curtains, a cloth dress like a fairy descending to the mortal world, peerless in its cloud-rising grace; the flames sear, hiding sharp murderous intent — where the blade points, it cleaves the horizon, and moon and stars sink away!
+2856	Don't sell Sister! You demon!<br>(Tip: without Sister, the Crypt won't be nerfed to 1/100 stats.)
+2877	Don't sell Sister! You demon!<br>(Tip: without Sister, the Warship Nexus · B6 won't explode on turn 10.)
+2897	As for this one… without the Laser Gun, selling it is fine. But it's a precious one-time item! How could you bear to sell it!
+2918	Proof for the brave who dared challenge multiple Icicle Fish. It's only the basic form — perhaps one day it can surpass Sister?
+2939	The first upgrade of the Heart of the Barrier Lake. No need to worry about Act 3's Sister becoming useless… she got buffed.
+2959	Yet another upgrade of the Heart of the Barrier Lake. Having fun with the Deepfrost Phase-Change Engine~
+2979	This isn't even the final form. By the way, this absurdly long material list — is it a bug?
+3022	A sword blade forged from Iron Ingot; the core part of an Iron Sword.
+3039	A sword blade forged from Steel Ingot, far sharper than an Iron Sword Blade.
+3056	A sword blade forged from Copper Ingot, sharp and nimble at once.
+3072	A gem-infused sword blade. It holds mana and raises Crit Rate.
+3088	A sword blade made of Crypt Metal. Market saturation means it just won't sell, but it's fine for personal use.
+3107	A sword blade made of Shadowsteel Ingot. Powerful and heavy-hitting, though a bit unwieldy.
+3126	A sword blade made of Charged Alloy Ingot. No negative stats at all — just pure sharpness.
+3142	A trident head made of Charged Alloy Ingot. It can punch three holes at once, but is a bit hard to pull out…
+3162	A sword blade made of Pulse Alloy Ingot. Later sword blades mainly grow crit and attack speed.
+3178	A trident head made of Pulse Alloy Ingot. Basic Attack Multiplier a notch above the Charged Trident Head?
+3198	A sword blade made of Blue Gold Ingot. Attack speed and crit rate a notch stronger again.
+3214	A trident head made of Blue Gold Ingot. Basic Attack Multiplier a notch stronger again.
+3234	A sword blade made of Seagreen Ingot.
+3250	A trident head made of Seagreen Ingot.
+3270	A sword blade made of Red Steel Ingot.
+3286	A trident head made of Red Steel Ingot.
+3305	A sword blade made of Mithril Ingot.
+3321	A trident head made of Mithril Ingot.
+3340	A sword blade made of Melody Alloy Ingot. Melee weapons' potential is fully tapped out — their bonus stats won't grow further.
+3352	A trident head made of Melody Alloy Ingot. Melee weapons' potential is fully tapped out — their bonus stats won't grow further.
+3366	A sword blade made of Age-Old Frostmarrow. This is a genuine 【cold】 weapon.
+3378	A trident head made of Age-Old Frostmarrow. This is a genuine 【cold】 weapon.
+3391	A sword blade made of Crystallized Alloy. Time to go make a Moonwheel, isn't it?
+3403	A trident head made of Crystallized Alloy. Part XP scales with the amount of material used — I mean, making a Moonwheel isn't a bad deal…
+3416	A sword hilt made of white bone. Brittle, so it affects you when used.
+3430	A sword hilt made of Copper Bone. Sturdy and handy!
+3441	A sword hilt combining several materials. It provides a compound boost!
+3455	A sword hilt made of Activated Willow. Genetic primal-energy has never conducted so smoothly!
+3472	A sword hilt made of Coiled Crystal. Its transparent look helps analyze primal-energy flow and optimize how you exert force!
+3490	A sword hilt made of waxy Solid Gel; light, with fine conduction and feel.
+3507	This is the last sword hilt. It looks decent, but it may not really beat 300% Gel…
+3526	A basic-model 【Moonwheel】 core. It's… just barely usable.
+3537	A 【Moonwheel】 plating made of Mithril Ingot. Clearly unfit as tier-3 psychokinetic-weapon material, but sturdy enough for the first two tiers.
+3553	An entry-level 【Moonwheel】 core part. Compared to forcibly-controlled Gel, Light-Dark Branch counts as proper psychokinetic-sensing material.
+3567	A 【Moonwheel】 plating made of Melody Alloy Ingot. At B6-tier it's a qualified tier-2 psychokinetic weapon that won't hold back your speed gains.
+3583	A 【Moonwheel】 plating made of Age-Old Frostmarrow. A flash of cold light~ I mean a real 【cold light】!
+3599	A 【Moonwheel】 plating made of Crystallized Alloy. Once fused, the ice element radiates out better, boosting its power.
+3615	A 【Moonwheel】 plating made of Hydrogen Alloy. Hydrogen Alloy is nearly transparent, but the more so, the more dazzling it makes the Wheel Hub.
+3632	A low-tier 【Moonwheel】 core part. With it, the Moonwheel finally starts drifting toward a radiant, colorful direction.
+3646	A mid-tier 【Moonwheel】 core part. Its anti-gravity field can deceive the eye — meaning enemies get hit before they even see it.
+3660	A mid-tier 【Moonwheel】 core part. The crit-multiplier boost has reached its limit… something better comes next!
+3674	A 【Moonwheel】 plating made of Raw Gem. Ahem… an A1 Gem Ingot can't make a Wheel Blade. No ambiguity!
+3690	A 【Moonwheel】 plating made of Soul Crystal. This is the last 18-ingot cost… beyond this comes the full 36-ingot Moonwheel!
+3706	A 【Moonwheel】 plating made of Gaia Alloy. Now it's become the full version!
+3722	A 【Moonwheel】 plating made of Ancient Alloy. It's supposed to grow slowly over time, but that got shelved.
+3738	A 【Moonwheel】 plating made of Ancient Primal Gold. Say, has no one ever wondered? Why are souls always high-grade material?
+3754	A 【Moonwheel】 plating made of Red Tungsten. The Moonwheel's bonus stats will go on balancing forever, just like corruption past level 274…
+6135	A common cluster of toxins from the outskirts. The A1-tier alloy "Copper" needs it as a raw material.
+6173	The core within Wildbeasts of certain "inner-elixir" cultivation systems. Can draw out immense power in a short time.
+6266	The energy crystal within certain "spirits." Can draw out immense power in a short time.

@@ -1,0 +1,156 @@
+character.js	335	ORDER	生命值完全恢复了<br>
+crafting_recipes.js	1295	ORDER	熔炼宝石母
+dialogues.js	538	ORDER	秘法石碑 - 1
+dialogues.js	571	ORDER	往东再走一里半即可到达
+dialogues.js	824	ORDER	如今也算是历经了一次生死呢，<br>也知道了父亲大人的话是什么意思。
+dialogues.js	851	ORDER	*不自觉地挥剑*
+dialogues.js	1024	ORDER	呵呵，小丫头，别急。<br>这也不过是一段无聊的往事罢了。<br>当年，我为了筹集一笔交易的材料，<br>铤而走险，深入危险的血魔海，<br>猎取强大的荒兽。<br>在血魔海，我不慎中了圈套，<br>沦为一位<span style='color:pink'>领域级</span>强者的灵魂奴仆。<br>那强者……恐怕与燕岗城主实力相差无几。<br>
+dialogues.js	1285	ORDER	(上供刀币获取赐福)
+dialogues.js	1421	ORDER	结界湖转化器
+dialogues.js	1556	ORDER	[雷冬]峰大人，这城里我非常熟，<br>如果您有什么想去的地方……<br>[峰]不必了……我们就在此分开吧。<br>[纳可]分开……吗？<br>(纳可严重掠过一抹失落)<br>[峰]对了，这燕岗城最好的住宿地是哪里？<br>[纳可]飞云阁<br>[峰]嗯，如果你想找我，就去飞云阁吧。<br><br>【峰】离开了队伍！
+dialogues.js	1964	ORDER	依照约定，莫尔将自己关于念力兵器的领悟，<br>毫无保留地教给了纳可。<br>到了此时，她才发现，<br>在这水牢之中，也并非只有你死我活，<br>如莫尔这般一心为修炼的强者也有不少。<br>交谈之中，她感受得到莫尔对于变强的渴望，<br>这份渴望的价值甚至是超越了生存。<br>很快，由216颗白水晶构造成的月轮，<br></br>在少女的手上，绽放出更华丽的光彩……<br>【银霜月轮】获取2.99垓经验！
+dialogues.js	2036	ORDER	[秋兴]不要……求你了……我什么都会做的！<br><br>(月轮切割声)<br><br>[纳可]呜，为什么我要这么做……<br>[纳娜米]……可可，你让我感到陌生。<br><br><br>获取了 <span class='coin coin_moneyT'>923B</span> <span class='coin coin_moneyB'>124D</span> <span class='coin coin_moneyM'>981Z</span> <span class='coin coin_moneyK'>247X</span> <span class='coin coin_copper'>561C</span>!<br><span style='color:aqua'>冰家</span>对纳可的好感大幅降低了！
+dialogues.js	2045	ORDER	(纳可蹲下,挑起秋兴的下巴)<br>现在谁才是可爱的小妹妹哇？<br>领域三重·焰海霜天·焰海，开！<br>伴随着1280K的高温，<br>以及伴生的强劲环流，<br>秋兴的衣物瞬间被撕开几条巨型裂口。<br>3颗从哥布林身上提取的【冰封术】水晶，<br>被轮番催动，冰冻秋兴。在对方无力反抗的条件下，<br>3颗水晶恰好连续控制。<br>……<br>……<br>如此一整血洛日后，<br>纳可方才击杀哥布林，<br>将秋兴带回了洞府。<br><br>秋兴对纳可产生了特殊的情感！
+dialogues.js	2137	ORDER	蓝柒在纳可心中早已是谜团重重的强者。<br>借此机会，她决定把蓝柒带回洞府，<br>严加“审问”，以便探出个究竟。<br>[纳可]地宫狂暴药剂~废墟狂暴药剂~<br>永远别想恢复体力，反抗我了哦~<br>[蓝柒]你很强……但是……还不够……<br>[纳可]差不多得了，领域四重才够嘛？<br>(纳可取出一桶异界药剂，一饮而尽！)<br><br>在每回合不断加码的倍率下，<br>蓝柒终究还是没能抵挡住纳可的“攻击”。<br><br>蓝柒对纳可产生了特殊的情感！
+dialogues.js	2428	ORDER	(来到面前)
+dialogues.js	2642	ORDER	[溪月]他是<span class='realm_domain'>领域级</span>强者，<br>也是一个不折不扣的……疯子。<br><br>[纳可]那，那些珍贵的传承……<br>难不成？<br><br>[溪月]都是假象，看似他筛选天才接受传承，<br>而实际上，他只不过是想借此重塑自己的身体，<br>锤炼出能够容纳他灵魂的“容器”！<br>据我所知，水牢中的强者，<br>无论通过何种途径离开那里，<br>最后几乎无一例外，<br>都成为了那容器的一部分。
+dialogues.js	2889	ORDER	[纳可]时间到了。<br>是时候蜕变了，领域力量。
+dialogues.js	2899	ORDER	[左阿]你的底牌只是如此吗？<br>[纳可]离结束还早呢。<br><br>【第三幕BOSS战已开始！】
+dialogues.js	3239	ORDER	凝聚战斗中积累的感悟
+display.js	196	?	万
+display.js	196	?	亿
+display.js	196	?	兆
+display.js	196	?	京
+display.js	196	?	垓
+display.js	196	?	秭
+display.js	196	?	穣
+display.js	196	?	沟
+display.js	196	?	涧
+display.js	196	?	正
+display.js	196	?	载
+display.js	196	?	极
+display.js	1362	?	你的 ${mapp[key]} 槽位
+display.js	1852	ORDER	回到 
+display.js	3537	ORDER	同时攻击最多 
+display.js	3561	ORDER	${stances[stance_id].randomize_target_count?"Randomly hits up to":"同时攻击"} ${target_count} 个敌人</div>
+display.js	3742	ORDER	天剑
+display.js	3746	ORDER	饮剑
+display.js	3768	ORDER	饮剑·改
+display.js	3770	ORDER	冰凌剑
+display.js	3776	ORDER	生命限制
+display.js	3801	?	/亿
+display.js	3813	ORDER	] 的怪物手册条目
+display.js	3961	ORDER	特殊属性 编号[
+display.js	4043	ORDER	燕岗城郊
+enemies.js	9637	ORDER	<span class=realm_domain><b>领域级一阶 [-18]</b></span>
+enemies.js	9651	ORDER	<span class=realm_domain><b>领域级一阶 [-2]</b></span>
+game_time.js	65	?	纪元 
+game_time.js	66	?	年 
+game_time.js	67	?	日 
+index.html	555	html	少
+index.html	556	html	&emsp; 女
+index.html	557	html	&emsp; &emsp; 钓
+index.html	558	html	&emsp; &emsp; &emsp; 鱼
+index.html	559	html	&emsp; &emsp; &emsp; &emsp; 中
+items.js	897	?	${item_templates[this.components.head].name_prefix} ${this.weapon_type === "hammer" ? "战锤" : WTM[this.weapon_type]}
+items.js	3799	ORDER	铁剑·改
+locations.js	1635	ORDER	离开这个是非之地
+locations.js	5850	ORDER	挖掘部分紫铜矿石
+locations.js	5864	ORDER	挖掘煤矿石
+locations.js	5897	ORDER	在荒兽森林中砍伐柳木
+locations.js	5939	ORDER	在结界湖中垂钓
+locations.js	6059	ORDER	砍伐密林的云霄一阶树妖
+main.js	835	ORDER	次生死呢，<br>也知道了父亲大人的话是什么意思。
+main.js	845	ORDER	...等会，百方已经被你揍哭了???<br>
+main.js	846	ORDER	待你历练有成，那区区百方，自是不足为惧！<br>
+main.js	848	ORDER	家族秘境，每半年开启一次。<br>这段时间，你就留在家族，<br>巩固你当前的境界实力吧。
+main.js	866	ORDER	灵阵功率已达绝对上限【9999】。
+main.js	893	ORDER	如果想要少于五层的灵阵，直接去前面的区域就好了...
+main.js	902	ORDER	结界已经松动到这种程度了吗...<br>之前，这里还只能容纳大地级中期以下的修者进入的。<br>
+main.js	903	ORDER	哇！！！居然如此年轻，我纳家振兴在即！<br>
+main.js	904	ORDER	我寻思...在这里沉睡了一个纪元不到，<br>外面的宇宙规则都改了？<br>，大地级不应该只有0.1纪元的寿命的嘛...<br>
+main.js	905	ORDER	喂喂，这里不是给纳家年轻人用的秘境吗...<br>
+main.js	906	ORDER	诶，多少岁...算了啦。<br>有领悟在，什么时候开始都不迟！<br>
+main.js	916	ORDER	可以在这样的世界中，<br>不造下无谓的杀戮，<br>${character.name} 即使在整个燕岗领中<br>，也是最无瑕的大地级后期强者之一了。
+main.js	917	ORDER	在残酷的血洛大陆上，<br>弱肉强食无可厚非。<br>只要问心无愧，<br>敌人们就只是前进路上的踏板。
+main.js	918	ORDER	每当冰冷的敌人化作温暖的<br><b>宝石，刀币与价值点，</b><br>${character.name}就感到一股暖流从心中升起。<br>多多杀戮或许在遥远的未来可以促进吸收血洛晶，<br>但更重要的还是不要因杀意失去了理智。
+main.js	968	ORDER	叮~余额不足！<br> ${format_money(character.money)} / ${format_money(C_money)}
+main.js	976	ORDER	原有的状态效果全部被皎月净化了！
+main.js	1009	ORDER	原有的状态效果全部被烈日净化了！
+main.js	1042	ORDER	在看到这冰蓝色六芒星阵时，我印证了很多东西……<br>
+main.js	1043	ORDER	曾经领悟的水元素秘法，<br>
+main.js	1044	ORDER	与火元素领域，彻底融合在了一起。<br>
+main.js	1045	ORDER	竟然……会有这么神异的现象产生。<br>
+main.js	1046	ORDER	互斥的两种元素，本该是极难相容。<br>
+main.js	1047	ORDER	可一旦达到完美的临界点，<br>
+main.js	1048	ORDER	便能迈入【冰火两重天】的玄妙之境，<br>
+main.js	1049	ORDER	迸发出不可思议的力量！<br>
+main.js	1051	ORDER	，【火灵幻海】获取了51.2垓经验！<br>
+main.js	1054	ORDER	【焰海霜天】获取了51.2垓经验...?<br>
+main.js	1055	ORDER	怎么领悟又已经突破了哇！也太能刷了叭！！<br>
+main.js	1068	ORDER	你的【结界湖之心】已经被转化为【结界湖之心·材】，<br>可以继续升级为【飞船之心】。
+main.js	1069	ORDER	获取了 结界湖之心·材
+main.js	1071	ORDER	请将【结界湖之心】佩戴后再次尝试！
+main.js	1082	ORDER	你的【冰原之心】已经被转化为【冰原之心·材】，<br>可以继续升级为【幻境之心】。
+main.js	1085	ORDER	请将【冰原之心】佩戴后再次尝试！
+main.js	1088	ORDER	(摸)可可,天空级一般来说不会发烧了哦。<br>她不是一直被你拽在身边，不肯放走吗?<br>
+main.js	1089	ORDER	是啊，迫不及待就离开了。<br>娜娜这孩子，也有一颗强者的心啊。<br>
+main.js	1098	ORDER	[纳布]你姐姐的事，不用太担心。<br>你只管好好修炼，直到彻底成长起来，<br>到时候再去协助她就是。<br>
+main.js	1107	ORDER	我说，“饵料”已经布下！！<br>就算你有多的碎片也必须先打完这一只哇！
+main.js	1203	?	一
+main.js	1203	?	二
+main.js	1204	ORDER	手里的那把剑
+main.js	1204	ORDER	手里的那把三叉戟
+main.js	1228	ORDER	【焰海霜天[领域二重]】获取了1.68秭经验！<br>
+main.js	1231	ORDER	【焰海霜天[领域三重]】获取了1.68秭经验！<br>
+main.js	1232	ORDER	这次……能提前突破一点也不意外（笑！<br>
+main.js	1239	ORDER	【焰海霜天[领域三重]】获取了64秭经验！<br>（到现在，<br>在直面领域级强者，<br>感受其来自领域的威压之后，<br>本就临近突破的四重领域，<br>终于迈出了最后一步。）
+main.js	1243	ORDER	【出云落月[领域四重]】获取了64秭经验！<br>
+main.js	1244	ORDER	抱歉纱雪高考去了……别说突破了都有人48级了！喵啊啊啊！<br>
+main.js	1268	ORDER	[心魔之主]哼，自爆！<br>恐怕云霄级强者来了，<br>都扛不住16兆伤害吧！<br>
+main.js	1272	ORDER	你还偷看燕岗领五大禁书之一的牵制书！<br>自己从来没用过，也不想用……<br>只是为了坑我吗！<br>……强行抹杀……汇集力量……<br>令你，彻底沉眠！
+main.js	1296	ORDER	[冰蓝]两位，大恩不言谢。<br>自此之后，凡我族血脉所及之处，<br>便敬二位为坐上宾，<br>即便献上性命，也定护你们周全。<br><br>[冰溪月]哦哦，气场很足的嘛。<br>话说小蓝你今天，<br>一次性说了这么多话？有点难得呀。<br>是时候了，回家了哦。<br>纳可小姐……谢谢你。<br>拿着这个，后会有期啦。<br><br>冰溪月玉手一挥，<br>一枚镌刻着<span style='color:aqua'>冰</span>字的玉简落入纳可手中。
+main.js	1301	ORDER	[冰溪月]两位，虽说有些许摩擦，<br>但冤家宜解不宜结，<br>毕竟小姐也是唯一成功破局之人。<br>纳可小姐……谢谢你。<br>拿着这个，后会有期啦。<br><br>冰溪月玉手一挥，<br>一叠369枚<span class='coin coin_moneyQa' >宇宙币</span>落入纳可手中。
+main.js	1316	ORDER	家族里的人都说你们很快就会回来。<br>看来我也是瞎操心一趟。
+main.js	1317	ORDER	虽然那个历练地点是峰大哥建议的……<br>但以后还是不要离开那么久，好吗？<br>
+main.js	1319	ORDER	满燕岗城都在传，<br>曾经惊才绝艳的纳可姐妹，<br>双双陨落在了那座出不去的冰宫！<br>再晚回来几年，你们估计连纳家都看不到了。
+main.js	1574	ORDER	[生命限制]
+main.js	1610	ORDER	[冰凌剑]
+main.js	1694	ORDER	[天剑]
+main.js	1995	ORDER	 血量时自爆。
+main.js	2030	ORDER	 受到了
+main.js	2079	ORDER	 闪避了一次攻击
+main.js	2136	ORDER	 受到了 
+main.js	2136	ORDER	 伤害[暴击]
+main.js	2147	ORDER	 点血量
+main.js	2159	ORDER	 点反弹伤害
+main.js	2178	?	微
+main.js	2184	?	潮
+main.js	2187	?	大
+main.js	2190	?	天
+main.js	2193	?	云
+main.js	2196	?	领
+main.js	2199	?	世
+main.js	2204	?	初
+main.js	2207	?	中
+main.js	2210	?	高
+main.js	2213	?	巅
+main.js	2222	?	三
+main.js	2225	?	四
+main.js	2228	?	五
+main.js	2231	?	六
+main.js	2234	?	七
+main.js	2237	?	八
+main.js	2526	ORDER	 被打败,获取 
+main.js	2686	ORDER	受到了
+main.js	2704	ORDER	 未命中,并受到了
+main.js	2707	ORDER	 未命中
+main.js	2713	ORDER	 被领域击败
+main.js	3971	ORDER	手动保存游戏
+main.js	4992	ORDER	 上钩了！
+main.js	5000	ORDER	 逃跑了！
+main.js	5386	ORDER	钻探地层，发掘出了
+main.js	5386	?	 个 
+main.js	5639	ORDER	获取了 凝胶剑柄 (品质 
+main.js	5785	?	年
+main.js	6069	ORDER	领域级一阶

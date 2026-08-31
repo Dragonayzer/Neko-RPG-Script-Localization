@@ -1,0 +1,9 @@
+# done small tails — file <TAB> srcline <TAB> english. traders/activities/crafting_recipes/misc.
+traders.js	16	<span style="color:#ffffd0"> <i class="material-icons">storefront</i> Trade with ${name}</span>
+traders.js	313	<span style="color:#c0ffe0"> <i class="material-icons">work_outline</i> Store/retrieve items in the chest</span>
+activities.js	111	One of the basic exercises
+activities.js	125	Affinity for one of the eight basic elements; for now it only affects Domain XP
+crafting_recipes.js	87	Item ${this.materials[i].material_id} does not exist!
+crafting_recipes.js	1507	Restraint - From Beginner to Mastery (x2)
+crafting_recipes.js	1818	Advanced alchemy potion……? (x3)
+misc.js	24	${Math.round(time)} seconds

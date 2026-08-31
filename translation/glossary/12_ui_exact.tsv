@@ -1,0 +1,29 @@
+# UI labels that must be WHOLE-NODE matches. zh <TAB> en <TAB> [note]
+#
+# NOT a forced-substring file (no 05_-10_ prefix), so these land in proseExact.
+# That is the whole reason this file exists rather than folding into 10_html_ui:
+# every key here is a one- or two-character word that appears inside dozens of
+# longer phrases. As substrings they would be the 剑/巨剑徽章 bug all over again
+# - 突破 alone would rewrite 境界突破, 破限突破, "突破思路" and the rest. As exact
+# entries they can only fire when the label IS the entire text node, which is
+# exactly what a <th> or an <option> is.
+#
+# --- family roster table headers (display.js update_displayed_family_members) ---
+境界	Realm	matches the ['境界','Realm'] v4.0 pair on #character_level_div
+人数	Members
+突破	Breakthroughs	green column; count today, or "-Nd" since the last one
+死亡	Deaths	red column, same format
+培养策略	Strategy	header is 培养策略 ("cultivation policy"); the cells are a <select>
+#
+# --- family cultivation strategies (the <select> in every roster row) ---
+# An escalating risk ladder: payout 0.4x/1x/2x/5x/20x, breakthrough x1/x3/x5/x10
+# /x30, death x1/x5/x15/x60/x300. Kept short because the <select> sizes itself
+# to its widest option and the panel has ~385px for the whole table - see the
+# #family_member_list rules in styleOverrides.
+# The [N] prefixes are the game's own and are what the bankruptcy messages in
+# main.js refer to, so they are preserved verbatim.
+[1]常规工作	[1] Regular Work
+[2]家族试炼	[2] Family Trial
+[3]秘境探险	[3] Secret Realm	秘境 = Secret-Realm per 02_enemies; 探险 dropped for width
+[4]战场厮杀	[4] Battlefield
+[5]九死一生	[5] Do or Die	九死一生 = "nine deaths, one life"

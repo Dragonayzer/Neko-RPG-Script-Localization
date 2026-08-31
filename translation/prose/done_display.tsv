@@ -1,0 +1,166 @@
+# done_display (_todo rows 1-164). KEY = _todo ROW NUMBER. ${...}/<span>/<i>/<img> preserved verbatim.
+# Rows 82-155 are the enemy special-attribute tooltip descriptions (which combat effect noted in parens).
+1	<br><br><b>Quality: <span class="${rarity_colors[item.getRarity(options.quality[0])]}"> ${options.quality[0]}% </span> - <span class="${rarity_colors[item.getRarity(options.quality[1])]}"> ${options.quality[1]}% </span></b>
+2	<br><br><b><span class="${rarity_colors[item.getRarity(quality)]}">Quality: ${quality}% </span></b>
+3	<br>Type: <b>${EquipSlotMap[item.weapon_type]}</b>
+4	<br>Slot: <b>${EquipSlotMap[item.equip_slot]}</b>
+5	+ None [${components[1]}]
+6	<br><br>Attack: ${format_number(item.getAttack(options.quality[0]))}-${format_number(item.getAttack(options.quality[1]))}
+7	<br><br>Defense: ${format_number(item.getDefense(options.quality[0]))}-${format_number(item.getDefense(options.quality[1]))}
+8	<br><br>Attack: ${format_number(item.getAttack())}
+9	<br><br>Defense: ${format_number(item.getDefense())}
+10	<br>Level Restriction: <span class=realm_${window.REALMS[item.realmcap][5]}>${window.REALMS[item.realmcap][1]}</span> and below<br>
+11	<br><br><b class="${rarity_colors[item.getRarity(quality)]}">Quality: ${quality}% </b>
+12	<br>Part Tier: ${item.component_tier}
+13	<br>Attack Power: + ${format_number(item.attack_value)}
+14	<br>Defense Power: + ${format_number(item.defense_value)}
+15	<br>Attack Power: + ${format_number(item.attack_value * ScaledQualityMultiplier(quality)) }
+16	<br>Defense Power: + ${format_number(item.defense_value * ScaledQualityMultiplier(quality))}
+17	<br>Value: ${format_money(round_item_price(item.getValue(quality) * ((options && options.trader) ? traders[current_trader].getProfitMargin() : 1) || 0))}
+18	 [Base ${format_money(round_item_price(item.getBaseValue(quality) * ((options && options.trader) ? traders[current_trader].getProfitMargin() : 1) || 1))}]
+19	, x${rewards.xp_multipliers[xp_multipliers[0]]} ${name} XP Gain
+20	x${rewards.xp_multipliers[xp_multipliers[0]]} ${name} XP Gain
+21	, x${rewards.xp_multipliers[xp_multipliers[i]]} ${name} XP Gain
+22	${is_combat?"Loot: ":"Obtained: "} "
+23	Your wallet: ${format_money(character.money)}
+24	<span class = "item_category">[Part]</span> <span class="item_name"><span class="${rarity_colors[target_item.getRarity()]}">${target_item.getName()}</span></span>
+25	${mapp[key]} Slot
+26	Your ${mapp[key]} Slot
+27	Dmg: ${format_number(current_enemies[i].stats.attack)}
+28	Def: ${format_number(current_enemies[i].stats.defense)}
+29	AS: ${format_number(disp_speed)}
+30	Hit: ${(HIT!=100)?(HIT+'%'):'MAX'}
+31	Eva: ${(EVA!=100)?(EVA+'%'):'MAX'}
+32	<i class="material-icons">format_list_bulleted</i>  Expand
+33	<img src='image/item/violet_ingot.png'><b><span style='color:plum'>Soul Power :
+34	</span><br>Remaining enemies: </b>
+35	<span style="color:#ffd8c0"><i class="material-icons">warning_amber</i>  Quick Return [${last_combat.name}]</span>
+36	<span style="color:#c0c0ff"><i class="material-icons">directions</i> Quick Return [${last_bed.name}]</span>
+37	<i class='material-icons'>arrow_back</i> Collapse
+38	Aura ${format_number(c_halo*100.0)} %
+39	 [Base value: x${effects.multipliers[stat]}]
+40	<br>Venom damage: ${format_number(800e8*(1-skills["Toxic resistance"].current_level*0.05)*(0.99**skills["Iron skin"].current_level))}
+41	<span class="crafting_selection"><i class="material-icons icon subcrafting_dropdown_icon"> keyboard_double_arrow_down </i>Select one [${ComponentNameMap[recipe.components[0]]}]</span>
+42	<span class="crafting_selection"><i class="material-icons icon subcrafting_dropdown_icon"> keyboard_double_arrow_down </i>Select one [${ComponentNameMap[recipe.components[1]]}]</span>
+43	Recipe level: ${recipe.recipe_level[1]}<br>
+44	Success rate: <b><span style="color:${success_chance > 74?"lime":success_chance>49?"yellow":success_chance>24?"orange":"red"}">${success_chance}%</span></b><br><br>Materials:<br>
+45	<br>Product:<br><div class="recipe_result">${create_item_tooltip_content({item: item_templates[recipe.getResult().result_id], options: {quality:recipe.Q_able,skip_quality:false}})}</div>
+46	<br>Product:<br><div class="recipe_result">${create_item_tooltip_content({item: item_templates[recipe.getResult().result_id], options: {skip_quality: true}})}</div>
+47	<br>Product:<br><div class="recipe_result">${create_item_tooltip_content({item:item_templates[material.result_id], options: {quality: quality_range}})}</div>
+48	Product:<br><div class="recipe_result">Please select one part from each category</div>
+49	Product:<br><div class="recipe_result">${create_item_tooltip_content({item, options: {quality: quality_range}})}</div>
+50	<span class="activity_efficiency_info">Efficiency Scaling:<br>"${skill_names}" skill level ${location_activity.gained_resources.skill_required[0]} to ${location_activity.gained_resources.skill_required[1]}</span><br><br>
+51	Every ${format_reading_time(gathering_time_needed)}, chance to find:
+52	<br><br><b><span style="color:red">Diminishing Returns:</span></b><br>Because of the ${exp_t} actions already performed,<br> time consumed x ${format_number(Math.pow(exp_s,exp_t))}
+53	<span class="activity_efficiency_info">Efficiency Scaling:<br>"${skill_names}" skill level ${current_activity.gained_resources.skill_required[0]} to ${current_activity.gained_resources.skill_required[1]}</span><br><br>
+54	Luck (affects material drop rate and monster-kill XP)
+55	Gem Resistance, in full the gem soft-cap starting-point multiplier (SoftCappedGemValue)
+56	Combat Power: ${chara_rank}
+57	<br>Base value: ${Math.round(100* character.stats.total_flat.attack_points)/100}
+58	<br>Weapon: +${format_number(character.equipment.weapon.attack_power)}
+59	<span class='rarity_antique'><b>Export (Reward)</span></b>
+60	<span class=realm_${window.REALMS[character.xp.current_level][5]}>Realm: ${window.REALMS[character.xp.current_level][1]}</span>
+61	<span class="data_entry_name">Base Level XP Gain:</span><span class="data_entry_value">x${format_number(get_hero_xp_gain())}</span>
+62	<span class="data_entry_name">Base Skill XP Gain:</span><span class="data_entry_value">x${format_number(get_skills_overall_xp_gain())}</span>
+63	<span class="data_entry_name">Enemy Kill Count:</span><span class="data_entry_value">${Math.round(get_enemy_killcount())}</span>
+64	<span class="data_entry_name">Crafting Successes:</span><span class="data_entry_value">${Math.round(total_crafting_successes)}</span>
+65	<span class="data_entry_name">Crafting Attempts:</span><span class="data_entry_value">${Math.round(total_crafting_attempts)}</span>
+66	Gain ${current_activity.skill_xp_per_tick} ${skills[activities[current_activity.activity_name].base_skills_names].name()} base XP per second   (${needed_xp})
+67	Gain ${current_activity.skill_xp_per_tick} base XP per Gathering Cycle for ${skills[activities[current_activity.activity_name].base_skills_names].name()} (${needed_xp})
+68	Stop ${dev_ACNMap?current_activity.activity_name:ActivityNameMap[current_activity.activity_name]}
+69	Gain ${format_number(current_activity.skill_xp_per_tick*get_skills_overall_xp_gain())}  ${skills[activities[current_activity.activity_name].base_skills_names].name()} XP per second (${needed_xp})
+70	<br>Destination reached. (departing from [Na Family Secret Realm])
+71	<br>Base speed: ${format_number(speed)} m / s.
+72	<br>Speed: ${format_number(speed)} m / s. <br>(Running lv.${skills["Running"].current_level}, + ${format_number(Math.pow(1.1,skills["Running"].current_level)*100-100)}%)
+73	<br>Time flow: 36000 s / s.
+74	<br>Final speed: ${format_number(speed*36)} km / s.
+75	<br>Remaining distance: ${Math.round(3.2e6 - inf_combat.A7.cur).toLocaleString('en-US')} / 3,200,000 km.
+76	<i class="material-icons icon skill_dropdown_icon"> keyboard_double_arrow_down </i>${SkillsCategoryMap[skill.category]} Skills
+77	XP Gain: x${xp_gain}<br><span>XP Cost Scaling: x${skill.xp_scaling}</span>
+78	${stances[stance_id].randomize_target_count?"Randomly hits up to":"Simultaneously hits"} ${target_count} enemies</div>
+79	Newborns over 10,000: cost is subject to a Tier-1 soft cap (^1.5)<br>
+80	Newborns over 1e8: cost is subject to a Tier-2 soft cap (^1.75)<br>
+81	Newborns over 1e12: cost is subject to a Tier-3 soft cap (^2.0)<br>
+82	This enemy seems to have mastered magic.<br>The enemy ignores the character's defense.
+83	This enemy holds the power of the earth element and is indestructible.<br>Single-hit damage to the enemy cannot exceed <span style='color:#87CEFA'>1</span>.
+84	This enemy strikes a step faster.<br>The enemy first launches an <span style='color:yellow'>extra attack</span>.
+85	The enemy attacks quickly, with more terrifying killing power, but that also means its life force is rather fragile.<br>The enemy attacks <span style='color:#87CEFA'>twice</span> per turn.
+86	This enemy strikes fast and nimbly.<br>The enemy first launches a <span style='color:#87CEFA'>3-hit combo</span>.
+87	A move that restrains the opponent may be a knack or a burden.<br>Enemy damage per turn * <span style='color:#87CEFA'>(enemy Defense / character Defense)</span>.
+88	The enemy attacks quickly, with more terrifying killing power, but that also means its life force is rather fragile.<br>The enemy attacks <span style='color:#87CEFA'>3 times</span> per turn.
+89	This enemy attacks very ferociously, causing a Rend effect.<br>The enemy's combat damage increases by <span style='color:#87CEFA'>half</span>.
+90	Weakens the opponent's abilities with poison magic.<br>When fighting this enemy, the character's Attack/Defense effectiveness is weakened by <span style='color:#87CEFA'>
+91	A subtle combat insight using a bizarre tactic, bringing a whole new strategic dimension for both offense and defense.<br>In battle, the character's <span style='color:yellow'>Attack and Defense effectiveness are swapped</span>.
+92	An uneven two-hit strike using the momentum of the wind element.<br>Each turn, at <span style='color:#87CEFA'>0.8x and 1.2x</span> the enemy attacks<span style='color:yellow'> once each</span>.
+93	An aura Aberrant Beast is always surrounded by a group of Aberrant Beasts, every one looking agitated. (The effect is integrated into the floor stats.)
+94	A time-element insight. Briefly slows the flow of time in the surrounding area, creating chances at certain key moments.<br>Combat damage each turn becomes <span style='color:#87CEFA'>turn-count</span> times.
+95	Traps you in an illusion, leaving you bewitched by it.<br>For the first <span style='color:#87CEFA'>3 turns</span>, attacks once extra each at the character's Attack.
+96	Looks much like a bluffing sword formation.<br>The enemy lays a cryptic killing formation; on turns <span style='color:#87CEFA'>2, 4, and 6</span>, it deals extra damage of <span style='color:#87CEFA'>2x, 3x, and 4x</span> the enemy's Attack respectively.
+97	A time-element insight, having touched a thread of the law of fate; the opened door of darkness seems to lead to another world.<br>Combat damage each turn becomes <span style='color:#87CEFA'>2*turn-count-1</span> times.
+98	This enemy is swift as the wind, stirring a wind-element anomaly.<br>The enemy first launches a 4-hit attack at <span style='color:#87CEFA'>5x damage</span>.
+99	An iron pestle ground into a needle.<br>The enemy's attack gains an extra 0.5% of the character's Health.
+100	This enemy seems very sensitive to money.<br>For every ${format_money(enemy.spec_value[18])} the character holds, this enemy's damage decreases by <span style='color:#87CEFA'>1%</span>.
+101	A profound and threatening insight that can share stats.<br>The enemy grows stronger as the character does, its Attack/Defense/Agility gaining <span style='color:#87CEFA'>10%</span> of the character's Attack/Defense.
+102	Fights by gathering the energy of heaven and earth into its own offense.<br>Each turn the enemy deals extra damage equal to the difference between <span style='color:#87CEFA'>3x</span> its own Attack and <span style='color:#87CEFA'>2x</span> the character's Defense.
+103	Exists as a special form of life.<br>Each turn the enemy deals to the character <span style='color:#87CEFA'>
+104	five times the difference from the character's Agility</span> damage.<br>The lower bound of this extra damage is 0.
+105	Peerless five-strike.<br>Before battle, the enemy launches a <span style='color:#87CEFA'>5-hit combo</span> at 0.9x Attack.
+106	A light-element insight. Suppresses the opponent with fast, powerful offense.<br>When <span style='color:#FFFF00'>the character's Attack (with bonuses) is less than the enemy's</span>, the damage the enemy takes is reduced by <span style='color:#87CEFA'>half of (enemy Defense / character Defense)</span>.
+107	An ability that absorbs the searing offensive element and makes it its own.<br>The enemy's Health increases by <span style='color:#87CEFA'>0.5x</span> the character's Attack.
+108	An ability that absorbs the fierce defensive element and makes it its own.<br>The enemy's Health increases by <span style='color:#87CEFA'>0.5x</span> the character's Defense.
+109	A battle-mage with two abilities. The enemy's attack per turn is <span style='color:#87CEFA'>doubled</span>
+110	Receives the attack and returns it as a different force.<br>In battle, the character's Attack effectiveness transfers <span style='color:#87CEFA'>10%</span> to Defense.
+111	Don't even think of using it to grind Tough Skin!
+112	This enemy seems to understand fighting while retreating.<br>If the enemy dodges an attack, it deals to the character an extra <span style='color:#87CEFA'>
+113	</span> magic damage.
+114	Before battle, the enemy adds <span style='color:#87CEFA'>
+115	times</span> the character's Agility to its own Attack.
+116	A wood-element insight, the favorite attribute of adventurers who study battle-recovery magic.<br>Each hit the enemy lands restores <span style='color:#87CEFA'>30%</span> of its Health Cap.
+117	A backlash strike.<br>The enemy reflects <span style='color:#87CEFA'>20%</span> of the character's damage back at the character.
+118	The enemy attacks quickly, with more terrifying killing power, but that also means its life force is rather fragile.<br>The enemy attacks <span style='color:#87CEFA'>
+119	 times</span> per turn.
+120	An enemy that bullies the weak is easily defense-killed.<br>When the character's <span style='color:#FFFF00'>Defense is less than the enemy's</span>, the <span style='color:#FFFF00'>difference from the enemy's Defense</span> is widened <span style='color:#87CEFA'>twofold</span>.
+121	This enemy seems to understand releasing power outward.<br>Each time the enemy is attacked, it deals to the character an extra <span style='color:#87CEFA'>
+122	</span> Domain damage. This damage can be reduced 1:1 by Agility.
+123	A powerhouse's last dignity in despair.<br>Triggers on turn 20, dropping its own health to 1 and dealing the character <span style='color:#87CEFA'>its own remaining Health * 4</span> damage.
+124	A wondrous ability that senses vitality and applies it to attacks.<br>The character's Attack effectiveness is weakened by <span style='color:#87CEFA'>one times</span> (enemy Health / character Health).<br>
+125	A talisman created by the legendary strongest fairy, though her life force isn't especially high.<br>On <span style='color:#FFFF00'>turn 9</span> it casts an Ice Talisman, dealing extra magic damage of <span style='color:#87CEFA'>20x Attack</span>.
+126	This enemy seems very sensitive to gems.<br>For every ${format_number(enemy.spec_value[39])} value points the character holds in [Heart Realm - Tier 1]<br>, this enemy's damage decreases by <span style='color:#87CEFA'>1%</span>.
+127	A light-element insight. This enemy is so fast it's like a beam of light illuminating the world.<br>The enemy first launches a 3-hit <span style='color:#FFFF00'>guaranteed-hit attack</span> at <span style='color:#87CEFA'>50x damage</span>.
+128	An expression of gregarious creatures working as one. When this enemy spawns, 3 extra 【Purple Rusthusk Men】 spawn as well.
+129	"One perfect in virtue is a sage; one flawless in ten is a Holy Array."<br>The enemy lays a Holy Array; on turns <span style='color:#87CEFA'>5, 10, and 20</span>, it deals the character penetrating damage of <span style='color:#87CEFA'>3x, 9x, and 27x</span> the sum of the character's and enemy's Attack+Defense respectively.
+130	When attacking, whether or not it hits, it deals an extra <span style='color:#87CEFA'>
+131	An expression of gregarious creatures working as one. When this enemy spawns, 3 extra 【Warship Weeder B1】 spawn as well.
+132	Survive ten turns in the enemy's hands! On turn 10 the enemy is struck by the Laser Gun, dropping its <span style='color:#87CEFA'>health to 1</span>.<br><span style='color:#FF0000'><b>Provided you have Sister at your side.</b></span>
+133	An ability that absorbs the searing offensive element and makes it its own.<br>The enemy's Health increases by <span style='color:#87CEFA'>2.5x</span> the character's Attack.
+134	An ability that absorbs the fierce defensive element and makes it its own.<br>The enemy's Health increases by <span style='color:#87CEFA'>2.5x</span> the character's Defense.
+135	An ice-element insight. Transforms the ice element into sword form to pierce the opponent — only nimble evasion can withstand it.<br>Before battle, deals the character guaranteed damage equal to <span style='color:#87CEFA'>20x</span> the sum of their Attack+Defense. This effect can be reduced by Agility; every ${format_number(enemy.spec_value[48])} Agility reduces the damage by 1%.
+136	An ice-element insight. A technique that can instantly turn someone into an ice block — only vigorous life can grow tenaciously through it.<br>Before battle, makes a <span style='color:#87CEFA'>5-hit ${format_number(enemy.spec_value[49].rnd / 5)}x</span> preemptive strike on the character. This effect can be reduced by Health; every ${enemy.spec_value[49].hp} Health removes 0.2x of the preemptive multiplier.
+137	An ice-element insight. Makes the opponent feel indescribable pain in the cold; a strong body is the necessary condition to numb it.<br>Before battle, deals the character guaranteed damage equal to <span style='color:#87CEFA'>40x</span> their Agility. This effect can be reduced by Attack+Defense; every ${enemy.spec_value[50]} Attack+Defense reduces the damage by 1%.
+138	A move that suppresses the opponent may be a knack or a burden.<br>Enemy damage per turn * <span style='color:#87CEFA'>(enemy Attack+Defense / character Attack+Defense)</span>.
+139	A move that suppresses/restrains the opponent may be a knack or a burden.<br>Enemy damage per turn * <span style='color:#87CEFA'>(enemy Attack+Defense / character Attack+Defense)^(1-0.01*Restraint insight) * (enemy Defense / character Defense)^(0.01*Restraint insight)</span>.
+140	A profound and threatening insight that can share stats.<br>The enemy grows stronger as the character does, its Attack gaining <span style='color:#87CEFA'>200%</span> of the character's Attack.
+141	A move that limits the opponent's abilities may be a knack or a burden.<br>Enemy damage per turn * (enemy Health / character Health) [PS: cap 100x].
+142	This enemy seems very sensitive to money.<br>For every ${format_money(enemy.spec_value[55])} the character holds, this enemy's damage decreases by <span style='color:#87CEFA'>1%</span>, up to <span style='color:#87CEFA'>80%</span>.
+143	When the enemy dies, the character gains a <span style='color:#87CEFA'>-20% Attack Speed</span> status effect for <span style='color:#87CEFA'>30s</span>.
+144	When the enemy dies, the number of 【Heart Spirit · Rampage】 on the field increases by 3.
+145	When the enemy dies, 【Heart Spirit · Rampage】's base Attack/Health increases by 5% (stacking).
+146	When the enemy dies, gain 1 point of 【Soul Power】.
+147	A void-element insight. The enemy summons an enemy from this zone to take a hit for it (no recursive summoning).
+148	Squad members band together to fight for survival.<br>A squad of 2-50 units.
+149	Don't forget the things that must be done. After battle, the character gains <span style='color:#87CEFA'>60s of 5x vulnerability</span> (shown on the health bar).
+150	When the character's Attack exceeds their Defense, the monster <span style='color:#FFFF00'>ignores the excess Attack value</span>.
+151	Company members are fierce, bent on killing all who stand in their way.<br>A company of 100-5000 units.
+152	Burns refined-blood for movement speed far beyond its realm; when the refined-blood runs dry, its true form shows.<br>The enemy's effective Agility rises by <span style='color:#FFFF00'>99x its health percentage</span>.
+153	A fire- and void-element insight, a combat art recorded in the ancient books of the Qiongdou world, controlling distance from the opponent.<br><span style='color:#FFFF00'>When the enemy hits the character</span>, the character's next attack cooldown is <span style='color:#87CEFA'>increased by 50%</span> (stacking).
+154	How much blood have you shed for your mission?<br>When <span style='color:#FFFF00'>the character's Health exceeds the enemy's</span>, enemy damage is <span style='color:#87CEFA'>increased by half</span>; otherwise, it is <span style='color:#87CEFA'>reduced by half</span>.
+155	A wondrous ability that senses vitality and applies it to attacks.<br>The character's Attack effectiveness is weakened by <span style='color:#87CEFA'>10%</span> of (enemy Health / character Health).<br>
+156	] undefined!
+157	Extermination Battle 【WIP / needs plot revision】
+158	<b>Zone ${Math.floor(zone/10)} - ${zone%10}</b>
+159	The Bestiary entry for enemy [${enemy_name}] is undefined!
+160	<br><br>Floor stats:
+161	<br>Aura ${format_number(c_halo * 100.0)} %(Loot + ${format_number((Math.pow(c_halo+1,1)-1)*100.0)}%, XP + ${format_number((Math.pow(c_halo+1,1.5)-1)*100.0)}%)
+162	<br><br>Enemies here:<br>
+163	<br>Loot here (average):<br>
+164	Load auto-save [${date_string.replaceAll("_",":")}]

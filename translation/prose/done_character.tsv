@@ -1,0 +1,33 @@
+# done_character (_todo rows, keyed by srcline). ${...}/<span> preserved.
+214	<b>Limited by the <span class="realm_terra">Earth-Tier bottleneck</span> - XP locked</b>
+222	<b>Limited by the <span class="realm_sky">Sky-Tier bottleneck</span> - XP locked</b>
+230	<b>Limited by the <span class="realm_cloudy">Skyhigh-Tier bottleneck</span> - XP locked</b>
+261	Attack increased by ${format_number(this_realm[2] * 2)}<br>
+262	Defense and Agility increased by ${format_number(this_realm[2])}<br>
+263	Health Cap increased by ${format_number(this_realm[3])}<br>
+264	Minor-stage breakthrough: Attack Speed additionally increased by ${realm_spd_gain}<br>
+268	Major-realm breakthrough: gained the special ability <span style="color:#ff8080">【Ember】</span>!<br>
+269	The character stat <span style="color:#66ccff">【Basic Attack Multiplier】</span> is now unlocked!<br>
+271	Heart Realm Tier 1 - Gem Devourer is now unlocked!<br>
+277	<span style="color:#66ccff">Basic Attack Multiplier</span> increased by ${A_mul_gain.toFixed(2)}<br>
+283	Major-realm breakthrough: 【Scorch】 gained 9.999e15 XP!<br>
+286	Major-realm breakthrough: 【Flame Spirit Sea】 gained 9.999e15 XP…?<br>
+287	How has the insight already broken through? Way too grindable.<br>
+290	The character stat <span style="color:#ffee11">【Luck】</span> is now unlocked!<br>
+291	At the same time, the 【Crit】 stat has been condensed!<br>【Crit Probability】 reduced to one quarter, 【Crit Damage】 increased fourfold!<br>
+294	Heart Realm Tier 2 - God of Greed is now unlocked!<br>
+295	Base time flow: 6min -> 48min!<br>
+300	Major-realm breakthrough: 【Cloudrise, Moonfall [Domain Tier 4]】 gained 9.999e27 XP!<br>
+303	Major-realm breakthrough: 【Cloudrise, Moonfall [Domain Tier 5]】 gained 9.999e27 XP…?<br>
+307	All status effects cleared!<br>
+313	The character stat <span style="color:#ff11dd">【Gem Soft-Cap Starting Multiplier (SCGV)】</span> is now unlocked!<br>
+314	Heart Realm Tier 3 - Altar of Faith is now unlocked! <br>
+315	Base time flow: 48min -> 288min!<br>
+323	<span style="color:#ffee11">Luck</span> increased by ${Luck_gain.toFixed(2)}<br>
+330	<span style="color:#ff11dd"> SCGV </span> increased by ${SCGV_gain.toFixed(2)}<br>
+334	Skill XP multiplier increased by ${Math.round(total_skill_xp_multiplier*100-100)}%<br>
+342	${character.name} broke through, reaching ${lvl_display} <br>${gains}
+735	The Fortify Potion blocked ${format_number(damage_taken - character.stats.full.max_health * 0.05)} overflow damage!
+740	Blazing Sun Blessing · Kun blocked ${format_number(damage_taken - character.stats.full.max_health * 0.08)} overflow damage!
+749	[Deadline · Stasis] damage taken x2!
+753	[Deadline] damage taken x5!

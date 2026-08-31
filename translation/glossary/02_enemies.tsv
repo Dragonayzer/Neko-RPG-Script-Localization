@@ -1,0 +1,538 @@
+# NekoRPG enemy names — zh <TAB> en <TAB> note.  Source: NekoRPG/src/enemies.js (name: fields, CJK). 507 entries.
+# Conventions: 茸茸=Furball, 血洛=Bloodfall, realm tiers full (微尘级=Dust-Tier...), 荒兽=Wildbeast,
+#   凶兽=Ferocious Beast, 异兽=Aberrant Beast, 傀儡=Puppet, 骸骨=Skeleton, 法师=Mage, 蝠=Bat,
+#   石精=Stone Sprite, 石灵=Stone Spirit, 燕岗=Yangang, 纳家=Na Family, 百家=Hundred Clans.
+#   Character-name bosses transliterated (pinyin). [BOSS]/[SP]/[...ver.] tags preserved.
+毛茸茸	Furball
+武装毛茸茸	Armed Furball
+红毛茸茸	Red Furball
+小飞蛾	Small Moth
+骸骨	Skeleton
+武装红毛茸茸	Armed Red Furball
+少年法师	Boy Mage
+微尘级野兽	Dust-Tier Beast
+废弃傀儡	Abandoned Puppet
+黑毛茸茸	Black Furball
+荧光飞蛾	Fluorescent Moth
+橙毛茸茸	Orange Furball
+聚灵骸骨	Spirit-Gathering Skeleton
+大飞蛾	Large Moth
+血洛游卒	Bloodfall Roving Soldier
+石精	Stone Sprite
+弱小意念	Feeble Will
+聚魂骸骨	Soul-Gathering Skeleton
+青年法师	Young Mage
+武装橙毛茸茸	Armed Orange Furball
+万物级凶兽	All-Things-Tier Ferocious Beast
+习武孩童	Martial-Training Child
+出芽茸茸	Budding Furball
+试炼木偶	Trial Dummy
+纳家待从	Na Family Attendant
+轻型傀儡	Light Puppet
+出芽红茸茸	Budding Red Furball
+万物级异兽	All-Things-Tier Aberrant Beast
+高速傀儡	High-Speed Puppet
+黄毛茸茸	Yellow Furball
+纳家塑像	Na Family Statue
+出芽橙茸茸	Budding Orange Furball
+森林野蝠	Forest Wild Bat
+血洛喽啰	Bloodfall Minion
+百家小卒	Hundred-Clans Footsoldier
+下位佣兵	Low-Rank Mercenary
+地龙荒兽	Earth Dragon Wildbeast
+毒虫	Venomous Insect
+精壮青年	Burly Youth
+法师学徒	Mage Apprentice
+生灵骸骨	Living-Spirit Skeleton
+腐蚀质石精	Corrosive Stone Sprite
+绿毛茸茸	Green Furball
+荒野蜂	Wildland Bee
+切叶虫茧	Leafcutter Cocoon
+花灵液	Flower-Spirit Fluid
+燕岗领从者	Yangang Fief Follower
+野生幽灵	Wild Ghost
+荒兽尼尔	Wildbeast Nier	proper-noun boss creature
+司雍世界修士	Siyong World Cultivator
+潮汐级荒兽	Tide-Tier Wildbeast
+掠原蝠	Plains-Raiding Bat
+黑夜傀儡	Night Puppet
+来一口	Take-A-Bite	playful
+绿原行者	Green Plains Wanderer
+初生鬼	Newborn Ghost
+燕岗领佣兵	Yangang Fief Mercenary
+冷冻火	Frozen Fire
+缠绕骸骨	Entwining Skeleton
+灵蔓茸茸	Spirit-Vine Furball
+夜行幽灵	Night-Walking Ghost
+石风家族剑士	Shifeng Family Swordsman
+能量络合球	Energy Complexation Orb
+短视蝠	Shortsighted Bat
+金衣除草者	Gold-Clad Weeder
+阴暗茸茸	Gloomy Furball
+地宫妖偶	Crypt Demon-Puppet
+地宫虫卒	Crypt Insect Soldier
+地刺	Ground Spike
+探险者亡魂	Explorer's Wraith
+布菇妖	Spreading Mushroom Demon
+腾风塑像	Windrising Statue
+出芽黄茸茸	Budding Yellow Furball
+大地级卫戍	Earth-Tier Garrison
+地宫看门人	Crypt Gatekeeper
+行走树妖	Walking Treant
+深邃之影	Abyssal Shadow
+抽丝鬼	Silk-Drawing Ghost
+燕岗堕落狩士	Yangang Fallen Hunter
+二极蝠	Diode Bat	playful (二极=diode)
+凶戾骨将	Ferocious Bone General
+武装绿毛茸茸	Armed Green Furball
+二阶荒兽	Rank 2 Wildbeast
+地下岩火	Underground Rock Fire
+初级魔法师	Basic Magician
+喵咕哩	Meowguli	cutesy cat monster
+颂歌符文	Hymn Rune
+地宫执法者	Crypt Enforcer
+出芽绿茸茸	Budding Green Furball
+巨型蜘蛛	Giant Spider
+地穴飞鸟	Cavern Bird
+小势力探险者	Minor-Faction Explorer
+踏地荒兽	Earth-Treading Wildbeast
+扭曲菇菇	Twisted Mushroom
+温热飞蛾	Warm Moth
+苍白之触	Pale Touch
+燕岗城守卫	Yangang City Guard
+灵能菇菇	Psionic Mushroom
+妖灵飞蛾	Spectral Moth
+飞叶级魔法师	Leaf-Flight-Tier Magician
+血洛箭手	Bloodfall Archer
+有角一族	Horned Tribe
+噬血术傀儡	Bloodthirst-Art Puppet
+司雍世界行者	Siyong World Wanderer
+密林大鸟	Deepwood Great Bird
+地龙幼崽	Earth Dragon Cub
+人立茸茸	Upright Furball
+草木蜘蛛	Flora Spider
+持盾荒兽	Shield-Bearing Wildbeast
+芊叶蝠	Verdant-Leaf Bat
+深林妖偶	Deep-Forest Demon-Puppet
+银杖茸茸	Silver-Staff Furball
+小门派执事	Minor-Sect Steward
+哥布林战士	Goblin Warrior
+刺猬精	Hedgehog Sprite
+毒枭蝎	Venomlord Scorpion
+百家近卫	Hundred-Clans Guard
+怨灵船夫	Vengeful-Spirit Boatman
+旱魃龟	Drought-Demon Turtle
+复苏骸骨	Reviving Skeleton
+旅行魔术师	Traveling Magician
+水溶茸茸	Water-Soluble Furball
+飞龙幼崽	Wyvern Cub
+鲜红八爪鱼	Bright-Red Octopus
+商船水手	Merchant-Ship Sailor
+深水恐怖	Deepwater Horror
+礁石灵	Reef Spirit
+火烧云	Burning Cloud
+行脚商人	Traveling Merchant
+马里奥菇菇	Mario Mushroom	playful ref
+清野江盗匪	Qingye River Bandit
+极冰火	Extreme-Ice Fire
+清野江窃贼	Qingye River Thief
+大门派杂役	Major-Sect Menial
+燕岗高等散修	Yangang High Rogue-Cultivator
+高歌骸骨	Singing Skeleton
+微花灵阵	Tiny-Flower Spirit Array
+灵慧石人	Sapient Stone Golem
+纳家探宝者	Na Family Treasure-Hunter
+秘境蝎龙	Secret-Realm Scorpion Dragon
+荒兽法兵	Wildbeast Spellsoldier
+巨人先锋	Giant Vanguard
+威武武士	Mighty Warrior
+七阶卫戍	Rank 7 Garrison
+秘境帕芙之灵	Secret-Realm Puff Spirit
+秘境猬精	Secret-Realm Hedgehog Sprite
+秘境心火精灵	Secret-Realm Heart-Fire Elf
+纳家冰雪亲卫	Na Family Ice-Snow Honor Guard
+有甲有角族	Armored Horned Tribe
+水晶傀儡	Crystal Puppet
+原力刀客	Force Blademan
+秘境胖胖鸟	Secret-Realm Chubby Bird
+人立金茸茸	Upright Gold Furball
+喵咕咕哩	Meowguguli
+秘境滋生魔	Secret-Realm Proliferation Demon
+蓝帽行者	Blue-Hat Wanderer
+流云级魔法师	Flowing-Cloud-Tier Magician
+威武异衣士	Mighty Exotic-Garb Warrior
+雪魅蝠	Snow-Charm Bat
+大眼八爪鱼	Big-Eyed Octopus
+废墟猎兵	Ruins Hunter-Soldier
+废墟菇灵	Ruins Mushroom Spirit
+燕岗城探险者	Yangang City Explorer
+声律城骸骨	Shenglü City Skeleton
+声律城难民	Shenglü City Refugee
+锈胎人	Rusthusk Man
+紫锈胎人	Purple Rusthusk Man
+双棱晶体	Bi-Prism Crystal
+废墟恐怖	Ruins Horror
+兰陵城探险者	Lanling City Explorer
+猫茸茸	Cat Furball
+圣荒城探险者	Shenghuang City Explorer
+远古傀儡	Ancient Puppet
+血洛幽灵	Bloodfall Ghost
+废墟飞鸟	Ruins Bird
+兰陵城小队长	Lanling City Squad Leader
+伏地精	Crouching Sprite
+废墟虫卒	Ruins Insect Soldier
+战场亡魂	Battlefield Wraith
+废墟追风者	Ruins Wind-Chaser
+古寒铁石精	Ancient-Cold Iron Stone Sprite
+暗茸茸战士	Dark Furball Warrior
+魔族潜行者	Demon-Race Prowler
+圣荒城骑士	Shenghuang City Knight
+战场凶残暴徒	Battlefield Savage Brute
+战场复苏骸骨	Battlefield Reviving Skeleton
+探险者队长	Explorer Captain
+废墟荒兽	Ruins Wildbeast
+哥布林盾兵	Goblin Shieldman
+鎏银幽灵	Gilt-Silver Ghost
+血洛老年修士	Bloodfall Elderly Cultivator
+初级卫兵A9	Basic Guard A9
+领域之械A9	Domain Device A9
+荒兽电法兵	Wildbeast Lightning-Spellsoldier
+黑桃重工A9	Spade Heavy-Industry A9	card-suit mech series
+夹击之械A9	Pincer Device A9
+神权十字A9	Theocracy Cross A9
+梅花重工A9	Club Heavy-Industry A9
+古老符文	Ancient Rune
+生命熔炉A9	Life Furnace A9
+高级卫兵B1	Advanced Guard B1
+白银之锋A9	Silver Edge A9
+黑铁战士B1	Black-Iron Warrior B1
+持盾战士A9	Shield-Bearing Warrior A9
+血洛游侠	Bloodfall Ranger
+方片重工A9	Diamond Heavy-Industry A9
+燕岗狂战傀儡	Yangang Berserker Puppet
+激光炮塔A9	Laser Turret A9
+舰船护卫A9	Warship Escort A9
+红桃重工B1	Heart Heavy-Industry B1
+塔门战甲B1	Tower-Gate War-Armor B1
+万象天引B1	All-Phenomena Sky-Pull B1
+镭射步兵B1	Laser Infantry B1
+空间三角B1	Space Triangle B1
+舰船除草机B1	Warship Weeder B1
+异化者B1	Alienated One B1
+核爆能源	Nuclear-Blast Energy
+鲜血之锋B1	Blood Edge B1
+剧毒恐怖B1	Toxic Horror B1
+黄金茸茸	Golden Furball
+银色血眼B1	Silver Blood-Eye B1
+光子石像B1	Photon Statue B1
+游走三头蛇	Roaming Three-Headed Snake
+质子粉碎机B1	Proton Crusher B1
+城主府基层	Lord's-Manor Rank-and-File
+合金弹头B1	Metal Slug B1	合金弹头 = Metal Slug ref
+深邃之暗B2	Abyssal Darkness B2
+无面修者	Faceless Cultivator
+大教掌灯人	Cathedral Lamplighter
+单眼蝠幼体	One-Eyed Bat Larva
+淳羽家族近卫	Chunyu Family Guard
+赫尔沼泽野火	Hull Swamp Wildfire
+地龙成长期	Earth Dragon (Growth Stage)
+圣荒杀手傀儡	Shenghuang Killer Puppet
+小门派供奉	Minor-Sect Worshipper
+化灵蝶	Spirit-Transformed Butterfly
+沼泽石灵	Swamp Stone Spirit
+冈崎猫妖	Okazaki Cat Demon
+沉陷死者	Sunken Dead
+赫尔沼泽飞鼠	Hull Swamp Flying Squirrel
+赫尔沼泽蝠	Hull Swamp Bat
+不瞑之目	Unclosing Eye
+兰陵天空骑士	Lanling Sky Knight
+大教外门弟子	Cathedral Outer Disciple
+燕岗精英佣兵	Yangang Elite Mercenary
+凌空级魔法师	Skyborne-Tier Magician
+飞龙成长期	Wyvern (Growth Stage)
+有角族壮年	Horned Tribe Adult
+黑森异惑之花	Blackwood Bewitching Flower
+黑森镔铁战士	Blackwood Wrought-Iron Warrior
+黑森骸骨	Blackwood Skeleton
+司雍世界骨干	Siyong World Backbone
+黑森僵尸茸茸	Blackwood Zombie Furball
+黑森猿人战士	Blackwood Ape-Man Warrior
+怨灵探险者	Vengeful-Spirit Explorer
+兰陵城深骑士	Lanling City Deep Knight
+黑森蝎龙	Blackwood Scorpion Dragon
+黑森猎兵	Blackwood Hunter-Soldier
+石风家族队长	Shifeng Family Captain
+凶悍树妖	Fierce Treant
+人立电法茸茸	Upright Lightning-Spell Furball
+嫉妒毒虫	Envious Venomous Insect
+冰原之痕	Ice Field Scar
+出芽茸茸战士	Budding Furball Warrior
+冰原骑士	Ice Field Knight
+冰原近卫	Ice Field Guard
+天空级死士	Sky-Tier Deathsworn
+司雍传道士	Siyong Missionary
+冰原出芽茸茸	Ice Field Budding Furball
+出芽红茸战士	Budding Red-Furball Warrior
+冰原之空骸	Ice Field Hollow-Husk
+掠冰之蝠	Ice-Raiding Bat
+霜傀儡	Frost Puppet
+冰原荒兽	Ice Field Wildbeast
+射击卫戍	Shooter Garrison
+冰山石灵	Iceberg Stone Spirit
+冰原老人	Ice Field Old Man
+冰原骸骨骑士	Ice Field Skeleton Knight
+探险者的怨恨	Explorer's Resentment
+出芽橙茸战士	Budding Orange-Furball Warrior
+敌意猎兵	Hostile Hunter-Soldier
+大眼霜冻鱼	Big-Eyed Frostfish
+敌意女巫	Hostile Witch
+出芽黄茸战士	Budding Yellow-Furball Warrior
+绝对低温能源	Absolute-Zero Energy
+敌意骑士	Hostile Knight
+出芽绿茸战士	Budding Green-Furball Warrior
+冰血除草者	Ice-Blood Weeder
+夹击卫戍	Pincer Garrison
+敌意傀儡	Hostile Puppet
+冰兽龙龙	Ice-Beast Longlong	cutesy
+雪茸茸战士	Snow Furball Warrior
+大教内门弟子	Cathedral Inner Disciple
+敌意美杜莎	Hostile Medusa
+敌意巫师	Hostile Sorcerer
+出芽青茸战士	Budding Cyan-Furball Warrior
+自爆步兵	Self-Destruct Infantry
+敌意老人	Hostile Old Man
+大门派先锋	Major-Sect Vanguard
+水牢雪怪	Water Prison Snow Monster
+水牢花妖	Water Prison Flower Demon
+成熟期蛟龙	Mature-Stage Flood Dragon
+出芽蓝茸战士	Budding Blue-Furball Warrior
+燕岗迷途强者	Yangang Lost Powerhouse
+水牢嗜血哥布林	Water Prison Bloodthirsty Goblin
+识灵水藻	Sentient Water-Algae
+徘徊的紫乌	Wandering Purple Crow
+夜巡傀儡	Night-Patrol Puppet
+水猫茸茸	Water-Cat Furball
+徘徊的骸骨	Wandering Skeleton
+水牢骨角茸茸	Water Prison Bonehorn Furball
+水牢石灵	Water Prison Stone Spirit
+仙旅城强战士	Xianlü City Strong Warrior
+城主府队长	Lord's-Manor Captain
+火箭卫戍	Rocket Garrison
+小门派长老	Minor-Sect Elder
+水牢幽暗人形	Water Prison Gloomy Humanoid
+出芽紫茸战士	Budding Purple-Furball Warrior
+星月幻术师	Star-Moon Illusionist
+绿皮怪物	Green-Skinned Monster
+魔化枭蝎	Demonized Owl-Scorpion
+古龙幼崽	Ancient Dragon Cub
+血杀殿余孽	Bloodkill Hall Remnant
+城主府骨干	Lord's-Manor Backbone
+奇异菇菇	Bizarre Mushroom
+幻境掌灯人	Illusory-Realm Lamplighter
+蓝皮怪物	Blue-Skinned Monster
+幻境通识者	Illusory-Realm Polymath
+火烈茸茸	Flaming Furball
+幻境翠绿行者	Illusory-Realm Verdant Wanderer
+风尘的窃贼	Roadworn Thief
+深邃级魔法师	Abyssal-Tier Magician
+荒野守尸人	Wildland Corpse-Keeper
+幻境火蝶	Illusory-Realm Fire Butterfly
+出芽粉茸战士	Budding Pink-Furball Warrior
+凶恶的金乌	Vicious Golden Crow
+幻境血魔	Illusory-Realm Blood Demon
+窥秘商人	Secret-Peeping Merchant
+燕岗领独行侠	Yangang Fief Lone Ranger
+幻境飞蛾	Illusory-Realm Moth
+幻境石灵	Illusory-Realm Stone Spirit
+磐石蜘蛛	Boulder Spider
+心魔	Inner Demon
+燕岗辉煌佣兵	Yangang Glorious Mercenary
+地宫虫将	Crypt Insect General
+地宫不眠者	Crypt Sleepless One
+地下焚天火	Underground Sky-Burning Fire
+燕岗城卫队长	Yangang City Guard Captain
+秘境荧光帕芙	Secret-Realm Fluorescent Puff
+秘境闪耀精灵	Secret-Realm Shining Elf
+喵咕啦	Meowgula
+残雪灵阵	Lingering-Snow Spirit Array
+晓雪魅蝠	Dawn-Snow Charm Bat
+威武星骑士	Mighty Star Knight
+圣荒城头目	Shenghuang City Chief
+兰陵城头目	Lanling City Chief
+战场不朽骸骨	Battlefield Immortal Skeleton
+血腥追风者	Bloody Wind-Chaser
+黄桃重工B9	Yellow-Peach Heavy-Industry B9
+不可能三角B9	Impossible Triangle B9	Penrose triangle
+极寒之锋B9	Deepfrost Edge B9
+金色血眼B9	Golden Blood-Eye B9
+恐怖机人B9	Terror Mecha B9
+冈崎喵妖	Okazaki Meow Demon
+血洛大陆骨干	Bloodfall Continent Backbone
+扭曲毒虫	Twisted Venomous Insect
+狠咕兽	Fierce-Gu Beast
+超量凶悍树妖	Overcharged Fierce Treant
+暗杀飞蛾	Assassin Moth
+古龙小兽	Ancient Dragon Whelp
+巨人强豪	Giant Champion
+血洛流浪剑客	Bloodfall Wandering Swordsman
+大门派精英	Major-Sect Elite
+魔草绿球	Demon-Grass Green Orb
+刺穿的菇灵	Pierced Mushroom Spirit
+奸猾绝凶兽	Cunning Ultra-Ferocious Beast
+暴风野蝠	Storm Wild Bat
+城门战傀儡	Gate-Battle Puppet
+毒牙噬蝠	Venom-Fang Devouring Bat
+深邃法师小队	Abyssal Mage Squad
+燕岗狂剑小队	Yangang Wild-Sword Squad
+古树蜘蛛	Ancient-Tree Spider
+燕城看门人	Yangang Gatekeeper
+炽烈茸茸	Blazing Furball
+城门战淘汰者	Gate-Battle Eliminator
+哥布林头目	Goblin Chief
+燕岗知识分子	Yangang Intellectual
+古古怪树	Weird Old Tree
+燕岗射手小队	Yangang Archer Squad
+壮硕走地兽	Burly Ground-Roaming Beast
+水晶骷髅	Crystal Skull
+绿原圣触	Green Plains Holy Touch
+腐毒仙子	Rot-Venom Fairy
+奥术大师	Arcane Master
+绿原蜂后	Green Plains Queen Bee
+燕岗威武小队	Yangang Mighty Squad
+绿原守灵人	Green Plains Spirit-Keeper
+燕岗钢铁战士	Yangang Steel Warrior
+燕岗骑砍小队	Yangang Cavalry-Slash Squad
+燕岗金甲战士	Yangang Gold-Armor Warrior
+燕岗卫戍小队	Yangang Garrison Squad
+燕岗暮年强者	Yangang Twilight-Years Powerhouse
+燕岗精英铁卫	Yangang Elite Iron-Guard
+燕岗名流商人	Yangang Notable Merchant
+燕岗江洋大盗	Yangang Notorious Bandit
+燕岗战法小队	Yangang Battle-Mage Squad
+毛茸茸绅士	Furball Gentleman
+驯兽地龙	Tamed Earth Dragon
+驯兽养殖者	Beast-Taming Breeder
+燕岗巨斧斗士	Yangang Great-Axe Fighter
+燕岗双剑小队	Yangang Twin-Sword Squad
+燕岗大剑战士	Yangang Greatsword Warrior
+燕岗城警戒哨	Yangang City Sentry
+独行双剑侠	Lone Twin-Sword Hero
+诡计披甲人	Trickster Armored Man
+自守的斗士	Self-Guarding Fighter
+燕岗杖剑大队	Yangang Staff-Sword Company
+茸茸魔导师	Furball Magus
+燕岗城巡逻哨	Yangang City Patrol
+燕岗壁垒大队	Yangang Bastion Company
+奸诈的恶棍	Treacherous Villain
+燕岗魔力大队	Yangang Mana Company
+隐秘行刺者	Covert Assassin
+公正的袍师	Just Robed-Master
+燕岗全职大队	Yangang Full-Force Company
+青年天才	Young Genius
+青衣卫巫小队	Green-Robed Guard-Witch Squad
+青茸茸将军	Cyan Furball General
+青鬼八爪鱼	Blue-Ogre Octopus
+红仆小恶魔	Red-Servant Imp
+红角茸茸	Red-Horn Furball
+天青驯兽	Sky-Blue Tamed Beast
+飞飞茸茸	Flyfly Furball
+青面大侠	Blue-Faced Hero
+红邪鬼随从商	Red-Fiend Retainer Merchant
+绯红剑侍	Crimson Sword-Attendant
+青衣魔法使	Green-Robed Spellcaster
+难缠的红蝙蝠	Pesky Red Bat
+深红毒蛇刺剑	Crimson Viper Rapier
+蛮血枭蝎	Savage-Blood Owl-Scorpion
+冰霜骸骨	Frost Skeleton
+蓝泽追光者	Blue-Marsh Light-Chaser
+纳家待从[BOSS]	Na Family Attendant [BOSS]
+百家小卒[BOSS]	Hundred-Clans Footsoldier [BOSS]
+腐蚀质石精[BOSS]	Corrosive Stone Sprite [BOSS]
+百兰[BOSS]	Bailan [BOSS]	proper noun
+燕岗领佣兵[BOSS]	Yangang Fief Mercenary [BOSS]
+地宫看门人[BOSS]	Crypt Gatekeeper [BOSS]
+行走树妖[BOSS]	Walking Treant [BOSS]
+深邃之影[BOSS]	Abyssal Shadow [BOSS]
+地下岩火[BOSS]	Underground Rock Fire [BOSS]
+喵咕哩[BOSS]	Meowguli [BOSS]
+地宫养殖者[BOSS]	Crypt Breeder [BOSS]
+百家近卫[BOSS]	Hundred-Clans Guard [BOSS]
+百方[荒兽森林 ver.][BOSS]	Baifang [Wildbeast Forest ver.] [BOSS]
+威武武士[BOSS]	Mighty Warrior [BOSS]
+礁石灵[BOSS]	Reef Spirit [BOSS]
+大门派杂役[BOSS]	Major-Sect Menial [BOSS]
+秘境心火精灵[BOSS]	Secret-Realm Heart-Fire Elf [BOSS]
+蓝帽行者[BOSS]	Blue-Hat Wanderer [BOSS]
+流云级魔法师[BOSS]	Flowing-Cloud-Tier Magician [BOSS]
+威武异衣士[BOSS]	Mighty Exotic-Garb Warrior [BOSS]
+废墟追光者[BOSS]	Ruins Light-Chaser [BOSS]
+初级卫兵A9[BOSS]	Basic Guard A9 [BOSS]
+百方[BOSS]	Baifang [BOSS]
+空间三角B1[BOSS]	Space Triangle B1 [BOSS]
+储存姬B1[BOSS]	Storage Maiden B1 [BOSS]
+银色血眼B1[BOSS]	Silver Blood-Eye B1 [BOSS]
+质子粉碎机B1[BOSS]	Proton Crusher B1 [BOSS]
+舰船中枢B6[BOSS]	Warship Nexus B6 [BOSS]
+魅影幻姬[BOSS]	Phantom Illusion Maiden [BOSS]
+蛮咕兽[BOSS]	Savage-Gu Beast [BOSS]
+天空级凶兽[BOSS]	Sky-Tier Ferocious Beast [BOSS]
+探险者的怨恨[BOSS]	Explorer's Resentment [BOSS]
+敌意猎兵[BOSS]	Hostile Hunter-Soldier [BOSS]
+敌意女巫[BOSS]	Hostile Witch [BOSS]
+敌意老人[BOSS]	Hostile Old Man [BOSS]
+竺虎[BOSS]	Zhuhu [BOSS]	proper noun
+莫尔[BOSS]	Moore [BOSS]	proper noun
+秋兴[BOSS]	Qiuxing [BOSS]	proper noun
+蓝柒[放水 ver.][BOSS]	Lanqi [Easy ver.] [BOSS]
+蓝柒[BOSS]	Lanqi [BOSS]	proper noun
+怪物手册[BOSS]	Bestiary [BOSS]
+心魔木偶[SP]	Inner Demon Puppet [SP]
+心魔[BOSS]	Inner Demon [BOSS]
+喵咕啦[BOSS]	Meowgula [BOSS]
+不可能三角B9[BOSS]	Impossible Triangle B9 [BOSS]
+末世天骄[BOSS]	Apocalypse Prodigy [BOSS]
+狠咕兽[BOSS]	Fierce-Gu Beast [BOSS]
+心魔之主[BOSS]	Lord of Inner Demons [BOSS]
+心之灵·禁锢[BOSS]	Heart Spirit · Confinement [BOSS]
+心之灵·滋生[BOSS]	Heart Spirit · Proliferation [BOSS]
+心之灵·暴走[BOSS]	Heart Spirit · Rampage [BOSS]
+左阿(垂死)[BOSS]	Zuo'a (Dying) [BOSS]
+左阿[BOSS]	Zuo'a [BOSS]	proper noun
+纳布[BOSS]	Nabu [BOSS]	proper noun
+百方[复仇 ver.][BOSS]	Baifang [Revenge ver.] [BOSS]
+薛奇[BOSS]	Xueqi [BOSS]	proper noun
+燕岗威武小队[BOSS]	Yangang Mighty Squad [BOSS]
+燕岗骑砍小队[BOSS]	Yangang Cavalry-Slash Squad [BOSS]
+燕岗卫戍小队[BOSS]	Yangang Garrison Squad [BOSS]
+燕岗城警戒哨[BOSS]	Yangang City Sentry [BOSS]
+枫杏红[BOSS]	Feng Xinghong [BOSS]	proper noun
+变异尸狗王[BOSS]	Mutant Corpse-Dog King [BOSS]
+飞飞茸茸[BOSS]	Flyfly Furball [BOSS]
+红邪鬼[BOSS]	Red Fiend [BOSS]
+心火红茸茸[BOSS]	Heart-Fire Red Furball [BOSS]
+#
+# --- V3.41c: Blood Peak (zone 45). Red/blood-themed, so the colour morphemes
+# carry the load. Anchored on entries already here: 鲜红 = Bright-Red
+# (鲜红八爪鱼), 大眼 = Big-Eyed, 心火 = Heart-Fire, 巨人 = Giant, 近卫 = Guard,
+# 小队 = Squad, 双剑 = Twin-Sword, 水晶 = Crystal, 茸茸 = Furball, 蝎 = Scorpion.
+# 红宝石 = "Red Gem", not "Ruby": 宝石 = Gem is a 00_morphemes material and
+# 绿宝石 already renders as "Green Gem" (神话绿宝石 = Mythic Green Gem).
+亮青水晶	Bright-Cyan Crystal
+鲜红水晶	Bright-Red Crystal
+鲑红腐殖质	Salmon-Red Humus
+心火红茸茸	Heart-Fire Red Furball
+报春红食人花	Primrose-Red Maneater Flower
+大眼烧烤鱼	Big-Eyed Grilled Fish
+大红蜕钳蝎	Deep-Red Moltclaw Scorpion
+撼瀚野熊	Vastshaker Wild Bear
+树莓龙勇士	Raspberry Dragon Warrior
+炽热幽闻藤	Blazing Ghostscent Vine
+翩然蝶仙	Fluttering Butterfly Fay
+红角邪恶触触	Red-Horned Wicked Tentacle
+红白闪	Red-White Flash
+红野人战士	Red Savage Warrior
+品红野人战士	Magenta Savage Warrior
+红甲射箭小队	Red-Armor Archer Squad
+灰暗双剑小队	Dusk Twin-Sword Squad
+红巨人番队	Red Giant Division
+红宝石近卫	Red-Gem Guard
