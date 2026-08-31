@@ -208,6 +208,28 @@ expect('nav arrows keep their own rows', clicks, ['gather', 'shop', 'exit']);
 // come through or the category vanishes from the bar entirely. The kind is
 // read from the onclick category, since all six collapse buttons share
 // .location_choices, data-location and format_list_bulleted.
+// The three-group ORDER is asserted above by readBar's indices; where they sit
+// on screen is entirely down to which group carries the auto margin. On the
+// actions group, actions and the static four form one right-hand block; on the
+// static group instead, the actions would strand themselves next to the nav
+// arrows at the far left.
+console.log('\nlayout');
+const CSS = (function () {
+  const i = src.indexOf('styleOverrides.textContent = `');
+  return src.slice(i, src.indexOf('`;', i));
+})();
+const cssRule = (sel) => {
+  const m = CSS.match(new RegExp(sel.replace(/[.#]/g, '\\$&') + '\\s*\\{([^}]*)\\}'));
+  return m ? m[1] : '';
+};
+expect('actions carry the auto margin',
+       /margin-left:\s*auto/.test(cssRule('#tl_action_bar .tl_bar_actions')), true);
+expect('  and the static group does not',
+       /margin-left:\s*auto/.test(cssRule('#tl_action_bar .tl_bar_fixed')), false);
+// Without this the bar would spread all three groups apart.
+expect('  bar does not spread the groups',
+       /justify-content/.test(cssRule('#tl_action_bar')), false);
+
 console.log('\ncollapsed categories');
 const COLLAPSE = (cat) => ({
   name: cat, cls: ['location_choices'], icon: 'format_list_bulleted',

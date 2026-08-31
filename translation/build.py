@@ -2419,10 +2419,11 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         // mode we have not thought about rather than only the ones we have.
         if (!nav.length && !acts.length && !found) return;
 
-        // Three groups. The first two flow from the left and grow with however
-        // much this location offers; the third is pushed to the right edge by
-        // its own margin, so the four static slots sit the same distance from
-        // that edge everywhere - which is the whole point of them.
+        // Three groups: navigation at the left edge, then actions and the four
+        // static slots together at the right. The CSS puts the auto margin on
+        // the ACTIONS group, so those two travel as one block and grow leftward
+        // into the gap, while the static four stay last and therefore the same
+        // distance from the right edge everywhere - which is the point of them.
         const bar = document.createElement('div');
         bar.id = ACTION_BAR_ID;
         const left = document.createElement('span');
