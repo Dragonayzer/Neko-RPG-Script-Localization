@@ -2139,6 +2139,142 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         }
     }
 
+    // A shortcut row at the top of the location actions list.
+    //
+    // #location_actions_div scrolls, and a busy location fills it: Village has
+    // 6 activities, 3 dialogues, a trader and a crafting station, so travel is
+    // below the fold. The bar puts one icon per ACTION CATEGORY at the top.
+    //
+    // Per category, NOT per action, which is the only arrangement where the
+    // positions can be fixed: the category set is fixed and small, the counts
+    // are not. The game also gives every row in a category the same glyph
+    // (all 6 of Village's jobs are work_outline, and .start_trade uses
+    // work_outline too), so one icon per action would render seven identical
+    // briefcases. One per category makes the slot itself the distinction.
+    // Where a category has several rows the icon acts on the FIRST.
+    //
+    // Layout: navigation on the left, growing rightward with however many
+    // destinations exist; everything else anchored to the RIGHT edge, so a
+    // location with more exits cannot push the fixed slots around. Absent
+    // slots are rendered as invisible placeholders rather than omitted -
+    // omitting them would let the remaining icons slide, which is the thing
+    // being avoided.
+    //
+    // Combat destinations are deliberately absent. They are one click from
+    // starting a fight, and an icon-only control is exactly where a misclick
+    // happens.
+    const ACTION_BAR_ID = 'tl_action_bar';
+    // In fixed left-to-right order. .activity_unavailable is NOT .start_activity,
+    // so unavailable jobs are excluded by construction rather than by a test.
+    // .location_choices covers both the crafting button and the travel-list
+    // expander; only the expander carries data-location, which separates them
+    // structurally instead of by reading their onclick.
+    const ACTION_BAR_SLOTS = [
+        ['dialogue', (r) => r.classList.contains('start_dialogue')],
+        ['trade', (r) => r.classList.contains('start_trade')],
+        ['activity', (r) => r.classList.contains('start_activity')],
+        ['sleep', (r) => r.id === 'start_sleeping_div'],
+        ['craft', (r) => r.classList.contains('location_choices') &&
+                         !r.hasAttribute('data-location')],
+        ['expand', (r) => r.classList.contains('location_choices') &&
+                          r.hasAttribute('data-location')],
+    ];
+
+    // The row's own icon, cloned - so the mirrored return arrow (an inline
+    // transform) and the rest-location tint come across without being
+    // reapplied. The colour lives on a wrapper span in most rows, so it is
+    // copied down from the nearest ancestor that carries one.
+    function barIconFor(row) {
+        const src = row.querySelector('.material-icons');
+        if (!src) return null;
+        const icon = src.cloneNode(true);
+        if (!icon.style.color) {
+            let el = src;
+            while (el && el !== row) {
+                if (el.style && el.style.color) {
+                    icon.style.color = el.style.color;
+                    break;
+                }
+                el = el.parentNode;
+            }
+            if (!icon.style.color && row.style.color) icon.style.color = row.style.color;
+        }
+        const cell = document.createElement('span');
+        cell.className = 'tl_bar_icon';
+        cell.appendChild(icon);
+        // The row carries its handler as an inline onclick and the container
+        // has no delegated click listener (only mousemove, for the activity
+        // tooltip), so a synthetic click runs the game's own code exactly
+        // once. Nothing here needs to know what any action does.
+        cell.addEventListener('click', () => row.click());
+        return cell;
+    }
+
+    function addActionBar() {
+        if (!ENABLE_VISUAL_OVERRIDES || !LOCATION_ACTION_BAR) return;
+        const host = document.getElementById('location_actions_div');
+        if (!host) return;
+        // Re-checked from the DOM, not a flag: clear_action_div() removes every
+        // element child on each mode change, so the bar is destroyed and
+        // rebuilt constantly and "add it when missing" is the whole lifecycle.
+        // It also means rows are only ever collected while the bar is absent,
+        // so it can never read its own icons back in.
+        if (document.getElementById(ACTION_BAR_ID)) return;
+
+        const rows = [];
+        for (let i = 0; i < host.children.length; i++) {
+            const r = host.children[i];
+            if (r.id !== ACTION_BAR_ID) rows.push(r);
+        }
+
+        const nav = [];
+        for (let i = 0; i < rows.length; i++) {
+            // travel_normal only. travel_combat is an encounter.
+            if (!rows[i].classList.contains('travel_normal')) continue;
+            if (rows[i].classList.contains('travel_combat')) continue;
+            const cell = barIconFor(rows[i]);
+            if (cell) nav.push(cell);
+        }
+
+        const fixed = [];
+        let found = 0;
+        for (let s = 0; s < ACTION_BAR_SLOTS.length; s++) {
+            const match = ACTION_BAR_SLOTS[s][1];
+            let cell = null;
+            for (let i = 0; i < rows.length && !cell; i++) {
+                if (match(rows[i])) cell = barIconFor(rows[i]);   // first occurrence
+            }
+            if (cell) {
+                found++;
+            } else {
+                // Placeholder: holds the slot open so the icons that ARE
+                // present keep the same position from location to location.
+                cell = document.createElement('span');
+                cell.className = 'tl_bar_icon tl_bar_empty';
+                cell.innerHTML = '<i class="material-icons">remove</i>';
+            }
+            fixed.push(cell);
+        }
+
+        // Nothing to show. During an activity start_activity_display() refills
+        // this container with #action_status_div and friends, which are
+        // innerText only - so this is decided by CONTENT, and holds for any
+        // mode we have not thought about rather than only the ones we have.
+        if (!nav.length && !found) return;
+
+        const bar = document.createElement('div');
+        bar.id = ACTION_BAR_ID;
+        const left = document.createElement('span');
+        left.className = 'tl_bar_group';
+        for (let i = 0; i < nav.length; i++) left.appendChild(nav[i]);
+        const right = document.createElement('span');
+        right.className = 'tl_bar_group';
+        for (let i = 0; i < fixed.length; i++) right.appendChild(fixed[i]);
+        bar.appendChild(left);
+        bar.appendChild(right);
+        host.insertBefore(bar, host.firstChild);
+    }
+
     // Raw spec numbers in bestiary tooltips, put into scientific form.
     //
     // display.js's spec_stat table formats SOME of its values and not others:
@@ -2588,6 +2724,11 @@ if 'colorRestTravel();' not in body:
 if 'sciBigNumbers();' not in body:
     src = src.replace("        colorRestTravel();",
                       "        colorRestTravel();\n        sciBigNumbers();", 1)
+# LAST of the travel passes: it clones the rows' icons, so the mirrored return
+# arrow and the rest-location tint have to be on them already.
+if 'addActionBar();' not in body:
+    src = src.replace("        sciBigNumbers();",
+                      "        sciBigNumbers();\n        addActionBar();", 1)
 # After the prose pass: the tier is read out of the tooltip, whose label is
 # translated by then, and the part name must already be English when prefixed.
 if 'prefixCraftingTiers();' not in body:
