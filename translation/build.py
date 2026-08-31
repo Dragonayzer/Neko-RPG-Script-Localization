@@ -2228,6 +2228,43 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         return !!r.querySelector('span[style*="c0c0ff" i]');
     }
 
+    // When a location has more than two of a kind, the game does not list them
+    // - it collapses them into ONE button ("Find some work", "Train for a
+    // bit", "Talk to someone", …), all sharing .location_choices with a
+    // data-location attribute and a format_list_bulleted glyph. The only thing
+    // separating them is the category in their onclick, which the game writes
+    // as a literal, so this reads it rather than guessing from the label.
+    function barChoiceCategory(r) {
+        if (!r.classList.contains('location_choices')) return '';
+        const m = /category:\s*"(\w+)"/.exec(r.getAttribute('onclick') || '');
+        return m ? m[1] : '';
+    }
+
+    // The variable group: everything you can DO here, one icon per row, in the
+    // game's own order. Not slots, because these are the kinds that legitimately
+    // repeat - and they need no slots, since the game already gives each type
+    // its own glyph: question_answer, work_outline for a job, fitness_center
+    // for training, search for gathering. A collapsed category comes through as
+    // its format_list_bulleted button, which is the only thing on screen for
+    // that category, so leaving it out would hide the category entirely.
+    function isBarAction(r) {
+        if (r.classList.contains('start_dialogue')) return true;
+        if (r.classList.contains('start_activity')) return true;
+        const cat = barChoiceCategory(r);
+        return cat === 'talk' || cat === 'work' || cat === 'train' ||
+               cat === 'gather';
+    }
+
+    // Navigation. The travel collapse button belongs here and not with the
+    // actions: past three exits the game replaces EVERY travel row with it, so
+    // without it the navigation group would come out empty at exactly the
+    // locations with the most places to go.
+    function isBarNav(r) {
+        if (r.classList.contains('travel_combat')) return false;
+        if (r.classList.contains('travel_normal')) return true;
+        return barChoiceCategory(r) === 'travel';
+    }
+
     // In fixed left-to-right order: [name, match, basicGlyph, prefer].
     //
     // basicGlyph is the BASIC form - what the slot shows when the location has
@@ -2247,12 +2284,8 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
     // here - it only appears on locations with more than three exits, so a
     // fixed slot for it would sit empty nearly everywhere.
     const ACTION_BAR_SLOTS = [
-        ['dialogue', (r) => r.classList.contains('start_dialogue'), 'question_answer'],
-        // search, not the game's work_outline: an activity is something you go
-        // and look for work at, and it has to differ from the trader slot.
-        ['activity', (r) => r.classList.contains('start_activity'), 'search'],
         // Covers both a real trader and the storage chest - the game files
-        // both as .start_trade - so a shopfront reads better than a briefcase.
+        // both as .start_trade.
         ['trade', (r) => r.classList.contains('start_trade'), 'storefront'],
         ['sleep', (r) => r.id === 'start_sleeping_div', 'bed'],
         ['craft', (r) => r.classList.contains('location_choices') &&
@@ -2371,29 +2404,38 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         // travel_combat is still absent - an encounter is not movement you
         // want one click away.
         const nav = [];
+        const acts = [];
         for (let i = 0; i < rows.length; i++) {
-            if (!rows[i].classList.contains('travel_normal')) continue;
-            if (rows[i].classList.contains('travel_combat')) continue;
             if (claimed.indexOf(rows[i]) !== -1) continue;
-            const cell = barIconFor(rows[i]);
-            if (cell) nav.push(cell);
+            const cell = isBarNav(rows[i]) ? barIconFor(rows[i])
+                       : isBarAction(rows[i]) ? barIconFor(rows[i]) : null;
+            if (!cell) continue;
+            (isBarNav(rows[i]) ? nav : acts).push(cell);
         }
 
         // Nothing to show. During an activity start_activity_display() refills
         // this container with #action_status_div and friends, which are
         // innerText only - so this is decided by CONTENT, and holds for any
         // mode we have not thought about rather than only the ones we have.
-        if (!nav.length && !found) return;
+        if (!nav.length && !acts.length && !found) return;
 
+        // Three groups. The first two flow from the left and grow with however
+        // much this location offers; the third is pushed to the right edge by
+        // its own margin, so the four static slots sit the same distance from
+        // that edge everywhere - which is the whole point of them.
         const bar = document.createElement('div');
         bar.id = ACTION_BAR_ID;
         const left = document.createElement('span');
         left.className = 'tl_bar_group';
         for (let i = 0; i < nav.length; i++) left.appendChild(nav[i]);
+        const mid = document.createElement('span');
+        mid.className = 'tl_bar_group tl_bar_actions';
+        for (let i = 0; i < acts.length; i++) mid.appendChild(acts[i]);
         const right = document.createElement('span');
-        right.className = 'tl_bar_group';
+        right.className = 'tl_bar_group tl_bar_fixed';
         for (let i = 0; i < fixed.length; i++) right.appendChild(fixed[i]);
         bar.appendChild(left);
+        bar.appendChild(mid);
         bar.appendChild(right);
         host.insertBefore(bar, host.firstChild);
     }
