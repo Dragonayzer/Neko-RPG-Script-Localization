@@ -2208,6 +2208,26 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
                REST_LOCATIONS.has(r.getAttribute('data-travel'));
     }
 
+    // The game's OWN quick-return-to-bed link, exactly. display.js builds only
+    // that one row as
+    //     <span style="color:#c0c0ff">…快速返回 [name]</span>
+    // and c0c0ff appears exactly once in the whole game source, so an inner
+    // span carrying it is a unique marker - no label parsing, and therefore
+    // unaffected by ENABLE_PROSE.
+    //
+    // It has to be an INNER span. colorRestTravel paints the same colour, but
+    // onto the ROW, so the row's own style attribute is not consulted here and
+    // our tint can never be mistaken for the game's link.
+    //
+    // This replaces matching on the 'directions' glyph, which was wrong in one
+    // real place: mirrorReturnIcons leaves the signpost on BOTH jump kinds, so
+    // at the Act 2 camp the Fast Travel to Act 1 - whose destination 纳可的房间
+    // is the one fast-travel hub that is also a rest location - outranked the
+    // actual Quick Return and took the slot.
+    function isGameQuickReturn(r) {
+        return !!r.querySelector('span[style*="c0c0ff" i]');
+    }
+
     // In fixed left-to-right order: [name, match, basicGlyph, prefer].
     //
     // basicGlyph is the BASIC form - what the slot shows when the location has
@@ -2237,21 +2257,12 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         ['sleep', (r) => r.id === 'start_sleeping_div', 'bed'],
         ['craft', (r) => r.classList.contains('location_choices') &&
                          !r.hasAttribute('data-location'), 'construction'],
-        // 4th element: a glyph to PREFER when several rows match, instead of
-        // taking the first. Several exits can lead to a bed, but only the
-        // game's own Quick Return link still carries 'directions' by the time
-        // this runs - mirrorReturnIcons swaps every other travel signpost for
-        // TRAVEL_ICON and leaves jumps (Fast Travel, Quick Return) alone,
-        // since a signpost is what "pick a remembered destination" looks like.
-        // So this reads as: the retreat slot means Quick Return where one
-        // exists, and only falls back to walking somewhere restful.
-        ['safezone', isSafeZoneRow, 'directions', 'directions'],
+        // 4th element: a PREDICATE marking the row to prefer when several
+        // match, instead of taking the first. Several exits can lead to a bed;
+        // the retreat slot should mean the game's own Quick Return wherever
+        // one exists, and only fall back to walking somewhere restful.
+        ['safezone', isSafeZoneRow, 'directions', isGameQuickReturn],
     ];
-
-    function barGlyph(row) {
-        const icon = row.querySelector('.material-icons');
-        return icon ? (icon.textContent || '').trim() : '';
-    }
 
     // The row's own icon, cloned - so the mirrored return arrow (an inline
     // transform) and the rest-location tint come across without being
@@ -2329,7 +2340,7 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
             for (let i = 0; i < rows.length; i++) {
                 if (!match(rows[i])) continue;
                 if (!chosen) chosen = rows[i];          // first occurrence wins
-                if (prefer && barGlyph(rows[i]) === prefer) {
+                if (prefer && prefer(rows[i])) {
                     chosen = rows[i];                   // …unless one is preferred
                     break;
                 }

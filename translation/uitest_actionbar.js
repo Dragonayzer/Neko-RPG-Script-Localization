@@ -22,9 +22,9 @@ const barSrc = [
   src.match(/const BAR_TARGET_CLASS = [^\n]+/)[0],
   REST_SRC,
   slice('isSafeZoneRow'),
+  slice('isGameQuickReturn'),
   src.slice(src.indexOf('    const ACTION_BAR_SLOTS = ['),
             src.indexOf('    ];', src.indexOf('const ACTION_BAR_SLOTS')) + 6),
-  slice('barGlyph'),
   slice('barIconFor'),
   slice('addActionBar'),
 ].join('\n');
@@ -40,7 +40,9 @@ const barSrc = [
 
 const REST_SET = eval(REST_SRC.replace('const REST_LOCATIONS =', ''));
 // A real one, so this cannot pass on a name the game no longer uses.
-const A_BED = Array.from(REST_SET).filter((n) => /[一-鿿]/.test(n))[0];
+const BEDS = Array.from(REST_SET).filter((n) => /[一-鿿]/.test(n));
+const A_BED = BEDS[0];
+const B_BED = BEDS[1];
 
 let bad = 0;
 function expect(what, got, want) {
@@ -72,7 +74,13 @@ function mkRow(spec) {
     _marks: marks,
     hasAttribute: (a) => a in attrs,
     getAttribute: (a) => (a in attrs ? attrs[a] : null),
-    querySelector: (s) => (s === '.material-icons' ? icon : null),
+    // The game wraps ONLY its quick-return-to-bed link in an inner
+    // <span style="color:#c0c0ff">; our own rest tint goes on the row.
+    querySelector: (sel) => {
+      if (sel === '.material-icons') return icon;
+      if (sel.indexOf('c0c0ff') !== -1) return spec.gameQuickReturn ? {} : null;
+      return null;
+    },
     click: () => clicks.push(spec.name),
     _name: spec.name,
   };
@@ -223,15 +231,27 @@ r = run([{ name: 'danger', cls: ['travel_combat', 'action_travel'],
            attrs: { 'data-travel': A_BED }, icon: 'warning_amber' }]);
 expect('combat row never counts as safe zone', r.bar, null);
 
-// When several exits lead to a bed, the game's own Quick Return wins. Only a
-// jump still carries 'directions' by the time the bar is built -
-// mirrorReturnIcons swaps every other travel signpost for TRAVEL_ICON - so the
-// glyph IS the marker for "remembered destination".
+// THE reported case, v16.4. At the Act 2 camp both a Fast Travel and the real
+// Quick Return lead somewhere restful, and mirrorReturnIcons leaves the
+// 'directions' signpost on BOTH jump kinds - so matching the glyph picked the
+// Fast Travel, which comes first. Only the game's own link carries an inner
+// c0c0ff span, and that is what decides it now.
+r = run([
+  { name: 'ft_act1', cls: ['travel_normal', 'action_travel'],
+    attrs: { 'data-travel': A_BED }, icon: 'directions' },
+  { name: 'quickreturn', cls: ['travel_normal', 'action_travel'],
+    attrs: { 'data-travel': B_BED }, icon: 'directions', gameQuickReturn: true },
+]);
+r.bar._kids[1]._kids[SLOT.safezone]._click();
+expect('Quick Return beats a Fast Travel to a bed', clicks, ['quickreturn']);
+expect('  the Fast Travel stays a nav arrow', readBar(r.bar)[0], ['directions']);
+
+// Same, with the loser an ordinary walkable exit rather than a Fast Travel.
 r = run([
   { name: 'walk', cls: ['travel_normal', 'action_travel'],
     attrs: { 'data-travel': A_BED }, icon: 'forward' },
   { name: 'quickreturn', cls: ['travel_normal', 'action_travel'],
-    attrs: { 'data-travel': A_BED }, icon: 'directions' },
+    attrs: { 'data-travel': A_BED }, icon: 'directions', gameQuickReturn: true },
 ]);
 r.bar._kids[1]._kids[SLOT.safezone]._click();
 expect('Quick Return beats an earlier walkable exit', clicks, ['quickreturn']);
