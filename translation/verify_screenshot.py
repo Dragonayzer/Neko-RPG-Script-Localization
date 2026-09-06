@@ -349,6 +349,11 @@ cases = [
     # Two soft-cap exponents were rebalanced, which staled their keys.
     '新生儿超过1亿，花费受到二重软上限限制(^2.0)',
     '新生儿超过1兆，花费受到三重软上限限制(^2.5)',
+    # The TAIL of the unlock line. index.html splits the sentence around
+    # <span id='family_next_realm'>, so this is a text node of its own and the
+    # bare 境界 entry cannot reach it: applyProse strips trailing quotes from a
+    # node, but not a trailing colon, so it never reduces to 境界.
+    '境界:',
 ]
 ok = 0
 for c in cases:

@@ -27,3 +27,4 @@
 [3]秘境探险	[3] Secret Realm	秘境 = Secret-Realm per 02_enemies; 探险 dropped for width
 [4]战场厮杀	[4] Battlefield
 [5]九死一生	[5] Do or Die	九死一生 = "nine deaths, one life"
+境界:	realm:	V3.44 family unlock readout. index.html splits the sentence around <span id='family_next_realm'>, so this trailing chunk is its own text node - "解锁家族的 X 境界:". The bare 境界 entry above cannot reach it: applyProse strips leading separators and trailing QUOTES from a node, but not a trailing colon, so the node never reduces to 境界. Lowercase, since it now reads mid-sentence after the name
