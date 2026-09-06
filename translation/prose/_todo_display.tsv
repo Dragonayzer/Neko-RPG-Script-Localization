@@ -77,8 +77,8 @@ dyn	3217	<i class="material-icons icon skill_dropdown_icon"> keyboard_double_arr
 dyn	3368	经验获取: x${xp_gain}<br><span>经验消耗蠕变: x${skill.xp_scaling}</span>
 dyn	3545	${stances[stance_id].randomize_target_count?"Randomly hits up to":"同时攻击"} ${target_count} 个敌人</div>
 dyn	3612	新生儿超过1万，花费受到一重软上限限制(^1.5)<br>
-dyn	3613	新生儿超过1亿，花费受到二重软上限限制(^1.75)<br>
-dyn	3614	新生儿超过1兆，花费受到三重软上限限制(^2.0)<br>
+dyn	3613	新生儿超过1亿，花费受到二重软上限限制(^2.0)<br>
+dyn	3614	新生儿超过1兆，花费受到三重软上限限制(^2.5)<br>
 dyn	3706	这个敌人似乎掌握了魔法。<br>敌人无视角色的防御。
 dyn	3707	这个敌人拥有土元素之力，坚不可摧。<br>单次对敌人的伤害不能超过<span style='color:#87CEFA'>1</span>。
 dyn	3708	这个敌人出手快人一步。<br>敌人首先发动一次<span style='color:yellow'>额外攻击</span>。

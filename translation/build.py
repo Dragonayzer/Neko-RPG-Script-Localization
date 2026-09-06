@@ -663,6 +663,14 @@ regexes.extend([
     # runs after it on the same text - enemy names are all fragments.
     (r'^(.+?) 将 (.+?) 的攻击 延迟了0.5轮!\[吹火 C6\]\.$',
      "$1 delayed $2's attack by 0.5 rounds! [Fire-Blowing C6].", '延迟了0.5轮'),
+    # V3.44 family power unlock. main.js builds it as
+    #     `因 ${name} 的战力超过了 ${power} , 家族系统开放了 <span…> REALM </span>!`
+    # so the realm name is inside a coloured span and the node this sees is
+    # only the LEADING chunk, ending after 家族系统开放了. Anchoring on the
+    # whole sentence would never match. The trailing space is kept in the
+    # replacement because the span follows immediately.
+    (r'^因 (.+?) 的战力超过了 (.+?) , 家族系统开放了\s*$',
+     "$1's Power passed $2, so the family system opened up ", '家族系统开放了'),
 ])
 
 # longest hint first so more specific templates win
@@ -1414,6 +1422,19 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         // a visibility test rather than here - see the note there. It had to
         // be: its Chinese frame is taller than the English one, so leaving it
         // to the throttled pass moved the scrollbar under the player.
+        // V3.44's family unlock readout, five spans rewritten by
+        // update_displayed_family() on every tick like the ones below.
+        // family_next_realm carries a Chinese realm name inside a coloured
+        // span; the other four are numbers, but format_number emits 万/亿
+        // suffixes, which are CJK and so are formatMyriad's business. Left on
+        // this list rather than folded into the roster branch: they are five
+        // tiny spans, where that branch walks ~330 nodes and is gated on the
+        // tab being visible for exactly that reason.
+        'family_next_realm',
+        'family_cur_power',
+        'family_next_power',
+        'family_cur_rank',
+        'family_next_rank',
         'baby_scale1',              // 新生儿超过1万，花费受到一重软上限限制(^1.5)
         'baby_scale2',              // …1亿…二重…(^1.75)
         'baby_scale3',              // …1兆…三重…(^2.0)

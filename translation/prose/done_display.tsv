@@ -79,8 +79,8 @@
 77	XP Gain: x${xp_gain}<br><span>XP Cost Scaling: x${skill.xp_scaling}</span>
 78	${stances[stance_id].randomize_target_count?"Randomly hits up to":"Simultaneously hits"} ${target_count} enemies</div>
 79	Newborns over 10,000: cost is subject to a Tier-1 soft cap (^1.5)<br>
-80	Newborns over 1e8: cost is subject to a Tier-2 soft cap (^1.75)<br>
-81	Newborns over 1e12: cost is subject to a Tier-3 soft cap (^2.0)<br>
+80	Newborns over 1e8: cost is subject to a Tier-2 soft cap (^2.0)<br>
+81	Newborns over 1e12: cost is subject to a Tier-3 soft cap (^2.5)<br>
 82	This enemy seems to have mastered magic.<br>The enemy ignores the character's defense.
 83	This enemy holds the power of the earth element and is indestructible.<br>Single-hit damage to the enemy cannot exceed <span style='color:#87CEFA'>1</span>.
 84	This enemy strikes a step faster.<br>The enemy first launches an <span style='color:yellow'>extra attack</span>.

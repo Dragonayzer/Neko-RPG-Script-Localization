@@ -332,6 +332,23 @@ cases = [
     '纳可 将 撼瀚野熊 的攻击 延迟了0.5轮![吹火 C6].',
     # 撼瀚野熊 gained a rank plus in V3.42, so its realm line changed.
     '云霄级四阶 ++',
+    # --- V3.44 (game update merged at script v16.8) ---
+    # Ranks from 云霄级四阶 up are split into an early and a late phase. Keyed
+    # WITH the separator so the spacing matches the game's other dot-joined
+    # names, and so a bare 前期/后期 cannot fire inside ordinary prose.
+    '云霄级四阶·前期',
+    '云霄级巅峰·后期',
+    '境界 : 云霄级四阶·前期',
+    # The family power-unlock readout, and its log line. The realm name in the
+    # log arrives inside a coloured span, so the template matches only the
+    # leading chunk - anchoring on the whole sentence would never fire.
+    '解锁家族的',
+    '需求战力',
+    '对应排名',
+    '因 纳可 的战力超过了 6660亿 , 家族系统开放了 ',
+    # Two soft-cap exponents were rebalanced, which staled their keys.
+    '新生儿超过1亿，花费受到二重软上限限制(^2.0)',
+    '新生儿超过1兆，花费受到三重软上限限制(^2.5)',
 ]
 ok = 0
 for c in cases:

@@ -114,3 +114,12 @@
 113-135点	113-135␣h
 135-157点	135-157␣h
 157-180点	157-180␣h
+解锁家族的	Unlock␣the␣family's␣
+需求战力	Required␣Power
+对应排名	Corresponding␣rank
+战力	Power
+# V3.44 rank phases. Keyed WITH the separator, so the spacing matches the
+# game's other dot-joined names ("C1 · Energy Core") and a bare 前期/后期
+# cannot fire inside ordinary prose, where both are common words.
+·前期	␣·␣Early
+·后期	␣·␣Late
