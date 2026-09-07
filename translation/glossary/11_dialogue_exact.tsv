@@ -52,3 +52,14 @@
 与 峰(飞云) 对话	Talk with Feng (Feiyun)
 和 峰 对话	Talk with Feng
 和 峰(飞云) 对话	Talk with Feng (Feiyun)
+# --- Sayuki's sell-Brother-Feng refusal (index.html trade handler) ---
+# Never translated: these log_message calls live in index.html's click
+# handler rather than dialogues.js or main.js, so the prose extractor never
+# reached them and the coverage audit counted the file as accounted for.
+# V3.45 reworded two and added a third, which is what surfaced them.
+# Exact entries: log_message writes each as its own text node.
+[纱雪]哈?卖掉峰大哥?	[Sayuki] Huh? Sell Brother Feng?
+[纱雪]为了防止他把你揍死，帮你取消交易了哦~	[Sayuki] I cancelled the trade for you, so he doesn't beat you to death~
+[纱雪]达到燕岗领前十之后随便卖！	[Sayuki] Once you're in the Yangang Fief top ten, sell him all you like!
+[纱雪]虽然不知道都燕岗领前10了峰大哥怎么还在你身上……	[Sayuki] No idea how Brother Feng is still on you when you're already top 10 in the Yangang Fief……
+[纱雪]但是没关系！既然你那么努力，这些钱就给你了啦。	[Sayuki] But never mind! You've worked so hard, so this money is yours.

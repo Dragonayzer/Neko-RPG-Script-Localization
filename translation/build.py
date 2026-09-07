@@ -692,6 +692,11 @@ regexes.extend([
     # so if the static text ever changes this simply stops matching and the
     # fragment takes over - rendering "1 brushes with death", which is wrong but
     # not broken.
+    # V3.45: bulk use of a consumable past its realm cap is emptied rather
+    # than applied, to avoid the stall. The item name is interpolated, so $1
+    # is left in Chinese here and resolved by the fragment stage after.
+    (r'^为避免批量使用带来的潜在卡顿，已清空 (.+?) \.$',
+     'Cleared $1 to avoid the stutter bulk use would cause.', '已清空'),
     (r'^也知道了父亲大人的话是什么意思。如今也算是历经了1次生死呢，$',
      'and I understand what Father meant.'
      'By now, having been through a single brush with death,', '了1次生死呢'),

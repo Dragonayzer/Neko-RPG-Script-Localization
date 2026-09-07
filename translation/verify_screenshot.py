@@ -135,7 +135,8 @@ cases = [
     # them. Every audit passed throughout. These pin the class: if a pattern
     # with no ideograph ever gets emitted again, these fail first.
     '青花鱼 上钩了！',
-    '瞄准有用的物品，点击纳可驱动钩爪，抓上来！',
+    # (the old digging caption lived here; V3.45 reworded it and the string no
+    #  longer exists in the game, so the case moved to the V3.45 block below)
     '更好地收割绝音蕨！',
     # --- HTML-producing ${} slots ---
     # format_money() (v8.4) and lvl_display (v9.2) expand to MARKUP, which splits
@@ -364,6 +365,21 @@ cases = [
     '也知道了父亲大人的话是什么意思。如今也算是历经了3次生死呢，',
     '也知道了父亲大人的话是什么意思。如今也算是历经了1次生死呢，',
     '也知道了父亲大人的话是什么意思。',
+    # --- V3.45 (game update merged at script v17.4) ---
+    # The digging panel was reworded and gained a low-tier filter. The reword
+    # also swapped fullwidth commas for halfwidth ones, which staled the key.
+    '瞄准宝藏鱼,点击纳可驱动钩爪,抓上来!',
+    '忽略低阶宝藏鱼 :',
+    '阶↓',
+    # Bulk use past a realm cap is emptied rather than applied.
+    '为避免批量使用带来的潜在卡顿，已清空 地宫狂暴药水 .',
+    # Sayuki's sell-Brother-Feng refusal. These were never translated at all:
+    # they are log_message calls in index.html's trade handler, which the
+    # prose extractor never reached. V3.45 reworded two and added a third.
+    '[纱雪]哈?卖掉峰大哥?',
+    '[纱雪]达到燕岗领前十之后随便卖！',
+    '[纱雪]虽然不知道都燕岗领前10了峰大哥怎么还在你身上……',
+    '[纱雪]但是没关系！既然你那么努力，这些钱就给你了啦。',
 ]
 ok = 0
 for c in cases:

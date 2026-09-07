@@ -23,7 +23,7 @@ dyn	1635	将攻击速度乘以 ${format_number(value)}
 dyn	1704	将生命上限乘以 ${format_number(value)}
 dyn	1727	将领域感悟速度乘以 ${format_number(value)} [Lv.39后将^0.25]
 dyn	1747	收割半径 ${format_number(15+1.5*value)}px ,生成速度 ${format_number(0.5+0.1*value)}/s,<br>容量上限 ${format_number(Math.floor((value + 1) ** 1.5 * 10))},【噬芒兰】概率 :${format_number(value ** 0.7 / 20)}% <br>${(character.equipment.sickle?.name == "死神之镰")?"<span style='violet'><b>[死神之镰已激活 / 有效等级+4]</b></span>":""}
-dyn	1766	钩爪抓取半径 ${format_number(16+0.5*value)}px ,摆动速度 ${format_number(0.2+0.02*value)}次/s,回收速度提升${format_number(10*value)}%, 发现新宝藏耗时 ${format_number(3-0.1*value)}s.<br><br>${format_number(character.stats.full.agility)}敏捷 -> ${format_number((character.stats.full.agility/1e8)**(2/3))} px/s 钩爪速度
+dyn	1766	钩爪抓取半径 ${format_number(16+0.8*value)}px ,宝藏鱼生成间隔 ${format_number(-+0.125*value)}s, 摆动速度 ${format_number(0.2+0.02*value)}次/s,回收速度提升${format_number(10*value)}%, 发现新宝藏耗时 ${format_number(3-0.1*value)}s.<br><br>${format_number(character.stats.full.agility)}敏捷 -> ${format_number((character.stats.full.agility/1e8)**(2/3))} px/s 钩爪速度
 dyn	1999	“钓鱼条” 长度： 40px ->  ${format_number(40+value)}px.
 dyn	2043	基准品质 ${Math.round(2*skills["Crafting"].current_level+90)} %
 dyn	2064	基准品质 ${Math.round(2*skills["Forging"].current_level+90)} %

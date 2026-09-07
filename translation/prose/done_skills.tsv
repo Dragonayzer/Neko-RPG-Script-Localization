@@ -24,7 +24,7 @@
 1704	Multiplies Health Cap by ${format_number(value)}
 1727	Multiplies Domain comprehension speed by ${format_number(value)} [becomes ^0.25 after Lv.39]
 1747	Harvest radius ${format_number(15+1.5*value)}px, spawn rate ${format_number(0.5+0.1*value)}/s,<br>capacity cap ${format_number(Math.floor((value + 1) ** 1.5 * 10))}, 【Radiance-Devouring Orchid】 chance: ${format_number(value ** 0.7 / 20)}% <br>${(character.equipment.sickle?.name == "死神之镰")?"<span style='violet'><b>[Reaper's Scythe active / effective level +4]</b></span>":""}
-1766	Grapple grab radius ${format_number(16+0.5*value)}px, swing rate ${format_number(0.2+0.02*value)}/s, retract speed +${format_number(10*value)}%, time to find new treasure ${format_number(3-0.1*value)}s.<br><br>${format_number(character.stats.full.agility)} Agility -> ${format_number((character.stats.full.agility/1e8)**(2/3))} px/s grapple speed
+1766	Grapple grab radius ${format_number(16+0.8*value)}px, treasure fish spawn interval ${format_number(-+0.125*value)}s, swing rate ${format_number(0.2+0.02*value)}/s, retract speed +${format_number(10*value)}%, time to find new treasure ${format_number(3-0.1*value)}s.<br><br>${format_number(character.stats.full.agility)} Agility -> ${format_number((character.stats.full.agility/1e8)**(2/3))} px/s grapple speed
 1999	"Fishing bar" length: 40px ->  ${format_number(40+value)}px.
 2043	Base quality ${Math.round(2*skills["Crafting"].current_level+90)} %
 2064	Base quality ${Math.round(2*skills["Forging"].current_level+90)} %

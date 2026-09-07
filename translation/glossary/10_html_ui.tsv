@@ -58,7 +58,14 @@
 Tier␣16内甲与轮芯的必需品！	Essential␣for␣Tier␣16␣inner␣armour␣and␣Wheel␣Hubs!
 小概率获取噬芒兰！概率与收割技能相关.	Small␣chance␣to␣obtain␣Radiance-Devouring␣Orchid!␣Odds␣scale␣with␣the␣Harvest␣skill.
 已收割:	Harvested:
-瞄准有用的物品，点击纳可驱动钩爪，抓上来！	Aim␣at␣a␣useful␣item,␣click␣Neko␣to␣fire␣the␣grapple,␣and␣haul␣it␣up!
+# V3.45 reworded this line and swapped its fullwidth commas for halfwidth
+# ones, which staled the old key outright. Kept as the new text only - the old
+# form no longer exists anywhere in the game.
+瞄准宝藏鱼,点击纳可驱动钩爪,抓上来!	Aim␣at␣a␣treasure␣fish,␣click␣Neko␣to␣fire␣the␣grapple,␣and␣haul␣it␣up!
+# The low-tier filter added in the same version. "阶↓" is the unit after the
+# number: "ignore tier 2 and below".
+忽略低阶宝藏鱼 :	Ignore␣low-tier␣treasure␣fish␣:
+阶↓	␣and␣below
 #
 # --- deepfrost phase-change engine ---
 温度␣:	Temperature:
