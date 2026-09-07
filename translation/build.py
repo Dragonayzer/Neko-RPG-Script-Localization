@@ -671,6 +671,22 @@ regexes.extend([
     # replacement because the span follows immediately.
     (r'^因 (.+?) 的战力超过了 (.+?) , 家族系统开放了\s*$',
      "$1's Power passed $2, so the family system opened up ", '家族系统开放了'),
+    # 清野瀑布 wf2, once DeathCount-1 has unlocked. main.js:844 concatenates
+    #     "如今也算是历经了" + format_number(total_deaths) + "次生死呢，<br>…"
+    # so the count is spliced into the middle of the sentence and the <br>
+    # ends the text node. The prose entry for this line was written across the
+    # <br>, and the build's rebalancing left "次生死呢，" as an EXACT entry -
+    # which can never fire, because at runtime it is only ever a SUFFIX after
+    # the number. Result on screen: "By now, having been through 3次生死呢，".
+    #
+    # Two rules, specific first. English needs plural agreement and a
+    # replacement string cannot branch, so the count of one gets its own rule
+    # rather than rendering "1 brushes with death". Its hint is longer, which
+    # is what sorts it ahead - the list is ordered by hint length.
+    (r'^如今也算是历经了1次生死呢，$',
+     'By now, having been through a single brush with death,', '了1次生死呢'),
+    (r'^如今也算是历经了(.+?)次生死呢，$',
+     'By now, having been through $1 brushes with death,', '次生死呢'),
 ])
 
 # longest hint first so more specific templates win
