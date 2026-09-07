@@ -354,18 +354,16 @@ cases = [
     # bare 境界 entry cannot reach it: applyProse strips trailing quotes from a
     # node, but not a trailing colon, so it never reduces to 境界.
     '境界:',
-    # --- reported: 清野瀑布 wf2 after DeathCount-1 (script v17.2) ---
-    # main.js splices the death count into the middle of the sentence and the
-    # <br> ends the text node, so the prose entry written across the <br> could
-    # never match and the tail rendered as "3次生死呢，". Both the counted form
-    # and the count-of-one form are here, since English needs plural agreement
-    # and each is a separate rule.
-    '如今也算是历经了1次生死呢，',
-    '如今也算是历经了3次生死呢，',
-    '也知道了父亲大人的话是什么意思。',
-    # The STATIC wf2 line, which was never broken - kept so a change to the
-    # rules above cannot quietly capture it.
+    # --- reported: 清野瀑布 wf2 after DeathCount-1 (script v17.3) ---
+    # These are the REAL runtime nodes, not the source strings. wf2 has static
+    # text AND a spec, and main.js does `displayed_text += textline_special(…)`,
+    # so the special line's head is glued to the static line's tail and the
+    # whole thing is then split on <br>. v17.2 wrote ^…$ templates against the
+    # unmerged form and they never fired - hence the merged shapes here.
     '如今也算是历经了一次生死呢，',
+    '也知道了父亲大人的话是什么意思。如今也算是历经了3次生死呢，',
+    '也知道了父亲大人的话是什么意思。如今也算是历经了1次生死呢，',
+    '也知道了父亲大人的话是什么意思。',
 ]
 ok = 0
 for c in cases:

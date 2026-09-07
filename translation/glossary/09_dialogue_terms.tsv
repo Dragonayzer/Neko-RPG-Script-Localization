@@ -190,3 +190,8 @@ Neko是谁	Who␣is␣Neko?
 是时候蜕变了，领域力量。	transform␣—␣power␣of␣the␣Domain.
 秋兴对纳可产生了特殊的情感！	the␣grotto.␣Qiuxing␣developed␣special␣feelings␣for␣Neko!
 蓝柒对纳可产生了特殊的情感！	Neko's␣"attack."␣Lanqi␣developed␣special␣feelings␣for␣Neko!
+# 清野瀑布 wf2 once DeathCount-1 is live. main.js concatenates the count into
+# the middle of the sentence, so this chunk is only ever a SUFFIX after a
+# number and must be a fragment - as an exact entry it could never fire.
+# Leading space because the number comes first: "…through 3 brushes with death,"
+次生死呢，	␣brushes␣with␣death,

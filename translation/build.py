@@ -679,14 +679,22 @@ regexes.extend([
     # which can never fire, because at runtime it is only ever a SUFFIX after
     # the number. Result on screen: "By now, having been through 3次生死呢，".
     #
-    # Two rules, specific first. English needs plural agreement and a
-    # replacement string cannot branch, so the count of one gets its own rule
-    # rather than rendering "1 brushes with death". Its hint is longer, which
-    # is what sorts it ahead - the list is ordered by hint length.
-    (r'^如今也算是历经了1次生死呢，$',
+    # v17.2 tried to fix this with two ^…$ templates and they never fired: the
+    # node is MERGED. wf2 also carries static text, and main.js:1411 does
+    #     displayed_text = textline.text;  displayed_text += textline_special(…)
+    # so the runtime node is the static line's TAIL glued to the special
+    # line's HEAD - "也知道了…意思。如今也算是历经了3次生死呢，" - and an anchored
+    # pattern cannot see it. The suffix is a FRAGMENT now, which works whether
+    # the node is merged or not. See 09_dialogue_terms.tsv.
+    #
+    # The count of one keeps a rule of its own, because English needs plural
+    # agreement and a fragment cannot branch. Matched on the whole merged node,
+    # so if the static text ever changes this simply stops matching and the
+    # fragment takes over - rendering "1 brushes with death", which is wrong but
+    # not broken.
+    (r'^也知道了父亲大人的话是什么意思。如今也算是历经了1次生死呢，$',
+     'and I understand what Father meant.'
      'By now, having been through a single brush with death,', '了1次生死呢'),
-    (r'^如今也算是历经了(.+?)次生死呢，$',
-     'By now, having been through $1 brushes with death,', '次生死呢'),
 ])
 
 # longest hint first so more specific templates win
