@@ -1,0 +1,26 @@
+# done_v346 (_todo_v346 rows 1-12). KEY = _todo ROW NUMBER, 'row' mode.
+# V3.46 content: Haohuang's gatekeeping dialogue on Blood Peak, his boss fight,
+# the placeholder Great Verdant King behind him, and the 贪婪 ω special.
+#
+# Glossary anchors used: 昊荒 = Haohuang, 纳可 = Neko, 破败之域 = Ruined Domain,
+# 声律城 = Shenglü City, 圣荒城 = Shenghuang City, 领 = Fief (燕岗领 = Yangang
+# Fief), 秘境 = Secret Realm, 血洛晶 = Bloodfall Crystal, 鲜红 = Bright-Red,
+# 水晶 = Crystal, 大青王尤斯纳 = Great Verdant King Yusna, 精血 = blood-essence.
+#
+# Row 12 must split into the same four chunks as the Chinese - text, text,
+# span body, tail - or add_chunk pairs the wrong halves. Its second chunk ends
+# in a colon rather than a word: the chunk boundary is a text-node boundary and
+# add_chunk strips each side, so a trailing space there would not survive to
+# the page and the formula would render glued to "divided by".
+1	Politely ask to enter 【Ruined Domain】
+2	[Haohuang] Heh. If it isn't the little girl who stood outside Shenglü City watching that fight, scared out of her wits.<br>I'll say it one more time: 【Ruined Domain】 is no place for you!<br>My superior's orders were strict — let a single person through and I forfeit half my estate!<br>
+3	(Jingle your coin purse) Want some?
+4	[Haohuang] Anyone else and I'd have waved them through long ago.<br>But you, Neko……<br>Five fiefs in every direction, and who doesn't know that wherever you go you bring the whole family along!<br>Sending family members off to explore the Secret Realms!<br>And then an entire fief's Secret Realms are swept clean!!<br>If I let you in, the fine would run to thousands of Bloodfall Crystals!<br>Selling me off wouldn't cover it! Guaaaaah!
+5	Then……shall the two of us give it a try?
+6	[Haohuang] You want a fight? Then fight!<br>I have six Bright-Red Crystals at my back!<br>I am invincible!
+7	Over these years in Shenghuang City he tempered a will like iron. Faced with the money that once left him utterly powerless, he will now only go a little easy on you. It is absolutely not the case that letting Neko past would leave him penniless.
+8	[WIP] Not finished yet. You had better not kill it.
+9	Even beating him won't get you into the Ruined Domain. His superior — the Great Verdant King — is still in the way, after all.
+10	[WIP] If you cheat this thing to death in 3.46, your save is done for. Just start another run and unlock 4-6.
+11	You've gained the ability to 【Refine Blood-Essence】! [WIP/coming in V3.47]
+12	This enemy seems very sensitive to money.<br>Enemy damage is divided by:<span style='color:#87CEFA'>(1 + √(character money/${format_money(enemy.spec_value[70])}) )</span>

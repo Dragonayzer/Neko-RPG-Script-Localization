@@ -172,6 +172,7 @@ JOBS = [
     # every English string to a NEIGHBOURING Chinese one. The "no matching key"
     # warning below only catches a key that resolves to nothing.
     ('v341',      ['prose/done_v341.tsv'],       'row'),
+    ('v346',      ['prose/done_v346.tsv'],       'row'),
 ]
 for name, done_files, mode in JOBS:
     todo = rows('prose/_todo_%s.tsv' % name)          # kind, srcline, zh
@@ -700,6 +701,14 @@ regexes.extend([
     (r'^也知道了父亲大人的话是什么意思。如今也算是历经了1次生死呢，$',
      'and I understand what Father meant.'
      'By now, having been through a single brush with death,', '了1次生死呢'),
+    # V3.46 turned Sayuki's third refusal from a flat "top ten" into the live
+    # rank, so the old exact key in 11_dialogue_exact.tsv is retired for this
+    # template. NOTE: the game calls chara_result.toLocateString - a typo for
+    # toLocaleString - so as shipped this line throws before it is ever logged.
+    # The pattern is here for when that is fixed; it costs nothing until then.
+    (r'^\[纱雪\]达到燕岗领排名 (.+?) / 10 之后随便卖！$',
+     '[Sayuki] Sell him all you like once you hit Yangang Fief rank $1 / 10!',
+     '达到燕岗领排名'),
 ])
 
 # longest hint first so more specific templates win

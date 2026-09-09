@@ -377,9 +377,36 @@ cases = [
     # they are log_message calls in index.html's trade handler, which the
     # prose extractor never reached. V3.45 reworded two and added a third.
     '[纱雪]哈?卖掉峰大哥?',
-    '[纱雪]达到燕岗领前十之后随便卖！',
     '[纱雪]虽然不知道都燕岗领前10了峰大哥怎么还在你身上……',
     '[纱雪]但是没关系！既然你那么努力，这些钱就给你了啦。',
+    # --- V3.46 (game update merged at script v17.5) ---
+    # Sayuki's third refusal now carries the live rank. The flat "top ten"
+    # form it replaced is retired - that string is gone from the game.
+    '[纱雪]达到燕岗领排名 1,234 / 10 之后随便卖！',
+    # Haohuang gatekeeps the Ruined Domain: option names, dialogue chunks.
+    '礼貌请求进入【破败之域】',
+    '[昊荒]呵，这不是声律城外，心惊胆战观战的那小丫头吗。',
+    '我上司下达了严格的命令：放进来一个罚一半的家产！',
+    '(晃晃钱袋子)想要吗?',
+    '我要是把你放进去，能交几千血洛晶的罚金！',
+    '那……咱俩试试?',
+    '我的身后可是有六颗鲜红水晶！',
+    # His boss entry, and the placeholder king behind him. The king's realm
+    # badge is LETTERSPACED, so none of the compact realm keys reach it.
+    '昊荒[BOSS]',
+    '在圣荒城的这些年，他磨练出了如铁的心性。面对曾经让自己毫无抵抗之力的金钱，他也只会稍稍放水。才不是放走了纳可他就会倾家荡产。',
+    '大青王尤斯纳[BOSS]',
+    '准 微 尘 级',
+    # The two new challenge zones and the trader that came with them.
+    '就算击败了他也没办法进入破败之域的。毕竟还有他的上司——大青王拦着。',
+    '声望商人·三代',
+    # The 贪婪 ω special: its own chunk, and the combat-log tag main.js builds.
+    '敌人的伤害除以',
+    '[贪婪 ω]',
+    # Never actually reachable - the game stores the text under
+    # is_Cblood_enabled while the flag is is_Cblood_unlocked - but translated
+    # so it works the moment that typo is fixed.
+    '你获取了【提炼精血】的能力！[WIP/将在V3.47更新]',
 ]
 ok = 0
 for c in cases:

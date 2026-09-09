@@ -270,7 +270,7 @@ dyn	6586	<div id = 'coin_consumer' class = 'coin_consume_button' onclick='coin_c
 dyn	6587	当前献祭金额:<span style="color:cyan">${format_money(inf_combat.MP*1e12)}</span> <br>(加成:<span style="color:cyan">${(format_number((Math.pow(inf_combat.MP+1,0.10)-1)*100))}%</span>)<br><br><br><br>
 dyn	6590	<span class='realm_cloudy'>云霄级一阶</span>解锁心之境界 - 三重！
 dyn	6594	<b><span style="color:#ff11dd">信仰祭坛</span> </b> - 炼化影响力<img src='image/item/B9_soul.png'>，延后宝石软上限<br>
-dyn	6595	<div id = 'influ_consumer' class = 'influ_consume_button' onclick='influ_consume()'>炼化1%的纳家影响力</div>
+dyn	6595	<div id = 'influ_consumer' class = 'influ_consume_button' onclick='influ_consume()'>炼化10%的纳家影响力</div>
 dyn	6596	<span style="color:lightskyblue">已炼化的影响力:${format_number(inf_combat.InP)}<img src='image/item/B9_soul.png'></span> <br>(加成 : <span style="color:#ff11dd">+${(format_number(0.5*(Math.log10(inf_combat.InP+1) ** 1.5)))}</span>)<br><br><br><br>
 dyn	6660	余额不足! (${format_money(character.money)} / ${format_money(value)})
 dyn	6664	钱包: ${format_money(character.money)} -> ${format_money(character.money - value)} 

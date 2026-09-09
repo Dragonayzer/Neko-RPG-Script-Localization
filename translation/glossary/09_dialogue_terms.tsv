@@ -27,6 +27,9 @@
 末世天骄	Apocalypse␣Prodigy
 心魔之主	Lord␣of␣Inner␣Demons
 百兰	Bailan
+昊荒	Haohuang	the Shenghuang City general from the Act 4 flashback; V3.46 gives him a dialogue and a boss fight of his own
+大青王尤斯纳	Great␣Verdant␣King␣Yusna
+大青王	Great␣Verdant␣King
 纱雪	Sayuki	the game's own log class for her lines is literally "sayuki"
 #
 # --- location qualifiers on NPC names: "纳布(江畔)" -> "Nabu (Riverbank)" ---
@@ -141,6 +144,7 @@ Neko是谁	Who␣is␣Neko?
 融血	Merge␣Blood	so "参悟融血·疾" composes via the 参悟 regex + ·疾 suffix
 左阿	Zuo'a
 ·二代	␣·␣Gen␣2
+·三代	␣·␣Gen␣3	V3.46's Prestige Merchant on Blood Peak
 
 # --- v8.5: gaps found by sweeping _uncovered.tsv ---
 钻探地层，发掘出了	Drilled␣through␣the␣strata␣and␣unearthed␣	concatenated: "...发掘出了"+N+" 个 "+name+"！" — trailing space matters

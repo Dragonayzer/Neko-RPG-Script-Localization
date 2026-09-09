@@ -510,6 +510,11 @@
 飞飞茸茸[BOSS]	Flyfly Furball [BOSS]
 红邪鬼[BOSS]	Red Fiend [BOSS]
 心火红茸茸[BOSS]	Heart-Fire Red Furball [BOSS]
+# V3.46. Both are proper nouns; listed here only so [BOSS] gets the
+# space every other boss name has - the fragments alone render
+# "Haohuang[BOSS]".
+昊荒[BOSS]	Haohuang [BOSS]	proper noun
+大青王尤斯纳[BOSS]	Great Verdant King Yusna [BOSS]	proper noun
 #
 # --- V3.41c: Blood Peak (zone 45). Red/blood-themed, so the colour morphemes
 # carry the load. Anchored on entries already here: 鲜红 = Bright-Red

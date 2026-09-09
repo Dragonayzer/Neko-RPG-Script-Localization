@@ -281,7 +281,7 @@
 270	Current Sacrificed Amount: <span style="color:cyan">${format_money(inf_combat.MP*1e12)}</span> <br>(Bonus: <span style="color:cyan">${(format_number((Math.pow(inf_combat.MP+1,0.10)-1)*100))}%</span>)<br><br><br><br>
 271	<span class='realm_cloudy'>Skyhigh-Tier Rank 1</span> unlocks Heart Realm - Tier 3!
 272	<b><span style="color:#ff11dd">Altar of Faith</span> </b> - Refines Influence <img src='image/item/B9_soul.png'>, delaying the gem soft cap<br>
-273	<div id = 'influ_consumer' class = 'influ_consume_button' onclick='influ_consume()'>Refine 1% of the Na Family's Influence</div>
+273	<div id = 'influ_consumer' class = 'influ_consume_button' onclick='influ_consume()'>Refine 10% of the Na Family's Influence</div>
 274	<span style="color:lightskyblue">Influence Refined: ${format_number(inf_combat.InP)}<img src='image/item/B9_soul.png'></span> <br>(Bonus: <span style="color:#ff11dd">+${(format_number(0.5*(Math.log10(inf_combat.InP+1) ** 1.5)))}</span>)<br><br><br><br>
 275	Insufficient balance! (${format_money(character.money)} / ${format_money(value)})
 276	Wallet: ${format_money(character.money)} -> ${format_money(character.money - value)}
