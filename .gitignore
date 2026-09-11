@@ -1,2 +1,14 @@
-.claude/
+# Local working copy of the GAME, cloned from btly0711/NekoRPG. Every extractor
+# and audit reads it, but it is upstream's code and does not belong in here.
 NekoRPG/
+
+.claude/
+__pycache__/
+*.pyc
+
+# Full local history of built releases - all of them, forever. releases/ in the
+# repo keeps only the ten newest; everything older lives here and is not pushed,
+# because a 1.3 MB snapshot per version adds up to more than the rest of the
+# project combined. The builder mirrors every release into here, and only prunes
+# releases/ once the archived copy is confirmed present.
+archive/

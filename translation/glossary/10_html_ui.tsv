@@ -3,9 +3,11 @@
 # ␣ = literal space.
 #
 # NOT INCLUDED: the vertical "少 / 女 / 钓 / 鱼 / 中" fishing caption. Those are
-# single characters stacked one per line with &emsp; indents; English letters
-# can't stack the same way, and single-char substrings would fire everywhere.
-# Left in Chinese deliberately.
+# single characters stacked one per line with &emsp; indents, so single-char
+# substrings would fire everywhere and a per-glyph pairing cannot work at all.
+# It IS translated - as "A / girl / is / fishing / ...", keeping the cascading
+# indent - but by translateFishFont(), which swaps the whole banner's innerHTML
+# in one go. See FISH_FONT_HTML in the runtime block of build.py.
 #
 # --- money / slots / skills ---
 你的钱包:	Your␣wallet:

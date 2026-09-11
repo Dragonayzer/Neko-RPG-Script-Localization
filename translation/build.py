@@ -10,7 +10,7 @@ Output split:
   FRAGMENTS : substring pairs, from strings containing HTML tags or ${...}
               interpolations, which the DOM breaks into several text nodes.
 """
-import re, sys, os, glob, json, collections
+import re, sys, os, glob, json, shutil, collections
 sys.stdout.reconfigure(encoding='utf-8')
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -3128,6 +3128,22 @@ elif '--note' in sys.argv:
 
 open('../Script.txt', 'w', encoding='utf-8').write(src)
 
+# --------------------------------------------------------- installable copy
+# The same bytes under a .user.js name. Violentmonkey and Tampermonkey only
+# offer one-click install - and only honour @updateURL - when the URL ends in
+# .user.js, so a .txt can be pasted but never installed or auto-updated.
+#
+# Written by the builder rather than copied by hand, and on EVERY build, not
+# just the open version's: a hand-kept duplicate drifts, and this one carries
+# the @version line that decides whether anybody's copy updates. A stale
+# .user.js does not look stale - it just silently stops shipping releases.
+#
+# Content-identical to Script.txt on purpose. The update URLs sit in the shared
+# header, where they are inert for the .txt and load-bearing here; keeping one
+# header means there is no second place to forget to bump.
+USERJS_NAME = 'NekoRPG-Localizer.user.js'
+open('../' + USERJS_NAME, 'w', encoding='utf-8').write(src)
+
 # ------------------------------------------------- versioned release artifact
 # Script.txt is the working file; this is the copy to hand out, named for the
 # version it contains. Written on every build of the OPEN version so the named
@@ -3156,6 +3172,37 @@ else:
         with open(rel_path, 'w', encoding='utf-8') as fh:
             fh.write(src)
         wrote_release = True
+
+# ------------------------------------------------ archive + prune releases/
+# Every release ever built is kept locally in archive/ (gitignored); releases/
+# in the repo carries only the newest few, because a 1.3 MB snapshot per version
+# outgrows the rest of the project within a year.
+#
+# Done here rather than by hand so the split cannot decay: two versions after
+# anyone stops remembering, releases/ is back to holding everything. Deletion is
+# guarded - a file leaves releases/ only once its archived copy is confirmed
+# present AND the same size, so a failed copy prunes nothing.
+RELEASES_KEPT = 10
+_arc_dir = '../archive/releases'
+_rel_re = re.compile(r'^Neko_RPG_Localization_(\d+\.\d+)\.txt$')
+if wrote_release:
+    os.makedirs(_arc_dir, exist_ok=True)
+    _names = sorted((f for f in os.listdir(rel_dir) if _rel_re.match(f)),
+                    key=lambda f: Decimal(_rel_re.match(f).group(1)))
+    _archived = _pruned = 0
+    for _f in _names:
+        _s, _d = os.path.join(rel_dir, _f), os.path.join(_arc_dir, _f)
+        if not os.path.exists(_d) or os.path.getsize(_d) != os.path.getsize(_s):
+            shutil.copy2(_s, _d)
+            _archived += 1
+    for _f in _names[:-RELEASES_KEPT]:
+        _s, _d = os.path.join(rel_dir, _f), os.path.join(_arc_dir, _f)
+        if os.path.exists(_d) and os.path.getsize(_d) == os.path.getsize(_s):
+            os.remove(_s)
+            _pruned += 1
+    if _archived or _pruned:
+        print('archive/releases        : %d archived, %d pruned from releases/'
+              % (_archived, _pruned))
 
 # ------------------------------------------------------------------- report
 print('pairs loaded            : %d' % len(pairs))
@@ -3198,6 +3245,7 @@ print('conflicts (kept first)  : %d' % len(conflicts))
 for zh, a, b, o in conflicts[:8]:
     print('    %s | %s | %s  <-%s' % (zh[:28], a[:34], b[:34], o))
 print('\nScript.txt written, %d lines' % src.count('\n'))
+print('installable copy        : %s  (identical bytes)' % USERJS_NAME)
 if wrote_release:
     print('release copy            : releases/%s  (open)' % rel_name)
 elif release_version:
