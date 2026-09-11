@@ -27,9 +27,17 @@ It updates itself from there. Your manager re-checks this repo periodically —
 daily by default — and reinstalls when the version here is newer than yours. To
 pull one immediately, hit **Check for updates** on the script in your manager.
 
-**If the game is still in Chinese, the browser is probably blocking user scripts
-rather than anything being wrong with the script.** Chromium-based browsers —
-Chrome, Edge, Opera, Brave — require you to allow them explicitly:
+None of this touches your save. The save is the game's own, kept by the game.
+
+---
+
+## Troubleshooting
+
+### The game is still in Chinese
+
+The browser is probably blocking user scripts, rather than anything being wrong
+with the script. Chromium-based browsers — Chrome, Edge, Opera, Brave — require
+you to allow them explicitly:
 
 - Open your extensions page (`chrome://extensions`, `edge://extensions`).
 - Find your userscript manager, open its **Details**, and turn on
@@ -40,15 +48,36 @@ Chrome, Edge, Opera, Brave — require you to allow them explicitly:
 Violentmonkey and Tampermonkey both detect this and show a warning on their
 dashboard telling you which one your browser wants. Firefox needs neither.
 
-The **ten most recent** builds live in [`releases/`](releases/) if you need to go
-back — plain `.txt` snapshots, byte-identical to what shipped. (Older ones are
-archived outside the repo; open an issue if you need one.) To pin yourself to
-one, paste it over the script body in your manager's editor **and delete the
+If the toggle is already on, check that the script is enabled in your manager and
+that you are on `btly0711.github.io/NekoRPG/` — those are the only addresses it
+matches.
+
+### Some of it is in Chinese
+
+Expected, briefly, after the game updates: new text stays in its original
+language until the glossary catches up, which is the design rather than a
+failure. If it persists past the next release, **please open an issue** — a
+screenshot or the Chinese text itself is enough to find it.
+
+The one thing that is *not* a bug: renaming your character. Lines the game builds
+around her name match on the default, so a custom name will show through in
+English text.
+
+### Going back to an older version
+
+The **ten most recent** builds live in [`releases/`](releases/) — plain `.txt`
+snapshots, byte-identical to what shipped. (Older ones are archived outside the
+repo; open an issue if you need one.)
+
+Paste one over the script body in your manager's editor **and delete the
 `@updateURL` and `@downloadURL` lines from its header.** Leave them in and the
 manager will notice this repo is newer and pull you forward again, which is the
 opposite of pinning.
 
-None of this touches your save. The save is the game's own, kept by the game.
+### A change you made keeps disappearing
+
+Updating replaces the whole script body, edited toggles included. See
+[Turning things off](#turning-things-off).
 
 ---
 
@@ -226,9 +255,10 @@ pair, never by regenerating an existing corpus.
 - A few strings are assembled from pieces at runtime in ways no single template can
   match. Those are handled case by case, and a line that reads oddly at a seam is
   usually one of them.
-- Renaming your character stops `${character.name}` lines from matching her name —
-  correct behaviour, but it does mean the default name translates and a custom one
-  does not.
+- Renaming your character stops `${character.name}` lines from matching her name.
+  The fragment is the default name, so a custom one simply falls through — correct
+  behaviour for a name, and the reason for the note under
+  [Troubleshooting](#some-of-it-is-in-chinese).
 
 ---
 
