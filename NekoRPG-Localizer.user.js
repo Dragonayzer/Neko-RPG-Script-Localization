@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NekoRPG Game Text Localizer
 // @namespace    dragonayzer.userscripts
-// @version      18.0
+// @version      18.1
 // @description  Full English localization: UI, item/enemy/skill names, and all prose (descriptions, dialogue, system messages). See the TOGGLES block at the top of the script to switch layers on/off.
 // @match        https://btly0711.github.io/NekoRPG/*
 // @match        https://btly0711-github-io.translate.goog/NekoRPG/*
@@ -150,6 +150,7 @@
 // 17.8: merge game V3.47/V3.47a: the Great Verdant King stops being a placeholder (real stats, an ordinary composed 云霄级八阶 -- badge, and spec 71 神帝之力), the 至纯精血 refining loop on the Bloodkill stance, the 血峰之心 craft with its 幻境之心·材 converter in the digging panel, and the 破败之域 zone. Three v346 rows had already gone stale and were edited IN PLACE, never regenerated: the king's description, Blood Peak - EX, and the Refine Blood-Essence unlock text, which V3.46 shipped as WIP placeholders. The letterspaced 准 微 尘 级 key is retired with its verify case - that string is gone. Spec 71's English mirrors the game's broken markup tag for tag: the source writes '乘以 100.81/span>.', a typo for </span>, so the tag never closes; the six stray characters are dropped from the English but the tag COUNT is matched, because an English side that splits into a different number of chunks is refused outright
 // 17.9: enemy stat lines (Dmg/Def/AS/Hit/Eva) move into the pre-paint batch. display.js rewrites all five per enemy with innerHTML on every combat tick, so on the throttled scan they spent most of their life in Chinese and the row flickered between languages at attack speed. They belong to the v4.0 SELECTOR pass rather than the prose layer, so translateHot calls applySelector on the same pair list the scan uses - no second definition of what those words mean - and the call sits ABOVE the ENABLE_PROSE guard, since turning prose off must not stop translating something the throttled pass still handles. Gated on combat_div being visible, which display.js sets as an inline style, so out of combat the whole branch is one property read and no layout is forced. New toggle HOT_ENEMY_STATS. Also: the family panel's newborn-count label now leads with a space - index.html runs the realm span straight into it with no separator, so English read 'Dust-Tier Basicnewborn count:'
 // 18.0: the family newborn-count label loses the word 'count'. v17.9 gave it a leading space, because index.html runs the realm span straight into it and English read 'Dust-Tier Basicnewborn count:' - but an 80px <input> shares that line, and the space alone pushed the box onto the next row. At 10 characters against the old 14 the line is now NARROWER than the version that fit before the space existed, so both problems are paid for at once. Kept short deliberately: the realm in that line grows with the family cap, and All-Things-Tier Peak is five characters wider than the Dust-Tier Basic it starts at. uitest_padding pins the leading space AND the length
+// 18.1: skipped realm tiers in the family roster are GLUED rather than left alone. FAMILY_REALM_BREAK_SKIP exists because All-Things-Tier already fills the column and breaking after it costs a third line - but the cell still had to wrap somewhere, and the browser took the last opportunity that fit, which is the hyphen inside the RANK: 'All-Things-Tier High-' / 'Tier'. A non-breaking space before the rank and non-breaking hyphens inside it remove every break opportunity after the tier, leaving the tier name's own hyphens as the only ones, so it wraps as 'All-Things-' / 'Tier High-Tier' with the rank whole. Idempotent by the test that finds the work: once the space is U+00A0, indexOf(' ') is -1 and the cell is skipped on every later batch. NB_HYPHEN is U+2011, named so it is visible in a diff; a font lacking it would draw a missing-glyph box, and the fallback is an ordinary hyphen - the non-breaking space alone still does most of the work
 
 (function () {
     'use strict';
@@ -651,10 +652,19 @@
     //     Sky-Tier Rank 1   ->   Sky-Tier
     //                            Rank 1
     const FAMILY_REALM_BREAK = true;
-    // Tiers left on one line. All-Things-Tier is the longest name in the set
-    // and already fills the column on its own, so breaking it after the tier
-    // buys nothing and costs a third line. Any tier named here is skipped;
-    // the tier list itself is generated from main.js realm_rate.
+    // Tiers that get no break of their own. All-Things-Tier is the longest
+    // name in the set and already fills the column, so breaking after the tier
+    // buys nothing and costs a third line.
+    //
+    // They are not simply left alone, though - they still have to wrap, and
+    // the browser picks the last opportunity that fits, which lands inside the
+    // RANK and orphans a word:
+    //     All-Things-Tier High-      ->      All-Things-
+    //     Tier                               Tier High-Tier
+    // So the rank is glued to the tier with a non-breaking space and
+    // non-breaking hyphens, leaving the tier name's own hyphens as the only
+    // places the line can break. The tier list is generated from main.js
+    // realm_rate; anything named here follows that path instead of the break.
     const FAMILY_REALM_BREAK_SKIP = ['All-Things-Tier'];
 
     // Prefix log messages with the real date and time they arrived:
@@ -13014,6 +13024,15 @@
     // the throttled pass instead it would add a line to ~37 rows one frame
     // after they were translated - a height change under the scrollbar, which
     // is the exact fault v13.9 and v14.5 were spent on.
+    // U+00A0 and U+2011. Named because they are invisible in a diff and easy to
+    // mistake for the ASCII pair when editing. U+2011 is the one to watch: it
+    // is well covered by the fonts this game uses, but a font without it draws
+    // a missing-glyph box rather than falling back to '-'. If that ever shows
+    // up, the fix is to make NB_HYPHEN an ordinary '-' and accept the rank
+    // wrapping - the non-breaking space alone still does most of the work.
+    const NB_SPACE = '\u00a0';
+    const NB_HYPHEN = '\u2011';
+
     function breakRealmNames() {
         if (!ENABLE_VISUAL_OVERRIDES || !FAMILY_REALM_BREAK) return;
         const cells = document.querySelectorAll(
@@ -13030,7 +13049,29 @@
             // the cell still says 天空级一阶. Leave it for a later batch rather
             // than breaking a Chinese name at a space it does not have.
             if (!REALM_TIERS.has(tier)) continue;
-            if (FAMILY_REALM_BREAK_SKIP.indexOf(tier) !== -1) continue;
+            if (FAMILY_REALM_BREAK_SKIP.indexOf(tier) !== -1) {
+                // A skipped tier gets no line of its own - its name already
+                // fills the column, so a break after it would cost a third
+                // line. It still has to wrap SOMEWHERE though, and left alone
+                // the browser picks the last opportunity that fits, which for
+                // "All-Things-Tier High-Tier" is the hyphen inside the rank:
+                //     All-Things-Tier High-
+                //     Tier
+                // Gluing the rank together moves the wrap back to the tier's
+                // own hyphen and keeps the rank whole:
+                //     All-Things-
+                //     Tier High-Tier
+                // A non-breaking space before the rank and non-breaking hyphens
+                // inside it remove every break opportunity after the tier, so
+                // the hyphens in the tier NAME are the only ones left.
+                //
+                // Idempotent by the same test that finds the work: once the
+                // space is NB_SPACE, indexOf(' ') is -1 and the cell is skipped
+                // above on every later batch.
+                el.textContent = tier + NB_SPACE +
+                    text.slice(at + 1).split('-').join(NB_HYPHEN);
+                continue;
+            }
             el.textContent = tier + '\n' + text.slice(at + 1);
         }
     }

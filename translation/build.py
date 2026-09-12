@@ -2295,6 +2295,15 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
     // the throttled pass instead it would add a line to ~37 rows one frame
     // after they were translated - a height change under the scrollbar, which
     // is the exact fault v13.9 and v14.5 were spent on.
+    // U+00A0 and U+2011. Named because they are invisible in a diff and easy to
+    // mistake for the ASCII pair when editing. U+2011 is the one to watch: it
+    // is well covered by the fonts this game uses, but a font without it draws
+    // a missing-glyph box rather than falling back to '-'. If that ever shows
+    // up, the fix is to make NB_HYPHEN an ordinary '-' and accept the rank
+    // wrapping - the non-breaking space alone still does most of the work.
+    const NB_SPACE = '\\u00a0';
+    const NB_HYPHEN = '\\u2011';
+
     function breakRealmNames() {
         if (!ENABLE_VISUAL_OVERRIDES || !FAMILY_REALM_BREAK) return;
         const cells = document.querySelectorAll(
@@ -2311,7 +2320,29 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
             // the cell still says 天空级一阶. Leave it for a later batch rather
             // than breaking a Chinese name at a space it does not have.
             if (!REALM_TIERS.has(tier)) continue;
-            if (FAMILY_REALM_BREAK_SKIP.indexOf(tier) !== -1) continue;
+            if (FAMILY_REALM_BREAK_SKIP.indexOf(tier) !== -1) {
+                // A skipped tier gets no line of its own - its name already
+                // fills the column, so a break after it would cost a third
+                // line. It still has to wrap SOMEWHERE though, and left alone
+                // the browser picks the last opportunity that fits, which for
+                // "All-Things-Tier High-Tier" is the hyphen inside the rank:
+                //     All-Things-Tier High-
+                //     Tier
+                // Gluing the rank together moves the wrap back to the tier's
+                // own hyphen and keeps the rank whole:
+                //     All-Things-
+                //     Tier High-Tier
+                // A non-breaking space before the rank and non-breaking hyphens
+                // inside it remove every break opportunity after the tier, so
+                // the hyphens in the tier NAME are the only ones left.
+                //
+                // Idempotent by the same test that finds the work: once the
+                // space is NB_SPACE, indexOf(' ') is -1 and the cell is skipped
+                // above on every later batch.
+                el.textContent = tier + NB_SPACE +
+                    text.slice(at + 1).split('-').join(NB_HYPHEN);
+                continue;
+            }
             el.textContent = tier + '\\n' + text.slice(at + 1);
         }
     }

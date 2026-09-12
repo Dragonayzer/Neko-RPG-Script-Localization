@@ -389,9 +389,15 @@ expect('no canvas: falls back to the count', fb[2].style.lineHeight, undefined);
 // ---- breakRealmNames ------------------------------------------------------
 // "Sky-Tier Rank 1" -> two lines. The tier list is generated from main.js
 // realm_rate; the SKIP list is an editorial choice living in the toggles.
+// NB_SPACE/NB_HYPHEN must be eval'd in the SAME string as the function: a
+// const does not leak out of an eval, so declaring them separately would
+// leave breakRealmNames throwing ReferenceError the moment it reached a
+// skipped tier - which is exactly what it did the first time.
 const realmSrc =
     src.slice(src.indexOf('    const REALM_TIERS = new Set(['),
               src.indexOf(']);', src.indexOf('const REALM_TIERS')) + 3) + '\n' +
+    src.match(/const NB_SPACE = '[^']+';/)[0] + '\n' +
+    src.match(/const NB_HYPHEN = '[^']+';/)[0] + '\n' +
     slice('breakRealmNames');
 const SKIP = eval(src.match(/const FAMILY_REALM_BREAK_SKIP = (\[[^\]]*\])/)[1]);
 const TIERS = eval(
@@ -412,11 +418,16 @@ function runRealm(texts, env) {
   return cells.map((c) => c.textContent);
 }
 
+const NBSP = String.fromCharCode(0xa0);
+const NBHY = String.fromCharCode(0x2011);
 console.log('\nbreakRealmNames');
 let rn = runRealm(['Sky-Tier Rank 1', 'All-Things-Tier Basic', 'Realm',
-                   '天空级一阶', 'Dust-Tier Intermediate', 'Skyhigh-Tier Rank 8']);
+                   '天空级一阶', 'Dust-Tier Intermediate', 'Skyhigh-Tier Rank 8',
+                   'All-Things-Tier High-Tier']);
 expect('tier broken onto its own line', rn[0], 'Sky-Tier\nRank 1');
-expect('skipped tier left alone', rn[1], 'All-Things-Tier Basic');
+// v18.1: a skipped tier is NOT left alone - it is GLUED, so the wrap lands
+// on the tier name's own hyphen instead of inside the rank.
+expect('skipped tier glued, not broken', rn[1], 'All-Things-Tier' + NBSP + 'Basic');
 expect('header has no space, untouched', rn[2], 'Realm');
 // Untranslated: the cell still says 天空级一阶, which has no space at all - but
 // even if it had, the tier would not be in the set. A later batch gets it once
@@ -424,6 +435,13 @@ expect('header has no space, untouched', rn[2], 'Realm');
 expect('untranslated left for later', rn[3], '天空级一阶');
 expect('second tier broken', rn[4], 'Dust-Tier\nIntermediate');
 expect('two-digit rank broken', rn[5], 'Skyhigh-Tier\nRank 8');
+// The case that prompted this: left alone, the browser wrapped at the hyphen
+// INSIDE the rank and orphaned "Tier" on line two.
+expect('  hyphenated rank glued whole', rn[6],
+       'All-Things-Tier' + NBSP + 'High' + NBHY + 'Tier');
+expect('  no breakable space survives', rn[6].indexOf(' '), -1);
+// The TIER's own hyphens stay ordinary - they are the break we want left.
+expect('  tier hyphens still breakable', rn[6].split('-').length, 3);
 rn = runRealm(['Sky-Tier Rank 1'], { master: true, on: false });
 expect('toggle off: untouched', rn[0], 'Sky-Tier Rank 1');
 rn = runRealm(['Sky-Tier Rank 1'], { master: false, on: true });
