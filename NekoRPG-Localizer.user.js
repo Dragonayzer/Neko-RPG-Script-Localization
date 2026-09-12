@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NekoRPG Game Text Localizer
 // @namespace    dragonayzer.userscripts
-// @version      18.4
+// @version      18.5
 // @description  Full English localization: UI, item/enemy/skill names, and all prose (descriptions, dialogue, system messages). See the TOGGLES block at the top of the script to switch layers on/off.
 // @match        https://btly0711.github.io/NekoRPG/*
 // @match        https://btly0711-github-io.translate.goog/NekoRPG/*
@@ -154,6 +154,7 @@
 // 18.2: the family soft-cap lines are reworded to fit on one line. 'Newborns over 10,000: cost is subject to a Tier-1 soft cap (^1.5)' is 64 characters and the panel holds about 53, so it wrapped with 'cap (^1.5)' alone on a second line and all three spans were double height. Now 'Newborns over 10,000: soft cap 1 (cost ^1.5)', 44 characters: the exponent moves next to the word it modifies and the tier is a bare number, which is what 一重/二重/三重 mean anyway. uitest_visuals asserts a 50-character budget rather than the exact string - the wording is editorial and will change again, the width will not
 // 18.3: the bestiary spec colon binds to its NAME instead of its description. display.js writes each line as `<b><font>${name} </font></b> ：${desc} ` - a trailing space inside the bold, then a space and a fullwidth colon outside it, which is right for Chinese where the colon carries its own spacing. Translated it read 'Spirit Flash  :A light-element insight.', two spaces before the colon and none after. Now 'Spirit Flash: A light-element insight.'. A DOM pass rather than a glossary entry because the two spaces live in DIFFERENT text nodes - one inside the <b>, one after it - and a fragment can only ever reach one. Scoped to .bestiary_entry_tooltip, decided once per tooltip via data-tl-colon, and deferring any tooltip that still holds Chinese, exactly like sciBigNumbers. Guarded on IDEO_RE and not CJK_RE: the wider set includes the fullwidth colon this pass exists to rewrite, so a tooltip whose separator had not yet been converted would have deferred itself forever - found by the new uitest_speccolon, which builds the real node structure rather than a flat string. Toggle SPEC_COLON_FIX
 // 18.4: the bottom bar's version button gains a second line saying which game build the translation was made against: 'V3.47a' over a 10px grey 'TL18.4|3.47a'. Stacked INSIDE the existing <a> rather than added beside it - the bar is a flex row whose cluster already runs about 815px with the version mid-cluster, so a sibling shoves the hit counter and help sentence rightward, while the 10px line is no wider than the version above it. Both numbers are filled in by the builder, the script's from its own @version and the game's lifted from index.html's changelog_button assignment, so a merge cannot leave either behind. The game's .game_info a is a 40px box that exactly fills the 40px bar and the bar is pinned to the viewport bottom, so a second line inside it would render off-screen; the link is re-boxed as a centred column at the same total 40px, which keeps both lines in and moves no sibling. That rule is scoped to a .tl_has_built class added only when the line is actually inserted, because styleOverrides is injected unconditionally and before the toggles are read. prepareGame() sets this button's innerHTML wholesale on load and destroys the line, so the pass re-adds rather than assuming. Toggle BUILT_FOR_LABEL
+// 18.5: the built-against label separates with a middle dot instead of a pipe: 'TL18.5 · 3.47a'. Same separator the item names use throughout (C4 · Energy Core), so the bar reads like the rest of the script. It is about 10px wider at 10px type, and the sub-line was already the wider of the two lines, so the version button grows by that much - absorbed by the ~400px of slack at the right end of the bar
 
 (function () {
     'use strict';
@@ -671,7 +672,7 @@
     // Add a second line under the bottom bar's version button saying which
     // game build this translation was made against:
     //     V3.47a
-    //     TL18.4|3.47a
+    //     TL18.5 · 3.47a
     // Both numbers are filled in by the builder - the script's own version
     // from its @version line, the game's from index.html - so neither can be
     // left behind by a merge. Stacked inside the existing link rather than
@@ -11850,7 +11851,7 @@
     // index.html at build time so it cannot be forgotten. TL_VERSION is
     // patched in after the @version bump, which happens later than this.
     const BUILT_FOR_GAME = '3.47a';
-    const TL_VERSION = '18.4';
+    const TL_VERSION = '18.5';
 
     const REALM_TIERS = new Set([
         'Dust-Tier',
@@ -13519,7 +13520,9 @@
         if (!link || link.querySelector('.' + BUILT_CLASS)) return;
         const line = document.createElement('div');
         line.className = BUILT_CLASS;
-        line.textContent = 'TL' + TL_VERSION + '|' + BUILT_FOR_GAME;
+        // " · " rather than "|": the same separator the item names use
+        // throughout ("C4 · Energy Core"), so the bar matches the rest.
+        line.textContent = 'TL' + TL_VERSION + ' · ' + BUILT_FOR_GAME;
         link.appendChild(line);
         link.classList.add('tl_has_built');
     }

@@ -65,8 +65,8 @@ let link = makeLink();
 link.classList._o = link;
 run(link);
 expect('one line added, not two', link.children.length, 1);
-expect('  reads TL<script>|<game>', link.children[0].textContent,
-       'TL' + src.match(/const TL_VERSION = '([^']*)'/)[1] + '|' +
+expect('  reads TL<script> · <game>', link.children[0].textContent,
+       'TL' + src.match(/const TL_VERSION = '([^']*)'/)[1] + ' · ' +
        src.match(/const BUILT_FOR_GAME = '([^']*)'/)[1]);
 expect('  carries the styling class', link.children[0].className, 'tl_built');
 expect('  link marked so the CSS applies', link.classes, ['tl_has_built']);

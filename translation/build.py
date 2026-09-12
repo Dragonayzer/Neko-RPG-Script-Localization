@@ -2741,7 +2741,9 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         if (!link || link.querySelector('.' + BUILT_CLASS)) return;
         const line = document.createElement('div');
         line.className = BUILT_CLASS;
-        line.textContent = 'TL' + TL_VERSION + '|' + BUILT_FOR_GAME;
+        // " · " rather than "|": the same separator the item names use
+        // throughout ("C4 · Energy Core"), so the bar matches the rest.
+        line.textContent = 'TL' + TL_VERSION + ' · ' + BUILT_FOR_GAME;
         link.appendChild(line);
         link.classList.add('tl_has_built');
     }
