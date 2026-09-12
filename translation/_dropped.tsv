@@ -25,6 +25,7 @@ dup-regex	Y	防御力: + ${format_number(item.defense_value * ScaledQualityMulti
 regex	n	${format_money(character.money)} / ${format_money(C_money)}	${format_money(character.money)} / ${format_money(C_money)}
 regex	n	${options.quality[0]}%	${options.quality[0]}%
 regex	n	${options.quality[1]}%	${options.quality[1]}%
+regex	n	${realm_rate[family_data.cap+1][3]}	${realm_rate[family_data.cap+1][3]}
 regex	n	74?"lime":success_chance>49?"yellow":success_chance>24?"orange":"red"}">${success_chance}%	74?"lime":success_chance>49?"yellow":success_chance>24?"orange":"red"}">${success_chance}%
 regex	Y	${(character.equipment.sickle?.name == "死神之镰")?"	${(character.equipment.sickle?.name == "死神之镰")?"
 regex	n	${(format_number((Math.pow(inf_combat.MP+1,0.10)-1)*100))}%	${(format_number((Math.pow(inf_combat.MP+1,0.10)-1)*100))}%

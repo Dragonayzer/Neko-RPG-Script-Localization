@@ -1,5 +1,5 @@
 character.js	341	ORDER	生命值完全恢复了<br>
-crafting_recipes.js	1295	ORDER	熔炼宝石母
+crafting_recipes.js	1307	ORDER	熔炼宝石母
 dialogues.js	538	ORDER	秘法石碑 - 1
 dialogues.js	571	ORDER	往东再走一里半即可到达
 dialogues.js	824	ORDER	如今也算是历经了一次生死呢，<br>也知道了父亲大人的话是什么意思。
@@ -30,18 +30,18 @@ display.js	196	?	正
 display.js	196	?	载
 display.js	196	?	极
 display.js	1362	?	你的 ${mapp[key]} 槽位
-display.js	1852	ORDER	回到 
-display.js	3552	ORDER	同时攻击最多 
-display.js	3576	ORDER	${stances[stance_id].randomize_target_count?"Randomly hits up to":"同时攻击"} ${target_count} 个敌人</div>
-display.js	3762	ORDER	天剑
-display.js	3766	ORDER	饮剑
-display.js	3788	ORDER	饮剑·改
-display.js	3790	ORDER	冰凌剑
-display.js	3796	ORDER	生命限制
-display.js	3822	?	/亿
-display.js	3834	ORDER	] 的怪物手册条目
-display.js	3982	ORDER	特殊属性 编号[
-display.js	4064	ORDER	燕岗城郊
+display.js	1854	ORDER	回到 
+display.js	3554	ORDER	同时攻击最多 
+display.js	3578	ORDER	${stances[stance_id].randomize_target_count?"Randomly hits up to":"同时攻击"} ${target_count} 个敌人</div>
+display.js	3764	ORDER	天剑
+display.js	3768	ORDER	饮剑
+display.js	3790	ORDER	饮剑·改
+display.js	3792	ORDER	冰凌剑
+display.js	3798	ORDER	生命限制
+display.js	3825	?	/亿
+display.js	3837	ORDER	] 的怪物手册条目
+display.js	3985	ORDER	特殊属性 编号[
+display.js	4067	ORDER	燕岗城郊
 enemies.js	9637	ORDER	<span class=realm_domain><b>领域级一阶 [-18]</b></span>
 enemies.js	9651	ORDER	<span class=realm_domain><b>领域级一阶 [-2]</b></span>
 game_time.js	65	?	纪元 
@@ -53,13 +53,14 @@ index.html	557	html	&emsp; &emsp; 钓
 index.html	558	html	&emsp; &emsp; &emsp; 鱼
 index.html	559	html	&emsp; &emsp; &emsp; &emsp; 中
 items.js	897	?	${item_templates[this.components.head].name_prefix} ${this.weapon_type === "hammer" ? "战锤" : WTM[this.weapon_type]}
-items.js	3799	ORDER	铁剑·改
+items.js	3819	ORDER	铁剑·改
 locations.js	1635	ORDER	离开这个是非之地
-locations.js	5885	ORDER	挖掘部分紫铜矿石
-locations.js	5899	ORDER	挖掘煤矿石
-locations.js	5932	ORDER	在荒兽森林中砍伐柳木
-locations.js	5974	ORDER	在结界湖中垂钓
-locations.js	6094	ORDER	砍伐密林的云霄一阶树妖
+locations.js	5346	ORDER	回到鲜血峰
+locations.js	5896	ORDER	挖掘部分紫铜矿石
+locations.js	5910	ORDER	挖掘煤矿石
+locations.js	5943	ORDER	在荒兽森林中砍伐柳木
+locations.js	5985	ORDER	在结界湖中垂钓
+locations.js	6105	ORDER	砍伐密林的云霄一阶树妖
 main.js	848	ORDER	次生死呢，<br>也知道了父亲大人的话是什么意思。
 main.js	858	ORDER	...等会，百方已经被你揍哭了???<br>
 main.js	859	ORDER	待你历练有成，那区区百方，自是不足为惧！<br>
@@ -117,40 +118,40 @@ main.js	1332	ORDER	满燕岗城都在传，<br>曾经惊才绝艳的纳可姐妹
 main.js	1587	ORDER	[生命限制]
 main.js	1625	ORDER	[冰凌剑]
 main.js	1709	ORDER	[天剑]
-main.js	2013	ORDER	 血量时自爆。
-main.js	2048	ORDER	 受到了
-main.js	2097	ORDER	 闪避了一次攻击
-main.js	2154	ORDER	 受到了 
-main.js	2154	ORDER	 伤害[暴击]
-main.js	2165	ORDER	 点血量
-main.js	2177	ORDER	 点反弹伤害
-main.js	2196	?	微
-main.js	2202	?	潮
-main.js	2205	?	大
-main.js	2208	?	天
-main.js	2211	?	云
-main.js	2214	?	领
-main.js	2217	?	世
-main.js	2222	?	初
-main.js	2225	?	中
-main.js	2228	?	高
-main.js	2231	?	巅
-main.js	2240	?	三
-main.js	2243	?	四
-main.js	2246	?	五
-main.js	2249	?	六
-main.js	2252	?	七
-main.js	2255	?	八
-main.js	2544	ORDER	 被打败,获取 
-main.js	2704	ORDER	受到了
-main.js	2722	ORDER	 未命中,并受到了
-main.js	2725	ORDER	 未命中
-main.js	2731	ORDER	 被领域击败
-main.js	3997	ORDER	手动保存游戏
-main.js	5025	ORDER	 上钩了！
-main.js	5033	ORDER	 逃跑了！
-main.js	5422	ORDER	钻探地层，发掘出了
-main.js	5422	?	 个 
-main.js	5685	ORDER	获取了 凝胶剑柄 (品质 
-main.js	5831	?	年
-main.js	6115	ORDER	领域级一阶
+main.js	2020	ORDER	 血量时自爆。
+main.js	2055	ORDER	 受到了
+main.js	2104	ORDER	 闪避了一次攻击
+main.js	2161	ORDER	 受到了 
+main.js	2161	ORDER	 伤害[暴击]
+main.js	2172	ORDER	 点血量
+main.js	2184	ORDER	 点反弹伤害
+main.js	2203	?	微
+main.js	2209	?	潮
+main.js	2212	?	大
+main.js	2215	?	天
+main.js	2218	?	云
+main.js	2221	?	领
+main.js	2224	?	世
+main.js	2229	?	初
+main.js	2232	?	中
+main.js	2235	?	高
+main.js	2238	?	巅
+main.js	2247	?	三
+main.js	2250	?	四
+main.js	2253	?	五
+main.js	2256	?	六
+main.js	2259	?	七
+main.js	2262	?	八
+main.js	2551	ORDER	 被打败,获取 
+main.js	2724	ORDER	受到了
+main.js	2742	ORDER	 未命中,并受到了
+main.js	2745	ORDER	 未命中
+main.js	2751	ORDER	 被领域击败
+main.js	4017	ORDER	手动保存游戏
+main.js	5045	ORDER	 上钩了！
+main.js	5053	ORDER	 逃跑了！
+main.js	5442	ORDER	钻探地层，发掘出了
+main.js	5442	?	 个 
+main.js	5721	ORDER	获取了 凝胶剑柄 (品质 
+main.js	5867	?	年
+main.js	6151	ORDER	领域级一阶

@@ -80,6 +80,8 @@ Tier␣16内甲与轮芯的必需品！	Essential␣for␣Tier␣16␣inner␣ar
 [焰海]	[Flame␣Sea]
 [霜天]	[Frost␣Sky]
 [将飞船之心转化为材料版]	[Convert␣Heart␣of␣the␣Spaceship␣to␣material␣version]
+# V3.47 put the same converter in the digging panel, for the other Heart.
+[将幻境之心转化为材料版]	[Convert␣Heart␣of␣the␣Illusory␣Realm␣to␣material␣version]
 活塞工作状态␣:	Piston␣state:
 内部气体温度␣:	Internal␣gas␣temperature:
 内部气体压强␣:	Internal␣gas␣pressure:

@@ -19,8 +19,8 @@
 5	Then……shall the two of us give it a try?
 6	[Haohuang] You want a fight? Then fight!<br>I have six Bright-Red Crystals at my back!<br>I am invincible!
 7	Over these years in Shenghuang City he tempered a will like iron. Faced with the money that once left him utterly powerless, he will now only go a little easy on you. It is absolutely not the case that letting Neko past would leave him penniless.
-8	[WIP] Not finished yet. You had better not kill it.
+8	Note that the power of the 【Gambling God Emperor】 will not top your health straight back up. Have a think about which ways of healing scale in proportion~
 9	Even beating him won't get you into the Ruined Domain. His superior — the Great Verdant King — is still in the way, after all.
-10	[WIP] If you cheat this thing to death in 3.46, your save is done for. Just start another run and unlock 4-6.
-11	You've gained the ability to 【Refine Blood-Essence】! [WIP/coming in V3.47]
+10	NOW it is a real fight! This power is not yours…… but even so, getting some practice in with your skills is still worth something.
+11	You've gained the ability to 【Refine Blood-Essence】! (fight in the 【Bloodkill】 stance to refine it)
 12	This enemy seems very sensitive to money.<br>Enemy damage is divided by:<span style='color:#87CEFA'>(1 + √(character money/${format_money(enemy.spec_value[70])}) )</span>

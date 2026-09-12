@@ -5,8 +5,8 @@ dyn	dialogues.js:3255	[昊荒]要是换别人我早就给他过了。<br>但你�
 stat	dialogues.js:3264	那……咱俩试试?
 dyn	dialogues.js:3265	[昊荒]要战，便战！<br>我的身后可是有六颗鲜红水晶！<br>我是无敌的！
 stat	enemies.js:9824	在圣荒城的这些年，他磨练出了如铁的心性。面对曾经让自己毫无抵抗之力的金钱，他也只会稍稍放水。才不是放走了纳可他就会倾家荡产。
-stat	enemies.js:9838	[WIP]还没做好。你最好不要打死它。
+stat	enemies.js:9838	注意【赌之神帝】的力量不会让你的血量瞬间回满。想想有什么回血手段是可以等比例增长的呢~
 stat	locations.js:5310	就算击败了他也没办法进入破败之域的。毕竟还有他的上司——大青王拦着。
-stat	locations.js:5327	[WIP]如果你在3.46把这玩意开挂打死了你的存档就废了。继续开一把解4-6吧。
-stat	main.js:160	你获取了【提炼精血】的能力！[WIP/将在V3.47更新]
+stat	locations.js:5327	现在才是真正的战斗！这股力量不属于你……但即使如此，练练技能还是有用的。
+stat	main.js:160	你获取了【提炼精血】的能力！(使用【血杀】姿态战斗来提炼)
 dyn	display.js:3812	这个敌人似乎对金钱十分敏感。<br>敌人的伤害除以<span style='color:#87CEFA'>(1 + √(角色金钱/${format_money(enemy.spec_value[70])}) )</span>

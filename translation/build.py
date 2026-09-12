@@ -173,6 +173,7 @@ JOBS = [
     # warning below only catches a key that resolves to nothing.
     ('v341',      ['prose/done_v341.tsv'],       'row'),
     ('v346',      ['prose/done_v346.tsv'],       'row'),
+    ('v347',      ['prose/done_v347.tsv'],       'row'),
 ]
 for name, done_files, mode in JOBS:
     todo = rows('prose/_todo_%s.tsv' % name)          # kind, srcline, zh

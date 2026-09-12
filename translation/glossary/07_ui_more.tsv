@@ -20,11 +20,10 @@
 # from the morpheme glossary, but those entries are exact-match only and a
 # badge is a single node, so nothing ever matched.
 微尘级	Dust-Tier␣
-# V3.46's placeholder Great Verdant King wears a LETTERSPACED badge -
-# "准 微 尘 级" with real spaces between the glyphs - so none of the
-# compact realm keys above can reach it. Its own entry, spacing dropped:
-# English is already wide and "Q u a s i" would only look broken.
-准␣微␣尘␣级	Quasi-Dust-Tier
+# V3.46's placeholder Great Verdant King wore a LETTERSPACED "准 微 尘 级"
+# badge, which needed a key of its own because the compact realm entries
+# above could not reach it. V3.47 gave him real stats and an ordinary
+# 云霄级八阶 -- badge, which composes. Key retired: the string is gone.
 万物级	All-Things-Tier␣
 潮汐级	Tide-Tier␣
 大地级	Earth-Tier␣

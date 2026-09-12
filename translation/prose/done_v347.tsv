@@ -1,0 +1,32 @@
+# done_v347 (_todo_v347 rows 1-12). KEY = _todo ROW NUMBER, 'row' mode.
+# V3.47/V3.47a: the real Great Verdant King fight, the 神帝之力 special, the
+# 至纯精血 refining loop on the Bloodkill stance, and the 血峰之心 craft.
+#
+# Glossary anchors: 幻境之心 = Heart of the Illusory Realm, 血峰之心 = Heart of
+# Blood Peak (both predate this, from 冰原之心·材 and 焚血花王), ·材 = · Material,
+# 精血 = blood-essence, 鲜血峰 = Blood Peak, 映星天彩 = Starmirror Skyrainbow,
+# 血洛晶 = Bloodfall Crystal, 秘境 = Secret Realm, 领 = Fief, 虔心 = Piety.
+#
+# Row 5 must split into the SAME eleven chunks as the Chinese. Note the game
+# writes "乘以 100.81/span>." - a typo for </span>, so the tag never closes and
+# "/span>" renders as literal text in the tooltip. The English drops those six
+# characters: they are a rendering artifact, not content. The unclosed span
+# still bleeds its colour down the rest of the tooltip, which no text-node
+# translation can fix. If upstream fixes the typo this key simply stops
+# matching and the line falls back to Chinese, which is the safe failure.
+#
+# Row 10's key ends in a stray backtick, also the game's: the string is
+# "请将【幻境之心】佩戴后再次尝试！`" inside double quotes. Kept in the key
+# because it must match, dropped from the English.
+1	Heavy is the head that wears the crown. The next evolution is certain to wash the tainted blood clean and strip out every impurity!
+2	Can no longer be equipped — just a temporary material for crafting the 【Heart of Blood Peak】.
+3	Blood-essence drawn out with Blood Peak's secret art and the Starmirror Skyrainbow. Its purity is extreme, brimming with killing intent and a trace of beast-god blood. In the future it can assist in absorbing Bloodfall Crystal. (Its price is 0 because no merchant dares handle a demonic-cultivation item like this.)
+4	A vast Secret Realm hidden underground where the three fiefs meet. The 【Piety】 system is the only one not forbidden here, and refined to Sky-Tier Peak it becomes excellent fuel for cultivation — which is precisely why this place has been able to raise a great many Skyhigh-Tier powerhouses from outside. [End of content before V3.60]
+5	Each time the enemy attacks it grants the character 5 seconds of <span style='color:#FFFF00'>God Emperor's Power</span>, which does not stack. If the character is not already carrying that effect when hit, the damage of that attack is <span style='color:#87CEFA'>reduced to zero</span>.<span style='color:#FFFF00'>God Emperor's Power</span> multiplies <span style='color:#87CEFA'>Attack / Defense / Agility / Max Health by 100.81.<br><span style='color:#FFFF00'>God Emperor's Power</span> vanishes on its own when you change zones, and while you carry it the family cannot unlock a new realm.
+6	Overflowed ${format_number(over_recover)} of healing -> ${format_numberL(over_recover/1e16)} blood-essence chance
+7	Refined ${CBlood} portions of 【Purest Blood-Essence】!
+8	Your 【Heart of the Illusory Realm】 has been converted into 【Heart of the Illusory Realm · Material】,
+9	which can be upgraded further into 【Heart of Blood Peak】.
+10	Equip the 【Heart of the Illusory Realm】 first, then try again!
+11	Carrying a borrowed God Emperor's Power, ${character.name} is mighty for all of five seconds.
+12	The family system's <span class="${realm_rate[family_data.cap+1][4]}"> ${realm_rate[family_data.cap+1][3]} </span> will NOT be opened!

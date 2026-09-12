@@ -391,12 +391,12 @@ cases = [
     '我要是把你放进去，能交几千血洛晶的罚金！',
     '那……咱俩试试?',
     '我的身后可是有六颗鲜红水晶！',
-    # His boss entry, and the placeholder king behind him. The king's realm
-    # badge is LETTERSPACED, so none of the compact realm keys reach it.
+    # His boss entry. (The placeholder king behind him wore a letterspaced
+    # badge whose case lived here; V3.47 gave him an ordinary composed one,
+    # so the case moved to the V3.47 block below.)
     '昊荒[BOSS]',
     '在圣荒城的这些年，他磨练出了如铁的心性。面对曾经让自己毫无抵抗之力的金钱，他也只会稍稍放水。才不是放走了纳可他就会倾家荡产。',
     '大青王尤斯纳[BOSS]',
-    '准 微 尘 级',
     # The two new challenge zones and the trader that came with them.
     '就算击败了他也没办法进入破败之域的。毕竟还有他的上司——大青王拦着。',
     '声望商人·三代',
@@ -406,7 +406,27 @@ cases = [
     # Never actually reachable - the game stores the text under
     # is_Cblood_enabled while the flag is is_Cblood_unlocked - but translated
     # so it works the moment that typo is fixed.
-    '你获取了【提炼精血】的能力！[WIP/将在V3.47更新]',
+    '你获取了【提炼精血】的能力！(使用【血杀】姿态战斗来提炼)',
+    # --- V3.47/V3.47a (game update merged at script v17.8) ---
+    # The Great Verdant King stops being a placeholder: real stats, an
+    # ordinary composed realm badge, and the 神帝之力 special.
+    '大青王尤斯纳[BOSS]',
+    '云霄级八阶 --',
+    '神帝之力',
+    '[神帝·护盾]',
+    '赌之神帝',
+    # The blood-essence refining loop on the Bloodkill stance.
+    '至纯精血',
+    '提炼了 3 份【至纯精血】！',
+    '溢出的 1.23e17 恢复量 -> 12.3 精血获取率',
+    # The Heart of Blood Peak craft, and the converter button for it.
+    '血峰之心',
+    '幻境之心·材',
+    '[将幻境之心转化为材料版]',
+    '可以继续升级为【血峰之心】。',
+    # The new 4-6 zone.
+    '回到鲜血峰',
+    '破败之域',
 ]
 ok = 0
 for c in cases:
