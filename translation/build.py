@@ -2702,6 +2702,68 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         }
     }
 
+    // The separator between a special attribute's NAME and its description.
+    //
+    // display.js builds each one as
+    //     `<br><b><font color=…>${name} </font></b> ：${description} `
+    // - a trailing space inside the bold, then a space and a FULLWIDTH colon
+    // outside it. That spacing is right for Chinese, where the colon carries
+    // its own half-em of air and sits away from both sides. Translated it
+    // reads "Spirit Flash  :A light-element insight." - two spaces before the
+    // colon and none after, so the colon binds to the description instead of
+    // the title it belongs to.
+    //
+    // Both halves have to move, and they are in different nodes: the trailing
+    // space belongs to the name's text node INSIDE the <b>, the colon to the
+    // text node after it. A fragment can only ever reach one of them, which is
+    // why this is a DOM pass and not a glossary entry.
+    //
+    // Nothing else in these tooltips matches the shape. The other colons
+    // (Stats:, Loot:, HP:) are already tight against their labels and none of
+    // them follows a <b>; the only other bold is the realm badge, whose next
+    // sibling is a <br> element rather than a text node.
+    const SPEC_COLON_RE = /^\s*[:：]\s*/;
+
+    function fixSpecColons() {
+        if (!ENABLE_VISUAL_OVERRIDES || !SPEC_COLON_FIX) return;
+        // Once per tooltip, like sciBigNumbers and fitLootNames - the bestiary
+        // builds one per enemy and there are hundreds of them.
+        const tips = document.querySelectorAll(
+            '.bestiary_entry_tooltip:not([data-tl-colon])');
+        for (let i = 0; i < tips.length; i++) {
+            const tip = tips[i];
+            // Same ordering rule as sciBigNumbers, and the same reason: the
+            // node being rewritten here is the one applyProse matches against
+            // its own key, so a tooltip still holding Chinese is DEFERRED
+            // rather than marked done.
+            //
+            // IDEO_RE, not CJK_RE: the wider set INCLUDES the fullwidth colon
+            // this pass exists to rewrite, so a tooltip whose separator had not
+            // yet been converted by the stranded-punctuation fragment would
+            // defer itself forever - fully translated, and permanently skipped.
+            // Only an ideograph means the prose pass still has work to do.
+            if (IDEO_RE.test(tip.textContent)) continue;
+            tip.dataset.tlColon = '1';
+            const bolds = tip.querySelectorAll('b');
+            for (let j = 0; j < bolds.length; j++) {
+                const b = bolds[j];
+                const sib = b.nextSibling;
+                if (!sib || sib.nodeType !== 3) continue;
+                const m = SPEC_COLON_RE.exec(sib.textContent);
+                if (!m) continue;
+                sib.textContent = ': ' + sib.textContent.slice(m[0].length);
+                // The name's own trailing space lives in the DEEPEST last text
+                // node of the bold - the game wraps the name in a <font> for
+                // the colour, so b.lastChild is an element, not the text.
+                let last = b;
+                while (last.lastChild) last = last.lastChild;
+                if (last.nodeType === 3) {
+                    last.textContent = last.textContent.replace(/\s+$/, '');
+                }
+            }
+        }
+    }
+
     // Travel links that lead somewhere you can sleep, in the same #c0c0ff the
     // game already uses for its own quick-return-to-bed link (display.js hard-
     // codes that one inline). Somewhere to rest is the thing you scan a travel
@@ -3081,6 +3143,12 @@ if 'colorRestTravel();' not in body:
 if 'sciBigNumbers();' not in body:
     src = src.replace("        colorRestTravel();",
                       "        colorRestTravel();\n        sciBigNumbers();", 1)
+# Beside sciBigNumbers, on the same tooltips and for the same reason: it must
+# run after the prose pass, because the node it rewrites is the one applyProse
+# matches against its own key.
+if 'fixSpecColons();' not in body:
+    src = src.replace("        sciBigNumbers();",
+                      "        sciBigNumbers();\n        fixSpecColons();", 1)
 # LAST of the travel passes: it clones the rows' icons, so the mirrored return
 # arrow and the rest-location tint have to be on them already.
 if 'addActionBar();' not in body:

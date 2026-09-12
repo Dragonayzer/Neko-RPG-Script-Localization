@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NekoRPG Game Text Localizer
 // @namespace    dragonayzer.userscripts
-// @version      18.2
+// @version      18.3
 // @description  Full English localization: UI, item/enemy/skill names, and all prose (descriptions, dialogue, system messages). See the TOGGLES block at the top of the script to switch layers on/off.
 // @match        https://btly0711.github.io/NekoRPG/*
 // @match        https://btly0711-github-io.translate.goog/NekoRPG/*
@@ -152,6 +152,7 @@
 // 18.0: the family newborn-count label loses the word 'count'. v17.9 gave it a leading space, because index.html runs the realm span straight into it and English read 'Dust-Tier Basicnewborn count:' - but an 80px <input> shares that line, and the space alone pushed the box onto the next row. At 10 characters against the old 14 the line is now NARROWER than the version that fit before the space existed, so both problems are paid for at once. Kept short deliberately: the realm in that line grows with the family cap, and All-Things-Tier Peak is five characters wider than the Dust-Tier Basic it starts at. uitest_padding pins the leading space AND the length
 // 18.1: skipped realm tiers in the family roster are GLUED rather than left alone. FAMILY_REALM_BREAK_SKIP exists because All-Things-Tier already fills the column and breaking after it costs a third line - but the cell still had to wrap somewhere, and the browser took the last opportunity that fit, which is the hyphen inside the RANK: 'All-Things-Tier High-' / 'Tier'. A non-breaking space before the rank and non-breaking hyphens inside it remove every break opportunity after the tier, leaving the tier name's own hyphens as the only ones, so it wraps as 'All-Things-' / 'Tier High-Tier' with the rank whole. Idempotent by the test that finds the work: once the space is U+00A0, indexOf(' ') is -1 and the cell is skipped on every later batch. NB_HYPHEN is U+2011, named so it is visible in a diff; a font lacking it would draw a missing-glyph box, and the fallback is an ordinary hyphen - the non-breaking space alone still does most of the work
 // 18.2: the family soft-cap lines are reworded to fit on one line. 'Newborns over 10,000: cost is subject to a Tier-1 soft cap (^1.5)' is 64 characters and the panel holds about 53, so it wrapped with 'cap (^1.5)' alone on a second line and all three spans were double height. Now 'Newborns over 10,000: soft cap 1 (cost ^1.5)', 44 characters: the exponent moves next to the word it modifies and the tier is a bare number, which is what 一重/二重/三重 mean anyway. uitest_visuals asserts a 50-character budget rather than the exact string - the wording is editorial and will change again, the width will not
+// 18.3: the bestiary spec colon binds to its NAME instead of its description. display.js writes each line as `<b><font>${name} </font></b> ：${desc} ` - a trailing space inside the bold, then a space and a fullwidth colon outside it, which is right for Chinese where the colon carries its own spacing. Translated it read 'Spirit Flash  :A light-element insight.', two spaces before the colon and none after. Now 'Spirit Flash: A light-element insight.'. A DOM pass rather than a glossary entry because the two spaces live in DIFFERENT text nodes - one inside the <b>, one after it - and a fragment can only ever reach one. Scoped to .bestiary_entry_tooltip, decided once per tooltip via data-tl-colon, and deferring any tooltip that still holds Chinese, exactly like sciBigNumbers. Guarded on IDEO_RE and not CJK_RE: the wider set includes the fullwidth colon this pass exists to rewrite, so a tooltip whose separator had not yet been converted would have deferred itself forever - found by the new uitest_speccolon, which builds the real node structure rather than a flat string. Toggle SPEC_COLON_FIX
 
 (function () {
     'use strict';
@@ -623,6 +624,19 @@
     // Data tab - kills, crafts, attempts, which the game deliberately does NOT
     // format - are out of reach entirely.
     const BESTIARY_SCI_NUMBERS = true;
+
+    // Bind the special-attribute colon to its NAME rather than its description.
+    //
+    // display.js writes the separator as `${name} </font></b> ：${desc}`, which
+    // is correct Chinese - a fullwidth colon carries its own spacing and sits
+    // away from both sides. In English it reads
+    //     Spirit Flash  :A light-element insight.
+    // with two spaces before the colon and none after, so the colon looks like
+    // it belongs to the sentence rather than the title. This makes it
+    //     Spirit Flash: A light-element insight.
+    // The two spaces live in different text nodes - one inside the bold, one
+    // after it - so no glossary entry can reach both; it has to be a DOM pass.
+    const SPEC_COLON_FIX = true;
 
     // A shortcut row at the top of the location actions list, in three groups:
     //   - navigation, from the left edge: one icon per exit
@@ -13432,6 +13446,68 @@
         }
     }
 
+    // The separator between a special attribute's NAME and its description.
+    //
+    // display.js builds each one as
+    //     `<br><b><font color=…>${name} </font></b> ：${description} `
+    // - a trailing space inside the bold, then a space and a FULLWIDTH colon
+    // outside it. That spacing is right for Chinese, where the colon carries
+    // its own half-em of air and sits away from both sides. Translated it
+    // reads "Spirit Flash  :A light-element insight." - two spaces before the
+    // colon and none after, so the colon binds to the description instead of
+    // the title it belongs to.
+    //
+    // Both halves have to move, and they are in different nodes: the trailing
+    // space belongs to the name's text node INSIDE the <b>, the colon to the
+    // text node after it. A fragment can only ever reach one of them, which is
+    // why this is a DOM pass and not a glossary entry.
+    //
+    // Nothing else in these tooltips matches the shape. The other colons
+    // (Stats:, Loot:, HP:) are already tight against their labels and none of
+    // them follows a <b>; the only other bold is the realm badge, whose next
+    // sibling is a <br> element rather than a text node.
+    const SPEC_COLON_RE = /^\s*[:：]\s*/;
+
+    function fixSpecColons() {
+        if (!ENABLE_VISUAL_OVERRIDES || !SPEC_COLON_FIX) return;
+        // Once per tooltip, like sciBigNumbers and fitLootNames - the bestiary
+        // builds one per enemy and there are hundreds of them.
+        const tips = document.querySelectorAll(
+            '.bestiary_entry_tooltip:not([data-tl-colon])');
+        for (let i = 0; i < tips.length; i++) {
+            const tip = tips[i];
+            // Same ordering rule as sciBigNumbers, and the same reason: the
+            // node being rewritten here is the one applyProse matches against
+            // its own key, so a tooltip still holding Chinese is DEFERRED
+            // rather than marked done.
+            //
+            // IDEO_RE, not CJK_RE: the wider set INCLUDES the fullwidth colon
+            // this pass exists to rewrite, so a tooltip whose separator had not
+            // yet been converted by the stranded-punctuation fragment would
+            // defer itself forever - fully translated, and permanently skipped.
+            // Only an ideograph means the prose pass still has work to do.
+            if (IDEO_RE.test(tip.textContent)) continue;
+            tip.dataset.tlColon = '1';
+            const bolds = tip.querySelectorAll('b');
+            for (let j = 0; j < bolds.length; j++) {
+                const b = bolds[j];
+                const sib = b.nextSibling;
+                if (!sib || sib.nodeType !== 3) continue;
+                const m = SPEC_COLON_RE.exec(sib.textContent);
+                if (!m) continue;
+                sib.textContent = ': ' + sib.textContent.slice(m[0].length);
+                // The name's own trailing space lives in the DEEPEST last text
+                // node of the bold - the game wraps the name in a <font> for
+                // the colour, so b.lastChild is an element, not the text.
+                let last = b;
+                while (last.lastChild) last = last.lastChild;
+                if (last.nodeType === 3) {
+                    last.textContent = last.textContent.replace(/\s+$/, '');
+                }
+            }
+        }
+    }
+
     // Travel links that lead somewhere you can sleep, in the same #c0c0ff the
     // game already uses for its own quick-return-to-bed link (display.js hard-
     // codes that one inline). Somewhere to rest is the thing you scan a travel
@@ -13820,6 +13896,7 @@
         addTradeAllButton();
         colorRestTravel();
         sciBigNumbers();
+        fixSpecColons();
         addActionBar();
         prefixCraftingTiers();
         indexOriginalNames();
