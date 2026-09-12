@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NekoRPG Game Text Localizer
 // @namespace    dragonayzer.userscripts
-// @version      18.1
+// @version      18.2
 // @description  Full English localization: UI, item/enemy/skill names, and all prose (descriptions, dialogue, system messages). See the TOGGLES block at the top of the script to switch layers on/off.
 // @match        https://btly0711.github.io/NekoRPG/*
 // @match        https://btly0711-github-io.translate.goog/NekoRPG/*
@@ -151,6 +151,7 @@
 // 17.9: enemy stat lines (Dmg/Def/AS/Hit/Eva) move into the pre-paint batch. display.js rewrites all five per enemy with innerHTML on every combat tick, so on the throttled scan they spent most of their life in Chinese and the row flickered between languages at attack speed. They belong to the v4.0 SELECTOR pass rather than the prose layer, so translateHot calls applySelector on the same pair list the scan uses - no second definition of what those words mean - and the call sits ABOVE the ENABLE_PROSE guard, since turning prose off must not stop translating something the throttled pass still handles. Gated on combat_div being visible, which display.js sets as an inline style, so out of combat the whole branch is one property read and no layout is forced. New toggle HOT_ENEMY_STATS. Also: the family panel's newborn-count label now leads with a space - index.html runs the realm span straight into it with no separator, so English read 'Dust-Tier Basicnewborn count:'
 // 18.0: the family newborn-count label loses the word 'count'. v17.9 gave it a leading space, because index.html runs the realm span straight into it and English read 'Dust-Tier Basicnewborn count:' - but an 80px <input> shares that line, and the space alone pushed the box onto the next row. At 10 characters against the old 14 the line is now NARROWER than the version that fit before the space existed, so both problems are paid for at once. Kept short deliberately: the realm in that line grows with the family cap, and All-Things-Tier Peak is five characters wider than the Dust-Tier Basic it starts at. uitest_padding pins the leading space AND the length
 // 18.1: skipped realm tiers in the family roster are GLUED rather than left alone. FAMILY_REALM_BREAK_SKIP exists because All-Things-Tier already fills the column and breaking after it costs a third line - but the cell still had to wrap somewhere, and the browser took the last opportunity that fit, which is the hyphen inside the RANK: 'All-Things-Tier High-' / 'Tier'. A non-breaking space before the rank and non-breaking hyphens inside it remove every break opportunity after the tier, leaving the tier name's own hyphens as the only ones, so it wraps as 'All-Things-' / 'Tier High-Tier' with the rank whole. Idempotent by the test that finds the work: once the space is U+00A0, indexOf(' ') is -1 and the cell is skipped on every later batch. NB_HYPHEN is U+2011, named so it is visible in a diff; a font lacking it would draw a missing-glyph box, and the fallback is an ordinary hyphen - the non-breaking space alone still does most of the work
+// 18.2: the family soft-cap lines are reworded to fit on one line. 'Newborns over 10,000: cost is subject to a Tier-1 soft cap (^1.5)' is 64 characters and the panel holds about 53, so it wrapped with 'cap (^1.5)' alone on a second line and all three spans were double height. Now 'Newborns over 10,000: soft cap 1 (cost ^1.5)', 44 characters: the exponent moves next to the word it modifies and the tier is a bare number, which is what 一重/二重/三重 mean anyway. uitest_visuals asserts a 50-character budget rather than the exact string - the wording is editorial and will change again, the width will not
 
 (function () {
     'use strict';
@@ -4662,9 +4663,9 @@
         '斧': 'Axe',
         '断': 'Broken',
         '新人，你们还不懂这里的规则吧。': 'don\'t understand the rules here yet, do',
-        '新生儿超过1万，花费受到一重软上限限制(^1.5)': 'Newborns over 10,000: cost is subject to a Tier-1 soft cap (^1.5)',
-        '新生儿超过1亿，花费受到二重软上限限制(^2.0)': 'Newborns over 1e8: cost is subject to a Tier-2 soft cap (^2.0)',
-        '新生儿超过1兆，花费受到三重软上限限制(^2.5)': 'Newborns over 1e12: cost is subject to a Tier-3 soft cap (^2.5)',
+        '新生儿超过1万，花费受到一重软上限限制(^1.5)': 'Newborns over 10,000: soft cap 1 (cost ^1.5)',
+        '新生儿超过1亿，花费受到二重软上限限制(^2.0)': 'Newborns over 1e8: soft cap 2 (cost ^2.0)',
+        '新生儿超过1兆，花费受到三重软上限限制(^2.5)': 'Newborns over 1e12: soft cap 3 (cost ^2.5)',
         '新的一天开始了！原能辐射浓度略有下降。': 'A new day begins! The primal-energy radiation concentration has dropped slightly.',
         '方圆五个领，谁不知道你到哪里就把全家带到哪里！': 'Five fiefs in every direction, and who doesn\'t know that wherever you go you bring the whole family along!',
         '方片重工A9': 'Diamond Heavy-Industry A9',

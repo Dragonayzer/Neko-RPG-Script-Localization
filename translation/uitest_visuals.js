@@ -386,6 +386,37 @@ expect('no canvas: long name still handled', fb[0].style.lineHeight, '12px');
 expect('no canvas: falls back to the count', fb[2].style.lineHeight, undefined);
 
 
+// ---- family panel: soft-cap lines fit on one line -------------------------
+// #skills_and_stances_div is 400px wide and #family_div has a permanent
+// scrollbar, so these spans get roughly 383px. At the panel's font that is
+// about 53 characters, which is where the original wording broke - it put
+// "cap (^1.5)" on a second line, doubling the height of all three.
+//
+// A budget rather than an exact string: the wording is editorial and may well
+// change again, but it must not grow back past the width. 50 leaves a little
+// room for the threshold token, which is the part that varies (10,000 is the
+// longest of the three).
+const SOFTCAP_MAX = 50;
+const softCapLines = [];
+{
+  const i = src.indexOf("const proseExact = Object.assign");
+  const body = src.slice(i, src.indexOf('\n    });', i));
+  const row = /^        '((?:[^'\\]|\\.)*)': '((?:[^'\\]|\\.)*)',$/gm;
+  let m;
+  while ((m = row.exec(body))) {
+    // Anchored: 'soft cap' alone also matches a gem-ingot description and
+    // a fragment of the altar readout, neither of which lives in this panel.
+    if (/^Newborns over .*soft cap/.test(m[2])) softCapLines.push(m[2]);
+  }
+}
+console.log('\nfamily soft-cap lines');
+expect('all three present', softCapLines.length, 3);
+softCapLines.forEach((line) => {
+  const plain = line.replace(/<[^>]*>/g, '');
+  expect('  fits: ' + plain.slice(0, 26), plain.length <= SOFTCAP_MAX, true);
+  console.log('       (' + plain.length + ' chars) ' + plain);
+});
+
 // ---- breakRealmNames ------------------------------------------------------
 // "Sky-Tier Rank 1" -> two lines. The tier list is generated from main.js
 // realm_rate; the SKIP list is an editorial choice living in the toggles.

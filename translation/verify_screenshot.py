@@ -348,6 +348,9 @@ cases = [
     '对应排名',
     '因 纳可 的战力超过了 6660亿 , 家族系统开放了 ',
     # Two soft-cap exponents were rebalanced, which staled their keys.
+    # The 1万 line renders longest of the three (its threshold is the widest
+    # token), so it is the one that decides whether the panel wraps.
+    '新生儿超过1万，花费受到一重软上限限制(^1.5)',
     '新生儿超过1亿，花费受到二重软上限限制(^2.0)',
     '新生儿超过1兆，花费受到三重软上限限制(^2.5)',
     # The TAIL of the unlock line. index.html splits the sentence around
