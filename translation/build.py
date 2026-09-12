@@ -545,6 +545,19 @@ def add_html_slot_frags(zh, en):
         if a and cjk(a) and b:
             html_frag.setdefault(a, b)
 
+def pad_norm(ec):
+    """One space, at most, on each side that had any whitespace at all.
+
+    What the padding means is 'there is a word boundary here', so a run of two
+    spaces (authored in a couple of done_*.tsv rows) or a stray tab says nothing
+    extra. HTML would collapse them anyway; normalising keeps the tables tidy
+    and stops whitespace noise from looking like two different translations to
+    the uniqueness check below.
+    """
+    return ((' ' if ec[:1].isspace() else '') + ec.strip() +
+            (' ' if ec[-1:].isspace() else ''))
+
+
 def add_chunk(zc, ec):
     """Handle one DOM text node's worth of content.
 
@@ -562,16 +575,26 @@ def add_chunk(zc, ec):
         else:
             skipped.append((zc, 'dup-regex' if rp else 'regex', ec))
         return
-    a, b = zc.strip(), ec.strip()
-    if a and cjk(a) and b:
-        exact.setdefault(a, b)
+    a = zc.strip()
+    if a and cjk(a) and ec.strip():
+        # Keep the space the translator wrote, where the key is unambiguous
+        # enough for it to be safe - see PAD_OK below. A tag boundary is not a
+        # word boundary, so stripping both sides glued "…weakened by" to the
+        # <span> holding "10%".
+        exact.setdefault(a, pad_norm(ec) if a in PAD_OK else ec.strip())
         # A chunk is its own DOM text node, so exact-match already covers it;
         # remember that, to keep it out of the substring alternation below.
         chunk_keys.add(a)
 
+# Split first, register second. The padding guard below has to see every value
+# a key is given before any of them is committed. The ops list preserves
+# registration order, and with it the precedence between a whole string
+# (assignment, always wins) and a chunk (setdefault, first wins) - so replaying
+# it is identical to the single pass this replaced.
+_ops = []
 for zh, en in pairs.items():
     if '${' not in zh and '<' not in zh:
-        exact[zh] = en
+        _ops.append(('whole', zh, en))
         continue
     if '<' in zh:
         cz, ce = TAG.split(zh), TAG.split(en)
@@ -587,9 +610,50 @@ for zh, en in pairs.items():
                 continue
             rebalanced += 1
         for a, b in zip(cz, ce):
-            add_chunk(a, b)
+            _ops.append(('chunk', a, b))
     else:
-        add_chunk(zh, en)
+        _ops.append(('chunk', zh, en))
+
+# ---- which chunks may keep the space their translator wrote ----------------
+# A chunk is one DOM text node, and a tag boundary is not a word boundary:
+# "PS:对" + <span class='realm_cloudy'>云霄级</span> is correct Chinese and
+# rendered "PS: No effect on targetsSkyhigh-Tier". The done_*.tsv English has
+# always carried that space; add_chunk used to strip it off both sides.
+#
+# Restoring it is safe only where the key means ONE thing, because proseExact
+# is context-free: a value chosen for the one place a key sits beside a <span>
+# is then applied EVERYWHERE that key appears. 攻击 is both a chunk here and a
+# standalone stat label in display.js, and would have picked up a stray space
+# in the stat panel to fix a tooltip somewhere else. So, two conservative rules:
+#   - the key is given exactly ONE English value across the whole corpus, so
+#     setdefault never has to choose between two spellings that differ only in
+#     padding (获取了 is authored both ways), and
+#   - the key is not also a whole-string entry.
+# Every refusal is printed. Silently dropping the space is how this survived
+# seventeen versions unnoticed, and a silent exception list would be the same
+# mistake one level down.
+_whole_keys = {zh for kind, zh, _ in _ops if kind == 'whole'}
+_chunk_vals = collections.defaultdict(set)
+for _kind, _zc, _ec in _ops:
+    if _kind == 'chunk' and '${' not in _zc:
+        _k = _zc.strip()
+        if _k and cjk(_k) and _ec.strip():
+            _chunk_vals[_k].add(pad_norm(_ec))
+PAD_OK = {k for k, v in _chunk_vals.items() if len(v) == 1 and k not in _whole_keys}
+pad_kept = sorted(k for k in PAD_OK
+                  if any(x != x.strip() for x in _chunk_vals[k]))
+# forced_frag keys are popped back out of exact further down and shipped as
+# fragments, padding and all - so a refusal there costs nothing and listing it
+# is noise in a report whose whole point is to be actionable.
+pad_refused = sorted(k for k, v in _chunk_vals.items()
+                     if k not in PAD_OK and k not in forced_frag
+                     and any(x != x.strip() for x in v))
+
+for _kind, _a, _b in _ops:
+    if _kind == 'whole':
+        exact[_a] = _b
+    else:
+        add_chunk(_a, _b)
 
 # Hand-written patterns for text the game assembles inline rather than from a
 # single template literal, so nothing in the source can be paired against it.
@@ -3231,6 +3295,15 @@ if _tier_missing:
           % len(_tier_missing))
     for _zh in _tier_missing[:10]:
         print('      %s' % _zh)
+print('chunk padding kept      : %d keys (space restored at a tag boundary)' % len(pad_kept))
+# Loud: each of these renders two words glued together, and the only reason we
+# are not fixing it is that the key is ambiguous. It wants a hand-written
+# entry, not silence.
+if pad_refused:
+    print('!!  %d padded chunk keys REFUSED - shared key, padding dropped:'
+          % len(pad_refused))
+    for _k in pad_refused:
+        print('      %-18s %s' % (_k[:18], sorted(repr(x)[:38] for x in _chunk_vals[_k])))
 print('merge-exposed promoted  : %d textline_special leading chunks' % len(merge_promoted))
 print('backward travel labels  : %d' % len(backward_labels))
 # Loud, because the failure is silent otherwise: an untranslated leave_text
