@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NekoRPG Game Text Localizer
 // @namespace    dragonayzer.userscripts
-// @version      17.8
+// @version      17.9
 // @description  Full English localization: UI, item/enemy/skill names, and all prose (descriptions, dialogue, system messages). See the TOGGLES block at the top of the script to switch layers on/off.
 // @match        https://btly0711.github.io/NekoRPG/*
 // @match        https://btly0711-github-io.translate.goog/NekoRPG/*
@@ -148,6 +148,7 @@
 // 17.6: ship an installable NekoRPG-Localizer.user.js in the repo root, written by the builder as byte-identical to Script.txt so the two can never drift. Userscript managers only offer one-click install, and only honour @updateURL, when the URL ends in .user.js - a .txt can be pasted but never installed by URL. Header gains @updateURL/@downloadURL pointing at the raw file on main, plus @homepageURL/@supportURL; living in the one shared header means there is no second place to forget to bump. NOTE the consequence for releases/: those snapshots are byte copies, so they carry the update URLs too, and both managers honour @updateURL from metadata even for a script pasted into the editor - pasting an old release therefore pins nothing unless those two lines are deleted first. Kept byte-identical anyway and documented in the README instead of stripped, because a release file's job is to be an exact archive of what shipped under that version number
 // 17.7: restore the space the translator wrote at inline-tag chunk boundaries. A chunk is one DOM text node and a tag boundary is not a word boundary, so add_chunk stripping both sides rendered 'PS: No effect on targetsSkyhigh-Tier' and 'the difference between3x its own Attack' - 221 sides across 147 keys, visible since the chunk machinery was written. The done_*.tsv English always carried the space; only the builder threw it away. Guarded, because proseExact is context-free and a value chosen beside a <span> is then used everywhere that key appears: padding is kept only where the key is given exactly ONE English value across the corpus AND is not also a whole-string entry. That refuses 4, each printed at build time rather than dropped silently - 攻击 is a chunk here and a standalone stat label in display.js, 获取了 is authored both ways. Padding is normalised to at most one space a side. Zero performance cost: proseFrag is byte-identical so the mega-regex is unchanged, proseExact keeps the same 4773 keys with 142 values differing by padding alone, and the file grows 267 bytes. New uitest_padding.js pins both directions
 // 17.8: merge game V3.47/V3.47a: the Great Verdant King stops being a placeholder (real stats, an ordinary composed 云霄级八阶 -- badge, and spec 71 神帝之力), the 至纯精血 refining loop on the Bloodkill stance, the 血峰之心 craft with its 幻境之心·材 converter in the digging panel, and the 破败之域 zone. Three v346 rows had already gone stale and were edited IN PLACE, never regenerated: the king's description, Blood Peak - EX, and the Refine Blood-Essence unlock text, which V3.46 shipped as WIP placeholders. The letterspaced 准 微 尘 级 key is retired with its verify case - that string is gone. Spec 71's English mirrors the game's broken markup tag for tag: the source writes '乘以 100.81/span>.', a typo for </span>, so the tag never closes; the six stray characters are dropped from the English but the tag COUNT is matched, because an English side that splits into a different number of chunks is refused outright
+// 17.9: enemy stat lines (Dmg/Def/AS/Hit/Eva) move into the pre-paint batch. display.js rewrites all five per enemy with innerHTML on every combat tick, so on the throttled scan they spent most of their life in Chinese and the row flickered between languages at attack speed. They belong to the v4.0 SELECTOR pass rather than the prose layer, so translateHot calls applySelector on the same pair list the scan uses - no second definition of what those words mean - and the call sits ABOVE the ENABLE_PROSE guard, since turning prose off must not stop translating something the throttled pass still handles. Gated on combat_div being visible, which display.js sets as an inline style, so out of combat the whole branch is one property read and no layout is forced. New toggle HOT_ENEMY_STATS. Also: the family panel's newborn-count label now leads with a space - index.html runs the realm span straight into it with no separator, so English read 'Dust-Tier Basicnewborn count:'
 
 (function () {
     'use strict';
@@ -452,6 +453,22 @@
 
     // Myriad-unit numbers -> exponential notation (972万 -> 9.72e6).
     const ENABLE_NUMBER_FORMAT = true;
+
+    // Translate the enemy stat lines (Dmg / Def / AS / Hit / Eva) in the
+    // pre-paint batch instead of on the throttled scan.
+    //
+    // display.js rewrites all five with innerHTML on every combat tick, so at
+    // 3+ attacks a second each one spends most of its life as Chinese waiting
+    // for the next scan, and the row visibly flickers between languages. The
+    // same reasoning as HOT_IDS below, but these are reached by the v4.0
+    // selector pass rather than the prose layer, so they need their own hook.
+    //
+    // Cost is bounded by the fight: up to 8 enemies x 5 nodes, each one text
+    // node and five substring tests, and only while the combat panel is open.
+    // That is the same work the game just did to produce them. Flip off to drop
+    // it instantly if it ever costs too much FPS - the stats then translate on
+    // the normal scan, exactly as they did before.
+    const HOT_ENEMY_STATS = true;
 
     // ---- VISUAL OVERRIDES --------------------------------------------
     // Master switch for everything below: false means the script only
@@ -8749,7 +8766,7 @@
         '持盾战士A9': 'Shield-Bearing Warrior A9',
         '探险者的怨恨': 'Explorer\'s Resentment',
         '改良 三叉戟': 'Improved Trident',
-        '新生儿数 :': 'newborn count:',
+        '新生儿数 :': ' newborn count:',
         '方片重工A9': 'Diamond Heavy-Industry A9',
         '旋律 三叉戟': 'Melody Trident',
         '旋律合金 剑': 'Melody Alloy Sword',
@@ -12293,8 +12310,34 @@
     // so it cannot stutter and the throttled pass is enough for it.
     const HOT_TOOLTIP_SEL = '.skill_bar_max:hover .skill_tooltip';
     const HOT_SEL = '.skill_bar_name, ' + HOT_TOOLTIP_SEL;
+    // Named once, because it is both a key into `buttons` and the selector
+    // applySelector queries with - if those two ever drift apart the lookup
+    // returns undefined and the hot pass silently does nothing.
+    const ENEMY_STAT_SEL = '.enemy_stat';
 
     function translateHot() {
+        // The enemy stat lines, but ONLY while the combat panel is open.
+        //
+        // display.js rewrites all five per enemy with innerHTML on every combat
+        // tick, so between throttled scans they sit in Chinese and the row
+        // flickers between languages at attack speed. Same problem HOT_IDS
+        // exists for - but these belong to the v4.0 SELECTOR pass, not the
+        // prose layer, so they need their own call and it has to sit ABOVE the
+        // ENABLE_PROSE guard: turning the prose layer off must not silently
+        // take the stat labels with it, since the throttled pass would still
+        // translate them.
+        //
+        // applySelector is the same code the scan runs, on the same pair list,
+        // so there is no second definition of what these words mean. The
+        // visibility test is a plain inline-style read - display.js sets
+        // combat_div.style.display directly - so it forces no layout, and out
+        // of combat this whole branch is one property read.
+        if (HOT_ENEMY_STATS) {
+            const combatDiv = document.getElementById('combat_div');
+            if (combatDiv && combatDiv.style.display !== 'none') {
+                applySelector(ENEMY_STAT_SEL, buttons[ENEMY_STAT_SEL]);
+            }
+        }
         if (!ENABLE_PROSE) return;
         for (let i = 0; i < HOT_IDS.length; i++) {
             const el = document.getElementById(HOT_IDS[i]);

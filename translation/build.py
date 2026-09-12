@@ -1592,8 +1592,34 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
     // so it cannot stutter and the throttled pass is enough for it.
     const HOT_TOOLTIP_SEL = '.skill_bar_max:hover .skill_tooltip';
     const HOT_SEL = '.skill_bar_name, ' + HOT_TOOLTIP_SEL;
+    // Named once, because it is both a key into `buttons` and the selector
+    // applySelector queries with - if those two ever drift apart the lookup
+    // returns undefined and the hot pass silently does nothing.
+    const ENEMY_STAT_SEL = '.enemy_stat';
 
     function translateHot() {
+        // The enemy stat lines, but ONLY while the combat panel is open.
+        //
+        // display.js rewrites all five per enemy with innerHTML on every combat
+        // tick, so between throttled scans they sit in Chinese and the row
+        // flickers between languages at attack speed. Same problem HOT_IDS
+        // exists for - but these belong to the v4.0 SELECTOR pass, not the
+        // prose layer, so they need their own call and it has to sit ABOVE the
+        // ENABLE_PROSE guard: turning the prose layer off must not silently
+        // take the stat labels with it, since the throttled pass would still
+        // translate them.
+        //
+        // applySelector is the same code the scan runs, on the same pair list,
+        // so there is no second definition of what these words mean. The
+        // visibility test is a plain inline-style read - display.js sets
+        // combat_div.style.display directly - so it forces no layout, and out
+        // of combat this whole branch is one property read.
+        if (HOT_ENEMY_STATS) {
+            const combatDiv = document.getElementById('combat_div');
+            if (combatDiv && combatDiv.style.display !== 'none') {
+                applySelector(ENEMY_STAT_SEL, buttons[ENEMY_STAT_SEL]);
+            }
+        }
         if (!ENABLE_PROSE) return;
         for (let i = 0; i < HOT_IDS.length; i++) {
             const el = document.getElementById(HOT_IDS[i]);

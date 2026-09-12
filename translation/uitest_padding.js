@@ -88,6 +88,12 @@ console.log('\nforced fragments keep their own padding');
 expect('点伤害。 is a fragment, not exact', '点伤害。' in exact, false);
 expect('点伤害。 keeps its leading space', frag['点伤害。'], ' damage.');
 
+// v17.9: index.html runs the realm span straight into this label with no
+// separator, so English rendered "Dust-Tier Basicnewborn count:". The space is
+// authored into the glossary value; nothing else can supply it, because the two
+// nodes belong to different passes.
+expect('newborn label leads with a space', frag['新生儿数 :'], ' newborn count:');
+
 // ---- shape of what we did keep --------------------------------------------
 // Catches a mangled build: padding must be ordinary spaces around real text,
 // never a stray tab or newline, and never the whole value.

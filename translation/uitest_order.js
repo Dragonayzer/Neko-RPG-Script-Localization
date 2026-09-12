@@ -193,6 +193,38 @@ const scanFn = src.slice(src.indexOf('    function scan() {'));
 assert('  and not on the throttled scan',
        scanFn.slice(0, scanFn.indexOf('\n    }\n')).indexOf('stampMessages') === -1);
 
+// ---- v17.9: enemy stat lines in the pre-paint batch -------------------------
+// display.js rewrites all five per enemy with innerHTML on every combat tick,
+// so on the throttled pass they spent most of their life in Chinese and the row
+// flickered at attack speed. Four things are pinned, none of them visible from
+// reading translateHot alone:
+assert('enemy stats translated in the hot batch',
+       /applySelector\(ENEMY_STAT_SEL, buttons\[ENEMY_STAT_SEL\]\)/.test(hotBody));
+// It must sit ABOVE the ENABLE_PROSE guard. These labels belong to the v4.0
+// selector pass, so tying them to the prose toggle would mean turning prose off
+// silently stopped translating something the throttled pass still handles.
+assert('  above the ENABLE_PROSE guard',
+       hotBody.indexOf('ENEMY_STAT_SEL') < hotBody.indexOf('if (!ENABLE_PROSE) return;'));
+// Gated on the combat panel being open, or every mutation batch in the game
+// pays for a querySelectorAll that can only match during a fight.
+assert('  gated on the combat panel being open',
+       /combatDiv\.style\.display !== 'none'/.test(hotBody) &&
+       hotBody.indexOf("getElementById('combat_div')") !== -1);
+// The selector is BOTH a querySelectorAll argument and a key into `buttons`.
+// If those drift the lookup yields undefined, applySelector iterates nothing,
+// and the only symptom is the flicker quietly coming back.
+const selDecl = src.match(/const ENEMY_STAT_SEL = '([^']+)';/);
+assert('  ENEMY_STAT_SEL is declared', !!selDecl);
+if (selDecl) {
+  const btns = src.slice(src.indexOf('    const buttons = {'));
+  assert('  and is a real key in buttons',
+         btns.indexOf("'" + selDecl[1] + "': [") !== -1);
+}
+// And it must NOT have been left in the throttled scan as well - the buttons
+// loop there already covers it, so a second explicit call would be dead weight.
+assert('  not duplicated into scan()',
+       src.slice(src.indexOf('    function scan() {')).indexOf('ENEMY_STAT_SEL') === -1);
+
 // ---- the daily rebuild's scroll restore ------------------------------------
 // v14.5 puts the scroll offset back after the rebuild, which means the hot path
 // now has a reason to touch scrollTop - and touching scrollTop forces a

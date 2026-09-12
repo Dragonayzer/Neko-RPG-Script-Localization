@@ -43,7 +43,12 @@
 ⌚️下一血洛日:	⌚️Next␣Bloodfall␣day:
 (␣现实	(␣real␣
 次日	Next␣day␣
-新生儿数␣:	newborn␣count:
+# index.html puts this straight after the realm span, with no separator:
+#   <span>次日<span class='realm_basic'>微尘级初级</span>新生儿数 : </span>
+# Chinese needs nothing there; English rendered "Dust-Tier Basicnewborn
+# count:". Leading space, which the fragment stage de-duplicates if the
+# preceding node ever ends in one.
+新生儿数␣:	␣newborn␣count:
 每日养育耗费␣:	Daily␣upbringing␣cost:
 每日家族赚取:	Daily␣family␣earnings:
 纳家影响力:	Na␣Family␣Influence:
