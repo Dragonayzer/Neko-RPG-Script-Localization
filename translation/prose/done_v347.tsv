@@ -23,10 +23,13 @@
 3	Blood-essence drawn out with Blood Peak's secret art and the Starmirror Skyrainbow. Its purity is extreme, brimming with killing intent and a trace of beast-god blood. In the future it can assist in absorbing Bloodfall Crystal. (Its price is 0 because no merchant dares handle a demonic-cultivation item like this.)
 4	A vast Secret Realm hidden underground where the three fiefs meet. The 【Piety】 system is the only one not forbidden here, and refined to Sky-Tier Peak it becomes excellent fuel for cultivation — which is precisely why this place has been able to raise a great many Skyhigh-Tier powerhouses from outside. [End of content before V3.60]
 5	Each time the enemy attacks it grants the character 5 seconds of <span style='color:#FFFF00'>God Emperor's Power</span>, which does not stack. If the character is not already carrying that effect when hit, the damage of that attack is <span style='color:#87CEFA'>reduced to zero</span>.<span style='color:#FFFF00'>God Emperor's Power</span> multiplies <span style='color:#87CEFA'>Attack / Defense / Agility / Max Health by 100.81.<br><span style='color:#FFFF00'>God Emperor's Power</span> vanishes on its own when you change zones, and while you carry it the family cannot unlock a new realm.
-6	Overflowed ${format_number(over_recover)} of healing -> ${format_numberL(over_recover/1e16)} blood-essence chance
+6	Overflowed ${format_number(over_recover)} of healing -> ${format_numberL(over_recover/1e14)} blood-essence chance
 7	Refined ${CBlood} portions of 【Purest Blood-Essence】!
 8	Your 【Heart of the Illusory Realm】 has been converted into 【Heart of the Illusory Realm · Material】,
 9	which can be upgraded further into 【Heart of Blood Peak】.
 10	Equip the 【Heart of the Illusory Realm】 first, then try again!
 11	Carrying a borrowed God Emperor's Power, ${character.name} is mighty for all of five seconds.
 12	The family system's <span class="${realm_rate[family_data.cap+1][4]}"> ${realm_rate[family_data.cap+1][3]} </span> will NOT be opened!
+13	Blood-Essence Stele
+14	Pick up the 【Blood-Essence Refining】 art after the fact
+15	Blood-Essence Refining / one click, it's yours!! (removed in 3.51)

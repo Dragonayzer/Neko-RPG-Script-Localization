@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NekoRPG Game Text Localizer
 // @namespace    dragonayzer.userscripts
-// @version      18.5
+// @version      18.6
 // @description  Full English localization: UI, item/enemy/skill names, and all prose (descriptions, dialogue, system messages). See the TOGGLES block at the top of the script to switch layers on/off.
 // @match        https://btly0711.github.io/NekoRPG/*
 // @match        https://btly0711-github-io.translate.goog/NekoRPG/*
@@ -155,6 +155,7 @@
 // 18.3: the bestiary spec colon binds to its NAME instead of its description. display.js writes each line as `<b><font>${name} </font></b> ：${desc} ` - a trailing space inside the bold, then a space and a fullwidth colon outside it, which is right for Chinese where the colon carries its own spacing. Translated it read 'Spirit Flash  :A light-element insight.', two spaces before the colon and none after. Now 'Spirit Flash: A light-element insight.'. A DOM pass rather than a glossary entry because the two spaces live in DIFFERENT text nodes - one inside the <b>, one after it - and a fragment can only ever reach one. Scoped to .bestiary_entry_tooltip, decided once per tooltip via data-tl-colon, and deferring any tooltip that still holds Chinese, exactly like sciBigNumbers. Guarded on IDEO_RE and not CJK_RE: the wider set includes the fullwidth colon this pass exists to rewrite, so a tooltip whose separator had not yet been converted would have deferred itself forever - found by the new uitest_speccolon, which builds the real node structure rather than a flat string. Toggle SPEC_COLON_FIX
 // 18.4: the bottom bar's version button gains a second line saying which game build the translation was made against: 'V3.47a' over a 10px grey 'TL18.4|3.47a'. Stacked INSIDE the existing <a> rather than added beside it - the bar is a flex row whose cluster already runs about 815px with the version mid-cluster, so a sibling shoves the hit counter and help sentence rightward, while the 10px line is no wider than the version above it. Both numbers are filled in by the builder, the script's from its own @version and the game's lifted from index.html's changelog_button assignment, so a merge cannot leave either behind. The game's .game_info a is a 40px box that exactly fills the 40px bar and the bar is pinned to the viewport bottom, so a second line inside it would render off-screen; the link is re-boxed as a centred column at the same total 40px, which keeps both lines in and moves no sibling. That rule is scoped to a .tl_has_built class added only when the line is actually inserted, because styleOverrides is injected unconditionally and before the toggles are read. prepareGame() sets this button's innerHTML wholesale on load and destroys the line, so the pass re-adds rather than assuming. Toggle BUILT_FOR_LABEL
 // 18.5: the built-against label separates with a middle dot instead of a pipe: 'TL18.5 · 3.47a'. Same separator the item names use throughout (C4 · Energy Core), so the bar reads like the rest of the script. It is about 10px wider at 10px type, and the sub-line was already the wider of the two lines, so the version button grows by that much - absorbed by the ~400px of slack at the right end of the bar
+// 18.6: merge game V3.47d-f. Upstream fixed all three defects from our report - the is_CBlood_unlocked/is_Cblood_unlocked flag mismatch, the Cblood variable typo, and the unlock text keyed to a name no flag had - plus one of their own, format_numberL never imported into main.js, which had been stalling combat on every overheal. New: the 精血石碑 stopgap NPC in 破败之域, handing out the refining art the boss was meant to grant; the game marks it for removal in 3.51. Its three strings are APPENDED to the v347 corpus as rows 13-15 rather than starting a new pair, since appending leaves every existing row number where it was. One stale key: the Bloodkill stance description restated the rate from 1% per 100兆 to 0.01% per 100亿 - the same ratio against a threshold a player might actually reach - fixed in place in the hand-maintained v4.0 block. The refining log template also changed 1e16 to 1e14 inside its interpolation; that cannot affect matching, since the generated regex is built from the literal parts only, but the frozen row is updated anyway rather than left holding a string the game no longer contains
 
 (function () {
     'use strict';
@@ -1908,7 +1909,7 @@
             ['映星天彩·双虹', 'Starmirror Skyrainbow · Double Rainbow'],
             ['附带有2连击效果的秘法。代价则是基础数值的缺失。此外，【烈日祝福·艮】或【A9·回风药剂】(没有幸运真的撑得到4-4吗)会覆盖它的效果。', 'A technique with a built-in double-hit effect. The cost is reduced base stats. Also, 【Blazing Sun Blessing · Gen】 or 【A9 · Wind Return Potion】 (can you really make it to 4-4 without Luck?) will override its effect.'],
             ['映星天彩·血杀', 'Starmirror Skyrainbow · Bloodkill'],
-            ['附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量，如果【精血炼化】被解锁，超过自身生命上限的治疗量每100兆点生命值就会提供1%获取【至纯精血】的概率', 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover. And once 【Blood-Essence Refining】 is unlocked, healing past your own max health gives a 1% chance of 【Purest Blood-Essence】 per 1e14 health overhealed.'],
+            ['附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量，如果【精血炼化】被解锁，超过自身生命上限的治疗量每100亿点生命值就会提供0.01%获取【至纯精血】的概率', 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover. And once 【Blood-Essence Refining】 is unlocked, healing past your own max health gives a 0.01% chance of 【Purest Blood-Essence】 per 1e10 health overhealed.'],
         ],
         // Per-stance stat lines ("x1.2 攻击速度" etc) reuse the shared
         // statPairs vocabulary via substring match, rather than being
@@ -1927,7 +1928,7 @@
 
 
     // ==== GENERATED by translation/build.py - do not hand-edit ====
-    // 4788 exact-match strings, 3983 substring fragments.
+    // 4790 exact-match strings, 3986 substring fragments.
     // EXACT: whole text node equals the key (descriptions, dialogue, labels).
     // FRAG : pieces of strings the DOM splits apart because the source had
     //        HTML tags or ${...} interpolation. Matched as substrings via one
@@ -5619,6 +5620,7 @@
         '粘合戟': 'Adhesive Trident',
         '粘合月轮': 'Adhesive Moonwheel',
         '精壮青年': 'Burly Youth',
+        '精血提炼/点击就送！！(在3.51将被移除)': 'Blood-Essence Refining / one click, it\'s yours!! (removed in 3.51)',
         '精钢': 'Steel',
         '精钢 三叉戟': 'Steel Trident',
         '精钢 剑': 'Steel Sword',
@@ -6071,6 +6073,7 @@
         '行走树妖': 'Walking Treant',
         '行走树妖[BOSS]': 'Walking Treant [BOSS]',
         '衣服都褪色了。在清野江漂了多少年了哇？': 'Its clothes are all faded. How many years has it drifted in the Qingye River?',
+        '补票【精血提炼】的功法': 'Pick up the 【Blood-Essence Refining】 art after the fact',
         '袜子': 'Socks',
         '被': 'Limited by the ',
         '被D9级飞船炸为废墟的声律领主城。在混乱中蕴藏着许多有用的财宝。': 'The lord\'s city of the Shenglü Fief, blasted to ruins by a D9-tier spaceship. Amid the chaos lie many useful treasures.',
@@ -6517,7 +6520,7 @@
         '阴暗茸茸': 'Gloomy Furball',
         '阻激夹域机械体内的一缕电属性痕迹。法则属性几乎为0，但已足以固化高能凝胶。': 'A wisp of lightning-attribute residue inside Pincer-Field mechs. Its Law attribute is nearly 0, but enough to solidify High-Energy Gel.',
         '附带有2连击效果的秘法。代价则是基础数值的缺失。此外，【烈日祝福·艮】或【A9·回风药剂】(没有幸运真的撑得到4-4吗)会覆盖它的效果。': 'A technique with a built-in double-hit effect. The cost is reduced base stats. Also, 【Blazing Sun Blessing · Gen】 or 【A9 · Wind Return Potion】 (can you really make it to 4-4 without Luck?) will override its effect.',
-        '附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量，如果【精血炼化】被解锁，超过自身生命上限的治疗量每100兆点生命值就会提供1%获取【至纯精血】的概率': 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover. And once 【Blood-Essence Refining】 is unlocked, healing past your own max health gives a 1% chance of 【Purest Blood-Essence】 per 1e14 health overhealed.',
+        '附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量，如果【精血炼化】被解锁，超过自身生命上限的治疗量每100亿点生命值就会提供0.01%获取【至纯精血】的概率': 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover. And once 【Blood-Essence Refining】 is unlocked, healing past your own max health gives a 0.01% chance of 【Purest Blood-Essence】 per 1e10 health overhealed.',
         '附近似乎有人正在寻找纳家后人的下落！[提示:影响力达到50且通过此区域]': 'Someone nearby seems to be searching for the whereabouts of the Na Family\'s descendants! [Hint: reach 50 influence and pass through this area]',
         '附近有许多可疑的门！不过想要检查它们的话，必须先击败眼前成群结对的敌人..': 'Lots of suspicious doors nearby! But to inspect them, you must first defeat the crowd of enemies before you…',
         '限制 - 经验已锁定': ' - XP locked',
@@ -6726,7 +6729,7 @@
     const proseFrag = Object.assign(Object.create(null), {
         '[初始 ${format_money(round_item_price(item.getBaseValue(quality) * ((options && options.trader) ? traders[current_trader].getProfitMargin() : 1) || 1))}]': ' [Base ${format_money(round_item_price(item.getBaseValue(quality) * ((options && options.trader) ? traders[current_trader].getProfitMargin() : 1) || 1))}]',
         '呵呵，一缕念头自是无法长期维持。<br>下一次，就不知道什么时候才能醒了。<br>如果你希望检验自己——<br>去这片结界湖的深处。<br>那里有一些结界里自然滋生的“灵”，<br>诞生了意识，想要反抗和挣脱结界。<br>为了秘境的稳固，这个任务便交予你。<br>去吧，我就不打扰了。': 'Heh, a mere wisp of thought can\'t hold on for long.<br>When I\'ll wake next, there\'s no telling.<br>If you wish to test yourself——<br>go to the depths of this Barrier Lake.<br>There are "Spirits" naturally bred within the barrier<br>that have gained consciousness and wish to resist and break free.<br>For the realm\'s stability, I entrust this task to you.<br>Go on. I won\'t keep you.',
-        '附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量，如果【精血炼化】被解锁，超过自身生命上限的治疗量每100兆点生命值就会提供1%获取【至纯精血】的概率': 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover. And once 【Blood-Essence Refining】 is unlocked, healing past your own max health gives a 1% chance of 【Purest Blood-Essence】 per 1e14 health overhealed.',
+        '附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量，如果【精血炼化】被解锁，超过自身生命上限的治疗量每100亿点生命值就会提供0.01%获取【至纯精血】的概率': 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover. And once 【Blood-Essence Refining】 is unlocked, healing past your own max health gives a 0.01% chance of 【Purest Blood-Essence】 per 1e10 health overhealed.',
         '将威压惩罚削弱到原来的 ^${Math.round(100-100*skills["Resistance"].current_level/skills["Resistance"].max_level)/100}': 'Weakens the intimidation penalty to the original ^${Math.round(100-100*skills["Resistance"].current_level/skills["Resistance"].max_level)/100}',
         '沼泽辐射扩散: ${format_number(inf_combat.B3 )} % -> ${format_number(inf_combat.B3 + 10 * (1 -  E_modi))} %': 'Swamp radiation spread: ${format_number(inf_combat.B3 )} % -> ${format_number(inf_combat.B3 + 10 * (1 -  E_modi))} %',
         '隐藏在三领交界处地下的一处大型秘境。当地唯一不禁止的【虔心】体系炼到天空级巅峰就会化作上好的修行资粮，但也正因为此，此地才能培养起大批外来云霄级强者。[V3.60前版本终点]': 'A vast Secret Realm hidden underground where the three fiefs meet. The 【Piety】 system is the only one not forbidden here, and refined to Sky-Tier Peak it becomes excellent fuel for cultivation — which is precisely why this place has been able to raise a great many Skyhigh-Tier powerhouses from outside. [End of content before V3.60]',
@@ -7778,6 +7781,7 @@
         '由白骨制成的剑柄。易碎，所以使用时会影响自身': 'A sword hilt made of white bone. Brittle, so it affects you when used.',
         '看起来没有前面几只强嘛...等会？夺少衰弱？': 'Doesn\'t look as strong as the last few… wait? How much Enfeeble?',
         '秘境核心的湖泊。新生的“灵”与荒兽在此徘徊。': 'The lake at the Secret Realm\'s core. Newborn "Spirits" and Wildbeasts roam here.',
+        '精血提炼/点击就送！！(在3.51将被移除)': 'Blood-Essence Refining / one click, it\'s yours!! (removed in 3.51)',
         '紧张刺激的燕岗领狩猎大赛~全是云霄级战力哦~': 'The tense, exciting Yangang Fief Hunting Tournament~ all Skyhigh-Tier combatants~',
         '纳可默默地守在一边，转眼间便是三个时辰过去。': 'Neko quietly kept watch to the side, and in the blink of an eye three shichen (six hours) passed.',
         '纳家打造的历练秘境。这是介于内外之间的区域。': 'A training Secret Realm built by the Na Family. This is the area between inner and outer.',
@@ -8337,6 +8341,7 @@
         '纯白冰原 - 冰霜门户': 'Pure White Ice Field - Frost Portal',
         '练兵场深处的一间小木屋': 'A small wooden cabin deep in the Training Ground.',
         '腐蚀质石精[BOSS]': 'Corrosive Stone Sprite [BOSS]',
+        '补票【精血提炼】的功法': 'Pick up the 【Blood-Essence Refining】 art after the fact',
         '装备槽里的姐姐回家了！': 'The Sister in the equipment slot has gone home!',
         '说这么多你咋不帮我打？': 'You explain so much — why don\'t you help me fight it?',
         '这，这可不能随便给你！': 'This, this I can\'t just give you!',
@@ -9910,6 +9915,7 @@
         '粘合袜子': 'Adhesive Socks',
         '粘合裤子': 'Adhesive Pants',
         '精壮青年': 'Burly Youth',
+        '精血石碑': 'Blood-Essence Stele',
         '精钢 剑': 'Steel Sword',
         '精钢剑刃': 'Steel Sword Blade',
         '精钢战锤': 'Steel War Hammer',
@@ -11850,8 +11856,8 @@
     // The game build this script was generated against, lifted from
     // index.html at build time so it cannot be forgotten. TL_VERSION is
     // patched in after the @version bump, which happens later than this.
-    const BUILT_FOR_GAME = '3.47a';
-    const TL_VERSION = '18.5';
+    const BUILT_FOR_GAME = '3.47f';
+    const TL_VERSION = '18.6';
 
     const REALM_TIERS = new Set([
         'Dust-Tier',

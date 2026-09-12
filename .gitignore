@@ -12,3 +12,7 @@ __pycache__/
 # project combined. The builder mirrors every release into here, and only prunes
 # releases/ once the archived copy is confirmed present.
 archive/
+
+# Bug-report drafts for the upstream game repo - working notes, not part of
+# this project.
+ISSUE_*.md

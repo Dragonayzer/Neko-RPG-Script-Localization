@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NekoRPG Game Text Localizer
 // @namespace    dragonayzer.userscripts
-// @version      17.6
+// @version      18.6
 // @description  Full English localization: UI, item/enemy/skill names, and all prose (descriptions, dialogue, system messages). See the TOGGLES block at the top of the script to switch layers on/off.
 // @match        https://btly0711.github.io/NekoRPG/*
 // @match        https://btly0711-github-io.translate.goog/NekoRPG/*
@@ -146,6 +146,16 @@
 // 17.4: merged game V3.45, a small transitional version. No DOM hooks moved; index.html only reworks the digging panel and bumps its version string. Translated: the reworded digging caption, the new low-tier treasure-fish filter (忽略低阶宝藏鱼 and its 阶↓ unit), and the new log line for bulk use past a realm cap being emptied rather than applied. Two stale keys fixed by editing the frozen todo rows in place with their done partners: the digging caption, whose reword also swapped fullwidth commas for halfwidth ones, and 钻探·大师's milestone text, which gained a treasure-fish spawn-interval clause and a changed radius coefficient. Also translated Sayuki's sell-Brother-Feng refusal, five lines that had NEVER been translated: they are log_message calls inside index.html's trade click handler rather than in dialogues.js or main.js, so the prose extractor never reached them and the coverage audit counted the file as accounted for. V3.45 reworded two of them and added a third, which is what finally surfaced them - a reminder that a file being clean in the coverage report only means every string it EXTRACTED is covered. 纱雪 joins the NPC name list as Sayuki, which is the game's own log class for her lines. The old digging caption is retired from verify_screenshot rather than kept: the string no longer exists in the game, so a case for it would only ever test our own dictionary against itself.
 // 17.5: merge game V3.46: Haohuang's gatekeeping dialogue and boss fight on Blood Peak, the placeholder Great Verdant King behind him, Blood Peak - X/EX, Prestige Merchant Gen 3, the Greed omega special and its combat tag, and the Quasi-Dust-Tier letterspaced badge. Three stale keys retired or fixed in place: the Illusory Talisman Array lost its Skyhigh-Tier-Rank-4 nullification tail, the influence altar refines 10% per click instead of 1%, and Sayuki's third sell-Brother-Feng refusal became a template carrying the live rank
 // 17.6: ship an installable NekoRPG-Localizer.user.js in the repo root, written by the builder as byte-identical to Script.txt so the two can never drift. Userscript managers only offer one-click install, and only honour @updateURL, when the URL ends in .user.js - a .txt can be pasted but never installed by URL. Header gains @updateURL/@downloadURL pointing at the raw file on main, plus @homepageURL/@supportURL; living in the one shared header means there is no second place to forget to bump. NOTE the consequence for releases/: those snapshots are byte copies, so they carry the update URLs too, and both managers honour @updateURL from metadata even for a script pasted into the editor - pasting an old release therefore pins nothing unless those two lines are deleted first. Kept byte-identical anyway and documented in the README instead of stripped, because a release file's job is to be an exact archive of what shipped under that version number
+// 17.7: restore the space the translator wrote at inline-tag chunk boundaries. A chunk is one DOM text node and a tag boundary is not a word boundary, so add_chunk stripping both sides rendered 'PS: No effect on targetsSkyhigh-Tier' and 'the difference between3x its own Attack' - 221 sides across 147 keys, visible since the chunk machinery was written. The done_*.tsv English always carried the space; only the builder threw it away. Guarded, because proseExact is context-free and a value chosen beside a <span> is then used everywhere that key appears: padding is kept only where the key is given exactly ONE English value across the corpus AND is not also a whole-string entry. That refuses 4, each printed at build time rather than dropped silently - 攻击 is a chunk here and a standalone stat label in display.js, 获取了 is authored both ways. Padding is normalised to at most one space a side. Zero performance cost: proseFrag is byte-identical so the mega-regex is unchanged, proseExact keeps the same 4773 keys with 142 values differing by padding alone, and the file grows 267 bytes. New uitest_padding.js pins both directions
+// 17.8: merge game V3.47/V3.47a: the Great Verdant King stops being a placeholder (real stats, an ordinary composed 云霄级八阶 -- badge, and spec 71 神帝之力), the 至纯精血 refining loop on the Bloodkill stance, the 血峰之心 craft with its 幻境之心·材 converter in the digging panel, and the 破败之域 zone. Three v346 rows had already gone stale and were edited IN PLACE, never regenerated: the king's description, Blood Peak - EX, and the Refine Blood-Essence unlock text, which V3.46 shipped as WIP placeholders. The letterspaced 准 微 尘 级 key is retired with its verify case - that string is gone. Spec 71's English mirrors the game's broken markup tag for tag: the source writes '乘以 100.81/span>.', a typo for </span>, so the tag never closes; the six stray characters are dropped from the English but the tag COUNT is matched, because an English side that splits into a different number of chunks is refused outright
+// 17.9: enemy stat lines (Dmg/Def/AS/Hit/Eva) move into the pre-paint batch. display.js rewrites all five per enemy with innerHTML on every combat tick, so on the throttled scan they spent most of their life in Chinese and the row flickered between languages at attack speed. They belong to the v4.0 SELECTOR pass rather than the prose layer, so translateHot calls applySelector on the same pair list the scan uses - no second definition of what those words mean - and the call sits ABOVE the ENABLE_PROSE guard, since turning prose off must not stop translating something the throttled pass still handles. Gated on combat_div being visible, which display.js sets as an inline style, so out of combat the whole branch is one property read and no layout is forced. New toggle HOT_ENEMY_STATS. Also: the family panel's newborn-count label now leads with a space - index.html runs the realm span straight into it with no separator, so English read 'Dust-Tier Basicnewborn count:'
+// 18.0: the family newborn-count label loses the word 'count'. v17.9 gave it a leading space, because index.html runs the realm span straight into it and English read 'Dust-Tier Basicnewborn count:' - but an 80px <input> shares that line, and the space alone pushed the box onto the next row. At 10 characters against the old 14 the line is now NARROWER than the version that fit before the space existed, so both problems are paid for at once. Kept short deliberately: the realm in that line grows with the family cap, and All-Things-Tier Peak is five characters wider than the Dust-Tier Basic it starts at. uitest_padding pins the leading space AND the length
+// 18.1: skipped realm tiers in the family roster are GLUED rather than left alone. FAMILY_REALM_BREAK_SKIP exists because All-Things-Tier already fills the column and breaking after it costs a third line - but the cell still had to wrap somewhere, and the browser took the last opportunity that fit, which is the hyphen inside the RANK: 'All-Things-Tier High-' / 'Tier'. A non-breaking space before the rank and non-breaking hyphens inside it remove every break opportunity after the tier, leaving the tier name's own hyphens as the only ones, so it wraps as 'All-Things-' / 'Tier High-Tier' with the rank whole. Idempotent by the test that finds the work: once the space is U+00A0, indexOf(' ') is -1 and the cell is skipped on every later batch. NB_HYPHEN is U+2011, named so it is visible in a diff; a font lacking it would draw a missing-glyph box, and the fallback is an ordinary hyphen - the non-breaking space alone still does most of the work
+// 18.2: the family soft-cap lines are reworded to fit on one line. 'Newborns over 10,000: cost is subject to a Tier-1 soft cap (^1.5)' is 64 characters and the panel holds about 53, so it wrapped with 'cap (^1.5)' alone on a second line and all three spans were double height. Now 'Newborns over 10,000: soft cap 1 (cost ^1.5)', 44 characters: the exponent moves next to the word it modifies and the tier is a bare number, which is what 一重/二重/三重 mean anyway. uitest_visuals asserts a 50-character budget rather than the exact string - the wording is editorial and will change again, the width will not
+// 18.3: the bestiary spec colon binds to its NAME instead of its description. display.js writes each line as `<b><font>${name} </font></b> ：${desc} ` - a trailing space inside the bold, then a space and a fullwidth colon outside it, which is right for Chinese where the colon carries its own spacing. Translated it read 'Spirit Flash  :A light-element insight.', two spaces before the colon and none after. Now 'Spirit Flash: A light-element insight.'. A DOM pass rather than a glossary entry because the two spaces live in DIFFERENT text nodes - one inside the <b>, one after it - and a fragment can only ever reach one. Scoped to .bestiary_entry_tooltip, decided once per tooltip via data-tl-colon, and deferring any tooltip that still holds Chinese, exactly like sciBigNumbers. Guarded on IDEO_RE and not CJK_RE: the wider set includes the fullwidth colon this pass exists to rewrite, so a tooltip whose separator had not yet been converted would have deferred itself forever - found by the new uitest_speccolon, which builds the real node structure rather than a flat string. Toggle SPEC_COLON_FIX
+// 18.4: the bottom bar's version button gains a second line saying which game build the translation was made against: 'V3.47a' over a 10px grey 'TL18.4|3.47a'. Stacked INSIDE the existing <a> rather than added beside it - the bar is a flex row whose cluster already runs about 815px with the version mid-cluster, so a sibling shoves the hit counter and help sentence rightward, while the 10px line is no wider than the version above it. Both numbers are filled in by the builder, the script's from its own @version and the game's lifted from index.html's changelog_button assignment, so a merge cannot leave either behind. The game's .game_info a is a 40px box that exactly fills the 40px bar and the bar is pinned to the viewport bottom, so a second line inside it would render off-screen; the link is re-boxed as a centred column at the same total 40px, which keeps both lines in and moves no sibling. That rule is scoped to a .tl_has_built class added only when the line is actually inserted, because styleOverrides is injected unconditionally and before the toggles are read. prepareGame() sets this button's innerHTML wholesale on load and destroys the line, so the pass re-adds rather than assuming. Toggle BUILT_FOR_LABEL
+// 18.5: the built-against label separates with a middle dot instead of a pipe: 'TL18.5 · 3.47a'. Same separator the item names use throughout (C4 · Energy Core), so the bar reads like the rest of the script. It is about 10px wider at 10px type, and the sub-line was already the wider of the two lines, so the version button grows by that much - absorbed by the ~400px of slack at the right end of the bar
+// 18.6: merge game V3.47d-f. Upstream fixed all three defects from our report - the is_CBlood_unlocked/is_Cblood_unlocked flag mismatch, the Cblood variable typo, and the unlock text keyed to a name no flag had - plus one of their own, format_numberL never imported into main.js, which had been stalling combat on every overheal. New: the 精血石碑 stopgap NPC in 破败之域, handing out the refining art the boss was meant to grant; the game marks it for removal in 3.51. Its three strings are APPENDED to the v347 corpus as rows 13-15 rather than starting a new pair, since appending leaves every existing row number where it was. One stale key: the Bloodkill stance description restated the rate from 1% per 100兆 to 0.01% per 100亿 - the same ratio against a threshold a player might actually reach - fixed in place in the hand-maintained v4.0 block. The refining log template also changed 1e16 to 1e14 inside its interpolation; that cannot affect matching, since the generated regex is built from the literal parts only, but the frozen row is updated anyway rather than left holding a string the game no longer contains
 
 (function () {
     'use strict';
@@ -168,6 +178,35 @@
     const styleOverrides = document.createElement('style');
     styleOverrides.textContent = `
         #trader_cost_mult_value { padding-top: 0px !important; }
+
+        /* --- "built against" line under the changelog button -------------
+           Scoped to .tl_has_built, which addBuiltForLabel() adds only when it
+           has actually inserted the line. This stylesheet is injected
+           unconditionally and before the toggles are read, so an unscoped rule
+           would restyle the version button for anyone who has the label off.
+
+           The game gives .game_info a { height: 20px; padding: 10px } = a 40px
+           box that exactly fills the 40px bar, and the bar is pinned to the
+           bottom of the viewport - so a second line inside it would overflow
+           off-screen rather than being clipped. Re-boxing it as a centred
+           column at the same total 40px keeps both lines inside and leaves
+           every sibling in the flex row exactly where it was. */
+        #changelog_button a.tl_has_built {
+            display: inline-flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 40px !important;
+            padding: 0px 10px !important;
+            line-height: 1.15;
+        }
+        #changelog_button .tl_built {
+            font-size: 10px;
+            line-height: 11px;
+            /* Lighter than the plain 'grey' this started as: at 10px on the
+               bar's dark gradient #808080 is thin to read, #9a9a9a is not. */
+            color: #9a9a9a;
+        }
 
         /* --- Deepfrost engine: sized for Chinese, retuned for English ----
            Chinese is ~2 characters where English needs a word, so several
@@ -451,6 +490,22 @@
     // Myriad-unit numbers -> exponential notation (972万 -> 9.72e6).
     const ENABLE_NUMBER_FORMAT = true;
 
+    // Translate the enemy stat lines (Dmg / Def / AS / Hit / Eva) in the
+    // pre-paint batch instead of on the throttled scan.
+    //
+    // display.js rewrites all five with innerHTML on every combat tick, so at
+    // 3+ attacks a second each one spends most of its life as Chinese waiting
+    // for the next scan, and the row visibly flickers between languages. The
+    // same reasoning as HOT_IDS below, but these are reached by the v4.0
+    // selector pass rather than the prose layer, so they need their own hook.
+    //
+    // Cost is bounded by the fight: up to 8 enemies x 5 nodes, each one text
+    // node and five substring tests, and only while the combat panel is open.
+    // That is the same work the game just did to produce them. Flip off to drop
+    // it instantly if it ever costs too much FPS - the stats then translate on
+    // the normal scan, exactly as they did before.
+    const HOT_ENEMY_STATS = true;
+
     // ---- VISUAL OVERRIDES --------------------------------------------
     // Master switch for everything below: false means the script only
     // translates and the game is left looking exactly as it shipped.
@@ -602,6 +657,31 @@
     // format - are out of reach entirely.
     const BESTIARY_SCI_NUMBERS = true;
 
+    // Bind the special-attribute colon to its NAME rather than its description.
+    //
+    // display.js writes the separator as `${name} </font></b> ：${desc}`, which
+    // is correct Chinese - a fullwidth colon carries its own spacing and sits
+    // away from both sides. In English it reads
+    //     Spirit Flash  :A light-element insight.
+    // with two spaces before the colon and none after, so the colon looks like
+    // it belongs to the sentence rather than the title. This makes it
+    //     Spirit Flash: A light-element insight.
+    // The two spaces live in different text nodes - one inside the bold, one
+    // after it - so no glossary entry can reach both; it has to be a DOM pass.
+    const SPEC_COLON_FIX = true;
+
+    // Add a second line under the bottom bar's version button saying which
+    // game build this translation was made against:
+    //     V3.47a
+    //     TL18.5 · 3.47a
+    // Both numbers are filled in by the builder - the script's own version
+    // from its @version line, the game's from index.html - so neither can be
+    // left behind by a merge. Stacked inside the existing link rather than
+    // added beside it: the bar is a flex row and the version sits mid-cluster,
+    // so a sibling would shove the hit counter and help text rightward, while
+    // the 10px line is no wider than the version above it.
+    const BUILT_FOR_LABEL = true;
+
     // A shortcut row at the top of the location actions list, in three groups:
     //   - navigation, from the left edge: one icon per exit
     //   - what you can DO here: one icon per dialogue, job, training or
@@ -631,10 +711,19 @@
     //     Sky-Tier Rank 1   ->   Sky-Tier
     //                            Rank 1
     const FAMILY_REALM_BREAK = true;
-    // Tiers left on one line. All-Things-Tier is the longest name in the set
-    // and already fills the column on its own, so breaking it after the tier
-    // buys nothing and costs a third line. Any tier named here is skipped;
-    // the tier list itself is generated from main.js realm_rate.
+    // Tiers that get no break of their own. All-Things-Tier is the longest
+    // name in the set and already fills the column, so breaking after the tier
+    // buys nothing and costs a third line.
+    //
+    // They are not simply left alone, though - they still have to wrap, and
+    // the browser picks the last opportunity that fits, which lands inside the
+    // RANK and orphans a word:
+    //     All-Things-Tier High-      ->      All-Things-
+    //     Tier                               Tier High-Tier
+    // So the rank is glued to the tier with a non-breaking space and
+    // non-breaking hyphens, leaving the tier name's own hyphens as the only
+    // places the line can break. The tier list is generated from main.js
+    // realm_rate; anything named here follows that path instead of the break.
     const FAMILY_REALM_BREAK_SKIP = ['All-Things-Tier'];
 
     // Prefix log messages with the real date and time they arrived:
@@ -726,6 +815,7 @@
         '飞船之心': 'Heart of the Spaceship',
         '冰原之心': 'Heart of the Ice Field',
         '幻境之心': 'Heart of the Illusory Realm',
+        '血峰之心': 'Heart of Blood Peak',
         '铁剑刃': 'Iron Sword Blade',
         '精钢剑刃': 'Steel Sword Blade',
         '紫铜剑刃': 'Copper Sword Blade',
@@ -885,6 +975,7 @@
         '结界湖之心·材': 'Heart of the Barrier Lake · Material',
         '飞船之心·材': 'Heart of the Spaceship · Material',
         '冰原之心·材': 'Heart of the Ice Field · Material',
+        '幻境之心·材': 'Heart of the Illusory Realm · Material',
         '晶化合金锭': 'Crystallized Alloy Ingot',
         '极寒织料': 'Deepfrost Cloth',
         '冰块': 'Ice Block',
@@ -949,6 +1040,7 @@
         '灵蓝补给品': 'Spirit Blue Supplies',
         '燃血鲜花': 'Bloodflame Blossom',
         '焚血花王': 'Bloodflame Flower King',
+        '至纯精血': 'Purest Blood-Essence',
         '粘合织料': 'Adhesive Cloth',
         '润灵铜骨': 'Spirit-Infused Copper Bone',
         '活性织料': 'Reactive Cloth',
@@ -1817,7 +1909,7 @@
             ['映星天彩·双虹', 'Starmirror Skyrainbow · Double Rainbow'],
             ['附带有2连击效果的秘法。代价则是基础数值的缺失。此外，【烈日祝福·艮】或【A9·回风药剂】(没有幸运真的撑得到4-4吗)会覆盖它的效果。', 'A technique with a built-in double-hit effect. The cost is reduced base stats. Also, 【Blazing Sun Blessing · Gen】 or 【A9 · Wind Return Potion】 (can you really make it to 4-4 without Luck?) will override its effect.'],
             ['映星天彩·血杀', 'Starmirror Skyrainbow · Bloodkill'],
-            ['附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，无法超过自身生命上限。基础数值和【双虹】类似。注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量。', 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level, and can\'t exceed your own max health. Base stats are similar to 【Double Rainbow】. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover.'],
+            ['附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量，如果【精血炼化】被解锁，超过自身生命上限的治疗量每100亿点生命值就会提供0.01%获取【至纯精血】的概率', 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover. And once 【Blood-Essence Refining】 is unlocked, healing past your own max health gives a 0.01% chance of 【Purest Blood-Essence】 per 1e10 health overhealed.'],
         ],
         // Per-stance stat lines ("x1.2 攻击速度" etc) reuse the shared
         // statPairs vocabulary via substring match, rather than being
@@ -1836,7 +1928,7 @@
 
 
     // ==== GENERATED by translation/build.py - do not hand-edit ====
-    // 4773 exact-match strings, 3970 substring fragments.
+    // 4790 exact-match strings, 3986 substring fragments.
     // EXACT: whole text node equals the key (descriptions, dialogue, labels).
     // FRAG : pieces of strings the DOM splits apart because the source had
     //        HTML tags or ${...} interpolation. Matched as substrings via one
@@ -1846,15 +1938,15 @@
         '(PS:半角算半个，所以舰船中枢B6[BOSS]也是七个字~': '(PS: half-width counts as half, so Warship Nexus B6 [BOSS] is also seven characters~)',
         '(Tips:没有姐姐的话地宫不会被削弱到1/100属性)': '(Tip: without Sister, the Crypt won\'t be nerfed to 1/100 stats.)',
         '(Tips:没有姐姐的话飞船中枢·B6不会在第十回合爆炸': '(Tip: without Sister, the Warship Nexus · B6 won\'t explode on turn 10.)',
-        '(会显示在血条上)。': '(shown on the health bar).',
+        '(会显示在血条上)。': ' (shown on the health bar).',
         '(内心OS:毕竟上限可是50级！)': 'after all, the cap is level 50!) I\'m a little',
-        '(加成 :': '(Bonus:',
-        '(加成:': '(Bonus:',
+        '(加成 :': '(Bonus: ',
+        '(加成:': '(Bonus: ',
         '(反转:我方雷冬出现)': '(Reversal: our side\'s Leidong',
         '(反转:敌方百炎塔出现)': '(Reversal: the enemy\'s Baiyanta',
         '(反转：敌方被峰大哥吓跑)': 'standoff) (Reversal: the enemy is scared off by Brother Feng)',
         '(另一轮激烈的对峙)': 'appears) (Another round of tense',
-        '(可叠加)': '(stacking).',
+        '(可叠加)': ' (stacking).',
         '(可可，拿下这家伙就交给你了！)': '(Koko, taking down this guy is up to you!)',
         '(天空级巅峰 [-4]的老东西！': 'got what it takes to challenge Father. (You',
         '(姐姐……我没看过史书诶。他是谁？）': '(Sister… I\'ve never read the histories. Who is he?)',
@@ -1863,7 +1955,7 @@
         '(抖了抖)收拾收拾心情……': '(gives herself a shake) Let me pull myself together…',
         '(拿出极寒相变引擎)这个我可是放着没管！': '(takes out the Deepfrost Phase-Change Engine) This one I\'ve just been leaving idle!',
         '(掉落+25%,经验+39.7%)': '(Loot +25%, XP +39.7%)',
-        '(提供10个': '(provides 10',
+        '(提供10个': '(provides 10 ',
         '(敌人攻防和/角色攻防和)^(1-0.01*牵制领悟度)*(敌人防御力/角色防御力)^(0.01*牵制领悟度)': '(enemy Attack+Defense / character Attack+Defense)^(1-0.01*Restraint insight) * (enemy Defense / character Defense)^(0.01*Restraint insight)',
         '(晃晃钱袋子)想要吗?': '(Jingle your coin purse) Want some?',
         '(月轮切割声)': '(sound of the Moonwheel slicing)',
@@ -1892,12 +1984,12 @@
         '(说起来...回燕岗城之后要不要找城主府,': '(Come to think of it… after getting back to Yangang City, should I ask the Lord\'s Manor',
         '(这是一条自动回复)': '(This is an auto-reply)',
         '(雷叔突然激动地要求纳可和峰交好！)': '(Uncle Lei suddenly, excitedly urges Neko and Feng to get close!)',
-        ',上限': ', up to',
-        ',该敌人伤害减少': ', this enemy\'s damage decreases by',
-        ',超过了': ', which exceeds',
-        '- 吞噬宝石，提供全局技能经验加成': '- Devours gems, providing a global skill-XP bonus',
-        '- 炼化影响力': '- Refines Influence',
-        '- 献祭金钱，提供全局运气加成': '- Sacrifices money, providing a global luck bonus',
+        ',上限': ', up to ',
+        ',该敌人伤害减少': ', this enemy\'s damage decreases by ',
+        ',超过了': ', which exceeds ',
+        '- 吞噬宝石，提供全局技能经验加成': ' - Devours gems, providing a global skill-XP bonus',
+        '- 炼化影响力': ' - Refines Influence ',
+        '- 献祭金钱，提供全局运气加成': ' - Sacrifices money, providing a global luck bonus',
         '...露头就秒？！如果可以看到这段话，相信你已经找到破解的办法了。': '…one-shot the moment you peek out?! If you can read this line, you\'ve surely already found the way to crack it.',
         '0.5倍': '0.5x',
         '0.8、1.2倍': '0.8x and 1.2x',
@@ -1958,7 +2050,7 @@
         'D9，B9。感觉上，像是某种划分一样，是什么呢……': 'D9, B9. It feels like some kind of classification. What could it be…',
         'MOD - NekoRPG作者：超自然生物吐火研究协会 - 纱雪(持续呜呜中=w=)': 'MOD - NekoRPG author: Supernatural Creature Fire-Breathing Research Association - Shaxue (still sobbing away =w=)',
         'Neko又是谁？': 'And who is Neko?',
-        'PS:对': 'PS: No effect on targets',
+        'PS:对': 'PS: No effect on targets ',
         'PS:每血洛日0点刷新商品': 'PS: Stock refreshes at 0:00 each Bloodfall day.',
         'V0.21更新存档请点击此提示获取下一区域访问权限': 'For V0.21 save updates, click this prompt to gain access to the next area.',
         '[1]常规工作': '[1] Regular Work',
@@ -1976,8 +2068,6 @@
         '[???]谢谢。': '[???] Thank you.',
         '[???]还有什么事吗？': '[???] Is there something else?',
         '[PS/设定补充]': '[PS/lore note] Unless otherwise',
-        '[WIP]如果你在3.46把这玩意开挂打死了你的存档就废了。继续开一把解4-6吧。': '[WIP] If you cheat this thing to death in 3.46, your save is done for. Just start another run and unlock 4-6.',
-        '[WIP]还没做好。你最好不要打死它。': '[WIP] Not finished yet. You had better not kill it.',
         '[光环法杖]BOSS级敌人无法被增幅!': '[Aura Staff] BOSS-tier enemies can\'t be amplified!',
         '[冰溪月]哎呀呀，这你得去问冰蓝了……': '[Bing Xiyue] Oh my, you\'ll have to ask Binglan about that…',
         '[冰溪月]哦哦，气场很足的嘛。': '[Bing Xiyue] Ooh, quite the',
@@ -2000,7 +2090,7 @@
         '[峰]嗯，如果你想找我，就去飞云阁吧。': '[Feng] Mm, if you want to find me, go to Feiyun Pavilion.',
         '[峰]好啊。可可，你刚才说，': '[Feng] Sure. Koko, you said just now — this',
         '[峰]对了，这燕岗城最好的住宿地是哪里？': '[Feng] By the way, where\'s the best lodging in Yangang City?',
-        '[峰]我叫，': '[Feng] I\'m called',
+        '[峰]我叫，': '[Feng] I\'m called ',
         '[峰]终于到地方了，不枉我盯了她一路。': '[Feng] Finally made it. All that trailing her the whole way wasn\'t for nothing.',
         '[峰]话说到这里，还没有明白吗？': '[Feng] With this much said, you still don\'t',
         '[峰]这套秘法仅仅包含基础内容，': '[Feng] This Technique contains only the basics, and',
@@ -2030,14 +2120,14 @@
         '[昊荒]要是换别人我早就给他过了。': '[Haohuang] Anyone else and I\'d have waved them through long ago.',
         '[极寒相变引擎] - [焰海] / [霜天] 环境 现已解锁！': '[Deepfrost Phase-Change Engine] - [Flame Sea] / [Frost Sky] environments are now unlocked!',
         '[枫杏红]': '[Feng Xinghong]',
-        '[枫杏红]即使刚刚突破到': '[Feng Xinghong] Even having just broken through to',
+        '[枫杏红]即使刚刚突破到': '[Feng Xinghong] Even having just broken through to ',
         '[枫杏红]燕岗领狩猎大赛有年龄限制的。': '[Feng Xinghong] The Yangang Fief Hunting Tournament has',
         '[枫杏红]这片古墓之中，': '[Feng Xinghong] Within this ancient',
         '[死神之镰已激活 / 有效等级+4]': '[Reaper\'s Scythe active / effective level +4]',
         '[死线]受到的伤害x5！': '[Deadline] damage taken x5!',
         '[死线·凝滞]受到的伤害x2！': '[Deadline · Stasis] damage taken x2!',
         '[溪月]……谢谢，拜托了……': '[Xiyue] …Thank you, I\'m counting on you…',
-        '[溪月]他是': '[Xiyue] He\'s a',
+        '[溪月]他是': '[Xiyue] He\'s a ',
         '[溪月]你也知道，被关在这里的这些强者，': '[Xiyue] As you know, the powerhouses locked in',
         '[溪月]你们已经有了接受传承的资格！': '[Xiyue] You\'ve now earned the right to receive',
         '[溪月]后面的这一段，你已经知道啦。': '[Xiyue] The part that follows, you already',
@@ -2274,7 +2364,7 @@
         '[纳布]好好好。': '[Nabu] Good, good, good.',
         '[纳布]岂有此理，百家那群混蛋！他们真是该死！': '[Nabu] Outrageous — those Hundred-Clans bastards! They deserve to',
         '[纳布]年轻人有勇气是好事。': '[Nabu] It\'s good for the young to have spirit.',
-        '[纳布]是啊……': '[Nabu] That\'s right… anyone below',
+        '[纳布]是啊……': '[Nabu] That\'s right… anyone below ',
         '[纳布]荒兽森林十分凶险，': '[Nabu] The Wildbeast Forest is perilous,',
         '[纳布]都来了啊。可可，娜娜，这次辛苦你们了。': '[Nabu] You\'re both here. Koko, Nana, you\'ve done well this time.',
         '[纳布]顾名思义……': '[Nabu] As the name implies…',
@@ -2345,7 +2435,7 @@
         '【万载冰髓】与冰宫中的镶嵌宝石结合成的合金。表面十分锋利，因此不适合制作盔甲。强度为B7+级。': 'An alloy of 【Age-Old Frostmarrow】 and the Ice Palace\'s inlaid gems. Its surface is razor-sharp, so it\'s unsuited to armor. B7+ strength.',
         '【兽潮】席卷的沼泽。云霄以上的兽王被扫荡完毕，但天空级初期荒兽仍然相当普遍。': 'A swamp swept by the 【Beast Tide】. The beast kings above Skyhigh-Tier have been wiped out, but early Sky-Tier Wildbeasts are still quite common.',
         '【冰原超流体】的相变产物。强度为B6级中上。': 'The phase-change product of 【Ice Field Superfluid】. Upper-B6-tier strength.',
-        '【古龙】可是这里最强的龙族！每一条都有成年': 'The 【Ancient Dragon】 is the strongest dragon-kind here! Every one has the bloodline of an adult',
+        '【古龙】可是这里最强的龙族！每一条都有成年': 'The 【Ancient Dragon】 is the strongest dragon-kind here! Every one has the bloodline of an adult ',
         '【大青王尤斯纳】的领地。鲜血系的修炼法屡见不鲜……让人感到阴森呢。': 'The domain of 【Great Verdant King Yusna】. Blood-path cultivation methods are commonplace here… rather sinister, isn\'t it.',
         '【天外族群】': '【Alien Clans】',
         '【宝石软上限起始倍率(SCGV)】': '【Gem Soft-Cap Starting Multiplier (SCGV)】',
@@ -2385,7 +2475,7 @@
         '一切负面情绪的源头。': 'fear in your heart, of all your negative emotions.',
         '一切都无所遁形。': 'range of his soul-detection, nothing could',
         '一半': 'half',
-        '一叠369枚': 'and a stack of 369',
+        '一叠369枚': 'and a stack of 369 ',
         '一呼百应，导致每一回合的伤害都会越来越夸张。对了，纳可比较能惹事，一次惹到了3只~': 'One call rallies a hundred, making each turn\'s damage more and more outrageous. Oh, and Neko\'s a bit of a troublemaker — she provoked 3 of them at once~',
         '一处明亮整洁的大厅，纳可平时活动的地方。': 'A bright, tidy hall — where Neko usually spends her time.',
         '一大堆宇宙币，共计1000U(或记为1kU)': 'A big heap of Cosmic Coins, totaling 1000U (or written 1kU).',
@@ -2448,6 +2538,7 @@
         '下位佣兵': 'Low-Rank Mercenary',
         '不。如果是听话的孩子，这种时候不可能丢下姐姐不管的。': 'No. An obedient child could never abandon her sister at a time like this.',
         '不久，混元门被众多势力瓜分。曾经不可一世的最庞大势力……': 'carved up by many factions. The once-peerless, mightiest power……',
+        '不予开放！': ' will NOT be opened!',
         '不仅仅本身的温度接近0K，还含有致死量的冰元素。一个这货可以中和几十个【核爆能源】！': 'Not only is its own temperature near 0K, it also holds a lethal dose of ice element. One of these can neutralize dozens of 【Nuclear-Blast Energy】!',
         '不介意的话，叫我可可吧。': 'Brother Feng. If you don\'t mind, call me Koko.',
         '不会耽误你多少时间。': 'fast. It won\'t take up much of your time.',
@@ -2486,7 +2577,7 @@
         '不要东张西望啦，你找不到我的。': 'look around — you won\'t find me. I\'m deep in your',
         '不要再继续成长了。': 'growing stronger.',
         '不要再问了……': 'to say, she\'ll say herself. Don\'t press her…',
-        '不要忘记那些不得不做的事情。战斗结束后，角色获取': 'Don\'t forget the things that must be done. After battle, the character gains',
+        '不要忘记那些不得不做的事情。战斗结束后，角色获取': 'Don\'t forget the things that must be done. After battle, the character gains ',
         '不要想着和它打消耗战...当然，除非你可以防杀它。': 'Don\'t think about a war of attrition with it… unless you can defense-kill it, of course.',
         '不过——还有一个目标，': 'But——there\'s one more target,',
         '不过也是没有办法的事情。': 'telling you now. But it couldn\'t be',
@@ -2520,8 +2611,8 @@
         '与百方的战斗。可以稍后再回来击败他！。': 'A battle with Baifang. You can come back and beat him later!',
         '与荒兽头目交战': 'Engage the Wildbeast Chief',
         '与角色敏捷之差的五倍': 'five times the difference from the character\'s Agility',
-        '与角色防御': 'its own Attack and',
-        '与该敌人战斗时，角色的攻防效力削弱': 'When fighting this enemy, the character\'s Attack/Defense effectiveness is weakened by',
+        '与角色防御': ' its own Attack and ',
+        '与该敌人战斗时，角色的攻防效力削弱': 'When fighting this enemy, the character\'s Attack/Defense effectiveness is weakened by ',
         '且云霄级荒兽材料支持带回家。': 'Skyhigh-Tier Wildbeast materials may be brought home.',
         '丢掉了本职工作——魔攻。是法师失格！绝对算的吧！这就是deep♂dark♂fantasy的代价啊。': 'It ditched its day job — Magic Attack. Mage disqualification! Definitely counts, right?! This is the price of deep♂dark♂fantasy.',
         '两个天空级初……哈？！': 'is an everyday affair. Two early',
@@ -2581,7 +2672,7 @@
         '也是时候告诉你这些了。': 'It\'s about time I told you these things.',
         '也是有不小风险的吧？': 'carried no small risk, didn\'t it?',
         '也是燕岗领附近，为数不多的，': 'Fief】—— 【Furball Valley】, one of the few areas near',
-        '也有些时日了。': 'for some time now.',
+        '也有些时日了。': ' for some time now.',
         '也正是拜这串生死危机所赐。': 'thanks to this string of life-and-death crises.',
         '也没有想到家族能走到如今这一步。': 'I never imagined the family would come this far.',
         '也许有人好奇为什么这些百家精血的装备就不会造反了。其实是因为高温灭灵过了……': 'Maybe you\'re wondering why this gear made from the Hundred Clans\' refined blood doesn\'t rebel. It\'s because it was spirit-purged at high heat…',
@@ -2598,7 +2689,7 @@
         '二阶荒兽': 'Rank 2 Wildbeast',
         '于是下令仔细追查这件事情——': 'ordered a careful investigation into the matter——',
         '云霄级一阶': 'Skyhigh-Tier Rank 1',
-        '云霄级一阶 --': 'Skyhigh-Tier Rank 1 --',
+        '云霄级一阶 --': ' Skyhigh-Tier Rank 1 --',
         '云霄级三阶 +': 'Skyhigh-Tier Rank 3 +',
         '云霄级前辈的性命为代价。': 'Skyhigh-Tier seniors\' lives, one after another.',
         '云霄级四阶': 'Skyhigh-Tier Rank 4',
@@ -2607,7 +2698,7 @@
         '云霄级敌人的精血。治疗效果很强，当然当酱料蘸也是可以的。': 'The refined blood of Skyhigh-Tier enemies. Strong healing effect — though you can also use it as a dipping sauce, sure.',
         '云霄级瓶颈': 'Skyhigh-Tier bottleneck',
         '五、十、二十': '5, 10, and 20',
-        '五十连(450 x': 'Fifty-pull (450 x',
+        '五十连(450 x': 'Fifty-pull (450 x ',
         '五彩': 'Rainbow',
         '五彩 三叉戟': 'Rainbow Trident',
         '五彩 剑': 'Rainbow Sword',
@@ -2642,7 +2733,7 @@
         '人立金茸茸': 'Upright Gold Furball',
         '什么——！': 'What——!',
         '什么你要和我抢资源?捅死你喵(DMG 50x)捅死你喵(DMG 50x)捅死你喵(DMG 50x)。': 'What, you want to fight me for resources? Stab you dead, meow (DMG 50x) stab you dead, meow (DMG 50x) stab you dead, meow (DMG 50x).',
-        '什么办法可以融合': 'What method can fuse the',
+        '什么办法可以融合': 'What method can fuse the ',
         '什么意思……？': 'What do you mean…?',
         '仅仅一颗就可以掀起小范围的腥风血雨，使用时随机增加攻击/防御/敏捷10亿或生命2000亿': 'Just one can stir up a small-scale bloodbath; on use, randomly adds 1e9 Attack/Defense/Agility or 2e11 Health.',
         '仅仅一颗就可以掀起小范围的腥风血雨，使用时随机增加攻击/防御/敏捷1亿或生命200亿': 'Just one can stir up a small-scale bloodbath; on use, randomly adds 1e8 Attack/Defense/Agility or 2e10 Health.',
@@ -2691,7 +2782,7 @@
         '令我血洛大陆一方死伤惨重。': 'inflicting heavy casualties on our Bloodfall Continent.',
         '以一个扭曲的姿态活在这结界里。': 'living in this barrier in a twisted',
         '以上的修者也算了，': ', forget it —',
-        '以上目标或': 'or above, or',
+        '以上目标或': ' or above, or ',
         '以下都可以参加。': 'can enter. After the Beast Tide in year 1372',
         '以你的实力，对付刚才那头荒兽，': 'With your strength, taking on that Wildbeast just now',
         '以你的血量，只要十六个大钱就可以接受祝福！': 'With your health, it only takes sixteen Large Coins to accept the blessing!',
@@ -2838,8 +2929,9 @@
         '你的 镐子 槽位': 'Your Pickaxe Slot',
         '你的 镰刀 槽位': 'Your Scythe Slot',
         '你的 领域 槽位': 'Your Domain Slot',
+        '你的【幻境之心】已经被转化为【幻境之心·材】，': 'Your 【Heart of the Illusory Realm】 has been converted into 【Heart of the Illusory Realm · Material】,',
         '你的【飞船之心】已经被转化为【飞船之心·材】，': 'Your 【Heart of the Spaceship】 has been converted into 【Heart of the Spaceship · Material】,',
-        '你的境界是': 'Your realm is',
+        '你的境界是': 'Your realm is ',
         '你的姐姐不是放在箱子里吗！': 'sister tucked away in the chest? As',
         '你的意思是说，': 'You mean these',
         '你的时代已经过去了，前辈。': 'Your era has already passed, Senior.',
@@ -2854,7 +2946,7 @@
         '你确定你是精英？卫兵测试强度的方法不会是站着挨打吧。': 'You sure you\'re an elite? A guard\'s way of testing strength isn\'t standing there taking hits, is it?',
         '你确定要和它战斗吗..挨打变强现在可是削弱了哦！': 'Are you sure you want to fight it… taking hits to grow stronger has been nerfed now, you know!',
         '你肆意屠杀低阶血洛居民，': 'Your wanton slaughter of low-tier',
-        '你获取了【提炼精血】的能力！[WIP/将在V3.47更新]': 'You\'ve gained the ability to 【Refine Blood-Essence】! [WIP/coming in V3.47]',
+        '你获取了【提炼精血】的能力！(使用【血杀】姿态战斗来提炼)': 'You\'ve gained the ability to 【Refine Blood-Essence】! (fight in the 【Bloodkill】 stance to refine it)',
         '你获得了合成物品和装备的能力！': 'You\'ve gained the ability to craft items and gear!',
         '你获得了收集材料的能力！': 'You\'ve gained the ability to gather materials!',
         '你要成为强者！去探索外面的世界！': 'You must become strong! Go explore the outside world!',
@@ -2864,7 +2956,7 @@
         '你这月轮的构架，起码是巅峰灵宝级。': 'long time; the architecture of your Moonwheel is at',
         '你都在背后看着？': 'watching from behind many of the Water Prison\'s battles?',
         '你，你……': 'You, you…',
-        '使用': 'Use',
+        '使用': 'Use ',
         '使用光幕加工物品[Tier+4]': 'Use the light curtain to process items [Tier+4]',
         '使用共享工作台[Tier+2]': 'Use the shared workbench [Tier+2]',
         '使用兽角和荧光精华炼制出的合金。强度B6级，但不适于做盔甲...否则黑暗中自带发光索敌效果。': 'An alloy refined from beast horns and Fluorescent Essence. B6-tier strength, but bad for armor… otherwise you\'d glow in the dark and get targeted.',
@@ -2893,10 +2985,10 @@
         '保证可以把你的伤害提高一倍还多！': 'Guaranteed to more than double your damage!',
         '信仰祭坛': 'Altar of Faith',
         '倍': 'times',
-        '倍。': 'times.',
+        '倍。': ' times.',
         '倍，与纳可进入最终的决战！': '-fold, and enter the final showdown with Neko!',
         '倒免去一番苦战。': 'the Inner Demon, which spared me a',
-        '借个': 'to lend me',
+        '借个': 'to lend me ',
         '借助风元素的势进行的二段不对等打击。': 'An uneven two-hit strike using the momentum of the wind element.',
         '借此机会，她决定把蓝柒带回洞府，': 'mystery. Seizing the chance, she decided to bring Lanqi back to',
         '偏重防御阵法的小队……bro觉得360e防御在4-2老强了。': 'A squad favoring defensive arrays…… bro thinks 3.6e10 defense is super strong in 4-2.',
@@ -2961,7 +3053,7 @@
         '光暗月轮': 'Light-Dark Moonwheel',
         '光环异兽的身周总是围着一群异兽，并且个个都看起来很亢奋。(效果整合在楼层属性中)': 'An aura Aberrant Beast is always surrounded by a group of Aberrant Beasts, every one looking agitated. (The effect is integrated into the floor stats.)',
         '光环法杖大放光彩，随即暗淡下来……': 'The Aura Staff blazed with light, then dimmed…',
-        '兑换': 'Exchange for',
+        '兑换': 'Exchange for ',
         '兑换点需要它才能兑换物品...': 'The exchange point needs it to trade for items…',
         '入门的【月轮】核心部件。比起被强行操控的凝胶，光暗枝丫算得上正统念力感应材料了。': 'An entry-level 【Moonwheel】 core part. Compared to forcibly-controlled Gel, Light-Dark Branch counts as proper psychokinetic-sensing material.',
         '全体都有~板载！这次可是携带了超强的绝对零度·疾冻弹药！': 'Everybody\'s got it~ banzai! This time it\'s packing super-strong Absolute-Zero · Flash-Freeze ammo!',
@@ -3124,6 +3216,7 @@
         '利用简单的精神念力点燃火焰的领悟。': 'The insight to kindle flame with simple psychokinesis.',
         '利用绿色刀币铸成的B1级合金。或许是因为大人物偶尔也会用到，它基本无毒，可以用作盔甲。': 'A B1-tier alloy cast from Green Knife Coins. Maybe because bigwigs use it now and then, it\'s basically non-toxic and can be made into armor.',
         '利用能力宝石打成的锭。这可不会被软上限..': 'An ingot forged from power gems. This one isn\'t subject to the soft cap…',
+        '利用鲜血峰秘法与映星天彩吸取的精血。纯度极高，蕴含着满溢的杀气与一丝兽神血。未来可以辅助吸收血洛晶。(价格是0是因为这种邪修物品商人不敢收)': 'Blood-essence drawn out with Blood Peak\'s secret art and the Starmirror Skyrainbow. Its purity is extreme, brimming with killing intent and a trace of beast-god blood. In the future it can assist in absorbing Bloodfall Crystal. (Its price is 0 because no merchant dares handle a demonic-cultivation item like this.)',
         '别卖姐姐！你这个恶魔！': 'Don\'t sell Sister! You demon!',
         '别吓姐姐。': 'don\'t scare your sister.',
         '别告诉我深骑士就是衣服的颜色比较深。似乎是B9级【蓝金精】镀层..真有钱啊。': 'Don\'t tell me a "Deep Knight" is just one whose clothes are darker. Seems to be a B9-tier 【Blue Gold Essence】 plating… so rich.',
@@ -3133,7 +3226,7 @@
         '到了此时，她才发现，': 'did she realize that in this Water Prison it isn\'t',
         '到底有多神奇。': 'the 【Domain】 that could suppress Zhuhu really is.',
         '到时候再去协助她就是。': 'and then go assist her.',
-        '到防御上。': 'to Defense.',
+        '到防御上。': ' to Defense.',
         '制人于幻境中，受到幻境的蛊惑。': 'Traps you in an illusion, leaving you bewitched by it.',
         '制式的铁制头盔外壳，因阻挡视野会略微影响攻击速度': 'A standard-issue Iron helmet shell; it blocks your view and slightly lowers Attack Speed.',
         '制式的铁制战靴外壳，会略微影响行动': 'A standard-issue Iron boots shell; it slightly hampers movement.',
@@ -3144,7 +3237,7 @@
         '刺穿的菇灵': 'Pierced Mushroom Spirit',
         '刻录许多自增幅符文的布匹，对基因原能和精神念力都有一定比例的增幅作用……至少在它饱和之前。': 'Cloth inscribed with many self-amplifying runes; it boosts both genetic primal-energy and psychokinesis by a set proportion… at least until it saturates.',
         '刻意保留，用于防止鲜血峰上发生争斗的山腰混乱之地正中央。大量彼此决一死战的强者汇聚于此，但都干掉就可以得到两边的财产了……': 'Deliberately preserved, right in the middle of the chaotic mid-slope grounds that keep fights from breaking out on Blood Peak. Crowds of powerhouses gather here to fight to the death — but kill them all and you get both sides\' property…',
-        '前': 'For the first',
+        '前': 'For the first ',
         '前往【极寒冰宫】': 'Go to 【Deepfrost Ice Palace】',
         '前往大厅': 'Go to the Hall',
         '前往挑战冰宫守卫': 'Go challenge the Ice Palace Guards',
@@ -3165,11 +3258,11 @@
         '剧情太多，先不写在这里了……说起来，内存那么贵，这个储存姬B1肯定很值钱吧。': 'Too much plot, won\'t write it here for now… come to think of it, memory\'s so expensive, this Storage Maiden B1 must be worth a fortune.',
         '剧毒恐怖B1': 'Toxic Horror B1',
         '剧烈的爆炸声响彻四周，': 'A violent explosion rang out all around,',
-        '剩余敌人:': 'Remaining enemies:',
+        '剩余敌人:': 'Remaining enemies: ',
         '加入了剿灭行动以应对兽潮威胁的修者。你问3连击?抬头看看攻速吧(笑': 'A cultivator who joined the extermination operation to counter the beast-tide threat. You ask about the 3-hit combo? Look up at the attack speed (lol',
-        '加入了新纳家！': 'joined the new Na Family!',
-        '加到自己的攻击上': 'of the character\'s Attack to its own Attack',
-        '加到自己的攻击上。': 'the character\'s Agility to its own Attack.',
+        '加入了新纳家！': ' joined the new Na Family!',
+        '加到自己的攻击上': ' of the character\'s Attack to its own Attack',
+        '加到自己的攻击上。': ' the character\'s Agility to its own Attack.',
         '加强攻击力，并稍微加快攻击速度。': 'Increases attack power, and slightly increases attack speed.',
         '加强自己和削弱敌人的手段简直出神入化。什么时候纳可也可以学会这些呢？': 'Its means of buffing itself and debuffing enemies are downright masterful. When will Neko get to learn these?',
         '加快攻击速度，并稍微加强攻击力。': 'Increases attack speed, and slightly increases attack power.',
@@ -3181,10 +3274,10 @@
         '化灵蝶': 'Spirit-Transformed Butterfly',
         '十万年间，总共有二十三万余冒险者，': 'Over a hundred thousand years, more than two',
         '十几道身影，正围站在天光洒落的平台上。': 'A dozen-odd figures stand encircling the platform where the sky-light spills down.',
-        '十连(90 x': 'Ten-pull (90 x',
+        '十连(90 x': 'Ten-pull (90 x ',
         '半途转换进化方向的茸茸。这条路的终点是天空级二阶，但秘境的能量已经捉襟见肘了。': 'A Furball that switched evolution paths midway. This road ends at Sky-Tier Rank 2, but the realm\'s energy is already stretched thin.',
-        '单抽(10 x': 'Single pull (10 x',
-        '单次对敌人的伤害不能超过': 'Single-hit damage to the enemy cannot exceed',
+        '单抽(10 x': 'Single pull (10 x ',
+        '单次对敌人的伤害不能超过': 'Single-hit damage to the enemy cannot exceed ',
         '单眼蝠幼体': 'One-Eyed Bat Larva',
         '单纯的数值怪。我猜可以打到这里应该不是很怕它了。': 'A pure stat-check monster. I\'m guessing if you made it here, you\'re not too scared of it.',
         '单靠一人奋勇杀敌是无法扩大整个势力的影响力的。真正重要的是大量中流砥柱……': 'A lone hero valiantly slaying enemies can\'t expand a whole faction\'s influence. What truly matters is a mass of mainstays…',
@@ -3208,7 +3301,7 @@
         '原力刀客': 'Force Blademan',
         '原有的优胜者把握不住这份机缘，': 'huge chunk of D6-tier 【Frostmarrow Matrix】! The original',
         '原本可能已经突破天空级九阶的强者，': 'originally have broken through to Sky-Tier Rank 9',
-        '原本的强榜第二，也不是蓝柒，而是': 'The ranking\'s original number two wasn\'t Lanqi either, but',
+        '原本的强榜第二，也不是蓝柒，而是': 'The ranking\'s original number two wasn\'t Lanqi either, but ',
         '原本被一批青茸茸将军和红仆小恶魔占据的秘境。在听闻纳可的事迹之后，它们都灰溜溜地逃跑了……': 'A Secret Realm once occupied by a band of Cyan Furball Generals and Red-Servant Imps. On hearing of Neko\'s deeds, they all slunk away in defeat…',
         '原来如此，刚才的冰霜门户吗。': 'that Frost Portal just now. That\'s my',
         '原来如此，小丫头不知不觉已经长大了吗……': 'I see — so the little girl has grown up without my noticing…',
@@ -3223,10 +3316,10 @@
         '去这片结界湖的深处。': 'go to the depths of this Barrier Lake.',
         '参拜幻境·战场中的烈日之神像': 'Pay respects to the Blazing Sun statue in the Illusory Realm · Battlefield',
         '又一个流浪进来的！真想学天剑呐……普攻倍率是不缺，但攻击乘区可是缺的很。': 'Another one that wandered in! I really want to learn Sky Sword…… Basic Attack Multiplier isn\'t lacking, but the attack multiplier-region sure is.',
-        '又不好轻易熔炼成完整的': 'and it\'s hard to smelt them into a complete',
+        '又不好轻易熔炼成完整的': 'and it\'s hard to smelt them into a complete ',
         '又岂会因为一个小丫头而放弃。': 'how could I give it up over one little girl? You',
         '又通过了我设下的重重关卡，': 'come here and passed the many trials I',
-        '及以下': 'and below',
+        '及以下': ' and below',
         '双刀流！左剑伤害高~右剑高伤害！': 'Dual-blade style! Left sword, high damage~ right sword, high damage!',
         '双剑小队的攻速想必就是您抢走的了。比火烧云还多一段！': 'The Twin-Sword Squad\'s attack speed must be what you stole. One more hit than even the Burning Cloud!',
         '双双陨落在了那座出不去的冰宫！': 'fallen in that inescapable Ice Palace! A few',
@@ -3234,7 +3327,7 @@
         '反倒更疯狂地扑上来。': 'afraid, charged in even more frantically.',
         '反应堆因温度过高熔毁了！！！': 'The reactor melted down due to excessive temperature!!!',
         '反弹75%伤害，无视防御还给敌人！代价是普攻倍率-20%，且反伤不能击杀敌人(会保留1血)': 'Reflects 75% of damage back at the enemy, ignoring defense! At the cost of -20% Basic Attack Multiplier, and the reflected damage can\'t kill (leaves 1 HP).',
-        '反弹给角色。': 'of the character\'s damage back at the character.',
+        '反弹给角色。': ' of the character\'s damage back at the character.',
         '反戈一击。': 'A backlash strike.',
         '反抗蓝柒从未成功)': 'infighting among the resisters, resistance',
         '反正估计你也有冰原之心了的说……': 'this one. You\'ve probably got a Heart of the Ice Field by now anyway…',
@@ -3310,6 +3403,7 @@
         '可以稍微加快攻击速度。': 'Slightly increases attack speed.',
         '可以继续升级为【冰原之心】。': 'which can be further upgraded into the 【Heart of the Ice Field】.',
         '可以继续升级为【幻境之心】。': 'which can be further upgraded into the 【Heart of the Illusory Realm】.',
+        '可以继续升级为【血峰之心】。': 'which can be upgraded further into 【Heart of Blood Peak】.',
         '可以继续升级为【飞船之心】。': 'which can be further upgraded into the 【Heart of the Spaceship】.',
         '可以耐受极寒与炙热的皮草，只能从大地级荒兽中获取': 'A fur that withstands both extreme cold and searing heat; obtainable only from Earth-Tier Wildbeasts.',
         '可以视为大大增强的活性织料。正如看起来的一样，能给不少回血~': 'Think of it as greatly enhanced Reactive Cloth. Just as it looks, it heals quite a bit~',
@@ -3360,7 +3454,7 @@
         '司雍传道士': 'Siyong Missionary',
         '吃了防御低的亏而被流放到2-2的悲惨敌人。记得回去拿飞...极品绿宝石！': 'A pitiful enemy exiled to 2-2 for suffering from low defense. Remember to go back and grab the fly— the Superior Green Gem!',
         '吃烤肉的青年附近有一只超大的蛮咕兽！快去救人哇！': 'There\'s a huge Savage-Gu Beast near the young man eating grilled meat! Hurry and save him!',
-        '各攻击一次': 'once each',
+        '各攻击一次': ' once each',
         '合成尝试数:': 'Crafting Attempts:',
         '合成成功数:': 'Crafting Successes:',
         '合金弹头B1': 'Metal Slug B1',
@@ -3372,7 +3466,7 @@
         '后期': 'Late',
         '后来，觉醒了天生元神体，': 'Later, I awakened an innate Primordial-Spirit',
         '向地宫养殖者发起挑战': 'Challenge the Crypt Breeder',
-        '向箱子里存取物品': 'Store/retrieve items in the chest',
+        '向箱子里存取物品': ' Store/retrieve items in the chest',
         '吞噬宝石，提供全局技能经验加成': 'Devours gems, providing a global skill experience bonus',
         '吞噬星空的设定中，矿脉中会含有100ppm的【精】和10ppb的【母】，分别+1tier和+2tier。': 'In Swallowed Star\'s lore, ore veins contain 100ppm 【Essence】 and 10ppb 【Matrix】, granting +1 and +2 tiers respectively.',
         '吞噬物品栏中全部宝石': 'Devour all gems in inventory',
@@ -3402,7 +3496,7 @@
         '呼……被这股气息笼罩着，感觉神智都清明了不少。(持有时每个将4-5区域光环-20%,最多生效5个)': 'Phew… wrapped in this aura, your mind feels a good deal clearer. (While held, each one lowers the 4-5 zone aura by 20%; up to 5 take effect)',
         '呼……跌宕起伏呢。我们的目的，就是去寻找那些掉落的“飞船”，搜寻所需的宝物吧？': 'Phew… what a rollercoaster. Our goal is to find those fallen "spaceships" and search for the treasures we need, right?',
         '呼啊——终于除了那片黑漆漆的森林。': 'Whew—— finally out of that pitch-black forest.',
-        '和': 'and',
+        '和': ' and ',
         '和 峰 对话': 'Talk with Feng',
         '和 峰(飞云) 对话': 'Talk with Feng (Feiyun)',
         '和之前的骸骨不同，它仅剩下一颗头颅。虽然靠着与蠕虫的共生恢复了行动能力，但外泄的大量气息会引起周围荒兽的狂暴。': 'Unlike earlier skeletons, only a skull remains. Though symbiosis with worms restored its mobility, the great aura it leaks drives nearby Wildbeasts into a frenzy.',
@@ -3437,7 +3531,7 @@
         '咯咯，我还在哦。比起【那个女孩】,': 'girls. Kukuku, I\'m still here. Rather',
         '咳咳……听我弟弟皎月讲过你的事了。': 'Bright Moon told me about you. Anyway, this statue is',
         '品红野人战士': 'Magenta Savage Warrior',
-        '品质:': 'Quality:',
+        '品质:': 'Quality: ',
         '哇，听起来挺神奇的……': 'Wow, that sounds pretty magical…',
         '哈~自爆！我看谁敢嫌弃加血宝石~': 'Hah~ Self-Destruct! Let\'s see who dares turn up their nose at health gems now~',
         '哈？夺少血？散华？你说你是天空一阶有人信吗？快去请魔攻牵制老祖！': 'Hah? How much health? Scattered Bloom? You claim you\'re Sky-Tier Rank 1 and expect anyone to believe it? Quick, go summon the Magic-Attack-Restraint Ancestor!',
@@ -3463,7 +3557,7 @@
         '喂喂，版本更新了！这里到处都是光，要你有什么用哇。': 'Hey hey, version update! There\'s light everywhere here, so what use are you?',
         '喂喂，这个有点敷衍了……狂战士没有人权吗？': 'Hey hey, this one\'s a bit half-hearted… do berserkers have no human rights?',
         '喂，喂！': 'Hey, hey!',
-        '喏，我旁边这位也不是蓝柒，而是': 'See, the one beside me isn\'t Lanqi either, but',
+        '喏，我旁边这位也不是蓝柒，而是': 'See, the one beside me isn\'t Lanqi either, but ',
         '喵可龙族排行榜:蛟龙<<地龙<飞龙<<古龙。': 'Neko\'s dragon-clan ranking: Flood Dragon << Earth Dragon < Wyvern << Ancient Dragon.',
         '喵咕咕哩': 'Meowguguli',
         '喵咕哩': 'Meowguli',
@@ -3521,8 +3615,8 @@
         '回到黑暗森林': 'Return to the Dark Forest',
         '回去呼叫家族的人吗？恐怕要耽误太多的时间，姐姐也会有危险。不，现在不是想这些的时候。': 'Go back and call the family? That would waste too much time, and Sister would be in danger. No — now isn\'t the time to think about that.',
         '回合数': 'turn-count',
-        '回合时，分别对角色造成': ', it deals the character penetrating damage of',
-        '回合时，分别对角色额外造成': ', it deals extra damage of',
+        '回合时，分别对角色造成': ', it deals the character penetrating damage of ',
+        '回合时，分别对角色额外造成': ', it deals extra damage of ',
         '回城': 'Return to town',
         '回家后，也该和老爹谈谈了……': 'have a talk with the old man too… the',
         '因为……误闯这片秘境的外来者，': 'powerhouse in the Water Prison. Because… outsiders',
@@ -3559,7 +3653,7 @@
         '圣荒城，即省黄城。传说中在那里，即使如昊荒那样的云霄级强者，面对足够的财富仍然毫无反抗之力。': 'Shenghuang City, a.k.a. "Save-Yellow City." Legend says that there, even a Skyhigh-Tier powerhouse like Haohuang is powerless before enough wealth.',
         '圣荒杀手傀儡': 'Shenghuang Killer Puppet',
         '圣荒领与兰陵领的交界地带，争斗不断，血流漂杵。这座主峰是【大青王】的领地。[V3.50前版本终点]': 'The border zone between Shenghuang Fief and Lanling Fief; endless strife, a bloodbath. This main peak is the domain of the 【Great Cyan King】. [Endpoint of pre-V3.50 versions]',
-        '在': 'On',
+        '在': 'On ',
         '在[V0.13]中，该对话理论上不会解锁。': 'In [V0.13], this dialogue theoretically won\'t unlock.',
         '在下料定两位不会轻易答应，不过——': 'two wouldn\'t agree easily. But——',
         '在下面铲一铲制造雪球会不会有点赚头的样子？': 'Shoveling a bit down below to make a snowball — seems like it might turn a little profit?',
@@ -3571,6 +3665,7 @@
         '在光环的庇护之下，我等将誓死冲锋！谔谔啊啊啊啊啊啊！': 'Under the aura\'s protection, we shall charge to the death! Aaaaaahhh!!!',
         '在兽潮中发现家里的魂灯灭了一大片的他，正在气势汹汹地准备向荒兽发起复仇！': 'Having found a whole swath of his family\'s soul-lamps snuffed out in the beast-tide, he\'s furiously preparing to take revenge on the Wildbeasts!',
         '在几百名天空级的厮杀中，': 'sacrifices. Among the slaughter of several',
+        '在切换区域时自动消失，且携带此效果时家族新境界无法解禁。': ' vanishes on its own when you change zones, and while you carry it the family cannot unlock a new realm.',
         '在古墓里发现了一颗中等进化结晶碎片！': 'Found an Intermediate Evolution Crystal Fragment in the ancient tomb!',
         '在叫我吗……？': 'Are you calling me…?',
         '在同阶里称得上实力强悍，但想要逆伐喵可是不是搞错了什么？': 'Among its own rank it counts as strong, but trying to counter-conquer Neko — did it mix something up?',
@@ -3585,7 +3680,7 @@
         '在左阿身居高位之后，': 'After Zuo\'a rose to high position, his',
         '在幻境·结界湖中垂钓(2D)': 'Fish in the Illusory Realm · Barrier Lake (2D)',
         '在战斗区外流血而昏迷 - 已自动回到床上！': 'Bled out and fainted outside the combat zone - automatically returned to bed!',
-        '在敌人的手中走过十回合！敌人会在第10回合被镭射枪击中，将': 'Survive ten turns in the enemy\'s hands! On turn 10 the enemy is struck by the Laser Gun, dropping its',
+        '在敌人的手中走过十回合！敌人会在第10回合被镭射枪击中，将': 'Survive ten turns in the enemy\'s hands! On turn 10 the enemy is struck by the Laser Gun, dropping its ',
         '在敌群中练习神行术[EXPx192]': 'Practice Divine Stride amid the enemy horde [EXP x192]',
         '在未来，你甚至可能拥有领域——': 'you. In the future, you might even possess a Domain——',
         '在每回合不断加码的倍率下，': 'downed it in one go!) Under the multiplier that kept',
@@ -3757,7 +3852,7 @@
         '大境界突破，【出云落月[领域四重]】获取了9999秭经验！': 'Major-realm breakthrough: 【Cloudrise, Moonfall [Domain Tier 4]】 gained 9.999e27 XP!',
         '大境界突破，【火灵幻海】获取了9999兆经验...?': 'Major-realm breakthrough: 【Flame Spirit Sea】 gained 9.999e15 XP…?',
         '大境界突破，【燃灼术】获取了9999兆经验！': 'Major-realm breakthrough: 【Scorch】 gained 9.999e15 XP!',
-        '大境界突破，获取特殊能力': 'Major-realm breakthrough: gained the special ability',
+        '大境界突破，获取特殊能力': 'Major-realm breakthrough: gained the special ability ',
         '大多数都在没日没夜经受各种危险之后，悲惨死去！': 'Most, after enduring endless dangers day and night, died wretchedly!',
         '大教内门弟子': 'Cathedral Inner Disciple',
         '大教外门弟子': 'Cathedral Outer Disciple',
@@ -3810,7 +3905,7 @@
         '太好了，你还在就好……': 'goodness, you\'re still here…',
         '太邪恶了，坚固敌人居然有基础防御...为此，0.1%魔攻被移除了！': 'How evil — a Fortified enemy actually having base defense… because of it, the 0.1% Magic Attack was removed!',
         '夭寿啦——夸克禁闭坏掉啦——': 'Good heavens—— quark confinement has broken——',
-        '失效!': 'nullifies it!',
+        '失效!': ' nullifies it!',
         '失踪的青色出芽茸茸终于找到了！虽然是靠着外力把自己弄成这个颜色的就是了。': 'The missing cyan Budding Furball is finally found! Though it turned itself this color with outside help.',
         '头盔': 'Helmet',
         '头部': 'Head',
@@ -3873,7 +3968,7 @@
         '如果放进核心反应堆会导致瞬间爆炸。这样不稳定的燃料需要更可靠的反应堆。': 'Putting it in the Core Reactor would cause an instant explosion. Such unstable fuel needs a more reliable reactor.',
         '如果敌人的攻击少于角色的2倍，角色受到的伤害减少(角色防御/敌人防御)的二分之一。反之，增加(角色防御/敌人防御)的两倍。该效果不会把伤害降低到0以下。': 'If the enemy\'s attack is less than 2x yours, damage you take is reduced by half of (your Defense / enemy Defense). Otherwise, it\'s increased by twice (your Defense / enemy Defense). This effect won\'t lower damage below 0.',
         '如果敌人的攻击少于角色的2倍，角色受到的伤害减少(角色防御/敌人防御)的二分之一。反之，增加(角色防御/敌人防御)的两倍。该效果不会把伤害降低到0以下或提高到100倍以上。': 'If the enemy\'s attack is less than 2x yours, damage you take is reduced by half of (your Defense / enemy Defense). Otherwise, it\'s increased by twice (your Defense / enemy Defense). This effect won\'t lower damage below 0 or raise it above 100x.',
-        '如果敌人闪避了攻击，则额外对角色造成': 'If the enemy dodges an attack, it deals to the character an extra',
+        '如果敌人闪避了攻击，则额外对角色造成': 'If the enemy dodges an attack, it deals to the character an extra ',
         '如果是旧版本更新存档，可使用此条对话以解锁后续区域。': 'If you\'re updating a save from an old version, use this dialogue to unlock the later areas.',
         '如果没有镭射枪的话，如今的我，': 'Without the Laser Gun, the me of today',
         '如果燕岗城发生了同样的事情，': 'If the same thing happened to Yangang City,',
@@ -3908,7 +4003,7 @@
         '娜娜这孩子，也有一颗强者的心啊。': 'Nana, that child, has the heart of a powerhouse too.',
         '嫉妒使茸茸面目全非。凭什么你有飞船反应堆造的剑柄！呜啊啊啊！': 'Envy has disfigured the Furball beyond recognition. Why do YOU get a sword hilt made from a spaceship reactor?! Waaaah!',
         '嫉妒毒虫': 'Envious Venomous Insect',
-        '字的玉简落入纳可手中。': 'fell into Neko\'s hands.',
+        '字的玉简落入纳可手中。': ' fell into Neko\'s hands.',
         '字的玉简被捏碎，': ',',
         '字面意义上的骨干。也不知道城主府的员工是不是签了群星那永身雇佣制合同之类的，都这样了还归属于城主府。': 'A backbone in the literal sense. No idea whether the Lord\'s Manor employees signed some Stellaris-style permanent-employment contract — even like this, they still belong to the Lord\'s Manor.',
         '存在光环荒兽的区域，荒兽的整体实力被影响着上了一个台阶': 'An area with aura-buffed Wildbeasts; the Wildbeasts\' overall strength is bumped up a tier.',
@@ -3980,6 +4075,7 @@
         '家主大怒，派出族中最为优秀的精英前去搜寻，': 'The head, furious, sent the family\'s finest elites to search,',
         '家族先后付出了几位，': 'our family paid the price of several',
         '家族系统 现已激活!': 'Family System is now active!',
+        '家族系统的': 'The family system\'s ',
         '家族遭到不明来由的偷袭，损失惨重。': 'the family was ambushed by an unknown party and suffered heavy losses.',
         '家族都不知道谁继承了。': 'family wouldn\'t know who\'d inherit it.',
         '密林': 'Deepwood',
@@ -4015,7 +4111,7 @@
         '将万载冰髓打碎，研磨，注入能量回路中……冰元素固然寒冷刺骨，但广谱能量抵消的特性仍然使它值得作为材料。': 'Age-Old Frostmarrow shattered, ground, and threaded into energy circuits… the ice element is bone-chilling, but its broad-spectrum energy cancellation still makes it a worthy material.',
         '将冰与炎融于一身，拥有了同调的力量。至少它不会偷敏捷...': 'Fusing ice and flame in one, it gained the power of Sync. At least it won\'t steal Agility…',
         '将刚猛的防守元素吸收并化为自身的能力。': 'An ability that absorbs the fierce defensive element and makes it its own.',
-        '将拉大': 'is widened',
+        '将拉大': ' is widened ',
         '将每回合受到伤害限制在生命上限的5%，代价是1%流血效果。': 'Caps damage taken per turn at 5% of Health Cap, at the cost of a 1% bleed effect.',
         '将消息散布出去！': 'and spread the word!',
         '将灵阵功率提高到当前上限(ノ▼Д▼)ノ': 'Raise the spirit-array power to the current cap (ノ▼Д▼)ノ',
@@ -4070,7 +4166,7 @@
         '尽管不再黑暗，却遍布魔物的侧门附近': 'No longer dark, but the area near the side gate is swarming with monsters.',
         '居然在高温下还可以下毒。只要防杀喵可就好了吧~(不过你能看到这个就说明它失败了！)': 'It can actually still poison you at high temperature. Just defense-kill Neko and it\'s fine~ (But if you can see this, it means it failed!)',
         '居然还是一个系列的。你那会用激光的兄弟距离这里有点远的……': 'It\'s actually part of a series too. Your laser-using brother is a bit far from here…',
-        '展开': 'Expand',
+        '展开': ' Expand',
         '展开了一场一边倒的屠杀。': 'the next, unleashing a one-sided massacre. He was',
         '属(na)性(li)均(dou)衡(cai)的智慧荒兽，城郊战场的杂兵。': 'A "balanced"-statted intelligent Wildbeast, a rank-and-filer of the suburban battlefield. (The hidden reading of 属性均衡 is "all stats are trash.")',
         '属性均衡的精英荒兽，地宫核心的守门人。': 'A balanced-stat elite Wildbeast, the gatekeeper of the Crypt Core.',
@@ -4108,7 +4204,7 @@
         '巨型蜘蛛': 'Giant Spider',
         '巨斧武者不应该起码是同境的九阶吗？好吧，看来他只是有一把大斧头。': 'Shouldn\'t a Great-Axe warrior at least be a same-realm Rank 9? Well, looks like he just has a big axe.',
         '巩固你当前的境界实力吧。': 'and consolidate your current realm and strength.',
-        '差值的伤害。': 'the character\'s Defense.',
+        '差值的伤害。': ' the character\'s Defense.',
         '已加入可选秘法！': 'Flower · Flower Sea have been added to your selectable Techniques!',
         '已开启3 - 1区域！': 'Zone 3-1 unlocked!',
         '已炼化的影响力:': 'Influence Refined:',
@@ -4208,14 +4304,15 @@
         '强烈建议不要卖掉。【结界湖之心】在V3.0X将会超过好不容易省下的姐姐，而重铸一颗飞船核心非常昂贵...': 'Strongly advise against selling it. In V3.0X the 【Heart of the Barrier Lake】 will surpass the sister you scrimped so hard to save, and reforging a Spaceship Core is very expensive…',
         '强者们的归宿只有被别人杀死，': 'nearly endless stream. The powerhouses\' only ends',
         '强者在绝望之下最后的尊严。': 'A powerhouse\'s last dignity in despair.',
-        '强者的灵魂奴仆。': 'powerhouse.',
+        '强者的灵魂奴仆。': ' powerhouse.',
         '强者，': 'powerhouse, and also,',
         '强行抹杀！汇集心魔的一切力量，': 'Forced erasure! Gathering all the Inner Demon\'s power,',
         '强行进入地宫': 'Force entry into the Crypt',
-        '当': 'When',
+        '归零': 'reduced to zero',
+        '当': 'When ',
         '当从家族中得知，纳娜米昨天外出历练，至今未回时，纳可已经顾不上思考': 'On learning from the family that Nanami had gone out to train yesterday and hadn\'t returned, Neko was in no state to think it over,',
         '当前吞噬价值点:': 'Current Devoured Value Points:',
-        '当前献祭金额:': 'Current Sacrificed Amount:',
+        '当前献祭金额:': 'Current Sacrificed Amount: ',
         '当前的效果是：': 'Current effects:',
         '当年，我为了筹集一笔交易的材料，': 'Back then, to gather materials for a deal,',
         '当年，我出身于外门弟子之家，': 'senses. Back then, I came from an outer-disciple',
@@ -4227,8 +4324,8 @@
         '当然，还是有点容易被突然袭击的……': 'a regular weapon. Of course, it\'s still a bit prone to being caught off guard…',
         '当真相大白，所有人醒悟过来，': 'When the truth came out and everyone awoke to it —',
         '当虚伪的面具被撕开时，': 'by who knew how much! When the hypocritical mask',
-        '当角色': 'When the character\'s',
-        '当角色攻击大于防御时，怪物将': 'When the character\'s Attack exceeds their Defense, the monster',
+        '当角色': 'When the character\'s ',
+        '当角色攻击大于防御时，怪物将': 'When the character\'s Attack exceeds their Defense, the monster ',
         '形成了一个巨大的漩涡，': 'a great vortex formed. Faintly, colored radiance',
         '彩虹攻击(3/7)！特殊能力如何比拟久经锻炼的……茸身？': 'Rainbow Attack (3/7)! How can a special ability compare to a well-tempered… Furball body?',
         '彩虹攻击(4/7)！明明只比前面那只强了一点点吧……': 'Rainbow Attack (4/7)! It\'s only a tiny bit stronger than the last one, isn\'t it…',
@@ -4251,7 +4348,7 @@
         '微尘级野兽': 'Dust-Tier Beast',
         '微花灵阵': 'Tiny-Flower Spirit Array',
         '心之境界一重 - 宝石吞噬者 现已解锁！': 'Heart Realm Tier 1 - Gem Devourer is now unlocked!',
-        '心之境界三重 - 信仰祭坛 现已解锁！': 'Heart Realm Tier 3 - Altar of Faith is now unlocked!',
+        '心之境界三重 - 信仰祭坛 现已解锁！': 'Heart Realm Tier 3 - Altar of Faith is now unlocked! ',
         '心之境界二重 - 贪婪之神 现已解锁！': 'Heart Realm Tier 2 - God of Greed is now unlocked!',
         '心之灵 代表场上此种心之灵剩余量！': 'Heart Spirit represents the remaining count of each such Heart Spirit on the field!',
         '心之灵·暴走 自选敌人区域！': 'Heart Spirit · Rampage — choose-your-own enemy area!',
@@ -4327,7 +4424,7 @@
         '成为十三斧下的亡魂了吧。': 'would\'ve become a wraith under the Thirteen Axes.',
         '成也散华，败也散华。原版散华在4幕已经没法玩了啦……': 'Made by Scattered Bloom, undone by Scattered Bloom. The original Scattered Bloom just isn\'t playable in Act 4 anymore……',
         '成功!已获取【噬芒兰】*1.': 'Success! Obtained 【Radiance-Devouring Orchid】 *1.',
-        '成功率:': 'Success rate:',
+        '成功率:': 'Success rate: ',
         '成千上万地冲锋上来呢？': 'they charge in by the thousands like this?',
         '成熟期蛟龙': 'Mature-Stage Flood Dragon',
         '我……可以吗？': 'Me… may I? If there\'s anything I can do',
@@ -4397,7 +4494,7 @@
         '我能有现在的实力，也正是拜这次生死危机所赐。': 'The strength I have now is precisely thanks to this life-and-death crisis.',
         '我若是在此将你镇压反倒落了那些老家伙的口实。': 'suppress you here, it would only give those old',
         '我要是把你放进去，能交几千血洛晶的罚金！': 'If I let you in, the fine would run to thousands of Bloodfall Crystals!',
-        '我观小友困在': 'I see you\'ve been stuck at',
+        '我观小友困在': 'I see you\'ve been stuck at ',
         '我说大叔，这么大年纪了欺负一个女孩子，不太好吧。看来需要一点教训呢。': 'Hey mister, isn\'t it a bit much, a man your age bullying a little girl? Looks like you need a lesson.',
         '我还以为是那些铁皮怪物来了……': 'I thought those sheet-metal monsters had come…',
         '我还是先溜为妙。': 'I\'d best slip away first.',
@@ -4422,14 +4519,14 @@
         '战场复苏骸骨': 'Battlefield Reviving Skeleton',
         '战场气息是叠易伤的一把好手。直观的体现就是普攻倍率。': 'Battlefield Aura is great at stacking vulnerability. In practice that shows up as Basic Attack Multiplier.',
         '战场灵体生物体内的黑色凝胶。汇聚了能量，有多种用途。': 'Black gel from within Battlefield spirit-body creatures. Full of gathered energy, with many uses.',
-        '战斗中，角色': 'In battle, the character\'s',
-        '战斗前，对角色进行': 'Before battle, makes a',
-        '战斗前，对角色造成相当于角色攻防和': 'Before battle, deals the character guaranteed damage equal to',
-        '战斗前，对角色造成相当于角色敏捷': 'Before battle, deals the character guaranteed damage equal to',
-        '战斗前，敌人以0.9倍的攻击力发动一次': 'Before battle, the enemy launches a',
-        '战斗前，敌人将角色攻击的': 'Before combat, the enemy adds',
-        '战斗前，敌人将角色敏捷的': 'Before battle, the enemy adds',
-        '战斗时，角色的攻击效力转移': 'In battle, the character\'s Attack effectiveness transfers',
+        '战斗中，角色': 'In battle, the character\'s ',
+        '战斗前，对角色进行': 'Before battle, makes a ',
+        '战斗前，对角色造成相当于角色攻防和': 'Before battle, deals the character guaranteed damage equal to ',
+        '战斗前，对角色造成相当于角色敏捷': 'Before battle, deals the character guaranteed damage equal to ',
+        '战斗前，敌人以0.9倍的攻击力发动一次': 'Before battle, the enemy launches a ',
+        '战斗前，敌人将角色攻击的': 'Before combat, the enemy adds ',
+        '战斗前，敌人将角色敏捷的': 'Before battle, the enemy adds ',
+        '战斗时，角色的攻击效力转移': 'In battle, the character\'s Attack effectiveness transfers ',
         '战斗经验绝对管够！': 'Sky-Tier Rank 7. In short, combat XP',
         '战靴': 'Boots',
         '戟头': 'Trident Head',
@@ -4458,7 +4555,7 @@
         '打个比方的话，更像是我们曾经遇到的,': 'to compare, it\'s more like those',
         '打人非常痛！不过生命如风中残烛……台风中篝火？总之很容易灭就是了。': 'Hits really hard! But its life is like a candle in the wind… a bonfire in a typhoon? Anyway, very easy to snuff out.',
         '打出暴击的伤害倍率': 'The damage multiplier when landing a critical hit',
-        '打包带走也没有': 'and packed up altogether they\'re not worth even',
+        '打包带走也没有': 'and packed up altogether they\'re not worth even ',
         '打听到了那左阿的下落，': 'gathering intel all the while,',
         '扭曲毒虫': 'Twisted Venomous Insect',
         '扭曲菇菇': 'Twisted Mushroom',
@@ -4476,7 +4573,7 @@
         '报春红食人花': 'Primrose-Red Maneater Flower',
         '抵抗天外飞船中无处不在的威压的能力': 'The ability to withstand the pervasive intimidation throughout the Alien Spaceship.',
         '抽丝鬼': 'Silk-Drawing Ghost',
-        '拥有两种能力的战斗法师。敌人每回合的攻击': 'A battle-mage with two abilities. The enemy\'s attack per turn is',
+        '拥有两种能力的战斗法师。敌人每回合的攻击': 'A battle-mage with two abilities. The enemy\'s attack per turn is ',
         '拥有着极为深厚的积累，如果想要突破的话它随时都可以突破。不过，毕竟成为【心之灵】的一员的未来还是太黑暗了……': 'It has extremely deep reserves; if it wanted to break through, it could at any time. But becoming a member of the 【Heart Spirit】 is too dark a future, after all……',
         '拦截了他搭乘的那艘珍宝飞船，': 'intercepted the treasure-ship he rode just',
         '拦着前往清野瀑布的路的坚硬石头。温馨提醒：普攻倍率在坚固之后判定！': 'A hard rock blocking the way to the Qingye Waterfall. Friendly reminder: Basic Attack Multiplier is checked AFTER Fortify!',
@@ -4529,7 +4626,7 @@
         '操纵着一艘庞大的飞行物，': 'piloted a massive flying object,',
         '收拢月轮水晶，凝聚力量，蓄力一击。攻击的广度收窄许多，但深度却足以穿透最坚硬的天空级金属。': 'Draw in the Moonwheel crystals, gather your power, charge a single strike. The attack\'s breadth narrows greatly, but its depth is enough to pierce the hardest Sky-Tier metal.',
         '收益递减:': 'Diminishing Returns:',
-        '收起': 'Collapse',
+        '收起': ' Collapse',
         '改版的惑幻一般还是能发挥出应有效果的……这小身板，三回合还没过去就暴毙了，就少吃伤害了！': 'The reworked Bewitch generally still delivers the effect it should… with a frame this small, it drops dead before three rounds are up, so it eats less damage!',
         '改良 三叉戟': 'Improved Trident',
         '改良 剑': 'Improved Sword',
@@ -4541,10 +4638,11 @@
         '改良戟': 'Improved Trident',
         '改良月轮': 'Improved Moonwheel',
         '攻击': 'Attack',
+        '攻击/防御/敏捷/生命上限 乘以 100.81/span>.': 'Attack / Defense / Agility / Max Health by 100.81.',
         '攻击与防御效力交换': 'Attack and Defense effectiveness are swapped',
         '攻击力': 'Attack Power',
         '攻击攻速对于天空级也太高了，还带必中伤害。肯定是身上有好东西，此子断不可留……': 'Its attack and attack speed are way too high even for Sky-Tier, and it has guaranteed-hit damage. It must have something good on it — this one cannot be left alive……',
-        '攻击时，无论是否命中，都额外造成': 'When attacking, whether or not it hits, it deals an extra',
+        '攻击时，无论是否命中，都额外造成': 'When attacking, whether or not it hits, it deals an extra ',
         '攻击这么高和魔攻居然是兼得的……这就是大队的实力吗？': 'Having both such high attack AND Magic Attack…… is this the strength of a Company?',
         '攻击速度': 'Attack Speed',
         '攻击速度，影响每次攻击花费时间': 'Attack Speed, affects the time each attack takes',
@@ -4552,41 +4650,44 @@
         '攻速': 'Attack Speed',
         '攻速-20%': '-20% Attack Speed',
         '放心吧，我无意对付你们。': 'Don\'t worry, I\'ve no intention of coming',
+        '效果为': ' multiplies ',
+        '效果，不可叠加。如果角色在被击中前不携带该效果，则敌人该次攻击伤害': ', which does not stack. If the character is not already carrying that effect when hit, the damage of that attack is ',
         '效率折算:': 'Efficiency Scaling:',
         '敌人们就只是前进路上的踏板。': 'enemies are but stepping-stones on the road ahead.',
-        '敌人会随着角色的变强而变强，其攻击附加': 'The enemy grows stronger as the character does, its Attack gaining',
-        '敌人会随着角色的变强而变强，其攻防敏附加': 'The enemy grows stronger as the character does, its Attack/Defense/Agility gaining',
+        '敌人会随着角色的变强而变强，其攻击附加': 'The enemy grows stronger as the character does, its Attack gaining ',
+        '敌人会随着角色的变强而变强，其攻防敏附加': 'The enemy grows stronger as the character does, its Attack/Defense/Agility gaining ',
         '敌人击杀数:': 'Enemy Kill Count:',
         '敌人命中角色时': 'When the enemy hits the character',
-        '敌人对角色每回合造成': 'Each turn the enemy deals to the character',
-        '敌人将角色伤害的': 'The enemy reflects',
-        '敌人布下圣阵，在战斗进行到第': 'The enemy lays a Holy Array; on turns',
-        '敌人布下诡秘的杀阵，在战斗进行到第': 'The enemy lays a cryptic killing formation; on turns',
-        '敌人攻击力的伤害。': 'the enemy\'s Attack respectively.',
+        '敌人对角色每回合造成': 'Each turn the enemy deals to the character ',
+        '敌人将角色伤害的': 'The enemy reflects ',
+        '敌人布下圣阵，在战斗进行到第': 'The enemy lays a Holy Array; on turns ',
+        '敌人布下诡秘的杀阵，在战斗进行到第': 'The enemy lays a cryptic killing formation; on turns ',
+        '敌人攻击力的伤害。': ' the enemy\'s Attack respectively.',
         '敌人无视角色的防御。': 'The enemy ignores the character\'s defense.',
-        '敌人有效敏捷上升': 'The enemy\'s effective Agility rises by',
+        '敌人有效敏捷上升': 'The enemy\'s effective Agility rises by ',
         '敌人死亡时，场上【心之灵·暴走】基础攻击/血量增加5%(叠加)。': 'When the enemy dies, 【Heart Spirit · Rampage】\'s base Attack/Health increases by 5% (stacking).',
         '敌人死亡时，场上【心之灵·暴走】数量增加3个。': 'When the enemy dies, the number of 【Heart Spirit · Rampage】 on the field increases by 3.',
         '敌人死亡时，获取1点【灵魂之力】。': 'When the enemy dies, gain 1 point of 【Soul Power】.',
-        '敌人死亡时，角色获取一个': 'When the enemy dies, the character gains a',
-        '敌人每回合以': 'Each turn, at',
-        '敌人每回合伤害*': 'Enemy damage per turn *',
+        '敌人死亡时，角色获取一个': 'When the enemy dies, the character gains a ',
+        '敌人每回合以': 'Each turn, at ',
+        '敌人每回合伤害*': 'Enemy damage per turn * ',
         '敌人每回合伤害*（敌人生命/角色生命）[PS:上限100倍]。': 'Enemy damage per turn * (enemy Health / character Health) [PS: cap 100x].',
-        '敌人每回合攻击': 'The enemy attacks',
-        '敌人每回合额外造成自身攻击': 'Each turn the enemy deals extra damage equal to the difference between',
-        '敌人每次命中恢复自身生命上限': 'Each hit the enemy lands restores',
-        '敌人每次被攻击，则额外对角色造成': 'Each time the enemy is attacked, it deals to the character an extra',
+        '敌人每回合攻击': 'The enemy attacks ',
+        '敌人每回合额外造成自身攻击': 'Each turn the enemy deals extra damage equal to the difference between ',
+        '敌人每次命中恢复自身生命上限': 'Each hit the enemy lands restores ',
+        '敌人每次攻击时，赋予角色5秒': 'Each time the enemy attacks it grants the character 5 seconds of ',
+        '敌人每次被攻击，则额外对角色造成': 'Each time the enemy is attacked, it deals to the character an extra ',
         '敌人的伤害除以': 'Enemy damage is divided by:',
-        '敌人的战斗伤害增加': 'The enemy\'s combat damage increases by',
+        '敌人的战斗伤害增加': 'The enemy\'s combat damage increases by ',
         '敌人的攻击被削弱(角色生命/敌人生命)^0.5 * 10(单位:%)，但会造成生命流失1%。该效果不会把敌方基础攻击降低到0以下。': 'The enemy\'s attack is weakened by (your Health / enemy Health)^0.5 * 10 (unit: %), but you lose 1% health. This effect won\'t lower the enemy\'s base attack below 0.',
         '敌人的攻击额外增加角色生命的0.5%。': 'The enemy\'s attack gains an extra 0.5% of the character\'s Health.',
-        '敌人的生命增加角色攻击的': 'The enemy\'s Health increases by',
-        '敌人的生命增加角色防御的': 'The enemy\'s Health increases by',
+        '敌人的生命增加角色攻击的': 'The enemy\'s Health increases by ',
+        '敌人的生命增加角色防御的': 'The enemy\'s Health increases by ',
         '敌人血量百分比的99倍': '99x its health percentage',
         '敌人进攻速度很快，拥有更加恐怖的杀伤力，但同时也意味着生命力会较为脆弱。': 'The enemy attacks quickly, with more terrifying killing power, but that also means its life force is rather fragile.',
-        '敌人首先发动4段': 'The enemy first launches a 4-hit attack at',
+        '敌人首先发动4段': 'The enemy first launches a 4-hit attack at ',
         '敌人首先发动一次': 'The enemy first launches an',
-        '敌人首先发动一次敌人首先发动3段': 'The enemy first launches a 3-hit',
+        '敌人首先发动一次敌人首先发动3段': 'The enemy first launches a 3-hit ',
         '敌意傀儡': 'Hostile Puppet',
         '敌意女巫': 'Hostile Witch',
         '敌意女巫[BOSS]': 'Hostile Witch [BOSS]',
@@ -4620,13 +4721,13 @@
         '斧': 'Axe',
         '断': 'Broken',
         '新人，你们还不懂这里的规则吧。': 'don\'t understand the rules here yet, do',
-        '新生儿超过1万，花费受到一重软上限限制(^1.5)': 'Newborns over 10,000: cost is subject to a Tier-1 soft cap (^1.5)',
-        '新生儿超过1亿，花费受到二重软上限限制(^2.0)': 'Newborns over 1e8: cost is subject to a Tier-2 soft cap (^2.0)',
-        '新生儿超过1兆，花费受到三重软上限限制(^2.5)': 'Newborns over 1e12: cost is subject to a Tier-3 soft cap (^2.5)',
+        '新生儿超过1万，花费受到一重软上限限制(^1.5)': 'Newborns over 10,000: soft cap 1 (cost ^1.5)',
+        '新生儿超过1亿，花费受到二重软上限限制(^2.0)': 'Newborns over 1e8: soft cap 2 (cost ^2.0)',
+        '新生儿超过1兆，花费受到三重软上限限制(^2.5)': 'Newborns over 1e12: soft cap 3 (cost ^2.5)',
         '新的一天开始了！原能辐射浓度略有下降。': 'A new day begins! The primal-energy radiation concentration has dropped slightly.',
         '方圆五个领，谁不知道你到哪里就把全家带到哪里！': 'Five fiefs in every direction, and who doesn\'t know that wherever you go you bring the whole family along!',
         '方片重工A9': 'Diamond Heavy-Industry A9',
-        '施展冰符咒，额外造成': 'it casts an Ice Talisman, dealing extra magic damage of',
+        '施展冰符咒，额外造成': ' it casts an Ice Talisman, dealing extra magic damage of ',
         '旅行魔术师': 'Traveling Magician',
         '旋律': 'Melody',
         '旋律 三叉戟': 'Melody Trident',
@@ -4657,6 +4758,7 @@
         '无法接受吗？没关系。': 'Can\'t accept it? That\'s fine.',
         '无法继续被佩戴，只是用于合成【冰原之心】的临时材料。': 'Can no longer be equipped — just a temporary material for crafting the 【Heart of the Ice Field】.',
         '无法继续被佩戴，只是用于合成【幻境之心】的临时材料。': 'Can no longer be equipped — just a temporary material for crafting the 【Heart of the Illusory Realm】.',
+        '无法继续被佩戴，只是用于合成【血峰之心】的临时材料。': 'Can no longer be equipped — just a temporary material for crafting the 【Heart of Blood Peak】.',
         '无法继续被佩戴，只是用于合成【飞船之心】的临时解决方案。': 'Can no longer be equipped — just a stopgap for crafting the 【Heart of the Spaceship】.',
         '无特殊说明下，2+对应1个小境界。': 'stated, 2+ corresponds to one',
         '无视超出部分的攻击数值': 'ignores the excess Attack value',
@@ -4674,9 +4776,9 @@
         '时封被各种倍率怎么也变成路边一条了！平衡啊——': 'With all these multipliers, Time-Seal has somehow become just another roadside nobody! Balance——',
         '时封？血量太薄了……它真的可以撑到第二次攻击吗？': 'Time-Seal? Its health is too thin… can it really survive to a second attack?',
         '时间流速: 36000 s / s.': 'Time flow: 36000 s / s.',
-        '时，其': ', the',
-        '时，敌人伤害': ', enemy damage is',
-        '时，敌人受到的伤害比例减少': ', the damage the enemy takes is reduced by',
+        '时，其': ', the ',
+        '时，敌人伤害': ', enemy damage is ',
+        '时，敌人受到的伤害比例减少': ', the damage the enemy takes is reduced by ',
         '昊荒[BOSS]': 'Haohuang [BOSS]',
         '明明是燕岗领第一家族，为什么要用毒药呢？*我是不会告诉你任何东西的！*': 'You\'re the Yangang Fief\'s foremost family, so why use poison? *I won\'t tell you anything!*',
         '星月幻术师': 'Star-Moon Illusionist',
@@ -4761,7 +4863,7 @@
         '暴击概率': 'Crit Probability',
         '暴击率': 'Crit Rate',
         '暴率': 'Crit Rate',
-        '暴起把13斧全杀了！)': 'item suddenly went off and killed the whole 13 Axes!)',
+        '暴起把13斧全杀了！)': ' item suddenly went off and killed the whole 13 Axes!)',
         '暴风野蝠': 'Storm Wild Bat',
         '更亮了！惑幻……说起来，明明是幻境，它居然是第一只有这种属性的敌人吗？': 'Even brighter! Bewitch…… come to think of it, it\'s an illusion, yet is it really the first enemy with this attribute?',
         '更大只的飞蛾，灵活性不佳，但它会2连击！': 'A bigger moth, not so agile, but it does a 2-hit combo!',
@@ -4809,7 +4911,7 @@
         '木元素领悟。修习了战复魔法的冒险者钟爱的属性。': 'A wood-element insight, the favorite attribute of adventurers who study battle-recovery magic.',
         '未发现【': 'No 【',
         '末世天骄[BOSS]': 'Apocalypse Prodigy [BOSS]',
-        '末世秘境天才的一缕残魂。在漫长的时光中流失了99.9999%的力量，只剩下': 'A wisp of the remnant soul of an apocalyptic-Secret-Realm prodigy. Over long ages it lost 99.9999% of its power, leaving only a',
+        '末世秘境天才的一缕残魂。在漫长的时光中流失了99.9999%的力量，只剩下': 'A wisp of the remnant soul of an apocalyptic-Secret-Realm prodigy. Over long ages it lost 99.9999% of its power, leaving only a ',
         '本天才已经恢复到半步云霄级！': 'already recovered to half a step from Skyhigh-Tier!',
         '本天才英明一世，历尽坎坷闯过天才战，': 'brilliant all my life, braved every hardship through the',
         '本就临近突破的四重领域，': 'the Tier-4 Domain, already near breakthrough,',
@@ -4877,10 +4979,11 @@
         '梅花重工A9': 'Club Heavy-Industry A9',
         '森林野蝠': 'Forest Wild Bat',
         '楼层属性：': 'Floor stats:',
-        '槽位:': 'Slot:',
+        '槽位:': 'Slot: ',
         '模拟【缠绕骸骨】做成的剑柄部件。': 'A sword-hilt part made in imitation of the 【Entwining Skeleton】.',
         '橙毛茸茸': 'Orange Furball',
         '次': 'times',
+        '欲戴皇冠，必承其重。下一次进化必将涤尽污血，去除杂质！': 'Heavy is the head that wears the crown. The next evolution is certain to wash the tainted blood clean and strip out every impurity!',
         '欺凌弱小的敌人容易被防杀。': 'An enemy that bullies the weak is easily defense-killed.',
         '正在从银骨向金骨转化的云霄级荒兽骨头，目前转化进度72.2%。这绝对不是舞萌rating后三位之类的数字！': 'Bone of a Skyhigh-Tier Wildbeast midway from silver bone to gold bone, currently at 72.2% conversion. This is absolutely NOT the last three digits of a maimai rating or anything!',
         '正好又对他有点利用价值，': 'just lurking at Zuo\'a\'s side — happening to',
@@ -4907,7 +5010,7 @@
         '死线回归了真是一场恐怖事件啊……那如果这一区死线回归只是最小的问题呢？': 'The return of the Deadline is quite the horror event… so what if the Deadline\'s return in this zone is only the smallest problem?',
         '残雪灵阵': 'Lingering-Snow Spirit Array',
         '每一个实力都数十倍于我。': 'others — each is dozens of times stronger than me.',
-        '每一回合战斗伤害变为': 'Combat damage each turn becomes',
+        '每一回合战斗伤害变为': 'Combat damage each turn becomes ',
         '每个人的幻境都有所不同……吗？': 'Each person\'s illusion is different… is that it?',
         '每击败一只【心之灵】，': 'Each time you defeat a 【Heart Spirit】, you',
         '每当我试图看清那些兽影，听清那仙乐，': 'beast-shapes, to hear that celestial music',
@@ -4997,7 +5100,7 @@
         '没有进化完全体状态的玻璃大炮。但是，大炮没有了，玻璃还在...': 'A Large Glass Cannon without its fully-evolved form. But hey — the cannon\'s gone, the glass remains…',
         '没有黑化的【红邪鬼】。吹火掌没了瞬间变成路边一条了哇……迟早得学学这个技能！': 'A 【Red Fiend】 that never turned. Without Fire-Blowing Palm it instantly becomes a nobody… I\'ll have to learn that skill sooner or later!',
         '没那么拼命的百家小卒，受轻伤就会离去。': 'A less-desperate Hundred-Clans footsoldier; it leaves once lightly wounded.',
-        '沦为一位': 'and became the soul-servant of a',
+        '沦为一位': 'and became the soul-servant of a ',
         '沼泽天然发光体的遗物。它的荧光可以驱散常年不散的瘴气。': 'Remnant of the swamp\'s natural luminous bodies. Its glow can dispel the miasma that never lifts.',
         '沼泽石灵': 'Swamp Stone Spirit',
         '沿着清野江，回家的路。不仅荒兽成群，还有微妙的狂暴气息的区域。': 'Along the Qingye River, the road home. Not only do Wildbeasts swarm, but there\'s a faint frenzied aura in this area.',
@@ -5011,6 +5114,7 @@
         '法师/蝙蝠的双面生物。似乎蝙蝠更强一点耶。': 'A two-faced mage/bat creature. The bat side seems a bit stronger.',
         '法师学徒': 'Mage Apprentice',
         '注入了荒兽的活性成分之后，导能更加强大的柳木': 'Willow that, infused with a Wildbeast\'s active essence, conducts energy far better.',
+        '注意【赌之神帝】的力量不会让你的血量瞬间回满。想想有什么回血手段是可以等比例增长的呢~': 'Note that the power of the 【Gambling God Emperor】 will not top your health straight back up. Have a think about which ways of healing scale in proportion~',
         '注：【映星花·花海】无法升华。它已经达到了完美。': 'Note: 【Starmirror Flower · Flower Sea】 cannot be sublimated. It has already reached perfection.',
         '泪点解析：召唤物不会掉宝石和物品，只有经验。': 'Tear-jerker breakdown: summons don\'t drop gems or items, only XP.',
         '活化柳木制造的剑柄。基因原能传导从未如此顺畅！': 'A sword hilt made of Activated Willow. Genetic primal-energy has never conducted so smoothly!',
@@ -5128,14 +5232,14 @@
         '灵能菇菇': 'Psionic Mushroom',
         '灵蔓茸茸': 'Spirit-Vine Furball',
         '灵魂之力 :': 'Soul Power :',
-        '点领域伤害。此伤害可被敏捷1:1减免。': 'Domain damage. This damage can be reduced 1:1 by Agility.',
-        '点魔法伤害。': 'magic damage.',
+        '点领域伤害。此伤害可被敏捷1:1减免。': ' Domain damage. This damage can be reduced 1:1 by Agility.',
+        '点魔法伤害。': ' magic damage.',
         '炼化10%的纳家影响力': 'Refine 10% of the Na Family\'s Influence',
         '炼化能量速度相当缓慢。': 'condense energy cores within their',
         '炽烈茸茸': 'Blazing Furball',
         '炽热幽闻藤': 'Blazing Ghostscent Vine',
         '炽热的火焰能量，便趁虚而入，': 'and the searing flame energy seized the opening,',
-        '烙印？我只记得……': 'A brand? All I remember is…',
+        '烙印？我只记得……': 'A brand? All I remember is… ',
         '热容类似水，冰点类似氦。': 'Heat capacity like water, freezing point like helium.',
         '热血沸腾的组合技，1080亿(划掉)480亿的斩杀线！虽然因为RPG的机制，冰封和圣阵的组合技消失了就是了啦。': 'A blood-boiling combo skill, a 1.08e11 (crossed out) 4.8e10 execution threshold! Though due to RPG mechanics, the Ice-Seal-and-Holy-Array combo has vanished.',
         '然后一整个领的秘境都被扫空了！！': 'And then an entire fief\'s Secret Realms are swept clean!!',
@@ -5239,13 +5343,14 @@
         '现在你逃不掉了..不过它也没那么强了！': 'Now you can\'t escape… but it\'s not so strong anymore either!',
         '现在关于你的消息可是不胫而走哦？': 'News about you has spread far and wide now, you know?',
         '现在呢，到底是谁要死在这里呀。': 'So now, just who\'s the one dying here?',
+        '现在才是真正的战斗！这股力量不属于你……但即使如此，练练技能还是有用的。': 'NOW it is a real fight! This power is not yours…… but even so, getting some practice in with your skills is still worth something.',
         '现在求饶还来得及吗？': 'Sky-Tier… hah?! Is it too late to beg for mercy now?',
         '现在灵阵功率开了多少哇？': 'How high is the spirit-array power set right now?',
         '现在的我，感觉已经具备了挑战父亲大人的能力呢。': 'the family! The me of now feels I\'ve already',
         '现在谁才是可爱的小妹妹哇？': 'who\'s the cute little sister? Domain Tier 3 ·',
         '现在，我便将自己对这等秘法的领悟，': 'understanding of this Domain. Now, I\'ll pass my',
         '现在，方圆千里的大地级修行者，': 'Now, Earth-Tier cultivators from a thousand li around',
-        '现已解锁！': 'is now unlocked!',
+        '现已解锁！': ' is now unlocked!',
         '玻璃大炮型的荒兽。幸好血门不在它的后面...': 'A glass-cannon-type Wildbeast. Luckily the blood-gate isn\'t behind it…',
         '理论上带精的金属要高一个大等级...但考虑到铁本身不入流，铁精也不会超过A9级就是了。': 'In theory metal with Essence is a whole grade higher… but given iron itself is bottom-tier, Iron Essence won\'t exceed A9 anyway.',
         '理论上来说天空级已经可以飞了。但它的战斗风格和体重决定了它不会长期飞行。': 'In theory Sky-Tier can already fly. But its combat style and weight mean it won\'t fly for long.',
@@ -5313,19 +5418,19 @@
         '百方[荒兽森林 ver.][BOSS]': 'Baifang [Wildbeast Forest ver.] [BOSS]',
         '百方携带的护卫。为什么少爷会带比自己还弱的护卫呢...': 'A guard Baifang brought along. Why would the young master bring a guard weaker than himself...',
         '百线流': 'Hundred-Line Style',
-        '的': 'at',
+        '的': ' at ',
         '的传说。': '.',
-        '的伤害。': 'damage.',
+        '的伤害。': ' damage.',
         '的压迫感？': '?',
-        '的呢?)': 'or so?)',
+        '的呢?)': ' or so?)',
         '的境界 ,': ',',
-        '的好东西...': 'worth of good stuff…',
+        '的好东西...': ' worth of good stuff…',
         '的实力。': 'strength. Fortunately, an ancient-tomb undead\'s',
         '的攻击。': '.',
-        '的状态效果，持续': 'status effect for',
-        '的生命。': 'of its Health Cap.',
+        '的状态效果，持续': ' status effect for ',
+        '的生命。': ' of its Health Cap.',
         '的确，这种小型飞行物，材质仅仅是珍宝级，': 'are only treasure-grade in material, but',
-        '的能级……': 'energy level……',
+        '的能级……': ' energy level……',
         '的血脉。不过它大概长不大就是了。': '. Though it probably won\'t grow up.',
         '的魔法伤害。': '.',
         '皮糙肉厚的荒兽。那边那个冒失的家伙在干什么啊！': 'A thick-skinned, tough Wildbeast. What is that reckless fellow over there doing!',
@@ -5352,7 +5457,7 @@
         '盖亚戟': 'Gaia Trident',
         '盖亚月轮': 'Gaia Moonwheel',
         '目标也至少拥有接近': 'target still has at least near-',
-        '目标无效。': 'targets.',
+        '目标无效。': ' targets.',
         '目的地 已抵达.(从[纳家秘境]出发)': 'Destination reached. (departing from [Na Family Secret Realm])',
         '盯~ (若叶睦表情包.jpg)': 'Stare~ (Wakaba Mutsumi reaction image.jpg)',
         '直到有一次，他遇上了自己的天才师兄弟。': 'to change anything. Until one day, he met a genius',
@@ -5479,7 +5584,7 @@
         '竟能让如此之多的荒兽产生变异。': 'could mutate so many Wildbeasts.',
         '竺虎[BOSS]': 'Zhuhu [BOSS]',
         '符文工作台套件居然还赠送箱子,床,聚能阵！真是物超所值...': 'The Rune Workbench Kit even throws in a chest, a bed, and an energy-gathering array! Truly great value…',
-        '第20回合触发，血量下降到1，对角色造成': 'Triggers on turn 20, dropping its own health to 1 and dealing the character',
+        '第20回合触发，血量下降到1，对角色造成': 'Triggers on turn 20, dropping its own health to 1 and dealing the character ',
         '第9回合': 'turn 9',
         '第一只大地级敌人。温馨提醒：大地级以上经验增长速率会翻倍！': 'The first Earth-Tier enemy. Friendly reminder: XP growth rate doubles from Earth-Tier up!',
         '第一幕的最终BOSS。本来2-5也不一定打得过，幸好有镭射枪...': 'The final BOSS of Act 1. You might not have beaten it even at 2-5 — lucky you had the Laser Gun...',
@@ -5503,7 +5608,7 @@
         '简而言之，': 'produces water 【Spirits】 up to',
         '算了，我也不好说人家啦。': 'mind and focus… never mind, it\'s not my place to judge him.',
         '类似于吞噬星空雾岛的那些东西，不过境界略高一筹。可以使用的同时它也是材料。': 'Similar to those things on Swallowed Star\'s Misty Island, but a notch higher in realm. It can be used, and it\'s also a material.',
-        '类型:': 'Type:',
+        '类型:': 'Type: ',
         '粘合': 'Adhesive',
         '粘合 三叉戟': 'Adhesive Trident',
         '粘合 剑': 'Adhesive Sword',
@@ -5515,6 +5620,7 @@
         '粘合戟': 'Adhesive Trident',
         '粘合月轮': 'Adhesive Moonwheel',
         '精壮青年': 'Burly Youth',
+        '精血提炼/点击就送！！(在3.51将被移除)': 'Blood-Essence Refining / one click, it\'s yours!! (removed in 3.51)',
         '精钢': 'Steel',
         '精钢 三叉戟': 'Steel Trident',
         '精钢 剑': 'Steel Sword',
@@ -5712,7 +5818,7 @@
         '胸部外甲': 'Chest (Outer)',
         '能匹敌云霄级一阶的傀儡想必相当值钱吧。这些也是城门战奖品的一部分！': 'A puppet that can rival Skyhigh-Tier Rank 1 must be quite valuable. These are part of the City Gate Battle prizes too!',
         '能告诉我们这里究竟是什么地方吗。。': 'Can you tell us what this place really is?',
-        '能在': 'To reach the Barrier Lake at the realm of',
+        '能在': 'To reach the Barrier Lake at the realm of ',
         '能够亲眼得见这些强大精妙的秘法被施展出来，': 'seeing these powerful, exquisite Techniques cast with my own eyes',
         '能够张开蕴含法则感悟的【领域】对敌，': 'a 【Domain】 imbued with law-insight against',
         '能够改写这段命运的希望。': 'hope—— the hope of rewriting this',
@@ -5793,7 +5899,7 @@
         '苇编戟': 'Woven Reed Trident',
         '苇编月轮': 'Woven Reed Moonwheel',
         '苍白之触': 'Pale Touch',
-        '若我纳家诞生一位天才，': 'If a genius were born to my Na Family,',
+        '若我纳家诞生一位天才，': ' If a genius were born to my Na Family,',
         '若是为人知晓，只怕这秘境，': 'Were it known, I fear this realm',
         '茸茸家族的另一个成员——尽管它只比出牙茸茸强大了一丝。': 'Another member of the Furball family — though only a hair stronger than the Budding Furball.',
         '茸茸魔导师': 'Furball Magus',
@@ -5830,14 +5936,14 @@
         '获取了 晶化 剑(品质 239%)!': 'Obtained Crystallized Sword (Quality 239%)!',
         '获取了 沼泽·荒兽肉块 * 5!': 'Obtained Swamp · Wildbeast Meat * 5!',
         '获取了1点【灵魂之力】！': 'Gained 1 point of 【Soul Power】!',
-        '获取了9999亿【秘法精通】经验值。': 'Gained 9.999e11 【Technique Mastery】 XP.',
+        '获取了9999亿【秘法精通】经验值。': ' Gained 9.999e11 【Technique Mastery】 XP.',
         '获取了纳家奇宝【伊芙】！': 'Family treasure 【Eve】! The',
         '获取新领悟 [火灵幻海]！': 'Gained a new insight [Flame Spirit Sea]!',
         '获取新领悟 [焰海霜天]！': 'Gained a new insight [Flame Sea, Frost Sky]!',
         '获取新领悟 [燃灼术]！': 'Gained a new insight [Scorch]!',
         '获得了剑盾的变种史莱姆，它已经不会被拖累了！': 'A mutant slime that\'s gained a sword and shield — this one isn\'t slowed down anymore!',
         '获得了剑盾的浅色史莱姆，但是它也被拖累了速度': 'A pale slime that\'s gained a sword and shield — but it\'s weighed down in speed.',
-        '落入纳可手中。': 'fell into Neko\'s hands.',
+        '落入纳可手中。': ' fell into Neko\'s hands.',
         '蓝帽行者': 'Blue-Hat Wanderer',
         '蓝帽行者[BOSS]': 'Blue-Hat Wanderer [BOSS]',
         '蓝帽行者总是被模仿，但400%血量下它也从未被超越。': 'The Blue-Hat Wanderer is always imitated, but at 400% health it\'s never been surpassed.',
@@ -5967,8 +6073,9 @@
         '行走树妖': 'Walking Treant',
         '行走树妖[BOSS]': 'Walking Treant [BOSS]',
         '衣服都褪色了。在清野江漂了多少年了哇？': 'Its clothes are all faded. How many years has it drifted in the Qingye River?',
+        '补票【精血提炼】的功法': 'Pick up the 【Blood-Essence Refining】 art after the fact',
         '袜子': 'Socks',
-        '被': 'Limited by the',
+        '被': 'Limited by the ',
         '被D9级飞船炸为废墟的声律领主城。在混乱中蕴藏着许多有用的财宝。': 'The lord\'s city of the Shenglü Fief, blasted to ruins by a D9-tier spaceship. Amid the chaos lie many useful treasures.',
         '被D9飞船摧毁的声律城。其中鱼龙混杂，适合浑水摸鱼。': 'Shenglü City, destroyed by a D9 spaceship. It\'s a mixed bag in here — good for fishing in troubled waters.',
         '被D9飞船摧毁的声律城外战场，杀戮与抢夺屡见不鲜。': 'The battlefield outside Shenglü City, destroyed by a D9 spaceship — killing and plunder are commonplace.',
@@ -5998,22 +6105,22 @@
         '要是在雾岛上能有这么一颗，巴巴塔恐怕永远也找不到传人了。': 'If there were one of these on Misty Island, Babata would probably never find an heir.',
         '要是里面有人带着B6镭射枪这种宝物，': 'didn\'t even think to loot the bodies—— if some of',
         '观想清野瀑布的意外收获。': 'contemplating the Qingye Waterfall after being wounded.',
-        '角色与敌人攻防之和的穿透伤害。': 'the sum of the character\'s and enemy\'s Attack+Defense respectively.',
+        '角色与敌人攻防之和的穿透伤害。': ' the sum of the character\'s and enemy\'s Attack+Defense respectively.',
         '角色对敌人造成的伤害乘以1.25*(角色攻防和)/(敌人攻防和).加强的原因是你攻防和都超出敌人了还需要这个buff吗!': 'Damage you deal to enemies is multiplied by 1.25*(your Attack+Defense)/(enemy\'s Attack+Defense). It got buffed because — if your Attack and Defense both already exceed theirs, do you even need this one!',
-        '角色属性': 'The character stat',
-        '角色攻击的效力削弱（敌人生命/角色生命）的': 'The character\'s Attack effectiveness is weakened by',
+        '角色属性': 'The character stat ',
+        '角色攻击的效力削弱（敌人生命/角色生命）的': 'The character\'s Attack effectiveness is weakened by ',
         '角色敏捷乘以1+血量比例/40%(满血即为3.5倍),但生命流失1%.': 'Your Agility is multiplied by 1+health ratio/40% (3.5x at full health), but you lose 1% of your Health.',
         '角色无视敌人攻击力超出防御力部分的50%，但普攻倍率*0.4.': 'You ignore 50% of the amount by which an enemy\'s Attack exceeds your Defense, but Basic Attack Multiplier *0.4.',
         '角色每次攻击延迟被击中敌人攻击1/2轮，但攻速*0.7.': 'Each of your attacks delays the struck enemy\'s attack by 1/2 a round, but Attack Speed *0.7.',
         '角色生命多于敌人': 'the character\'s Health exceeds the enemy\'s',
-        '角色的攻击。': 'of the character\'s Attack.',
+        '角色的攻击。': ' of the character\'s Attack.',
         '角色的攻击（计算加成）少于敌人': 'the character\'s Attack (with bonuses) is less than the enemy\'s',
-        '角色的攻防。': 'of the character\'s Attack/Defense.',
+        '角色的攻防。': ' of the character\'s Attack/Defense.',
         '解锁了 荒兽森林 - 3.除此之外，营地的柳树砍伐也已解锁。': 'Unlocked Wildbeast Forest - 3. Besides that, felling the camp\'s willows is now unlocked too.',
         '解锁心之境界 - ': 'unlocks Heart Realm - ',
-        '解锁心之境界 - 一重！': 'unlocks Heart Realm - Tier 1!',
-        '解锁心之境界 - 三重！': 'unlocks Heart Realm - Tier 3!',
-        '解锁心之境界 - 二重！': 'unlocks Heart Realm - Tier 2!',
+        '解锁心之境界 - 一重！': ' unlocks Heart Realm - Tier 1!',
+        '解锁心之境界 - 三重！': ' unlocks Heart Realm - Tier 3!',
+        '解锁心之境界 - 二重！': ' unlocks Heart Realm - Tier 2!',
         '解锁技能【映星天彩】(经验~50级映星花)，': 'Unlocked skill 【Starmirror Skyrainbow】 (XP ~ level-50 Starmirror Flower),',
         '誓要令你……彻底沉眠！': 'I swear to make you… slumber forever!',
         '警惕一切和【光】有关的东西。天空级一阶和arc的定数10.6变成一样的定位了...': 'Beware anything to do with 【light】. Sky-Tier Rank 1 has become the same positioning as Arcaea\'s constant 10.6…',
@@ -6045,7 +6152,7 @@
         '该区【冰封术】斩杀线位于54兆剩余生命处，【追光】斩杀线位于7200亿防御处，还有【死线】增伤，【散华】【生命限制】收割残余生命。': 'This zone\'s 【Ice Seal】 execution threshold is at 5.4e13 remaining Health, the 【Light-Chase】 threshold at 7.2e11 Defense, plus 【Deadline】 damage boost, and 【Scattered Bloom】/【Health Limit】 harvesting remaining Health.',
         '该区【冻伤】斩杀线位于8100亿攻防和处。没有那些败移和死线了，是时候喘口气了……': 'This zone\'s 【Frostbite】 execution threshold is at 8.1e11 Attack+Defense. No more Defeat Shift or Deadline — time to catch your breath…',
         '该死，我的力量已经十不存一。': 'Damn, less than a tenth of my power remains.',
-        '该说不说，还真有个': 'Credit where it\'s due, there really was a',
+        '该说不说，还真有个': 'Credit where it\'s due, there really was a ',
         '说到底这里百万年来就死了三万天空级！': 'the end, only thirty thousand Sky-Tiers have',
         '说到底，我并未炸过核心反应堆。': 'After all, I\'ve never blown up a core reactor.',
         '说明绝大部分都是自然死亡！': 'still survive means the vast majority died of',
@@ -6069,6 +6176,7 @@
         '诶？地宫那个是你的亲戚吗？长得一模一样哇。': 'Huh? Is the one in the Crypt your relative? You look exactly alike.',
         '请在每一类中选择一个部件': 'Please select one part from each category',
         '请在装备栏中进行装备。': '! Please equip it in the equipment slot.',
+        '请将【幻境之心】佩戴后再次尝试！`': 'Equip the 【Heart of the Illusory Realm】 first, then try again!',
         '请将【飞船之心】佩戴后再次尝试！`': 'Please equip the 【Heart of the Spaceship】 and try again!`',
         '请留步，小姐。': 'Halt, miss.',
         '请登上最后的决战之地，击败左阿！': 'Please step onto the final battleground and defeat Zuo\'a!',
@@ -6105,7 +6213,7 @@
         '身边姐姐焦急的声音传来。': 'her sister\'s anxious voice reaching her.',
         '躯干': 'Torso',
         '躲在一大群猎兵后面来偷袭你！好屑啊……': 'Hiding behind a big crowd of Hunter-Soldiers to ambush you! What a wimp……',
-        '转化': 'Convert the',
+        '转化': 'Convert the ',
         '转瞬与硕大的冰蓝六芒星碰撞！': 'and in an instant colliding with the huge ice-blue six-pointed star!',
         '轮芯': 'Wheel Hub',
         '轮锋': 'Wheel Blade',
@@ -6412,12 +6520,12 @@
         '阴暗茸茸': 'Gloomy Furball',
         '阻激夹域机械体内的一缕电属性痕迹。法则属性几乎为0，但已足以固化高能凝胶。': 'A wisp of lightning-attribute residue inside Pincer-Field mechs. Its Law attribute is nearly 0, but enough to solidify High-Energy Gel.',
         '附带有2连击效果的秘法。代价则是基础数值的缺失。此外，【烈日祝福·艮】或【A9·回风药剂】(没有幸运真的撑得到4-4吗)会覆盖它的效果。': 'A technique with a built-in double-hit effect. The cost is reduced base stats. Also, 【Blazing Sun Blessing · Gen】 or 【A9 · Wind Return Potion】 (can you really make it to 4-4 without Luck?) will override its effect.',
-        '附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，无法超过自身生命上限。基础数值和【双虹】类似。注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量。': 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level, and can\'t exceed your own max health. Base stats are similar to 【Double Rainbow】. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover.',
+        '附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量，如果【精血炼化】被解锁，超过自身生命上限的治疗量每100亿点生命值就会提供0.01%获取【至纯精血】的概率': 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover. And once 【Blood-Essence Refining】 is unlocked, healing past your own max health gives a 0.01% chance of 【Purest Blood-Essence】 per 1e10 health overhealed.',
         '附近似乎有人正在寻找纳家后人的下落！[提示:影响力达到50且通过此区域]': 'Someone nearby seems to be searching for the whereabouts of the Na Family\'s descendants! [Hint: reach 50 influence and pass through this area]',
         '附近有许多可疑的门！不过想要检查它们的话，必须先击败眼前成群结对的敌人..': 'Lots of suspicious doors nearby! But to inspect them, you must first defeat the crowd of enemies before you…',
-        '限制 - 经验已锁定': '- XP locked',
+        '限制 - 经验已锁定': ' - XP locked',
         '限制器': 'Restrictor',
-        '限制境界:': 'Level Restriction:',
+        '限制境界:': 'Level Restriction: ',
         '限制对手的能力可能成为窍门或是负累。': 'A move that limits the opponent\'s abilities may be a knack or a burden.',
         '陷入癫狂的大地级狩士。他变强了，但代价呢？': 'A crazed Earth-Tier hunter. He got stronger — but at what cost?',
         '随后突然涌现出了许多知识。': 'of knowledge suddenly welled up. Starmirror Flower ·',
@@ -6428,6 +6536,7 @@
         '隐秘行刺者': 'Covert Assassin',
         '隐约之间，旋涡中映出了彩色的光华。': 'was reflected within the vortex. As the light',
         '隐约听到姐姐的声音？！姐姐不会——就在那里——': 'Faintly hear Sister\'s voice?! Sister couldn\'t be — right there —',
+        '隐藏在三领交界处地下的一处大型秘境。当地唯一不禁止的【虔心】体系炼到天空级巅峰就会化作上好的修行资粮，但也正因为此，此地才能培养起大批外来云霄级强者。[V3.60前版本终点]': 'A vast Secret Realm hidden underground where the three fiefs meet. The 【Piety】 system is the only one not forbidden here, and refined to Sky-Tier Peak it becomes excellent fuel for cultivation — which is precisely why this place has been able to raise a great many Skyhigh-Tier powerhouses from outside. [End of content before V3.60]',
         '隐藏在秘境之中。': 'lies hidden within the Secret Realm.',
         '难不成你兰陵城，还要继续死皮赖脸相争？': 'Don\'t tell me your Lanling City intends to keep shamelessly fighting over it?',
         '难不成？': 'inheritances… don\'t tell me?',
@@ -6608,9 +6717,9 @@
         '，也是最无瑕的大地级后期强者之一了。': 'most unblemished late-Earth-Tier powerhouses.',
         '，以角色攻击各额外攻击一次。': ', attacks once extra each at the character\'s Attack.',
         '，伪装成冒失的寻常冒险者。': 'disguised as a reckless ordinary adventurer.',
-        '，反之': '; otherwise, it is',
+        '，反之': '; otherwise, it is ',
         '，大地级不应该只有0.1纪元的寿命的嘛...': 'Earth-Tier should only have a 0.1-epoch lifespan…',
-        '，将角色下一次攻击冷却': ', the character\'s next attack cooldown is',
+        '，将角色下一次攻击冷却': ', the character\'s next attack cooldown is ',
         '，延后宝石软上限': ', delaying the gem soft cap',
         '，气息不稳，': 'with an unstable aura, the',
         '，而且是——领域三重巅峰！': 'Domain—— and it\'s Domain Tier 3 Peak!',
@@ -6620,9 +6729,10 @@
     const proseFrag = Object.assign(Object.create(null), {
         '[初始 ${format_money(round_item_price(item.getBaseValue(quality) * ((options && options.trader) ? traders[current_trader].getProfitMargin() : 1) || 1))}]': ' [Base ${format_money(round_item_price(item.getBaseValue(quality) * ((options && options.trader) ? traders[current_trader].getProfitMargin() : 1) || 1))}]',
         '呵呵，一缕念头自是无法长期维持。<br>下一次，就不知道什么时候才能醒了。<br>如果你希望检验自己——<br>去这片结界湖的深处。<br>那里有一些结界里自然滋生的“灵”，<br>诞生了意识，想要反抗和挣脱结界。<br>为了秘境的稳固，这个任务便交予你。<br>去吧，我就不打扰了。': 'Heh, a mere wisp of thought can\'t hold on for long.<br>When I\'ll wake next, there\'s no telling.<br>If you wish to test yourself——<br>go to the depths of this Barrier Lake.<br>There are "Spirits" naturally bred within the barrier<br>that have gained consciousness and wish to resist and break free.<br>For the realm\'s stability, I entrust this task to you.<br>Go on. I won\'t keep you.',
+        '附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量，如果【精血炼化】被解锁，超过自身生命上限的治疗量每100亿点生命值就会提供0.01%获取【至纯精血】的概率': 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover. And once 【Blood-Essence Refining】 is unlocked, healing past your own max health gives a 0.01% chance of 【Purest Blood-Essence】 per 1e10 health overhealed.',
         '将威压惩罚削弱到原来的 ^${Math.round(100-100*skills["Resistance"].current_level/skills["Resistance"].max_level)/100}': 'Weakens the intimidation penalty to the original ^${Math.round(100-100*skills["Resistance"].current_level/skills["Resistance"].max_level)/100}',
         '沼泽辐射扩散: ${format_number(inf_combat.B3 )} % -> ${format_number(inf_combat.B3 + 10 * (1 -  E_modi))} %': 'Swamp radiation spread: ${format_number(inf_combat.B3 )} % -> ${format_number(inf_combat.B3 + 10 * (1 -  E_modi))} %',
-        '附带有吸血效果的秘法。吸血倍率为1%+0.1%x【映星天彩】等级，无法超过自身生命上限。基础数值和【双虹】类似。注意只能吸到实际存在的血——让敌人倒欠你一管血并不能增加你的恢复量。': 'A technique with a built-in lifesteal effect. Lifesteal rate is 1% + 0.1% × 【Starmirror Skyrainbow】 level, and can\'t exceed your own max health. Base stats are similar to 【Double Rainbow】. Note that it can only steal blood that actually exists — putting an enemy into negative health doesn\'t increase how much you recover.',
+        '隐藏在三领交界处地下的一处大型秘境。当地唯一不禁止的【虔心】体系炼到天空级巅峰就会化作上好的修行资粮，但也正因为此，此地才能培养起大批外来云霄级强者。[V3.60前版本终点]': 'A vast Secret Realm hidden underground where the three fiefs meet. The 【Piety】 system is the only one not forbidden here, and refined to Sky-Tier Peak it becomes excellent fuel for cultivation — which is precisely why this place has been able to raise a great many Skyhigh-Tier powerhouses from outside. [End of content before V3.60]',
         '如果敌人的攻击少于角色的2倍，角色受到的伤害减少(角色防御/敌人防御)的二分之一。反之，增加(角色防御/敌人防御)的两倍。该效果不会把伤害降低到0以下或提高到100倍以上。': 'If the enemy\'s attack is less than 2x yours, damage you take is reduced by half of (your Defense / enemy Defense). Otherwise, it\'s increased by twice (your Defense / enemy Defense). This effect won\'t lower damage below 0 or raise it above 100x.',
         '沼泽辐射扩散: ${format_number(inf_combat.B3)} % -> ${format_number(inf_combat.B3 + 0.004)} %': 'Swamp radiation spread: ${format_number(inf_combat.B3)} % -> ${format_number(inf_combat.B3 + 0.004)} %',
         '天地间充沛的能量滋养诞生的晶体，接触后能够化作海量的经验为人所用。增加1000亿经验值，可用于突破【天空级】。(Tips:即必须在已有9000亿以上经验时使用才能突破)': 'A crystal born of the abundant energy of heaven and earth; on contact it turns into a vast amount of XP for you. Adds 1e11 XP; usable to break through to 【Sky-Tier】. (Tip: you must already have 9e11+ XP when using it to break through.)',
@@ -6635,6 +6745,7 @@
         '沼泽辐射扩散: ${format_number(inf_combat.B3)} % -> ${format_number(B3_after)} %': 'Swamp radiation spread: ${format_number(inf_combat.B3)} % -> ${format_number(B3_after)} %',
         '毬毬山谷四处都是长这样的A3级普通鲜花。然而，根据吞噬星空定律，其中有0.01%的B3级爆血鲜花和亿分之一的C3级燃血鲜花……诺，就在这里啦！': 'Furball Valley is covered in A3-tier ordinary flowers that look like this. However, by the Swallowed Star law, 0.01% are B3-tier Bloodburst Blossoms and one in a hundred million is a C3-tier Bloodflame Blossom… and there — right here it is!',
         '首次通过 ${location.name} ，获取 ${format_number(location.first_reward.xp)} 经验': 'First time clearing ${location.name}, gained ${format_number(location.first_reward.xp)} XP',
+        '利用鲜血峰秘法与映星天彩吸取的精血。纯度极高，蕴含着满溢的杀气与一丝兽神血。未来可以辅助吸收血洛晶。(价格是0是因为这种邪修物品商人不敢收)': 'Blood-essence drawn out with Blood Peak\'s secret art and the Starmirror Skyrainbow. Its purity is extreme, brimming with killing intent and a trace of beast-god blood. In the future it can assist in absorbing Bloodfall Crystal. (Its price is 0 because no merchant dares handle a demonic-cultivation item like this.)',
         '天地间充沛的能量滋养诞生的晶体碎片，接触后能够化作海量的经验为人所用。增加1000兆经验值，或等待【第四幕】合成【中等进化结晶】突破云霄级。': 'A crystal shard born of the abundant energy of heaven and earth; on contact it turns into a vast amount of XP for you. Adds 1e15 XP, or wait for 【Act 4】 to craft an 【Intermediate Evolution Crystal】 and break through to Skyhigh-Tier.',
         '对了，毕竟实在是有很多荒兽养殖场……所以这片区域有不少强大而逃出来的荒兽也不奇怪。野人和巨人某种意义上也算荒兽——它们连血洛通用语都不会。': 'Right — there really are a great many Wildbeast farms around… so it\'s no surprise this area has plenty of strong Wildbeasts that escaped. Savages and giants count as Wildbeasts in a sense too — they can\'t even speak the Bloodfall common tongue.',
         '一个野生的补给区域。似乎上古炼器炉的气息驱散了这里的毒虫，使这里变成了密林中难得的清净之地。这里甚至有些许水体，可以练习高难度游泳动作！': 'A wild supply area. It seems the aura of an ancient forging furnace drove off the venomous insects here, making it a rare haven in the Deepwood. There\'s even some water here, good for practicing high-difficulty swimming moves!',
@@ -6798,6 +6909,7 @@
         '悬浮着的光环杖芯本就是不错的念力兵器材料，而虹彩凝胶的多种元素更使得兵器可以更加灵活。': 'A floating Aura Staff Core is already fine material for a psychokinetic weapon, and Iridescent Gel\'s many elements make the weapon even more versatile.',
         '收割检定:1d1000000=${light_rnd}/${light_chance}': 'Harvest check: 1d1000000 = ${light_rnd}/${light_chance}',
         '某种血脉似乎相当坚韧的蝙蝠，皮糙肉厚。但是...你的天赋是不是混进了什么不干净的东西?': 'A bat whose bloodline seems quite tough, thick-skinned. But… did something unclean get mixed into your talent?',
+        '注意【赌之神帝】的力量不会让你的血量瞬间回满。想想有什么回血手段是可以等比例增长的呢~': 'Note that the power of the 【Gambling God Emperor】 will not top your health straight back up. Have a think about which ways of healing scale in proportion~',
         '燕岗精英佣兵们接受了百方的委托，把纳可引到了这里。然而，危险的背后也未尝不是一场机遇。': 'The elite Yangang mercenaries took Baifang\'s commission and lured Neko here. Yet behind danger may lie opportunity.',
         '理论上带精的金属要高一个大等级...但考虑到铁本身不入流，铁精也不会超过A9级就是了。': 'In theory metal with Essence is a whole grade higher… but given iron itself is bottom-tier, Iron Essence won\'t exceed A9 anyway.',
         '相传，在一个魔女之力满地飞的时间线，许多残雪灵阵被释放进了地宫。好在这里没有那种事情。': 'Legend says that in a timeline where witch-power flew everywhere, many Lingering-Snow Spirit Arrays were released into the Crypt. Thankfully, nothing like that happened here.',
@@ -6840,7 +6952,6 @@
         '贵金属茸茸似乎是一条不错的进化路线。不过个人意见：返璞归真的【亲民茸茸】才是究极体。': 'Precious-metal Furball seems a fine evolution path. Personal opinion, though: the back-to-basics 【Common-Folk Furball】 is the ultimate form.',
         '这一只的话...没有镭射枪，卖了也没事啦。但是这可是珍贵的一次性物品！怎么舍得卖的！': 'As for this one… without the Laser Gun, selling it is fine. But it\'s a precious one-time item! How could you bear to sell it!',
         '非常抱歉，这里的名字最后一个字已经改掉了的说……为了防止有猫掉进虚空，做了这个地点！': 'So sorry, the last character of this place\'s name has been changed… to keep a cat from falling into the void, this location was made!',
-        '[WIP]如果你在3.46把这玩意开挂打死了你的存档就废了。继续开一把解4-6吧。': '[WIP] If you cheat this thing to death in 3.46, your save is done for. Just start another run and unlock 4-6.',
         '一呼百应，导致每一回合的伤害都会越来越夸张。对了，纳可比较能惹事，一次惹到了3只~': 'One call rallies a hundred, making each turn\'s damage more and more outrageous. Oh, and Neko\'s a bit of a troublemaker — she provoked 3 of them at once~',
         '中阶的【月轮】核心部件。反重力场可以迷惑视线——也就是敌人甚至看不见它就被攻击了。': 'A mid-tier 【Moonwheel】 core part. Its anti-gravity field can deceive the eye — meaning enemies get hit before they even see it.',
         '从魂晶开始，因为需要更厚的装甲来发挥材料的潜力，它们的消耗翻倍了！(经验也翻倍了)': 'Starting from Soul Crystal, thicker armor is needed to draw out the material\'s potential, so their cost is doubled! (XP is doubled too.)',
@@ -6993,6 +7104,7 @@
         '散发着五彩光华的空间，周围有许多实力相近(?)的荒兽。苏醒了，猎杀时刻！': 'A space radiating multicolored light, surrounded by many Wildbeasts of (roughly?) equal strength. Awakened — it\'s hunting time!',
         '晶化合金制造的【月轮】镀层。融合之后冰元素可以更好地散发出来，增强威力。': 'A 【Moonwheel】 plating made of Crystallized Alloy. Once fused, the ice element radiates out better, boosting its power.',
         '正面被武器击中的地宫养殖者，几乎瞬间失去了半边身体，发出了怨毒的咆哮声。': 'The Crypt Breeder, struck head-on, lost half its body almost instantly and let out a venomous roar.',
+        '现在才是真正的战斗！这股力量不属于你……但即使如此，练练技能还是有用的。': 'NOW it is a real fight! This power is not yours…… but even so, getting some practice in with your skills is still worth something.',
         '理论上来说天空级已经可以飞了。但它的战斗风格和体重决定了它不会长期飞行。': 'In theory Sky-Tier can already fly. But its combat style and weight mean it won\'t fly for long.',
         '纳家秘境怎么会对其他的门派开放啊...或许纳家子弟不够探索这么大的秘境？': 'Why is the Na Family Secret Realm open to other sects…? Maybe the Na Family\'s youth aren\'t enough to explore so vast a realm?',
         '终于——地宫里出现可以吃的荒兽啦！天剑在它3400的孱弱攻击下不值一提。': 'Finally — an edible Wildbeast appears in the Crypt! Sky Sword is nothing against its feeble 3400 attack.',
@@ -7286,7 +7398,7 @@
         '以火为载体的野生“灵”。温度远不如核爆，却掌握着多种能力。': 'A wild "Spirit" carried by fire. Far cooler than a nuke, yet it commands many abilities.',
         '你也迷路了？看来冰柱鱼王肯定不止一条~不对，骷髅会钓鱼吗？': 'You got lost too? Looks like there\'s definitely more than one Icicle Fish King~ wait, can skeletons fish?',
         '你甚至可以自己动手搓一只！虽然加强了，但是好菜啊这个...': 'You can even whip one up yourself! It\'s been buffed, but man, this thing is undercooked…',
-        '你获取了【提炼精血】的能力！[WIP/将在V3.47更新]': 'You\'ve gained the ability to 【Refine Blood-Essence】! [WIP/coming in V3.47]',
+        '你获取了【提炼精血】的能力！(使用【血杀】姿态战斗来提炼)': 'You\'ve gained the ability to 【Refine Blood-Essence】! (fight in the 【Bloodkill】 stance to refine it)',
         '其实挺难搞的，但只要你有够多的破墙镐...我是说绿色刀币。': 'Actually pretty tough, but as long as you have enough wall-breaking pickaxes… I mean Green Knife Coins.',
         '前面的路似乎无人值守...会不会这里就是前往外界的通道呢？': 'The path ahead seems unguarded... could this be the passage to the outside world?',
         '原来熬夜不睡觉可以进入别人的心魔幻境！奇怪的知识又增加了。': 'So staying up all night without sleeping lets you enter someone else\'s Inner-Demon illusion! My store of weird knowledge grows again.',
@@ -7403,6 +7515,7 @@
         '存在光环荒兽的区域，荒兽的整体实力被影响着上了一个台阶': 'An area with aura-buffed Wildbeasts; the Wildbeasts\' overall strength is bumped up a tier.',
         '或许境界更应该叫做行星级九阶?散华不满血，满血不可敌。': 'Maybe its realm should be called Planet-Tier Rank 9? Scattered Bloom when not at full health, unbeatable at full health.',
         '杂乱不堪的廊道，刺鼻的腥味。环境比地宫浅层更恶劣一层。': 'A chaotic corridor, a pungent bloody stench. The environment is a layer worse than the Crypt\'s shallow layer.',
+        '欲戴皇冠，必承其重。下一次进化必将涤尽污血，去除杂质！': 'Heavy is the head that wears the crown. The next evolution is certain to wash the tainted blood clean and strip out every impurity!',
         '正面打大概是要被追光给暴揍的。但是，追光只有3段伤害~': 'Fighting it head-on will probably get you clobbered by Light-Chase. But Light-Chase only has 3 hits~',
         '沼泽天然发光体的遗物。它的荧光可以驱散常年不散的瘴气。': 'Remnant of the swamp\'s natural luminous bodies. Its glow can dispel the miasma that never lifts.',
         '潮汐级凶兽的肉。蕴含有元素之力，没有煤炭火焰难以煮熟。': 'Meat of a Tide-Tier Ferocious Beast. Holding elemental power, it\'s hard to cook without a Coal flame.',
@@ -7465,6 +7578,7 @@
         '攻击这么高和魔攻居然是兼得的……这就是大队的实力吗？': 'Having both such high attack AND Magic Attack…… is this the strength of a Company?',
         '无法继续被佩戴，只是用于合成【冰原之心】的临时材料。': 'Can no longer be equipped — just a temporary material for crafting the 【Heart of the Ice Field】.',
         '无法继续被佩戴，只是用于合成【幻境之心】的临时材料。': 'Can no longer be equipped — just a temporary material for crafting the 【Heart of the Illusory Realm】.',
+        '无法继续被佩戴，只是用于合成【血峰之心】的临时材料。': 'Can no longer be equipped — just a temporary material for crafting the 【Heart of Blood Peak】.',
         '有坚硬外骨骼荒兽的甲壳碎片。用于熔炼A6级充能合金。': 'Carapace shards from Wildbeasts with hard exoskeletons. Used to smelt the A6-tier Charged Alloy.',
         '死水旁边的荒兽不能直接吃！但是可以用来铸造蓝金...': 'Wildbeasts by the dead water can\'t be eaten directly! But they can be used to forge Blue Gold…',
         '燕岗城主“石风雄”刻录的石碑，记载了基础的血洛秘法。': 'A stele inscribed by Yangang\'s city lord "Shi Fengxiong," recording basic Bloodfall techniques.',
@@ -7584,6 +7698,7 @@
         '【焰海霜天[领域二重]】获取了1.68秭经验！': '【Flame Sea, Frost Sky [Domain Tier 2]】 gained 1.68e24 XP!',
         '不怀好意笑着的云朵魔物。它的攻击能力令人震惊。': 'A cloud-monster grinning with ill intent. Its attack power is shocking.',
         '你的【冰原之心】已经被转化为【冰原之心·材】，': 'Your 【Heart of the Ice Field】 has been converted into 【Heart of the Ice Field · Material】,',
+        '你的【幻境之心】已经被转化为【幻境之心·材】，': 'Your 【Heart of the Illusory Realm】 has been converted into 【Heart of the Illusory Realm · Material】,',
         '你的【飞船之心】已经被转化为【飞船之心·材】，': 'Your 【Heart of the Spaceship】 has been converted into 【Heart of the Spaceship · Material】,',
         '你知道这是什么的，对吧？超进化·煤炭desu！': 'You know what this is, right? Super-Evolution · Coal, desu!',
         '兰陵城探险者常备的药剂。似乎是用大锅炖出来的。': 'A potion Lanling City explorers keep on hand. Seems to be stewed in a big cauldron.',
@@ -7666,6 +7781,7 @@
         '由白骨制成的剑柄。易碎，所以使用时会影响自身': 'A sword hilt made of white bone. Brittle, so it affects you when used.',
         '看起来没有前面几只强嘛...等会？夺少衰弱？': 'Doesn\'t look as strong as the last few… wait? How much Enfeeble?',
         '秘境核心的湖泊。新生的“灵”与荒兽在此徘徊。': 'The lake at the Secret Realm\'s core. Newborn "Spirits" and Wildbeasts roam here.',
+        '精血提炼/点击就送！！(在3.51将被移除)': 'Blood-Essence Refining / one click, it\'s yours!! (removed in 3.51)',
         '紧张刺激的燕岗领狩猎大赛~全是云霄级战力哦~': 'The tense, exciting Yangang Fief Hunting Tournament~ all Skyhigh-Tier combatants~',
         '纳可默默地守在一边，转眼间便是三个时辰过去。': 'Neko quietly kept watch to the side, and in the blink of an eye three shichen (six hours) passed.',
         '纳家打造的历练秘境。这是介于内外之间的区域。': 'A training Secret Realm built by the Na Family. This is the area between inner and outer.',
@@ -7784,7 +7900,6 @@
         '这里……真的是……我等应当涉足之地吗……': 'Is this…… really…… a place we should set foot in……',
         '随处可见的普通修者。修为不高，财产不多。': 'A common cultivator seen everywhere. Low cultivation, few possessions.',
         'B9级飞船的内部。似乎有内鬼混在里面！': 'The interior of the B9-tier spaceship. There seems to be a mole mixed in!',
-        '[WIP]还没做好。你最好不要打死它。': '[WIP] Not finished yet. You had better not kill it.',
         '[光环法杖]BOSS级敌人无法被增幅!': '[Aura Staff] BOSS-tier enemies can\'t be amplified!',
         '[峰]终于到地方了，不枉我盯了她一路。': '[Feng] Finally made it. All that trailing her the whole way wasn\'t for nothing.',
         '[燕岗精英佣兵*2]怪物……不要过来！': '[Yangang Elite Mercenary x2] Monster… stay back!',
@@ -7915,6 +8030,7 @@
         '蓝柒[放水 ver.][BOSS]': 'Lanqi [Easy ver.] [BOSS]',
         '虽然那个历练地点是峰大哥建议的……': 'Although Brother Feng suggested that training spot…',
         '诶，已经交上手了吗？战斗好精彩呀。': 'Huh, they\'re already fighting? What a spectacular battle.',
+        '请将【幻境之心】佩戴后再次尝试！`': 'Equip the 【Heart of the Illusory Realm】 first, then try again!',
         '请将【结界湖之心】佩戴后再次尝试！': 'Please equip the 【Heart of the Barrier Lake】 and try again!',
         '请将【飞船之心】佩戴后再次尝试！`': 'Please equip the 【Heart of the Spaceship】 and try again!`',
         '领悟【微火】的进化之路已经被打通！': 'The evolution path to comprehending 【Ember】 has been opened!',
@@ -8026,6 +8142,7 @@
         '反应堆因温度过高熔毁了！！！': 'The reactor melted down due to excessive temperature!!!',
         '召唤了 3x 舰船除草机B1': 'Summoned 3x Warship Weeder B1',
         '可以继续升级为【冰原之心】。': 'which can be further upgraded into the 【Heart of the Ice Field】.',
+        '可以继续升级为【血峰之心】。': 'which can be upgraded further into 【Heart of Blood Peak】.',
         '听说，有喵在叠铁质皮肤...': 'I hear a certain kitty has been stacking Iron Skin...',
         '唔..老人家，想要说什么啊？': 'Um… old sir, what did you want to say?',
         '嘿，谁是大叔啊，信不信我——': 'Hey, who\'re you calling mister — you want me to——',
@@ -8061,6 +8178,7 @@
         '(抖了抖)收拾收拾心情……': '(gives herself a shake) Let me pull myself together…',
         '(查询目前赐福与消耗信息)': '(Check the current blessing and cost info)',
         '[冰蓝]两位，大恩不言谢。': '[Binglan] You two — a great kindness needs no thanks.',
+        '[将幻境之心转化为材料版]': '[Convert Heart of the Illusory Realm to material version]',
         '[将飞船之心转化为材料版]': '[Convert Heart of the Spaceship to material version]',
         '{"id":"冰家玉简"}': '{"id":"冰家玉简"}',
         '不可能三角B9[BOSS]': 'Impossible Triangle B9 [BOSS]',
@@ -8223,6 +8341,7 @@
         '纯白冰原 - 冰霜门户': 'Pure White Ice Field - Frost Portal',
         '练兵场深处的一间小木屋': 'A small wooden cabin deep in the Training Ground.',
         '腐蚀质石精[BOSS]': 'Corrosive Stone Sprite [BOSS]',
+        '补票【精血提炼】的功法': 'Pick up the 【Blood-Essence Refining】 art after the fact',
         '装备槽里的姐姐回家了！': 'The Sister in the equipment slot has gone home!',
         '说这么多你咋不帮我打？': 'You explain so much — why don\'t you help me fight it?',
         '这，这可不能随便给你！': 'This, this I can\'t just give you!',
@@ -8507,7 +8626,6 @@
         '充能合金 月轮': 'Charged Alloy Moonwheel',
         '充能合金三叉戟': 'Charged Alloy Trident',
         '全部 经验获取': 'All XP Gain',
-        '准 微 尘 级': 'Quasi-Dust-Tier',
         '古源金 三叉戟': 'Ancient Primal Gold Trident',
         '叮~余额不足！': 'Ding~ insufficient balance!',
         '向内部充入气体': 'Pump gas inside',
@@ -8705,6 +8823,7 @@
         '密林 三叉戟': 'Deepwood Trident',
         '小势力探险者': 'Minor-Faction Explorer',
         '就送给你了。': 'They\'re yours now.',
+        '幻境之心·材': 'Heart of the Illusory Realm · Material',
         '幻境翠绿行者': 'Illusory-Realm Verdant Wanderer',
         '幻符 三叉戟': 'Phantom Rune Trident',
         '废墟恢复药水': 'Ruins Recovery Potion',
@@ -8721,7 +8840,7 @@
         '持盾战士A9': 'Shield-Bearing Warrior A9',
         '探险者的怨恨': 'Explorer\'s Resentment',
         '改良 三叉戟': 'Improved Trident',
-        '新生儿数 :': 'newborn count:',
+        '新生儿数 :': ' newborns:',
         '方片重工A9': 'Diamond Heavy-Industry A9',
         '旋律 三叉戟': 'Melody Trident',
         '旋律合金 剑': 'Melody Alloy Sword',
@@ -9147,6 +9266,7 @@
         '破空 月轮': 'Skybreaker Moonwheel',
         '破空三叉戟': 'Skybreaker Trident',
         '硬重置游戏': 'Hard reset game',
+        '神帝·护盾': 'God Emperor · Shield',
         '神话红宝石': 'Mythic Red Gem',
         '神话绿宝石': 'Mythic Green Gem',
         '神话蓝宝石': 'Mythic Blue Gem',
@@ -9765,6 +9885,7 @@
         '破败之域': 'Ruined Domain',
         '破败危壁': 'Ruined Precipice',
         '磐石蜘蛛': 'Boulder Spider',
+        '神帝之力': 'God Emperor\'s Power',
         '秘境猬精': 'Secret-Realm Hedgehog Sprite',
         '秘境芦苇': 'Secret Realm Reed',
         '秘境蝎龙': 'Secret-Realm Scorpion Dragon',
@@ -9794,6 +9915,7 @@
         '粘合袜子': 'Adhesive Socks',
         '粘合裤子': 'Adhesive Pants',
         '精壮青年': 'Burly Youth',
+        '精血石碑': 'Blood-Essence Stele',
         '精钢 剑': 'Steel Sword',
         '精钢剑刃': 'Steel Sword Blade',
         '精钢战锤': 'Steel War Hammer',
@@ -9867,6 +9989,7 @@
         '腐毒仙子': 'Rot-Venom Fairy',
         '腾风塑像': 'Windrising Statue',
         '自爆步兵': 'Self-Destruct Infantry',
+        '至纯精血': 'Purest Blood-Essence',
         '苇编 剑': 'Woven Reed Sword',
         '苇编帽子': 'Woven Reed Hat',
         '苇编战锤': 'Woven Reed War Hammer',
@@ -9904,6 +10027,7 @@
         '虹彩轮芯': 'Iridescent Wheel Hub',
         '蛮血枭蝎': 'Savage-Blood Owl-Scorpion',
         '血峰 剑': 'Blood Peak Sword',
+        '血峰之心': 'Heart of Blood Peak',
         '血峰战锤': 'Blood Peak War Hammer',
         '血峰月轮': 'Blood Peak Moonwheel',
         '血杀·正': 'Bloodkill · Forward',
@@ -9930,6 +10054,7 @@
         '识灵水藻': 'Sentient Water-Algae',
         '试炼木偶': 'Trial Dummy',
         '贪婪·改': 'Greed · Mod',
+        '赌之神帝': 'Gambling God Emperor',
         '赤手空拳': 'Bare-Handed',
         '赫尔沼泽': 'Hull Swamp',
         '踏地荒兽': 'Earth-Treading Wildbeast',
@@ -10639,6 +10764,7 @@
         ['^夺位之后(.+?)天，首位纳家天骄子弟重回$', '$1 days after seizing the seat, the first Na Family prodigy returned to', '天，首位纳家天骄子弟重回'],
         ['^要(.+?)个孩子又是什么个思路啊！$', 'What\'s the thinking behind wanting $1 children!', '个孩子又是什么个思路啊！'],
         ['^\\(1\\ \\+\\ √\\(角色金钱/(.+?)\\)\\ \\)$', '(1 + √(character money/$1) )', '(1 + √(角色金钱/'],
+        ['^携带临时神帝之力的\\ (.+?)，再强大也是五秒真女人。$', 'Carrying a borrowed God Emperor\'s Power, $1 is mighty for all of five seconds.', '，再强大也是五秒真女人。'],
         ['^钩爪抓取半径\\ (.+?)px\\ ,宝藏鱼生成间隔\\ (.+?)s,\\ 摆动速度\\ (.+?)次/s,回收速度提升(.+?)%,\\ 发现新宝藏耗时\\ (.+?)s\\.$', 'Grapple grab radius $1px, treasure fish spawn interval $2s, swing rate $3/s, retract speed +$4%, time to find new treasure $5s.', 'px ,宝藏鱼生成间隔'],
         ['^将购买价格降低到原价的\\ (.+?)%\\(不低于110%\\)$', 'Lowers the purchase price to $1% of the original (no lower than 110%)', '将购买价格降低到原价的'],
         ['^纳可姐妹修炼时长仅有(.+?)天，却双双突破天空级，$', 'The Neko sisters cultivated for only $1 days, yet both broke through to Sky-Tier,', '天，却双双突破天空级，'],
@@ -10688,6 +10814,7 @@
         ['^每\\ (.+?),\\ 发现的机会:$', 'Every $1, chance to find:', ', 发现的机会:'],
         ['^角色每拥有(.+?),该敌人伤害减少$', 'For every $1 the character holds, this enemy\'s damage decreases by', ',该敌人伤害减少'],
         ['^加载自动存档\\ \\[(.+?)\\]$', 'Load auto-save [$1]', '加载自动存档 ['],
+        ['^提炼了\\ (.+?)\\ 份【至纯精血】！$', 'Refined $1 portions of 【Purest Blood-Essence】!', '份【至纯精血】！'],
         ['^\\[(.+?)x限制器\\]本区光环已被降低(.+?)%!$', '[$1x Restrictor] This zone\'s aura is lowered by $2%!', '本区光环已被降低'],
         ['^\\[(.+?)x增幅器\\]本区光环已被增幅(.+?)!$', '[$1x Amplifier] This zone\'s aura is amplified by $2!', '本区光环已被增幅'],
         ['^(.+?)\\ 吸取了\\ (.+?)\\ 攻击，(.+?)防御\\ ，(.+?)\\ 敏捷\\ \\[同调\\]$', '$1 drained $2 Attack, $3 Defense, $4 Agility [Sync]', '敏捷 [同调]'],
@@ -10738,6 +10865,7 @@
         ['^基础速度:\\ (.+?)\\ m\\ /\\ s\\.$', 'Base speed: $1 m / s.', 'm / s.'],
         ['^速度:\\ (.+?)\\ m\\ /\\ s\\.$', 'Speed: $1 m / s.', 'm / s.'],
         ['^光环\\ (.+?)\\ %\\(掉落\\ \\+\\ (.+?)%,经验\\ \\+\\ (.+?)%\\)$', 'Aura $1 %(Loot + $2%, XP + $3%)', '%(掉落 +'],
+        ['^溢出的\\ (.+?)\\ 恢复量\\ \\->\\ (.+?)\\ 精血获取率$', 'Overflowed $1 of healing -> $2 blood-essence chance', '恢复量 ->'],
         ['^也知道了父亲大人的话是什么意思。如今也算是历经了1次生死呢，$', 'and I understand what Father meant.By now, having been through a single brush with death,', '了1次生死呢'],
         ['^\\[败移\\]\\ (.+?)\\ 被\\ (.+?)\\ 护在身前！$', '[Defeat Shift] $1 is shielded from the front by $2!', '护在身前！'],
         ['^攻击提高了(.*)$', 'Attack increased by $1', '攻击提高了'],
@@ -11725,6 +11853,12 @@
     // assembled tier-fragment + rank-fragment, and each tier fragment carries
     // a trailing space - which is exactly the space breakRealmNames() turns
     // into a line break.
+    // The game build this script was generated against, lifted from
+    // index.html at build time so it cannot be forgotten. TL_VERSION is
+    // patched in after the @version bump, which happens later than this.
+    const BUILT_FOR_GAME = '3.47f';
+    const TL_VERSION = '18.6';
+
     const REALM_TIERS = new Set([
         'Dust-Tier',
         'All-Things-Tier',
@@ -12257,8 +12391,34 @@
     // so it cannot stutter and the throttled pass is enough for it.
     const HOT_TOOLTIP_SEL = '.skill_bar_max:hover .skill_tooltip';
     const HOT_SEL = '.skill_bar_name, ' + HOT_TOOLTIP_SEL;
+    // Named once, because it is both a key into `buttons` and the selector
+    // applySelector queries with - if those two ever drift apart the lookup
+    // returns undefined and the hot pass silently does nothing.
+    const ENEMY_STAT_SEL = '.enemy_stat';
 
     function translateHot() {
+        // The enemy stat lines, but ONLY while the combat panel is open.
+        //
+        // display.js rewrites all five per enemy with innerHTML on every combat
+        // tick, so between throttled scans they sit in Chinese and the row
+        // flickers between languages at attack speed. Same problem HOT_IDS
+        // exists for - but these belong to the v4.0 SELECTOR pass, not the
+        // prose layer, so they need their own call and it has to sit ABOVE the
+        // ENABLE_PROSE guard: turning the prose layer off must not silently
+        // take the stat labels with it, since the throttled pass would still
+        // translate them.
+        //
+        // applySelector is the same code the scan runs, on the same pair list,
+        // so there is no second definition of what these words mean. The
+        // visibility test is a plain inline-style read - display.js sets
+        // combat_div.style.display directly - so it forces no layout, and out
+        // of combat this whole branch is one property read.
+        if (HOT_ENEMY_STATS) {
+            const combatDiv = document.getElementById('combat_div');
+            if (combatDiv && combatDiv.style.display !== 'none') {
+                applySelector(ENEMY_STAT_SEL, buttons[ENEMY_STAT_SEL]);
+            }
+        }
         if (!ENABLE_PROSE) return;
         for (let i = 0; i < HOT_IDS.length; i++) {
             const el = document.getElementById(HOT_IDS[i]);
@@ -12934,6 +13094,15 @@
     // the throttled pass instead it would add a line to ~37 rows one frame
     // after they were translated - a height change under the scrollbar, which
     // is the exact fault v13.9 and v14.5 were spent on.
+    // U+00A0 and U+2011. Named because they are invisible in a diff and easy to
+    // mistake for the ASCII pair when editing. U+2011 is the one to watch: it
+    // is well covered by the fonts this game uses, but a font without it draws
+    // a missing-glyph box rather than falling back to '-'. If that ever shows
+    // up, the fix is to make NB_HYPHEN an ordinary '-' and accept the rank
+    // wrapping - the non-breaking space alone still does most of the work.
+    const NB_SPACE = '\u00a0';
+    const NB_HYPHEN = '\u2011';
+
     function breakRealmNames() {
         if (!ENABLE_VISUAL_OVERRIDES || !FAMILY_REALM_BREAK) return;
         const cells = document.querySelectorAll(
@@ -12950,7 +13119,29 @@
             // the cell still says 天空级一阶. Leave it for a later batch rather
             // than breaking a Chinese name at a space it does not have.
             if (!REALM_TIERS.has(tier)) continue;
-            if (FAMILY_REALM_BREAK_SKIP.indexOf(tier) !== -1) continue;
+            if (FAMILY_REALM_BREAK_SKIP.indexOf(tier) !== -1) {
+                // A skipped tier gets no line of its own - its name already
+                // fills the column, so a break after it would cost a third
+                // line. It still has to wrap SOMEWHERE though, and left alone
+                // the browser picks the last opportunity that fits, which for
+                // "All-Things-Tier High-Tier" is the hyphen inside the rank:
+                //     All-Things-Tier High-
+                //     Tier
+                // Gluing the rank together moves the wrap back to the tier's
+                // own hyphen and keeps the rank whole:
+                //     All-Things-
+                //     Tier High-Tier
+                // A non-breaking space before the rank and non-breaking hyphens
+                // inside it remove every break opportunity after the tier, so
+                // the hyphens in the tier NAME are the only ones left.
+                //
+                // Idempotent by the same test that finds the work: once the
+                // space is NB_SPACE, indexOf(' ') is -1 and the cell is skipped
+                // above on every later batch.
+                el.textContent = tier + NB_SPACE +
+                    text.slice(at + 1).split('-').join(NB_HYPHEN);
+                continue;
+            }
             el.textContent = tier + '\n' + text.slice(at + 1);
         }
     }
@@ -13306,6 +13497,100 @@
                 if (text.length < SCI_MIN_DIGITS) continue;
                 const out = text.replace(BIG_INT_RE, sciIfShorter);
                 if (out !== text) node.textContent = out;
+            }
+        }
+    }
+
+    // A second line under the changelog button saying which game build this
+    // translation was made against.
+    //
+    // Inside the existing <a> rather than beside it, because the bottom bar is
+    // a flex row whose cluster already runs ~815px and the version sits in the
+    // middle of it - anything added as a sibling pushes the hit counter and the
+    // help sentence rightward. Stacked, it costs no horizontal room at all: the
+    // 10px line is about as wide as the 16px version above it.
+    //
+    // The <a> is restyled to a centred column, and ONLY once our line is in it
+    // (the .tl_has_built class). styleOverrides is injected unconditionally,
+    // before the toggles are even read, so an unconditional rule would restyle
+    // the button for people who have this switched off.
+    const BUILT_CLASS = 'tl_built';
+
+    function addBuiltForLabel() {
+        if (!ENABLE_VISUAL_OVERRIDES || !BUILT_FOR_LABEL) return;
+        const link = document.querySelector('#changelog_button a');
+        // prepareGame() sets this button's innerHTML wholesale on body load,
+        // which destroys anything we put inside it. That happens once, but it
+        // can happen AFTER our first pass - so this re-adds rather than
+        // assuming, and the querySelector below is what makes it idempotent.
+        if (!link || link.querySelector('.' + BUILT_CLASS)) return;
+        const line = document.createElement('div');
+        line.className = BUILT_CLASS;
+        // " · " rather than "|": the same separator the item names use
+        // throughout ("C4 · Energy Core"), so the bar matches the rest.
+        line.textContent = 'TL' + TL_VERSION + ' · ' + BUILT_FOR_GAME;
+        link.appendChild(line);
+        link.classList.add('tl_has_built');
+    }
+
+    // The separator between a special attribute's NAME and its description.
+    //
+    // display.js builds each one as
+    //     `<br><b><font color=…>${name} </font></b> ：${description} `
+    // - a trailing space inside the bold, then a space and a FULLWIDTH colon
+    // outside it. That spacing is right for Chinese, where the colon carries
+    // its own half-em of air and sits away from both sides. Translated it
+    // reads "Spirit Flash  :A light-element insight." - two spaces before the
+    // colon and none after, so the colon binds to the description instead of
+    // the title it belongs to.
+    //
+    // Both halves have to move, and they are in different nodes: the trailing
+    // space belongs to the name's text node INSIDE the <b>, the colon to the
+    // text node after it. A fragment can only ever reach one of them, which is
+    // why this is a DOM pass and not a glossary entry.
+    //
+    // Nothing else in these tooltips matches the shape. The other colons
+    // (Stats:, Loot:, HP:) are already tight against their labels and none of
+    // them follows a <b>; the only other bold is the realm badge, whose next
+    // sibling is a <br> element rather than a text node.
+    const SPEC_COLON_RE = /^\s*[:：]\s*/;
+
+    function fixSpecColons() {
+        if (!ENABLE_VISUAL_OVERRIDES || !SPEC_COLON_FIX) return;
+        // Once per tooltip, like sciBigNumbers and fitLootNames - the bestiary
+        // builds one per enemy and there are hundreds of them.
+        const tips = document.querySelectorAll(
+            '.bestiary_entry_tooltip:not([data-tl-colon])');
+        for (let i = 0; i < tips.length; i++) {
+            const tip = tips[i];
+            // Same ordering rule as sciBigNumbers, and the same reason: the
+            // node being rewritten here is the one applyProse matches against
+            // its own key, so a tooltip still holding Chinese is DEFERRED
+            // rather than marked done.
+            //
+            // IDEO_RE, not CJK_RE: the wider set INCLUDES the fullwidth colon
+            // this pass exists to rewrite, so a tooltip whose separator had not
+            // yet been converted by the stranded-punctuation fragment would
+            // defer itself forever - fully translated, and permanently skipped.
+            // Only an ideograph means the prose pass still has work to do.
+            if (IDEO_RE.test(tip.textContent)) continue;
+            tip.dataset.tlColon = '1';
+            const bolds = tip.querySelectorAll('b');
+            for (let j = 0; j < bolds.length; j++) {
+                const b = bolds[j];
+                const sib = b.nextSibling;
+                if (!sib || sib.nodeType !== 3) continue;
+                const m = SPEC_COLON_RE.exec(sib.textContent);
+                if (!m) continue;
+                sib.textContent = ': ' + sib.textContent.slice(m[0].length);
+                // The name's own trailing space lives in the DEEPEST last text
+                // node of the bold - the game wraps the name in a <font> for
+                // the colour, so b.lastChild is an element, not the text.
+                let last = b;
+                while (last.lastChild) last = last.lastChild;
+                if (last.nodeType === 3) {
+                    last.textContent = last.textContent.replace(/\s+$/, '');
+                }
             }
         }
     }
@@ -13698,6 +13983,8 @@
         addTradeAllButton();
         colorRestTravel();
         sciBigNumbers();
+        fixSpecColons();
+        addBuiltForLabel();
         addActionBar();
         prefixCraftingTiers();
         indexOriginalNames();

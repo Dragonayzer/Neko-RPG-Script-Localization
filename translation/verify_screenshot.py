@@ -430,6 +430,12 @@ cases = [
     # The new 4-6 zone.
     '回到鲜血峰',
     '破败之域',
+    # --- V3.47d-f (merged at script v18.6) ---
+    # A stopgap NPC handing out the refining art the boss was meant to
+    # grant, after the flag-name mismatch made it unobtainable.
+    '精血石碑',
+    '补票【精血提炼】的功法',
+    '精血提炼/点击就送！！(在3.51将被移除)',
 ]
 ok = 0
 for c in cases:
