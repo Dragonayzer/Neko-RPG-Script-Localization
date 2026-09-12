@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NekoRPG Game Text Localizer
 // @namespace    dragonayzer.userscripts
-// @version      18.6
+// @version      18.7
 // @description  Full English localization: UI, item/enemy/skill names, and all prose (descriptions, dialogue, system messages). See the TOGGLES block at the top of the script to switch layers on/off.
 // @match        https://btly0711.github.io/NekoRPG/*
 // @match        https://btly0711-github-io.translate.goog/NekoRPG/*
@@ -156,6 +156,7 @@
 // 18.4: the bottom bar's version button gains a second line saying which game build the translation was made against: 'V3.47a' over a 10px grey 'TL18.4|3.47a'. Stacked INSIDE the existing <a> rather than added beside it - the bar is a flex row whose cluster already runs about 815px with the version mid-cluster, so a sibling shoves the hit counter and help sentence rightward, while the 10px line is no wider than the version above it. Both numbers are filled in by the builder, the script's from its own @version and the game's lifted from index.html's changelog_button assignment, so a merge cannot leave either behind. The game's .game_info a is a 40px box that exactly fills the 40px bar and the bar is pinned to the viewport bottom, so a second line inside it would render off-screen; the link is re-boxed as a centred column at the same total 40px, which keeps both lines in and moves no sibling. That rule is scoped to a .tl_has_built class added only when the line is actually inserted, because styleOverrides is injected unconditionally and before the toggles are read. prepareGame() sets this button's innerHTML wholesale on load and destroys the line, so the pass re-adds rather than assuming. Toggle BUILT_FOR_LABEL
 // 18.5: the built-against label separates with a middle dot instead of a pipe: 'TL18.5 · 3.47a'. Same separator the item names use throughout (C4 · Energy Core), so the bar reads like the rest of the script. It is about 10px wider at 10px type, and the sub-line was already the wider of the two lines, so the version button grows by that much - absorbed by the ~400px of slack at the right end of the bar
 // 18.6: merge game V3.47d-f. Upstream fixed all three defects from our report - the is_CBlood_unlocked/is_Cblood_unlocked flag mismatch, the Cblood variable typo, and the unlock text keyed to a name no flag had - plus one of their own, format_numberL never imported into main.js, which had been stalling combat on every overheal. New: the 精血石碑 stopgap NPC in 破败之域, handing out the refining art the boss was meant to grant; the game marks it for removal in 3.51. Its three strings are APPENDED to the v347 corpus as rows 13-15 rather than starting a new pair, since appending leaves every existing row number where it was. One stale key: the Bloodkill stance description restated the rate from 1% per 100兆 to 0.01% per 100亿 - the same ratio against a threshold a player might actually reach - fixed in place in the hand-maintained v4.0 block. The refining log template also changed 1e16 to 1e14 inside its interpolation; that cannot affect matching, since the generated regex is built from the literal parts only, but the frozen row is updated anyway rather than left holding a string the game no longer contains
+// 18.7: the two material-conversion buttons drop the word 'version'. At Arial Bold 16px the digging one measured 425px inside a 400px #location_related_div, so it wrapped to two lines and the second line pushed [Leave] below the panel and out of the game window. Without 'version' it is 364px, 26px clear. The Spaceship twin in the engine panel goes 396px -> 335px; it had the room, but the two are the same construction in Chinese and should read alike. 'material' alone carries 材料版 - 'material version' was saying it twice. uitest_visuals measures the rendered width with real Arial BOLD advances rather than counting characters, and pins the old wording as a negative case: the same 48 characters can run 60px apart depending on how many m/w/capitals they hold, which is the same reason fitLootNames measures instead of counting
 
 (function () {
     'use strict';
@@ -8178,8 +8179,8 @@
         '(抖了抖)收拾收拾心情……': '(gives herself a shake) Let me pull myself together…',
         '(查询目前赐福与消耗信息)': '(Check the current blessing and cost info)',
         '[冰蓝]两位，大恩不言谢。': '[Binglan] You two — a great kindness needs no thanks.',
-        '[将幻境之心转化为材料版]': '[Convert Heart of the Illusory Realm to material version]',
-        '[将飞船之心转化为材料版]': '[Convert Heart of the Spaceship to material version]',
+        '[将幻境之心转化为材料版]': '[Convert Heart of the Illusory Realm to material]',
+        '[将飞船之心转化为材料版]': '[Convert Heart of the Spaceship to material]',
         '{"id":"冰家玉简"}': '{"id":"冰家玉简"}',
         '不可能三角B9[BOSS]': 'Impossible Triangle B9 [BOSS]',
         '两年后，燕岗领，赫尔沼泽。': 'Two years later, Yangang Fief, Hull Swamp.',
@@ -11857,7 +11858,7 @@
     // index.html at build time so it cannot be forgotten. TL_VERSION is
     // patched in after the @version bump, which happens later than this.
     const BUILT_FOR_GAME = '3.47f';
-    const TL_VERSION = '18.6';
+    const TL_VERSION = '18.7';
 
     const REALM_TIERS = new Set([
         'Dust-Tier',

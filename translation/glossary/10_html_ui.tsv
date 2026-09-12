@@ -91,9 +91,14 @@ Tier␣16内甲与轮芯的必需品！	Essential␣for␣Tier␣16␣inner␣ar
 [冰原]	[Ice␣Field]
 [焰海]	[Flame␣Sea]
 [霜天]	[Frost␣Sky]
-[将飞船之心转化为材料版]	[Convert␣Heart␣of␣the␣Spaceship␣to␣material␣version]
+[将飞船之心转化为材料版]	[Convert␣Heart␣of␣the␣Spaceship␣to␣material]
 # V3.47 put the same converter in the digging panel, for the other Heart.
-[将幻境之心转化为材料版]	[Convert␣Heart␣of␣the␣Illusory␣Realm␣to␣material␣version]
+# 'version' dropped from both: at Arial Bold 16px the digging one came to
+# 425px in a 400px panel, so it wrapped and pushed [Leave] out of sight.
+# Without it, 364px - and the Spaceship twin drops 396px -> 335px, which
+# it did not strictly need but keeps the two reading alike. 'material'
+# alone carries 材料版 fine; 'material version' was saying it twice.
+[将幻境之心转化为材料版]	[Convert␣Heart␣of␣the␣Illusory␣Realm␣to␣material]
 活塞工作状态␣:	Piston␣state:
 内部气体温度␣:	Internal␣gas␣temperature:
 内部气体压强␣:	Internal␣gas␣pressure:

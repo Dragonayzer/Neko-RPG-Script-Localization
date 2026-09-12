@@ -386,6 +386,54 @@ expect('no canvas: long name still handled', fb[0].style.lineHeight, '12px');
 expect('no canvas: falls back to the count', fb[2].style.lineHeight, undefined);
 
 
+// ---- digging panel: the conversion button fits on one line -----------------
+// #location_related_div is 400px and this <b> is the widest thing in it. At
+// Arial BOLD 16px "[Convert Heart of the Illusory Realm to material version]"
+// measured 425px, so it wrapped - and the second line pushed [Leave] below the
+// panel, out of the game window entirely.
+//
+// Measured, not counted. The character count cannot decide this: the same 48
+// characters run 60px apart depending on how many m/w/capitals they hold,
+// which is the whole reason fitLootNames measures rather than counts.
+const ARIAL_BOLD = { ' ': 278, '[': 333, ']': 333, '\u00b7': 350,
+  C: 722, H: 722, I: 278, L: 611, M: 833, R: 722, S: 722, T: 611, V: 667,
+  a: 556, b: 611, c: 556, d: 611, e: 556, f: 333, g: 611, h: 611, i: 278,
+  l: 278, m: 889, n: 611, o: 611, p: 611, r: 389, s: 556, t: 333, u: 611,
+  v: 556, y: 556 };
+function boldWidth(text, px) {
+  let u = 0;
+  for (const ch of text) {
+    if (!(ch in ARIAL_BOLD)) throw new Error('no Arial Bold metric for ' +
+                                             JSON.stringify(ch));
+    u += ARIAL_BOLD[ch];
+  }
+  return u * px / 1000;
+}
+console.log('\ndigging panel conversion button');
+{
+  // 400px panel, less the padding the game puts around the span.
+  const PANEL = 390;
+  const i = src.indexOf('const proseFrag = Object.assign');
+  const body = src.slice(i, src.indexOf('\n    });', i));
+  const row = /^        '((?:[^'\\]|\\.)*)': '((?:[^'\\]|\\.)*)',$/gm;
+  const found = [];
+  let m;
+  while ((m = row.exec(body))) {
+    if (/^\[Convert Heart of the /.test(m[2])) found.push(m[2]);
+  }
+  expect('both conversion buttons present', found.length, 2);
+  found.forEach((label) => {
+    const w = boldWidth(label, 16);
+    expect('  fits 390px: ' + label.slice(9, 34), w <= PANEL, true);
+    console.log('       (' + w.toFixed(0) + 'px) ' + label);
+  });
+  // The exact string that broke it, pinned as a negative: if anyone restores
+  // "version" this fails with the real number rather than a vague warning.
+  expect('  the old wording would NOT have fit',
+         boldWidth('[Convert Heart of the Illusory Realm to material version]', 16)
+             > PANEL, true);
+}
+
 // ---- family panel: soft-cap lines fit on one line -------------------------
 // #skills_and_stances_div is 400px wide and #family_div has a permanent
 // scrollbar, so these spans get roughly 383px. At the panel's font that is
