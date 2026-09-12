@@ -1092,6 +1092,20 @@ block.append("""    // Realm tier names as the family roster renders them, gener
     // assembled tier-fragment + rank-fragment, and each tier fragment carries
     // a trailing space - which is exactly the space breakRealmNames() turns
     // into a line break.""")
+# ---- which game build this script was made against ------------------------
+# Read out of the game source rather than typed here, so it cannot go stale:
+# index.html's prepareGame() writes the version into the changelog button, and
+# that is the same string the player sees in the bar.
+_gv = re.search(r'getElementById\("changelog_button"\)\.children\[0\]\.innerHTML = "([^"]+)"',
+                open('../NekoRPG/index.html', encoding='utf-8').read())
+BUILT_FOR_GAME = _gv.group(1).lstrip('Vv') if _gv else '?'
+print('built against game     : %s' % BUILT_FOR_GAME)
+block.append("    // The game build this script was generated against, lifted from")
+block.append("    // index.html at build time so it cannot be forgotten. TL_VERSION is")
+block.append("    // patched in after the @version bump, which happens later than this.")
+block.append("    const BUILT_FOR_GAME = '%s';" % js(BUILT_FOR_GAME))
+block.append("    const TL_VERSION = '0.0';")
+block.append("")
 block.append("    const REALM_TIERS = new Set([")
 for _en in realm_tiers:
     block.append("        '%s'," % js(_en))
@@ -2702,6 +2716,36 @@ block.append("""    // ---- names the game reads back out of the DOM -----------
         }
     }
 
+    // A second line under the changelog button saying which game build this
+    // translation was made against.
+    //
+    // Inside the existing <a> rather than beside it, because the bottom bar is
+    // a flex row whose cluster already runs ~815px and the version sits in the
+    // middle of it - anything added as a sibling pushes the hit counter and the
+    // help sentence rightward. Stacked, it costs no horizontal room at all: the
+    // 10px line is about as wide as the 16px version above it.
+    //
+    // The <a> is restyled to a centred column, and ONLY once our line is in it
+    // (the .tl_has_built class). styleOverrides is injected unconditionally,
+    // before the toggles are even read, so an unconditional rule would restyle
+    // the button for people who have this switched off.
+    const BUILT_CLASS = 'tl_built';
+
+    function addBuiltForLabel() {
+        if (!ENABLE_VISUAL_OVERRIDES || !BUILT_FOR_LABEL) return;
+        const link = document.querySelector('#changelog_button a');
+        // prepareGame() sets this button's innerHTML wholesale on body load,
+        // which destroys anything we put inside it. That happens once, but it
+        // can happen AFTER our first pass - so this re-adds rather than
+        // assuming, and the querySelector below is what makes it idempotent.
+        if (!link || link.querySelector('.' + BUILT_CLASS)) return;
+        const line = document.createElement('div');
+        line.className = BUILT_CLASS;
+        line.textContent = 'TL' + TL_VERSION + '|' + BUILT_FOR_GAME;
+        link.appendChild(line);
+        link.classList.add('tl_has_built');
+    }
+
     // The separator between a special attribute's NAME and its description.
     //
     // display.js builds each one as
@@ -3149,6 +3193,12 @@ if 'sciBigNumbers();' not in body:
 if 'fixSpecColons();' not in body:
     src = src.replace("        sciBigNumbers();",
                       "        sciBigNumbers();\n        fixSpecColons();", 1)
+# Independent of every translation pass - it writes English into an element the
+# game never fills with Chinese - but it lives in scan() rather than the hot
+# path because nothing rewrites the bar after load except prepareGame, once.
+if 'addBuiltForLabel();' not in body:
+    src = src.replace("        fixSpecColons();",
+                      "        fixSpecColons();\n        addBuiltForLabel();", 1)
 # LAST of the travel passes: it clones the rows' icons, so the mirrored return
 # arrow and the rest-location tint have to be on them already.
 if 'addActionBar();' not in body:
@@ -3315,6 +3365,15 @@ elif '--note' in sys.argv:
     else:
         src = set_changelog(src, current_version, note)
         print('changelog for %s rewritten' % current_version)
+
+# The generated block is assembled long before the @version line is read, and
+# --bump changes that version in the same run - so the script's own version is
+# stamped in here, at the end, where current_version is finally settled.
+if current_version:
+    src, _n = re.subn(r"(const TL_VERSION = ')[^']*(';)",
+                      lambda m: m.group(1) + current_version + m.group(2), src)
+    if _n != 1:
+        print('!! TL_VERSION not stamped (%d matches) - the bar label will read 0.0' % _n)
 
 open('../Script.txt', 'w', encoding='utf-8').write(src)
 

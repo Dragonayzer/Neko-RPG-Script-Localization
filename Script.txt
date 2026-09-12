@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NekoRPG Game Text Localizer
 // @namespace    dragonayzer.userscripts
-// @version      18.3
+// @version      18.4
 // @description  Full English localization: UI, item/enemy/skill names, and all prose (descriptions, dialogue, system messages). See the TOGGLES block at the top of the script to switch layers on/off.
 // @match        https://btly0711.github.io/NekoRPG/*
 // @match        https://btly0711-github-io.translate.goog/NekoRPG/*
@@ -153,6 +153,7 @@
 // 18.1: skipped realm tiers in the family roster are GLUED rather than left alone. FAMILY_REALM_BREAK_SKIP exists because All-Things-Tier already fills the column and breaking after it costs a third line - but the cell still had to wrap somewhere, and the browser took the last opportunity that fit, which is the hyphen inside the RANK: 'All-Things-Tier High-' / 'Tier'. A non-breaking space before the rank and non-breaking hyphens inside it remove every break opportunity after the tier, leaving the tier name's own hyphens as the only ones, so it wraps as 'All-Things-' / 'Tier High-Tier' with the rank whole. Idempotent by the test that finds the work: once the space is U+00A0, indexOf(' ') is -1 and the cell is skipped on every later batch. NB_HYPHEN is U+2011, named so it is visible in a diff; a font lacking it would draw a missing-glyph box, and the fallback is an ordinary hyphen - the non-breaking space alone still does most of the work
 // 18.2: the family soft-cap lines are reworded to fit on one line. 'Newborns over 10,000: cost is subject to a Tier-1 soft cap (^1.5)' is 64 characters and the panel holds about 53, so it wrapped with 'cap (^1.5)' alone on a second line and all three spans were double height. Now 'Newborns over 10,000: soft cap 1 (cost ^1.5)', 44 characters: the exponent moves next to the word it modifies and the tier is a bare number, which is what 一重/二重/三重 mean anyway. uitest_visuals asserts a 50-character budget rather than the exact string - the wording is editorial and will change again, the width will not
 // 18.3: the bestiary spec colon binds to its NAME instead of its description. display.js writes each line as `<b><font>${name} </font></b> ：${desc} ` - a trailing space inside the bold, then a space and a fullwidth colon outside it, which is right for Chinese where the colon carries its own spacing. Translated it read 'Spirit Flash  :A light-element insight.', two spaces before the colon and none after. Now 'Spirit Flash: A light-element insight.'. A DOM pass rather than a glossary entry because the two spaces live in DIFFERENT text nodes - one inside the <b>, one after it - and a fragment can only ever reach one. Scoped to .bestiary_entry_tooltip, decided once per tooltip via data-tl-colon, and deferring any tooltip that still holds Chinese, exactly like sciBigNumbers. Guarded on IDEO_RE and not CJK_RE: the wider set includes the fullwidth colon this pass exists to rewrite, so a tooltip whose separator had not yet been converted would have deferred itself forever - found by the new uitest_speccolon, which builds the real node structure rather than a flat string. Toggle SPEC_COLON_FIX
+// 18.4: the bottom bar's version button gains a second line saying which game build the translation was made against: 'V3.47a' over a 10px grey 'TL18.4|3.47a'. Stacked INSIDE the existing <a> rather than added beside it - the bar is a flex row whose cluster already runs about 815px with the version mid-cluster, so a sibling shoves the hit counter and help sentence rightward, while the 10px line is no wider than the version above it. Both numbers are filled in by the builder, the script's from its own @version and the game's lifted from index.html's changelog_button assignment, so a merge cannot leave either behind. The game's .game_info a is a 40px box that exactly fills the 40px bar and the bar is pinned to the viewport bottom, so a second line inside it would render off-screen; the link is re-boxed as a centred column at the same total 40px, which keeps both lines in and moves no sibling. That rule is scoped to a .tl_has_built class added only when the line is actually inserted, because styleOverrides is injected unconditionally and before the toggles are read. prepareGame() sets this button's innerHTML wholesale on load and destroys the line, so the pass re-adds rather than assuming. Toggle BUILT_FOR_LABEL
 
 (function () {
     'use strict';
@@ -175,6 +176,35 @@
     const styleOverrides = document.createElement('style');
     styleOverrides.textContent = `
         #trader_cost_mult_value { padding-top: 0px !important; }
+
+        /* --- "built against" line under the changelog button -------------
+           Scoped to .tl_has_built, which addBuiltForLabel() adds only when it
+           has actually inserted the line. This stylesheet is injected
+           unconditionally and before the toggles are read, so an unscoped rule
+           would restyle the version button for anyone who has the label off.
+
+           The game gives .game_info a { height: 20px; padding: 10px } = a 40px
+           box that exactly fills the 40px bar, and the bar is pinned to the
+           bottom of the viewport - so a second line inside it would overflow
+           off-screen rather than being clipped. Re-boxing it as a centred
+           column at the same total 40px keeps both lines inside and leaves
+           every sibling in the flex row exactly where it was. */
+        #changelog_button a.tl_has_built {
+            display: inline-flex !important;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 40px !important;
+            padding: 0px 10px !important;
+            line-height: 1.15;
+        }
+        #changelog_button .tl_built {
+            font-size: 10px;
+            line-height: 11px;
+            /* Lighter than the plain 'grey' this started as: at 10px on the
+               bar's dark gradient #808080 is thin to read, #9a9a9a is not. */
+            color: #9a9a9a;
+        }
 
         /* --- Deepfrost engine: sized for Chinese, retuned for English ----
            Chinese is ~2 characters where English needs a word, so several
@@ -637,6 +667,18 @@
     // The two spaces live in different text nodes - one inside the bold, one
     // after it - so no glossary entry can reach both; it has to be a DOM pass.
     const SPEC_COLON_FIX = true;
+
+    // Add a second line under the bottom bar's version button saying which
+    // game build this translation was made against:
+    //     V3.47a
+    //     TL18.4|3.47a
+    // Both numbers are filled in by the builder - the script's own version
+    // from its @version line, the game's from index.html - so neither can be
+    // left behind by a merge. Stacked inside the existing link rather than
+    // added beside it: the bar is a flex row and the version sits mid-cluster,
+    // so a sibling would shove the hit counter and help text rightward, while
+    // the 10px line is no wider than the version above it.
+    const BUILT_FOR_LABEL = true;
 
     // A shortcut row at the top of the location actions list, in three groups:
     //   - navigation, from the left edge: one icon per exit
@@ -11804,6 +11846,12 @@
     // assembled tier-fragment + rank-fragment, and each tier fragment carries
     // a trailing space - which is exactly the space breakRealmNames() turns
     // into a line break.
+    // The game build this script was generated against, lifted from
+    // index.html at build time so it cannot be forgotten. TL_VERSION is
+    // patched in after the @version bump, which happens later than this.
+    const BUILT_FOR_GAME = '3.47a';
+    const TL_VERSION = '18.4';
+
     const REALM_TIERS = new Set([
         'Dust-Tier',
         'All-Things-Tier',
@@ -13446,6 +13494,36 @@
         }
     }
 
+    // A second line under the changelog button saying which game build this
+    // translation was made against.
+    //
+    // Inside the existing <a> rather than beside it, because the bottom bar is
+    // a flex row whose cluster already runs ~815px and the version sits in the
+    // middle of it - anything added as a sibling pushes the hit counter and the
+    // help sentence rightward. Stacked, it costs no horizontal room at all: the
+    // 10px line is about as wide as the 16px version above it.
+    //
+    // The <a> is restyled to a centred column, and ONLY once our line is in it
+    // (the .tl_has_built class). styleOverrides is injected unconditionally,
+    // before the toggles are even read, so an unconditional rule would restyle
+    // the button for people who have this switched off.
+    const BUILT_CLASS = 'tl_built';
+
+    function addBuiltForLabel() {
+        if (!ENABLE_VISUAL_OVERRIDES || !BUILT_FOR_LABEL) return;
+        const link = document.querySelector('#changelog_button a');
+        // prepareGame() sets this button's innerHTML wholesale on body load,
+        // which destroys anything we put inside it. That happens once, but it
+        // can happen AFTER our first pass - so this re-adds rather than
+        // assuming, and the querySelector below is what makes it idempotent.
+        if (!link || link.querySelector('.' + BUILT_CLASS)) return;
+        const line = document.createElement('div');
+        line.className = BUILT_CLASS;
+        line.textContent = 'TL' + TL_VERSION + '|' + BUILT_FOR_GAME;
+        link.appendChild(line);
+        link.classList.add('tl_has_built');
+    }
+
     // The separator between a special attribute's NAME and its description.
     //
     // display.js builds each one as
@@ -13897,6 +13975,7 @@
         colorRestTravel();
         sciBigNumbers();
         fixSpecColons();
+        addBuiltForLabel();
         addActionBar();
         prefixCraftingTiers();
         indexOriginalNames();
