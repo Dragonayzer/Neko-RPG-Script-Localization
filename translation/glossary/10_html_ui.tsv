@@ -46,9 +46,16 @@
 # index.html puts this straight after the realm span, with no separator:
 #   <span>次日<span class='realm_basic'>微尘级初级</span>新生儿数 : </span>
 # Chinese needs nothing there; English rendered "Dust-Tier Basicnewborn
-# count:". Leading space, which the fragment stage de-duplicates if the
-# preceding node ever ends in one.
-新生儿数␣:	␣newborn␣count:
+# count:". Hence the leading space, which the fragment stage de-duplicates
+# if the preceding node ever ends in one.
+#
+# "count" is dropped to pay for that space and then some. An 80px <input>
+# shares this line, so the space alone pushed it onto the next one; at 10
+# characters against the old 14 the whole line is now NARROWER than the
+# version that fit before the space was added. Worth keeping short: the
+# realm here grows with the family cap, and All-Things-Tier Peak is five
+# characters wider than the Dust-Tier Basic this starts at.
+新生儿数␣:	␣newborns:
 每日养育耗费␣:	Daily␣upbringing␣cost:
 每日家族赚取:	Daily␣family␣earnings:
 纳家影响力:	Na␣Family␣Influence:

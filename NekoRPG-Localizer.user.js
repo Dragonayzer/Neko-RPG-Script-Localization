@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         NekoRPG Game Text Localizer
 // @namespace    dragonayzer.userscripts
-// @version      17.9
+// @version      18.0
 // @description  Full English localization: UI, item/enemy/skill names, and all prose (descriptions, dialogue, system messages). See the TOGGLES block at the top of the script to switch layers on/off.
 // @match        https://btly0711.github.io/NekoRPG/*
 // @match        https://btly0711-github-io.translate.goog/NekoRPG/*
@@ -149,6 +149,7 @@
 // 17.7: restore the space the translator wrote at inline-tag chunk boundaries. A chunk is one DOM text node and a tag boundary is not a word boundary, so add_chunk stripping both sides rendered 'PS: No effect on targetsSkyhigh-Tier' and 'the difference between3x its own Attack' - 221 sides across 147 keys, visible since the chunk machinery was written. The done_*.tsv English always carried the space; only the builder threw it away. Guarded, because proseExact is context-free and a value chosen beside a <span> is then used everywhere that key appears: padding is kept only where the key is given exactly ONE English value across the corpus AND is not also a whole-string entry. That refuses 4, each printed at build time rather than dropped silently - 攻击 is a chunk here and a standalone stat label in display.js, 获取了 is authored both ways. Padding is normalised to at most one space a side. Zero performance cost: proseFrag is byte-identical so the mega-regex is unchanged, proseExact keeps the same 4773 keys with 142 values differing by padding alone, and the file grows 267 bytes. New uitest_padding.js pins both directions
 // 17.8: merge game V3.47/V3.47a: the Great Verdant King stops being a placeholder (real stats, an ordinary composed 云霄级八阶 -- badge, and spec 71 神帝之力), the 至纯精血 refining loop on the Bloodkill stance, the 血峰之心 craft with its 幻境之心·材 converter in the digging panel, and the 破败之域 zone. Three v346 rows had already gone stale and were edited IN PLACE, never regenerated: the king's description, Blood Peak - EX, and the Refine Blood-Essence unlock text, which V3.46 shipped as WIP placeholders. The letterspaced 准 微 尘 级 key is retired with its verify case - that string is gone. Spec 71's English mirrors the game's broken markup tag for tag: the source writes '乘以 100.81/span>.', a typo for </span>, so the tag never closes; the six stray characters are dropped from the English but the tag COUNT is matched, because an English side that splits into a different number of chunks is refused outright
 // 17.9: enemy stat lines (Dmg/Def/AS/Hit/Eva) move into the pre-paint batch. display.js rewrites all five per enemy with innerHTML on every combat tick, so on the throttled scan they spent most of their life in Chinese and the row flickered between languages at attack speed. They belong to the v4.0 SELECTOR pass rather than the prose layer, so translateHot calls applySelector on the same pair list the scan uses - no second definition of what those words mean - and the call sits ABOVE the ENABLE_PROSE guard, since turning prose off must not stop translating something the throttled pass still handles. Gated on combat_div being visible, which display.js sets as an inline style, so out of combat the whole branch is one property read and no layout is forced. New toggle HOT_ENEMY_STATS. Also: the family panel's newborn-count label now leads with a space - index.html runs the realm span straight into it with no separator, so English read 'Dust-Tier Basicnewborn count:'
+// 18.0: the family newborn-count label loses the word 'count'. v17.9 gave it a leading space, because index.html runs the realm span straight into it and English read 'Dust-Tier Basicnewborn count:' - but an 80px <input> shares that line, and the space alone pushed the box onto the next row. At 10 characters against the old 14 the line is now NARROWER than the version that fit before the space existed, so both problems are paid for at once. Kept short deliberately: the realm in that line grows with the family cap, and All-Things-Tier Peak is five characters wider than the Dust-Tier Basic it starts at. uitest_padding pins the leading space AND the length
 
 (function () {
     'use strict';
@@ -8766,7 +8767,7 @@
         '持盾战士A9': 'Shield-Bearing Warrior A9',
         '探险者的怨恨': 'Explorer\'s Resentment',
         '改良 三叉戟': 'Improved Trident',
-        '新生儿数 :': ' newborn count:',
+        '新生儿数 :': ' newborns:',
         '方片重工A9': 'Diamond Heavy-Industry A9',
         '旋律 三叉戟': 'Melody Trident',
         '旋律合金 剑': 'Melody Alloy Sword',

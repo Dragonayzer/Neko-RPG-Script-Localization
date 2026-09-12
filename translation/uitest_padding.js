@@ -67,9 +67,6 @@ console.log('       (actual: ' + padded.length + ')');
 
 // ---- refused: the key means more than one thing ---------------------------
 // 攻击 is a chunk here AND a standalone stat label in display.js; 获取了 is
-// authored both with and without the space. Padding either would put a stray
-// space somewhere that never asked for one.
-// 攻击 is a chunk here AND a standalone stat label in display.js; 获取了 is
 // authored both with and without the space, so first-wins would be picking a
 // spelling by file order. Both must ship unpadded.
 console.log('\npadding REFUSED (key is shared or ambiguous)');
@@ -92,7 +89,14 @@ expect('点伤害。 keeps its leading space', frag['点伤害。'], ' damage.')
 // separator, so English rendered "Dust-Tier Basicnewborn count:". The space is
 // authored into the glossary value; nothing else can supply it, because the two
 // nodes belong to different passes.
-expect('newborn label leads with a space', frag['新生儿数 :'], ' newborn count:');
+//
+// v18.0: and it must stay SHORT. An 80px <input> shares the line, so the space
+// alone pushed it onto the next row. Both halves are pinned - the leading space
+// and a length under the 14 characters that fit before it.
+expect('newborn label leads with a space',
+       frag['新生儿数 :'].startsWith(' '), true);
+expect('  and stays shorter than it was', frag['新生儿数 :'].length < 14, true);
+console.log('       (' + JSON.stringify(frag['新生儿数 :']) + ')');
 
 // ---- shape of what we did keep --------------------------------------------
 // Catches a mangled build: padding must be ordinary spaces around real text,
