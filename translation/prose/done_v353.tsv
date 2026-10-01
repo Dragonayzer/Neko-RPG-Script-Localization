@@ -1,0 +1,68 @@
+# done_v353 (_todo_v353 rows 1-40). KEY = _todo ROW NUMBER, 'row' mode.
+# V3.51-V3.53b: the Ruined Domain zone proper (4-6-1 to 4-6-4 and the Fork),
+# its 19 enemies and boss, the Tier 22 Piety gear, Immortal-tier gems, the
+# Mithril Palace rest point, and the 战团 (War Band) special.
+#
+# Glossary anchors: 破败 = Ruined (破败之域 = Ruined Domain), 歧路 = Fork (as in
+# 毬毬山谷 - 歧路 = Furball Valley - Fork), 虔心 = Piety as a SYSTEM and Pious as
+# an item prefix, 炼魂 = Soul-Refining, 玄铁 = Black-Iron (玄铁方尖碑), 不朽 =
+# Immortal (战场不朽骸骨), 秘银 = Mithril, X级魔法师 = X-Tier Magician, 铁卫 =
+# Iron-Guard, 军魂 = Army Soul, 魂魄 = Soul, 信仰 = faith, 月轮 = Moonwheel,
+# 结界 = barrier, 硬化 = Harden, 衰弱 = Enfeeble, 13斧 = 13 Axes, 领 = fief,
+# 荒兽 = Wildbeast, 魔族 = Demon-Race, 压级 = level-suppression.
+#
+# 纳可 is Neko; 喵可 is her cutesy self-nickname and stays Meowko, the split
+# v341 made for exactly this register - the developer's asides in enemy
+# descriptions.
+#
+# The descriptions carry the developer's balance shorthand, kept as written:
+# "the 2.5+ line" and its siblings are his stat benchmarks, "Skyhigh-5" is
+# 云霄5, and "3.3z" is his own number abbreviation. Two puns are carried over
+# rather than flattened: row 11 (破败牛头 drops the 人 from 牛头人, so the name is
+# "Ox-Head" and the joke is that it forgot it was a man) and row 13 (虚化 /
+# 虚的 - phasing, and having nothing insubstantial about you).
+#
+# Row 33: the game prints the rate as "27.6w" (w = 万), but the location's real
+# xp is 276480 and every earlier rest point gives the exact figure with a "+".
+# Row 37: the source ends in a doubled 。。, which the English does not repeat.
+# Row 40: two chunks split on <br>, same order as the Chinese.
+1	Looks weak, but its effective stats actually hit 2.5+ — five-sixths of the way to Skyhigh-Tier Rank 5……
+2	How did you sneak in here? Your stats don't even reach the 1+ line, and the only reason you get a + at all is 【Harden】!
+3	It let its proud Enfeeble wither to almost nothing, all for a few points of base stats! How can a Furball be this dumb?
+4	Note that some skill XP ignores the level-suppression penalty. The 10,000x-XP treasure monster makes its grand entrance!
+5	Now the Wheel Blade fanatics are in trouble. We badly need some kind of defensive gear……
+6	Practically every zone has a pest like this. Not even overwhelming stats can wipe the screen in one hit…… so it's time to schedule an eight-fold attack!
+7	The chief of the 13 Axes served under him as a boy. One stat alone reaches the 2+ line — his greatness speaks for itself.
+8	Where's all that toughness…… and your HP is so low, too. Do you really deserve a name that stands for invincibility?!
+9	An enemy that tries to win by stalling your attacks. If it ever summons more of its kind, things get very entertaining……
+10	Honestly strong for its tier. If you insist on calling it fallen…… perhaps, had its breakthrough succeeded, it would be a Mithril-Tier Magician by now?
+11	Just an ox-head man there to soak up damage. It walked out the door and forgot it was even a man……
+12	The first enemy with King in its name that isn't a BOSS…… and the Icicle Fish King doesn't count! Meowko has reached the point where she cuts down kings like vegetables.
+13	Over in Scrambled Egg, a monster like this would have paper-thin HP and 99% phasing. Meowko deals in nothing insubstantial…… so it's been converted into equivalent HP for you! Thank you, Meowko!
+14	Surprisingly, the Skyhigh-5 gatekeeper is very strong. Not one Skyhigh-4 enemy made it to the 3+ realm, and its drops stand level with Skyhigh-5……
+15	Spinning in circles…… say, these two specials don't conflict, do they?
+16	“There is no burst like that.” “You're just scared.”
+17	And which tech civilization mass-produced YOU as a robot…… One last time: a capturable monster appearing twice in the zone list isn't a bug, it's how the odds are tuned.
+18	Lightning Five-Whip Combo~ no, not that slow: 1.9 spd / 7-hit combo ≈ 200 bpm sixteenth-note alternation.
+19	Kind of…… weak? Or rather, the one above with 3.3z Defense is ridiculously strong. [WIP: if V3.52 still can't beat it at all, I'll move the one above into the next zone]
+20	The Mithril-Tier Magician is stronger than it, after all…… so the main-line boss and the Fork boss have traded places!
+21	A mid-to-high-tier 【Moonwheel】 core component. Its struggling souls, desperate to loosen their bonds even slightly, will do anything to find extra loot on your enemies!
+22	Fights for the 【Deity】 it has faith in. What the lingering souls don't know is that the very meaning of 【Deity】 was rewritten clean during the forging.
+23	【My Lord Deity】, let me restore your power……
+24	Black-Iron Mother fused, through Purest Blood-Essence, with the wisps of faith condensed by countless cultivators of the 【Piety】 path. Meowko, why is your Human Emperor Wheel pouring out black smoke……
+25	Imprisons Sky-Tier Souls that refuse to abandon their faith. Bolstered by Army Souls, they may one day break free…… The barrier system and the Wheel Hub's flight system both run on exactly this kind of will.
+26	It can't carry you into the Immortal realm, but it's still one of the fief's rare treasures. On use, randomly adds 2e9 base Attack/Defense/Agility or 4e11 Health.
+27	It can't carry you into the Immortal realm, but it's still one of the fief's rare treasures. On use, randomly adds 5e9 base Attack/Defense/Agility or 1e12 Health.
+28	It can't carry you into the Immortal realm, but it's still one of the fief's rare treasures. On use, randomly adds 1e10 base Attack/Defense/Agility or 2e12 Health.
+29	It can't carry you into the Immortal realm, but it's still one of the fief's rare treasures. On use, randomly adds 2e10 base Attack/Defense/Agility or 4e12 Health.
+30	Beguiled cultivators of the 【Piety】 system get refined down by followers of higher systems once they reach Sky-Tier Peak. The refining is never perfect, though, and leaves behind a sediment of faith and energy……
+31	Even-tempered and mild by nature, but its base stats aren't enough to matter at this stage. Even so, it makes a fine vessel for other powers.
+32	“Clan Head, is it really okay for us to just seize somebody else's house and move in?!” “Relax…… he can't come back until he's done guarding 4-6-X. And once 4-6-X falls, he won't be able to beat us anyway.”
+33	Use the Mithril-Tier Magician's cultivation resources [+276480 XP/s]
+34	Use the Mithril-Tier Magician's C6 workbench [Tier+22]
+35	A no-man's-land Secret Realm wedged between the three fiefs. Even Sky-Tier Peak powerhouses have to band together in packs just to survive.
+36	A no-man's-land Secret Realm wedged between the three fiefs. All manner of dark-path cultivation arts circulate here: those who practise them have no future. But without them, they might not even have a present.
+37	A no-man's-land Secret Realm wedged between the three fiefs. Energy leaking from endless brawling has given sentience to nearly everything here…… which in turn makes the brawling bigger still.
+38	A no-man's-land Secret Realm wedged between the three fiefs. Machines, Wildbeasts, Demon-Race, humans…… these are its backbone. Powerhouses above Skyhigh-Tier Rank 6 no longer deign to fight in person, which is the only reason Neko never faces a danger she can't escape.
+39	Word is the Mithril-Tier Magician left behind an amazing palace. He's gone to guard Ruined Domain - X and left a few robots minding the house…… what an opportunity!
+40	A collective that fights as an organized force. They sized up the enemy, saw its realm wasn't high and its numbers were few, and so they attacked.<br>A war band of anywhere from 10,000 to 1,000,000 units.

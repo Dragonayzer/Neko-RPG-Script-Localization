@@ -1,5 +1,5 @@
 character.js	341	ORDER	生命值完全恢复了<br>
-crafting_recipes.js	1307	ORDER	熔炼宝石母
+crafting_recipes.js	1313	ORDER	熔炼宝石母
 dialogues.js	538	ORDER	秘法石碑 - 1
 dialogues.js	571	ORDER	往东再走一里半即可到达
 dialogues.js	824	ORDER	如今也算是历经了一次生死呢，<br>也知道了父亲大人的话是什么意思。
@@ -38,12 +38,12 @@ display.js	3767	ORDER	饮剑
 display.js	3789	ORDER	饮剑·改
 display.js	3791	ORDER	冰凌剑
 display.js	3797	ORDER	生命限制
-display.js	3824	?	/亿
-display.js	3836	ORDER	] 的怪物手册条目
-display.js	3984	ORDER	特殊属性 编号[
-display.js	4066	ORDER	燕岗城郊
-enemies.js	9637	ORDER	<span class=realm_domain><b>领域级一阶 [-18]</b></span>
-enemies.js	9651	ORDER	<span class=realm_domain><b>领域级一阶 [-2]</b></span>
+display.js	3825	?	/亿
+display.js	3837	ORDER	] 的怪物手册条目
+display.js	3985	ORDER	特殊属性 编号[
+display.js	4067	ORDER	燕岗城郊
+enemies.js	9929	ORDER	<span class=realm_domain><b>领域级一阶 [-18]</b></span>
+enemies.js	9943	ORDER	<span class=realm_domain><b>领域级一阶 [-2]</b></span>
 game_time.js	65	?	纪元 
 game_time.js	66	?	年 
 game_time.js	67	?	日 
@@ -53,14 +53,14 @@ index.html	557	html	&emsp; &emsp; 钓
 index.html	558	html	&emsp; &emsp; &emsp; 鱼
 index.html	559	html	&emsp; &emsp; &emsp; &emsp; 中
 items.js	897	?	${item_templates[this.components.head].name_prefix} ${this.weapon_type === "hammer" ? "战锤" : WTM[this.weapon_type]}
-items.js	3819	ORDER	铁剑·改
+items.js	3852	ORDER	铁剑·改
 locations.js	1635	ORDER	离开这个是非之地
 locations.js	5346	ORDER	回到鲜血峰
-locations.js	5896	ORDER	挖掘部分紫铜矿石
-locations.js	5910	ORDER	挖掘煤矿石
-locations.js	5943	ORDER	在荒兽森林中砍伐柳木
-locations.js	5985	ORDER	在结界湖中垂钓
-locations.js	6105	ORDER	砍伐密林的云霄一阶树妖
+locations.js	6021	ORDER	挖掘部分紫铜矿石
+locations.js	6035	ORDER	挖掘煤矿石
+locations.js	6068	ORDER	在荒兽森林中砍伐柳木
+locations.js	6110	ORDER	在结界湖中垂钓
+locations.js	6230	ORDER	砍伐密林的云霄一阶树妖
 main.js	853	ORDER	次生死呢，<br>也知道了父亲大人的话是什么意思。
 main.js	863	ORDER	...等会，百方已经被你揍哭了???<br>
 main.js	864	ORDER	待你历练有成，那区区百方，自是不足为惧！<br>
@@ -142,16 +142,16 @@ main.js	2260	?	五
 main.js	2263	?	六
 main.js	2266	?	七
 main.js	2269	?	八
-main.js	2558	ORDER	 被打败,获取 
-main.js	2732	ORDER	受到了
-main.js	2750	ORDER	 未命中,并受到了
-main.js	2753	ORDER	 未命中
-main.js	2759	ORDER	 被领域击败
-main.js	4025	ORDER	手动保存游戏
-main.js	5053	ORDER	 上钩了！
-main.js	5061	ORDER	 逃跑了！
-main.js	5450	ORDER	钻探地层，发掘出了
-main.js	5450	?	 个 
-main.js	5729	ORDER	获取了 凝胶剑柄 (品质 
-main.js	5875	?	年
-main.js	6159	ORDER	领域级一阶
+main.js	2559	ORDER	 被打败,获取 
+main.js	2733	ORDER	受到了
+main.js	2751	ORDER	 未命中,并受到了
+main.js	2754	ORDER	 未命中
+main.js	2760	ORDER	 被领域击败
+main.js	4026	ORDER	手动保存游戏
+main.js	5054	ORDER	 上钩了！
+main.js	5062	ORDER	 逃跑了！
+main.js	5451	ORDER	钻探地层，发掘出了
+main.js	5451	?	 个 
+main.js	5730	ORDER	获取了 凝胶剑柄 (品质 
+main.js	5876	?	年
+main.js	6160	ORDER	领域级一阶

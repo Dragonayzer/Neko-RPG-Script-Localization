@@ -106,3 +106,5 @@
 映星天彩·双红	Starmirror␣Skyrainbow␣·␣Double␣Red
 合成	Crafting	skill name in messages ("合成 达到了 level 12"). Safe as a substring: the Craft TAB lives in #crafting_window, which is NOT in EARLY_PROSE_FULL, so v4.0 pair renders it "Craft" before the late pass arrives.
 战斗	Combat	skill name; FRAGMENT so it resolves inside message templates ("战斗 达到了 level 18"). Longer 战斗-strings win by longest-first + exact-before-fragment.
+# V3.52 recipe. 炼魂血钻(x4) needs nothing: the item name is a fragment.
+注入虔心钢	Infuse␣Pious␣Steel

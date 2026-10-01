@@ -436,6 +436,31 @@ cases = [
     '精血石碑',
     '补票【精血提炼】的功法',
     '精血提炼/点击就送！！(在3.51将被移除)',
+    # --- V3.51-V3.53b (merged at script v18.8): the Ruined Domain proper ---
+    # Enemy names have to work INSIDE a combat-log line, not just as a node of
+    # their own - that is the fragment path, and the one that breaks quietly.
+    '破败刽子手 受到了 1.00e12 伤害',
+    '永夜之锋C5[BOSS]',
+    '破败牛头',
+    '银茸茸聚落',
+    # The War Band treasure monster's realm badge carries a multiplier tag.
+    '天空级巅峰 [x10000]',
+    '战团',
+    # Weapon names are COMPOSED from the blade's name_prefix by build.py - one
+    # morpheme row (虔心 = Pious, typed material) has to cover all of them.
+    '虔心 剑',
+    '虔心三叉戟',
+    # Recipe names: one composes from an item fragment, one needed its stem.
+    '注入虔心钢(x8)',
+    '炼魂血钻(x4)',
+    # Zone, Fork, and the new rest point, as travel links.
+    '进入 [破败之域 - 歧路]',
+    '前往 [秘银行宫]',
+    '使用秘银级魔法师的修炼资源[27.6wXP/s]',
+    # Items and the shared armour description.
+    '不朽绿宝石',
+    '玄铁母锭',
+    '【神明大人】，让我为您恢复力量……',
 ]
 ok = 0
 for c in cases:
